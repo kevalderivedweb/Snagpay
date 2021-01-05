@@ -18,6 +18,7 @@ public class CustomInfoWindowGoogleMap implements GoogleMap.InfoWindowAdapter {
 
     private View mRestaurantInfoView;
     private Context mContext;
+    private String test;
 
     public CustomInfoWindowGoogleMap(Context mContext){
         this.mContext = mContext;
