@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:focusableInTouchMode="true"
-    tools:context=".ThankYouActivity">
+    tools:context=".Activity.Activity_ThankYou">
 
     <RelativeLayout
         android:layout_width="match_parent"

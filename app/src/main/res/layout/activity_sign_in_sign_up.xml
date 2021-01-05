@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context=".SignInSignUpActivity">
+    tools:context=".Activity.Activity_SignInSignUp">
 
     <ImageView
         android:padding="2dp"

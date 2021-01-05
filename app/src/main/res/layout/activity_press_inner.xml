@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".PressInner">
+    tools:context=".Activity.Activity_PressInner">
 
     <RelativeLayout
         android:id="@+id/vb"

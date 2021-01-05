@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.snagpay.OrderDetailsActivity;
+import com.example.snagpay.Activity.Activity_OrderDetails;
 import com.example.snagpay.R;
 
 public class AdapterOrderCurrent extends RecyclerView.Adapter<AdapterOrderCurrent.Viewholder> {
@@ -35,7 +35,7 @@ public class AdapterOrderCurrent extends RecyclerView.Adapter<AdapterOrderCurren
         holder.clickAdapterCurrentOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivity(new Intent(mContext, OrderDetailsActivity.class));
+                mContext.startActivity(new Intent(mContext, Activity_OrderDetails.class));
             }
         });
     }

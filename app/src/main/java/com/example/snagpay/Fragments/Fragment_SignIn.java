@@ -29,8 +29,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.snagpay.API.VolleyMultipartRequest;
 import com.example.snagpay.Utils.UserSession;
-import com.example.snagpay.Activity_ForgotPassword;
-import com.example.snagpay.MainActivity;
+import com.example.snagpay.Activity.Activity_ForgotPassword;
+import com.example.snagpay.Activity.MainActivity;
 import com.example.snagpay.R;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
