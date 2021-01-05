@@ -7,7 +7,6 @@ import android.view.View;
 
 public class AboutSnagpay extends AppCompatActivity {
 
-    private String Hello = "Hello";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
