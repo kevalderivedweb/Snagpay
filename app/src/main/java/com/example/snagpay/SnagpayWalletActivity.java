@@ -45,7 +45,7 @@ public class SnagpayWalletActivity extends AppCompatActivity {
          findViewById(R.id.rltvAddMoney).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SnagpayWalletActivity.this, AddMoneyWallet.class));
+                startActivity(new Intent(SnagpayWalletActivity.this, Activity_AddMoneyWallet.class));
             }
         });
 

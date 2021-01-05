@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:focusableInTouchMode="true"
-    tools:context=".AddMoneyProcess">
+    tools:context=".Activity_AddMoneyProcess">
 
     <RelativeLayout
         android:id="@+id/vb"

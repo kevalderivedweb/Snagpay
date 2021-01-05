@@ -1,19 +1,20 @@
-package com.example.snagpay;
+package com.example.snagpay.Pager;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 
-public class TabSignInSignUpActivity extends FragmentPagerAdapter {
+import com.example.snagpay.Fragments.Fragment_OrderHistory;
+import com.example.snagpay.Fragments.Fragment_PaymentHistory;
+
+public class TabOrderPaymentActivtiy extends FragmentPagerAdapter {
 
     private Context myContext;
     private int totalTabs;
 
-    public TabSignInSignUpActivity(Context context, FragmentManager fm, int totalTabs) {
+    public TabOrderPaymentActivtiy(Context context, FragmentManager fm, int totalTabs) {
         super(fm);
         myContext = context;
         this.totalTabs = totalTabs;
@@ -24,11 +25,11 @@ public class TabSignInSignUpActivity extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                SignInActivity signInActivity = new SignInActivity();
-                return signInActivity;
+                Fragment_OrderHistory fragmentOrderHistory = new Fragment_OrderHistory();
+                return fragmentOrderHistory;
             case 1:
-                SignUpActivity signUpActivity = new SignUpActivity();
-                return signUpActivity;
+                Fragment_PaymentHistory fragmentPaymentHistory = new Fragment_PaymentHistory();
+                return fragmentPaymentHistory;
 
             default:
                 return null;

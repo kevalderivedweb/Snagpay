@@ -13,7 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.snagpay.HomeInnerActivity;
+import com.example.snagpay.Activity_HomeInner;
 import com.example.snagpay.R;
 
 public class AdapterCategoriesItems extends RecyclerView.Adapter<AdapterCategoriesItems.Viewholder> {
@@ -46,7 +46,7 @@ public class AdapterCategoriesItems extends RecyclerView.Adapter<AdapterCategori
         holder.qq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivity(new Intent(mContext, HomeInnerActivity.class));
+                mContext.startActivity(new Intent(mContext, Activity_HomeInner.class));
             }
         });
     }

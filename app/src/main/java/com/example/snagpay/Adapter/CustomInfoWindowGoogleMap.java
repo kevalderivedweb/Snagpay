@@ -1,4 +1,4 @@
-package com.example.snagpay;
+package com.example.snagpay.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.example.snagpay.Fragments.Fragment_Map;
 import com.example.snagpay.Model.MapModel;
+import com.example.snagpay.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 

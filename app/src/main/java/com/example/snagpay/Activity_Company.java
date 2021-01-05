@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.example.snagpay.Activity.Activity_AboutSnagpay;
 
-public class Company extends AppCompatActivity {
+public class Activity_Company extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,28 +26,28 @@ public class Company extends AppCompatActivity {
         findViewById(R.id.aboutSnagpay).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Company.this, Activity_AboutSnagpay.class));
+                startActivity(new Intent(Activity_Company.this, Activity_AboutSnagpay.class));
             }
         });
 
         findViewById(R.id.press).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Company.this, Press.class));
+                startActivity(new Intent(Activity_Company.this, Press.class));
             }
         });
 
         findViewById(R.id.investorLyout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Company.this, InvestorRelations.class));
+                startActivity(new Intent(Activity_Company.this, InvestorRelations.class));
             }
         });
 
         findViewById(R.id.jobsLyot).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Company.this, Jobs.class));
+                startActivity(new Intent(Activity_Company.this, Jobs.class));
             }
         });
     }

@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.snagpay.Pager.TabSignInSignUpActivity;
 import com.google.android.material.tabs.TabLayout;
 
 public class SignInSignUpActivity extends AppCompatActivity {

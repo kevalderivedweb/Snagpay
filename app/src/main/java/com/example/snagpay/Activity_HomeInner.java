@@ -11,9 +11,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.example.snagpay.Fragments.Fragment_HomeInner;
 import com.example.snagpay.Fragments.Fragment_Map;
 
-public class HomeInnerActivity extends AppCompatActivity {
+public class Activity_HomeInner extends AppCompatActivity {
 
     private ImageView backToHome;
     private LinearLayout linearFilterSortBy;
@@ -30,13 +31,13 @@ public class HomeInnerActivity extends AppCompatActivity {
         linearFilterSortBy = findViewById(R.id.linearFilterSortBy);
         openMap = findViewById(R.id.openMap);
 
-        HomeInnerFragment homeInnerFragment = new HomeInnerFragment();
+        Fragment_HomeInner homeInnerFragment = new Fragment_HomeInner();
         replaceFragment(R.id.fragHomeMap, homeInnerFragment, "Inner");
 
         linearFilterSortBy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeInnerActivity.this, FilterSortByActivity.class));
+                startActivity(new Intent(Activity_HomeInner.this, Activity_FilterSortBy.class));
             }
         });
 

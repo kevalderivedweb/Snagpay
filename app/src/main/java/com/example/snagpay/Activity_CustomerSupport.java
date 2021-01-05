@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-public class CustomerSupportActivity extends AppCompatActivity {
+public class Activity_CustomerSupport extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

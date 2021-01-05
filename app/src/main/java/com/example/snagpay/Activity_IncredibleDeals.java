@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class IncredibleDeals extends AppCompatActivity {
+public class Activity_IncredibleDeals extends AppCompatActivity {
 
     private String[] dealsName = {"Everyday Gifts", "End of the Week Specials", "Gifts of Moms", "Things to Do"};
 
@@ -26,7 +26,7 @@ public class IncredibleDeals extends AppCompatActivity {
         findViewById(R.id.everydayDeals).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(IncredibleDeals.this, IncredibleDealsInner.class);
+                Intent intent = new Intent(Activity_IncredibleDeals.this, IncredibleDealsInner.class);
                 Bundle extras = new Bundle();
                 extras.putString("naam",dealsName[0]);
                 extras.putString("val", String.valueOf(0));
@@ -38,7 +38,7 @@ public class IncredibleDeals extends AppCompatActivity {
         findViewById(R.id.weekSpecialDeals).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(IncredibleDeals.this, IncredibleDealsInner.class);
+                Intent intent = new Intent(Activity_IncredibleDeals.this, IncredibleDealsInner.class);
                 Bundle extras = new Bundle();
                 extras.putString("naam",dealsName[1]);
                 extras.putString("val", String.valueOf(1));
@@ -50,7 +50,7 @@ public class IncredibleDeals extends AppCompatActivity {
         findViewById(R.id.momsGifts).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(IncredibleDeals.this, IncredibleDealsInner.class);
+                Intent intent = new Intent(Activity_IncredibleDeals.this, IncredibleDealsInner.class);
                 Bundle extras = new Bundle();
                 extras.putString("naam",dealsName[2]);
                 extras.putString("val", String.valueOf(2));
@@ -62,7 +62,7 @@ public class IncredibleDeals extends AppCompatActivity {
         findViewById(R.id.thingsToDoDeals).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(IncredibleDeals.this, IncredibleDealsInner.class);
+                Intent intent = new Intent(Activity_IncredibleDeals.this, IncredibleDealsInner.class);
                 Bundle extras = new Bundle();
                 extras.putString("naam",dealsName[3]);
                 extras.putString("val", String.valueOf(3));
