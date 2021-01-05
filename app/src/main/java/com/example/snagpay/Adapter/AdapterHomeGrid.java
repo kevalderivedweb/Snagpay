@@ -13,7 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.snagpay.Activity_HomeInner;
+import com.example.snagpay.Activity.Activity_HomeInner;
 import com.example.snagpay.R;
 
 public class AdapterHomeGrid extends RecyclerView.Adapter<AdapterHomeGrid.Viewholder> {

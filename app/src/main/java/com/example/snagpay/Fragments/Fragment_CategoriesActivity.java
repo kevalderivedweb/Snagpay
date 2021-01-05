@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.snagpay.Adapter.AdapterCategoriesItems;
-import com.example.snagpay.Activity_CategoriesInnerItems;
+import com.example.snagpay.Activity.Activity_CategoriesInnerItems;
 import com.example.snagpay.R;
 
 public class Fragment_CategoriesActivity extends Fragment {

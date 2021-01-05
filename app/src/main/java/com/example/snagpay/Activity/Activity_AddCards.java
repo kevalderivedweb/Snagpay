@@ -13,7 +13,6 @@ import android.widget.ImageView;
 
 import com.example.snagpay.Utils.FourDigitCardFormatWatcher;
 import com.example.snagpay.R;
-import com.example.snagpay.ShippingAddressActivity;
 
 public class Activity_AddCards extends AppCompatActivity {
 
@@ -56,7 +55,7 @@ public class Activity_AddCards extends AppCompatActivity {
                 }
 
                 if (newString == 11) {
-                    Intent intent = new Intent(Activity_AddCards.this, ShippingAddressActivity.class);
+                    Intent intent = new Intent(Activity_AddCards.this, Activity_ShippingAddress.class);
                     intent.putExtra("value", 2);
                     startActivity(intent);
                 }

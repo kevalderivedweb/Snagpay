@@ -19,8 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.snagpay.Utils.UserSession;
-import com.example.snagpay.Activity_ForgotPassword;
-import com.example.snagpay.MainActivity;
+import com.example.snagpay.Activity.Activity_ForgotPassword;
+import com.example.snagpay.Activity.MainActivity;
 import com.example.snagpay.R;
 
 public class Fragment_SignIn extends Fragment {

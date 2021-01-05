@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.snagpay.Adapter.AdapterHomeInner;
-import com.example.snagpay.ProductDetailsActivity;
+import com.example.snagpay.Activity.Activity_ProductDetails;
 import com.example.snagpay.R;
 
 public class Fragment_HomeInner extends Fragment {
@@ -35,7 +35,7 @@ public class Fragment_HomeInner extends Fragment {
         adapterHomeInner = new AdapterHomeInner(getContext(), new AdapterHomeInner.OnItemClickListener() {
             @Override
             public void onItemClick(int item) {
-                startActivity(new Intent(getContext(), ProductDetailsActivity.class));
+                startActivity(new Intent(getContext(), Activity_ProductDetails.class));
             }
         });
         recHomeInner.setAdapter(adapterHomeInner);
