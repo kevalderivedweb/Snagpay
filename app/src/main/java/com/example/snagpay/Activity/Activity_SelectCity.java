@@ -4,18 +4,39 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+import com.example.snagpay.API.VolleyMultipartRequest;
 import com.example.snagpay.R;
+import com.example.snagpay.Utils.UserSession;
+import com.kaopiz.kprogresshud.KProgressHUD;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Activity_SelectCity extends AppCompatActivity {
 
-    private String[] cityList = {"Central Phonenix"};
-    private Spinner spinnerSelectCity;
+    private Spinner mCity;
+    private String mCityName;
     private Button btnUseMyLocation;
+    private UserSession session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,11 +45,10 @@ public class Activity_SelectCity extends AppCompatActivity {
 
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
 
-        spinnerSelectCity = findViewById(R.id.spinnerSelectCity);
+        mCity = findViewById(R.id.spinnerSelectCity);
+        session = new UserSession(Activity_SelectCity.this);
         btnUseMyLocation = findViewById(R.id.btnUseMyLocation);
 
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, cityList);
-        spinnerSelectCity.setAdapter(spinnerArrayAdapter);
 
         btnUseMyLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,5 +57,120 @@ public class Activity_SelectCity extends AppCompatActivity {
             }
         });
 
+        getCity();
+    }
+
+    private void getCity() {
+        final KProgressHUD progressDialog = KProgressHUD.create(Activity_SelectCity.this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel("Please wait")
+                .setCancellable(false)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f)
+                .show();
+        //getting the tag from the edittext
+
+        //our custom volley request
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "get-cities",
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+
+                        progressDialog.dismiss();
+
+                        Log.e("Response",response.data.toString());
+                        try {
+                            JSONObject jsonObject = new JSONObject(new String(response.data));
+
+                            if (jsonObject.getString("ResponseCode").equals("200")){
+
+                                try {
+
+                                    JSONArray jsonObject1 = jsonObject.getJSONArray("data");
+
+                                    String[] City = new String[jsonObject1.length()];
+                                    String[] cityId = new String[jsonObject1.length()];
+
+                                    for (int i = 0; i < jsonObject1.length(); i++) {
+                                        JSONObject object = jsonObject1.getJSONObject(i);
+                                        City[i] = object.getString("city_name");
+                                        cityId[i] = object.getString("city_id");
+                                    }
+
+
+                                    ArrayAdapter<String> adapter_age = new ArrayAdapter<String>(Activity_SelectCity.this,
+                                            android.R.layout.simple_spinner_item, City);
+                                    mCity.setAdapter(adapter_age);
+                                    mCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> parent, View view,
+                                                                   int position, long id) {
+                                            mCityName = (String) parent.getItemAtPosition(position);
+                                            Log.v("item", (String) parent.getItemAtPosition(position));
+                                            Log.e("mCityName", mCityName);
+                                            Toast.makeText(Activity_SelectCity.this, cityId[position], Toast.LENGTH_SHORT).show();
+                                        }
+
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> parent) {
+                                            // TODO Auto-generated method stub
+                                        }
+                                    });
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            Toast.makeText(Activity_SelectCity.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
+
+                        } catch (Exception e) {
+                            Toast.makeText(Activity_SelectCity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+
+                        Toast.makeText(Activity_SelectCity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+
+            /*
+             * If you want to add more parameters with the image
+             * you can do it here
+             * here we have only one parameter with the image
+             * which is tags
+             * */
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                return params;
+            }
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/json");
+                // params.put("Authorization", "Bearer " + session.getAPIToken());
+                return params;
+            }
+
+            /*
+             * Here we are passing image by renaming it with a unique name
+             * */
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+
+                return params;
+            }
+        };
+        //adding the request to volley
+        Volley.newRequestQueue(Activity_SelectCity.this).add(volleyMultipartRequest);
     }
 }

@@ -76,18 +76,7 @@ public class Fragment_SignIn extends Fragment {
             @Override
             public void onClick(View v) {
 
-                session.createLoginSession();
 
-                Intent intent = new Intent(getContext(), MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                getActivity().finish();
-            }
-        });
-
-        view.findViewById(R.id.btnGoogleLogin).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
                 if(mEmail.getText().toString().isEmpty()){
                     Toast.makeText(getActivity(),"Please Enter Your Email",Toast.LENGTH_SHORT).show();
@@ -98,6 +87,14 @@ public class Fragment_SignIn extends Fragment {
                 }else {
                     SignIn(mEmail.getText().toString(),mPassword.getText().toString());
                 }
+            }
+        });
+
+        view.findViewById(R.id.btnGoogleLogin).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
             }
         });
 
@@ -181,6 +178,15 @@ public class Fragment_SignIn extends Fragment {
                         Log.e("Response",response.data.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(new String(response.data));
+
+                            if (jsonObject.getString("ResponseCode").equals("200")){
+                                session.createLoginSession();
+
+                                Intent intent = new Intent(getContext(), MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                getActivity().finish();
+                            }
                             
                             Toast.makeText(getActivity(), jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
 
