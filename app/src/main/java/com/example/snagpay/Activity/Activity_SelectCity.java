@@ -313,16 +313,16 @@ public class Activity_SelectCity extends AppCompatActivity {
     }
 
 
-   /* @Override
+    @Override
     protected void onResume() {
         super.onResume();
         startLocationUpdates();
-    }*/
+    }
 
-    /*@Override
+    @Override
     protected void onPause() {
         super.onPause();
         fusedLocationClient.removeLocationUpdates(locationCallback);
-    }*/
+    }
 
 }
