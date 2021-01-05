@@ -13,6 +13,8 @@ public class UserSession {
 
     int PRIVATE_MODE = 0;
 
+    public String BASEURL = "http://chessmafia.com/php/snagpay/web/api/";
+
     private static final String PREF_NAME = "UserSessionPref";
 
 
