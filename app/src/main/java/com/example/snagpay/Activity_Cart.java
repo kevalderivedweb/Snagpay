@@ -9,7 +9,7 @@ import android.view.View;
 
 import com.example.snagpay.Adapter.AdapterMyCart;
 
-public class CartActivity extends AppCompatActivity {
+public class Activity_Cart extends AppCompatActivity {
 
     private RecyclerView recMyCart;
     private AdapterMyCart adapterMyCart;
@@ -29,8 +29,8 @@ public class CartActivity extends AppCompatActivity {
             }
         });
 
-        recMyCart.setLayoutManager(new LinearLayoutManager(CartActivity.this));
-        adapterMyCart = new AdapterMyCart(CartActivity.this, new AdapterMyCart.OnItemClickListener() {
+        recMyCart.setLayoutManager(new LinearLayoutManager(Activity_Cart.this));
+        adapterMyCart = new AdapterMyCart(Activity_Cart.this, new AdapterMyCart.OnItemClickListener() {
             @Override
             public void onItemClickPlus(int item, String s) {
 

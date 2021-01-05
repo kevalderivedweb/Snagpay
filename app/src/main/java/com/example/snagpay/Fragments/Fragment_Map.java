@@ -3,15 +3,13 @@ package com.example.snagpay.Fragments;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.snagpay.CustomInfoWindowGoogleMap;
+import com.example.snagpay.Adapter.CustomInfoWindowGoogleMap;
 import com.example.snagpay.Model.MapModel;
 import com.example.snagpay.R;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -26,7 +24,7 @@ import java.util.HashMap;
 public class Fragment_Map extends Fragment implements  OnMapReadyCallback {
 
     private ArrayList<MapModel> mapModelArrayList;
-    static HashMap<Marker, MapModel> mRestaurantMap = new HashMap<>();
+    public static HashMap<Marker, MapModel> mRestaurantMap = new HashMap<>();
     private GoogleMap mGoogleMap;
 
     @Override

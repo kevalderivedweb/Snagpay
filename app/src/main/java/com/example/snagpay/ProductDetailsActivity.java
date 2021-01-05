@@ -44,7 +44,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         findViewById(R.id.giveAsAGift).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProductDetailsActivity.this, GiveAsGiftActivity.class));
+                startActivity(new Intent(ProductDetailsActivity.this, Activity_GiveAsGift.class));
             }
         });
 

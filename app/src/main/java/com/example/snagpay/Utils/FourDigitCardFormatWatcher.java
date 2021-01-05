@@ -1,4 +1,4 @@
-package com.example.snagpay;
+package com.example.snagpay.Utils;
 
 import android.text.Editable;
 import android.text.TextUtils;

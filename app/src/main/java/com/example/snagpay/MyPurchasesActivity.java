@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.snagpay.Pager.TabOrderPaymentActivtiy;
 import com.google.android.material.tabs.TabLayout;
 
 public class MyPurchasesActivity extends AppCompatActivity {

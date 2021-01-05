@@ -1,4 +1,4 @@
-package com.example.snagpay.API;
+package com.example.snagpay.Utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -1,4 +1,4 @@
-package com.example.snagpay;
+package com.example.snagpay.Pager;
 
 import android.content.Context;
 
@@ -6,15 +6,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.snagpay.Fragments.Fragment_OrderHistory;
-import com.example.snagpay.Fragments.Fragment_PaymentHistory;
+import com.example.snagpay.Fragments.Fragment_SignIn;
+import com.example.snagpay.Fragments.Fragment_SignUp;
 
-public class TabOrderPaymentActivtiy extends FragmentPagerAdapter {
+public class TabSignInSignUpActivity extends FragmentPagerAdapter {
 
     private Context myContext;
     private int totalTabs;
 
-    public TabOrderPaymentActivtiy(Context context, FragmentManager fm, int totalTabs) {
+    public TabSignInSignUpActivity(Context context, FragmentManager fm, int totalTabs) {
         super(fm);
         myContext = context;
         this.totalTabs = totalTabs;
@@ -25,11 +25,11 @@ public class TabOrderPaymentActivtiy extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                Fragment_OrderHistory fragmentOrderHistory = new Fragment_OrderHistory();
-                return fragmentOrderHistory;
+                Fragment_SignIn signInActivity = new Fragment_SignIn();
+                return signInActivity;
             case 1:
-                Fragment_PaymentHistory fragmentPaymentHistory = new Fragment_PaymentHistory();
-                return fragmentPaymentHistory;
+                Fragment_SignUp signUpActivity = new Fragment_SignUp();
+                return signUpActivity;
 
             default:
                 return null;

@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-public class GiveAsGiftActivity extends AppCompatActivity {
+public class Activity_GiveAsGift extends AppCompatActivity {
 
     private RadioGroup radioGroupGift;
     private LinearLayout lnrGiftEmail, lnrGiftText;

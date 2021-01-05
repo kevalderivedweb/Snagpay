@@ -3,13 +3,12 @@ package com.example.snagpay;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class ForgotPasswordActivity extends AppCompatActivity {
+public class Activity_ForgotPassword extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +22,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         findViewById(R.id.btnSentEmailForgot).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), CheckEmailActivity.class));
+                startActivity(new Intent(getApplicationContext(), Activity_CheckEmail.class));
             }
         });
 

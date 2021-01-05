@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class FilterSortByActivity extends AppCompatActivity {
+public class Activity_FilterSortBy extends AppCompatActivity {
 
     private Button btnFilter;
     private ImageView backToCategoriesInner;

@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.example.snagpay.FourDigitCardFormatWatcher;
+import com.example.snagpay.Utils.FourDigitCardFormatWatcher;
 import com.example.snagpay.R;
 import com.example.snagpay.ShippingAddressActivity;
 

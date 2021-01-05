@@ -1,9 +1,7 @@
 package com.example.snagpay.Fragments;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
@@ -12,11 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.snagpay.API.UserSession;
-import com.example.snagpay.CartActivity;
-import com.example.snagpay.ChangePasswordActivity;
-import com.example.snagpay.Company;
-import com.example.snagpay.IncredibleDeals;
+import com.example.snagpay.Utils.UserSession;
+import com.example.snagpay.Activity_Cart;
+import com.example.snagpay.Activity_ChangePassword;
+import com.example.snagpay.Activity_Company;
+import com.example.snagpay.Activity_IncredibleDeals;
 import com.example.snagpay.ManageMyWishListActivity;
 import com.example.snagpay.More;
 import com.example.snagpay.MyPurchasesActivity;
@@ -103,14 +101,14 @@ public class Fragment_MyStuffActivity extends Fragment {
         view.findViewById(R.id.btnCart).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), CartActivity.class));
+                startActivity(new Intent(getContext(), Activity_Cart.class));
             }
         });
 
         view.findViewById(R.id.lyotChangePassword).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), ChangePasswordActivity.class));
+                startActivity(new Intent(getContext(), Activity_ChangePassword.class));
             }
         });
 
@@ -134,7 +132,7 @@ public class Fragment_MyStuffActivity extends Fragment {
         view.findViewById(R.id.lyotCompany).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), Company.class));
+                startActivity(new Intent(getContext(), Activity_Company.class));
             }
         });
 
@@ -148,7 +146,7 @@ public class Fragment_MyStuffActivity extends Fragment {
         view.findViewById(R.id.lyotIncredibles).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), IncredibleDeals.class));
+                startActivity(new Intent(getContext(), Activity_IncredibleDeals.class));
             }
         });
 

@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.snagpay.Adapter.AdapterShippingAddress;
@@ -45,7 +44,7 @@ public class ShippingAddressActivity extends AppCompatActivity {
         btnAddNewAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ShippingAddressActivity.this, AddShippingAddressActivity.class);
+                Intent intent = new Intent(ShippingAddressActivity.this, Activity_AddShippingAddress.class);
                 startActivity(intent);
             }
         });

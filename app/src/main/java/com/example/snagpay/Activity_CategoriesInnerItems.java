@@ -2,7 +2,6 @@ package com.example.snagpay;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -13,7 +12,7 @@ import android.widget.LinearLayout;
 
 import com.example.snagpay.Adapter.AdapterHomeInner;
 
-public class CategoriesInnerItemsActivity extends AppCompatActivity {
+public class Activity_CategoriesInnerItems extends AppCompatActivity {
 
     private RecyclerView resCategoriesInner;
     private AdapterHomeInner resHomeInnerAdapter;
@@ -41,16 +40,16 @@ public class CategoriesInnerItemsActivity extends AppCompatActivity {
         linearFilterSortBy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CategoriesInnerItemsActivity.this, FilterSortByActivity.class);
+                Intent intent = new Intent(Activity_CategoriesInnerItems.this, Activity_FilterSortBy.class);
                 startActivity(intent);
             }
         });
 
         resCategoriesInner.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
-        resHomeInnerAdapter = new AdapterHomeInner(CategoriesInnerItemsActivity.this, new AdapterHomeInner.OnItemClickListener() {
+        resHomeInnerAdapter = new AdapterHomeInner(Activity_CategoriesInnerItems.this, new AdapterHomeInner.OnItemClickListener() {
             @Override
             public void onItemClick(int item) {
-                startActivity(new Intent(CategoriesInnerItemsActivity.this, ProductDetailsActivity.class));
+                startActivity(new Intent(Activity_CategoriesInnerItems.this, ProductDetailsActivity.class));
             }
         });
 
