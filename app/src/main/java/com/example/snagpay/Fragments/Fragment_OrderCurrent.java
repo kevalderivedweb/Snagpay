@@ -1,4 +1,4 @@
-package com.example.snagpay;
+package com.example.snagpay.Fragments;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -12,13 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.snagpay.Adapter.AdapterOrderCurrent;
+import com.example.snagpay.R;
 
-public class FragmentOrderCurrent extends Fragment {
+public class Fragment_OrderCurrent extends Fragment {
 
     private RecyclerView resOrderCurrent;
     private AdapterOrderCurrent adapterOrderCurrent;
 
-    public FragmentOrderCurrent() {
+    public Fragment_OrderCurrent() {
 
     }
 

@@ -1,4 +1,4 @@
-package com.example.snagpay;
+package com.example.snagpay.Fragments;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -11,12 +11,14 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class FragmentPaymentHistory extends Fragment {
+import com.example.snagpay.R;
+
+public class Fragment_PaymentHistory extends Fragment {
 
     private LinearLayout tabLinearPurcahse1Payment, tabLinearPurcahse2Payment;
     private TextView tabTxtPurcahse1Payment, tabTxtPurcahse2Payment;
 
-    public FragmentPaymentHistory() {
+    public Fragment_PaymentHistory() {
 
     }
 
@@ -27,7 +29,7 @@ public class FragmentPaymentHistory extends Fragment {
         View view = inflater.inflate(R.layout.activity_fragment_payment_history, container, false);
 
         final FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.fragmentLinearPaymentHistory, new FragmentPaymentRecent(), "PaymentHistory1");
+        ft.replace(R.id.fragmentLinearPaymentHistory, new Fragment_PaymentRecent(), "PaymentHistory1");
         ft.commit();
 
         tabLinearPurcahse1Payment = view.findViewById(R.id.tabLinearPurcahse1Payment);
@@ -40,7 +42,7 @@ public class FragmentPaymentHistory extends Fragment {
             public void onClick(View v) {
 
                 final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.fragmentLinearPaymentHistory, new FragmentPaymentRecent(), "PaymentHistory1");
+                ft.replace(R.id.fragmentLinearPaymentHistory, new Fragment_PaymentRecent(), "PaymentHistory1");
                 ft.commit();
 
                 tabTxtPurcahse1Payment.setTextColor(Color.parseColor("#FFFFFFFF"));
@@ -56,7 +58,7 @@ public class FragmentPaymentHistory extends Fragment {
             public void onClick(View v) {
 
                 final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.fragmentLinearPaymentHistory, new FragmentPaymentMonthly(), "PaymentHistory2");
+                ft.replace(R.id.fragmentLinearPaymentHistory, new Fragment_PaymentMonthly(), "PaymentHistory2");
                 ft.commit();
 
                 tabTxtPurcahse1Payment.setTextColor(Color.parseColor("#3e3e3e"));

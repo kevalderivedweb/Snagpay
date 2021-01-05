@@ -3,16 +3,12 @@ package com.example.snagpay;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.snagpay.Fragments.Fragment_Map;
 import com.example.snagpay.Model.MapModel;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
-
-import java.util.ArrayList;
-
-import static java.security.AccessController.getContext;
 
 public class CustomInfoWindowGoogleMap implements GoogleMap.InfoWindowAdapter {
 
@@ -92,7 +88,7 @@ public class CustomInfoWindowGoogleMap implements GoogleMap.InfoWindowAdapter {
 
         mRestaurantInfoView = ((Activity)mContext).getLayoutInflater().inflate(R.layout.map_marker_info_window, null);
         
-        MapModel restaurant = MapFragment.mRestaurantMap.get(marker);
+        MapModel restaurant = Fragment_Map.mRestaurantMap.get(marker);
        /* ImageView imageView = (ImageView) mRestaurantInfoView.findViewById(R.id.image_view);
 
         Picasso.with(getContext()).load(restaurant.getPhotoUrl())

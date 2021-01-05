@@ -11,6 +11,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.snagpay.Fragments.Fragment_CategoriesActivity;
+import com.example.snagpay.Fragments.Fragment_HomeActivity;
+import com.example.snagpay.Fragments.Fragment_MyStuffActivity;
+import com.example.snagpay.Fragments.Fragment_NotificationsActivity;
+import com.example.snagpay.Fragments.Fragment_WishListAcivity;
+
 public class MainActivity extends AppCompatActivity {
 
     private LinearLayout navLinear1, navLinear2, navLinear3, navLinear4, navLinear5;
@@ -40,14 +46,14 @@ public class MainActivity extends AppCompatActivity {
         navBottomTxtWishList = findViewById(R.id.navBottomTxtWishList);
         navBottomTxtMyStuff = findViewById(R.id.navBottomTxtMyStuff);
 
-        FragmentHomeActivity fragmentHomeActivity = new FragmentHomeActivity();
+        Fragment_HomeActivity fragmentHomeActivity = new Fragment_HomeActivity();
         replaceFragment(R.id.fragmentLinearHome, fragmentHomeActivity, "Home");
 
         navLinear1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                FragmentHomeActivity fragmentHomeActivity = new FragmentHomeActivity();
+                Fragment_HomeActivity fragmentHomeActivity = new Fragment_HomeActivity();
                 replaceFragment(R.id.fragmentLinearHome, fragmentHomeActivity, "Home");
 
                 navBottomImageHome.setImageResource(R.drawable.bottom_nav_home_active);
@@ -68,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                FragmentCategoriesActivity fragmentCategoriesActivity = new FragmentCategoriesActivity();
+                Fragment_CategoriesActivity fragmentCategoriesActivity = new Fragment_CategoriesActivity();
                 replaceFragment(R.id.fragmentLinearHome, fragmentCategoriesActivity, "Categories");
 
                 navBottomImageHome.setImageResource(R.drawable.bottom_nav_home);
@@ -89,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                FragmentNotificationsActivity fragmentNotificationsActivity = new FragmentNotificationsActivity();
+                Fragment_NotificationsActivity fragmentNotificationsActivity = new Fragment_NotificationsActivity();
                 replaceFragment(R.id.fragmentLinearHome, fragmentNotificationsActivity, "Notifications");
 
                 navBottomImageHome.setImageResource(R.drawable.bottom_nav_home);
@@ -110,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                FragmentWishListAcivity fragmentWishListAcivity = new FragmentWishListAcivity();
+                Fragment_WishListAcivity fragmentWishListAcivity = new Fragment_WishListAcivity();
                 replaceFragment(R.id.fragmentLinearHome, fragmentWishListAcivity, "WishList");
 
                 navBottomImageHome.setImageResource(R.drawable.bottom_nav_home);
@@ -131,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                FragmentMyStuffActivity fragmentMyStuffActivity = new FragmentMyStuffActivity();
+                Fragment_MyStuffActivity fragmentMyStuffActivity = new Fragment_MyStuffActivity();
                 replaceFragment(R.id.fragmentLinearHome, fragmentMyStuffActivity, "MyStuff");
 
                 navBottomImageHome.setImageResource(R.drawable.bottom_nav_home);

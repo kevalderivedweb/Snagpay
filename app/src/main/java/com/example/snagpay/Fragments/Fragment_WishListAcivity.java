@@ -1,4 +1,4 @@
-package com.example.snagpay;
+package com.example.snagpay.Fragments;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -15,8 +15,9 @@ import android.widget.TextView;
 
 import com.example.snagpay.Adapter.AdapterFragWishlist;
 import com.example.snagpay.Adapter.AdapterFragWishlistRecentViewed;
+import com.example.snagpay.R;
 
-public class FragmentWishListAcivity extends Fragment {
+public class Fragment_WishListAcivity extends Fragment {
 
     private RecyclerView resFragWishList,resFragRecentlyViewed;
     private AdapterFragWishlist adapterFragWishlist;
@@ -26,7 +27,7 @@ public class FragmentWishListAcivity extends Fragment {
     private TextView txtEditWishlistTopBar;
     private ImageView imgCancelWishlishTopBar;
 
-    public FragmentWishListAcivity() {
+    public Fragment_WishListAcivity() {
 
     }
 

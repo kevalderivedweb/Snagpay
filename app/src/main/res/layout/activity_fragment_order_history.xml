@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".FragmentOrderHistory">
+    tools:context=".Fragments.Fragment_OrderHistory">
 
    <LinearLayout
        android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.example.snagpay;
+package com.example.snagpay.Fragments;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -10,13 +10,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-public class FragmentPaymentMonthly extends Fragment {
+import com.example.snagpay.R;
+
+public class Fragment_PaymentMonthly extends Fragment {
 
     private String[] yearList = {"2020"};
     private String[] monthList = {"March"};
     private Spinner spinnerSelectYearHistory,spinnerSelectMonthHistory;
 
-    public FragmentPaymentMonthly() {
+    public Fragment_PaymentMonthly() {
 
     }
 

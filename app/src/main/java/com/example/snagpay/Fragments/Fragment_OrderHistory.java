@@ -1,4 +1,4 @@
-package com.example.snagpay;
+package com.example.snagpay.Fragments;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -11,12 +11,17 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class FragmentOrderHistory extends Fragment {
+import com.example.snagpay.Fragments.Fragment_OrderCancelled;
+import com.example.snagpay.Fragments.Fragment_OrderCompleted;
+import com.example.snagpay.Fragments.Fragment_OrderCurrent;
+import com.example.snagpay.R;
+
+public class Fragment_OrderHistory extends Fragment {
 
     private LinearLayout tabLinearPurcahse1Order, tabLinearPurcahse2Order, tabLinearPurcahse3Order;
     private TextView tabTxtPurcahse1Order, tabTxtPurcahse2Order, tabTxtPurcahse3Order;
 
-    public FragmentOrderHistory() {
+    public Fragment_OrderHistory() {
 
     }
 
@@ -27,7 +32,7 @@ public class FragmentOrderHistory extends Fragment {
         View view = inflater.inflate(R.layout.activity_fragment_order_history, container, false);
 
         final FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.fragmentLinearOrderHistory, new FragmentOrderCurrent(), "NewFragmentTag");
+        ft.replace(R.id.fragmentLinearOrderHistory, new Fragment_OrderCurrent(), "NewFragmentTag");
         ft.commit();
 
         tabLinearPurcahse1Order = view.findViewById(R.id.tabLinearPurcahseOrder);
@@ -42,7 +47,7 @@ public class FragmentOrderHistory extends Fragment {
             public void onClick(View v) {
 
                 final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.fragmentLinearOrderHistory, new FragmentOrderCurrent(), "CurrentOrder");
+                ft.replace(R.id.fragmentLinearOrderHistory, new Fragment_OrderCurrent(), "CurrentOrder");
                 ft.commit();
 
                 tabTxtPurcahse1Order.setTextColor(Color.parseColor("#FFFFFFFF"));
@@ -60,7 +65,7 @@ public class FragmentOrderHistory extends Fragment {
             public void onClick(View v) {
 
                 final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.fragmentLinearOrderHistory, new FragmentOrderCompleted(), "CompletedOrder");
+                ft.replace(R.id.fragmentLinearOrderHistory, new Fragment_OrderCompleted(), "CompletedOrder");
                 ft.commit();
 
                 tabTxtPurcahse1Order.setTextColor(Color.parseColor("#3e3e3e"));
@@ -78,7 +83,7 @@ public class FragmentOrderHistory extends Fragment {
             public void onClick(View v) {
 
                 final FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.fragmentLinearOrderHistory, new FragmentOrderCancelled(), "CancelledOrder");
+                ft.replace(R.id.fragmentLinearOrderHistory, new Fragment_OrderCancelled(), "CancelledOrder");
                 ft.commit();
 
                 tabTxtPurcahse1Order.setTextColor(Color.parseColor("#3e3e3e"));

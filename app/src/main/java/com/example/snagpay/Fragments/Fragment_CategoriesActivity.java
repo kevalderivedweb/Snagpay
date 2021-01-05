@@ -1,4 +1,4 @@
-package com.example.snagpay;
+package com.example.snagpay.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,14 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.snagpay.Adapter.AdapterCategoriesItems;
 import com.example.snagpay.Adapter.AdapterHomeGrid;
+import com.example.snagpay.CategoriesInnerItemsActivity;
+import com.example.snagpay.R;
 
-public class FragmentCategoriesActivity extends Fragment {
+public class Fragment_CategoriesActivity extends Fragment {
 
     private RecyclerView recCategories;
     private AdapterCategoriesItems adapterCategoriesItems;
     private LinearLayout lnrLyot;
 
-    public FragmentCategoriesActivity() {
+    public Fragment_CategoriesActivity() {
 
     }
 

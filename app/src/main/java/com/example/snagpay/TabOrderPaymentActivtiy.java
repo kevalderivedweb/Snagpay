@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.example.snagpay.Fragments.Fragment_OrderHistory;
+import com.example.snagpay.Fragments.Fragment_PaymentHistory;
+
 public class TabOrderPaymentActivtiy extends FragmentPagerAdapter {
 
     private Context myContext;
@@ -22,10 +25,10 @@ public class TabOrderPaymentActivtiy extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                FragmentOrderHistory fragmentOrderHistory = new FragmentOrderHistory();
+                Fragment_OrderHistory fragmentOrderHistory = new Fragment_OrderHistory();
                 return fragmentOrderHistory;
             case 1:
-                FragmentPaymentHistory fragmentPaymentHistory = new FragmentPaymentHistory();
+                Fragment_PaymentHistory fragmentPaymentHistory = new Fragment_PaymentHistory();
                 return fragmentPaymentHistory;
 
             default:

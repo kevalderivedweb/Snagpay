@@ -1,4 +1,4 @@
-package com.example.snagpay;
+package com.example.snagpay.Fragments;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -13,12 +13,28 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.snagpay.API.UserSession;
+import com.example.snagpay.CartActivity;
+import com.example.snagpay.ChangePasswordActivity;
+import com.example.snagpay.Company;
+import com.example.snagpay.IncredibleDeals;
+import com.example.snagpay.ManageMyWishListActivity;
+import com.example.snagpay.More;
+import com.example.snagpay.MyPurchasesActivity;
+import com.example.snagpay.NotificationSettingsActivity;
+import com.example.snagpay.PaymentMethodsActivity;
+import com.example.snagpay.R;
+import com.example.snagpay.SelectCityActivity;
+import com.example.snagpay.ShippingAddressActivity;
+import com.example.snagpay.SnagpayDeals;
+import com.example.snagpay.SnagpayGuide;
+import com.example.snagpay.SnagpayWalletActivity;
+import com.example.snagpay.WorkwithSnagpay;
 
-public class FragmentMyStuffActivity extends Fragment {
+public class Fragment_MyStuffActivity extends Fragment {
 
     private UserSession session;
 
-    public FragmentMyStuffActivity() {
+    public Fragment_MyStuffActivity() {
 
     }
 

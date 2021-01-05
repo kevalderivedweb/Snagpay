@@ -1,4 +1,4 @@
-package com.example.snagpay;
+package com.example.snagpay.Fragments;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class FragmentOrderCancelled extends Fragment {
+import com.example.snagpay.R;
 
-    public FragmentOrderCancelled() {
+public class Fragment_OrderCancelled extends Fragment {
+
+    public Fragment_OrderCancelled() {
 
     }
 

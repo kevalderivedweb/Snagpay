@@ -4,8 +4,6 @@ import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.example.snagpay.Adapter.AdapterHomeInner;
+import com.example.snagpay.Fragments.Fragment_Map;
 
 public class HomeInnerActivity extends AppCompatActivity {
 
@@ -48,7 +46,7 @@ public class HomeInnerActivity extends AppCompatActivity {
 
                 findViewById(R.id.openMap).setBackgroundResource(R.drawable.list_view);
 
-                MapFragment mapFragment = new MapFragment();
+                Fragment_Map mapFragment = new Fragment_Map();
                 replaceFragment(R.id.fragHomeMap, mapFragment, "MapFrag");
             }
         });

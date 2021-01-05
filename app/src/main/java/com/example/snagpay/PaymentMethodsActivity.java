@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.snagpay.Activity.AddCardsActivity;
+import com.example.snagpay.Activity.Activity_AddCards;
 import com.example.snagpay.Adapter.AdapterPaymentMethods;
 
 public class PaymentMethodsActivity extends AppCompatActivity {
@@ -38,7 +38,7 @@ public class PaymentMethodsActivity extends AppCompatActivity {
         findViewById(R.id.btnAddNewCard).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               startActivity(new Intent(PaymentMethodsActivity.this, AddCardsActivity.class));
+               startActivity(new Intent(PaymentMethodsActivity.this, Activity_AddCards.class));
             }
         });
     }

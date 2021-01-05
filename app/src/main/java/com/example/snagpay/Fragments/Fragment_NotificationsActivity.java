@@ -1,4 +1,4 @@
-package com.example.snagpay;
+package com.example.snagpay.Fragments;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -11,13 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.snagpay.Adapter.AdapterNotificationFrag;
+import com.example.snagpay.R;
 
-public class FragmentNotificationsActivity extends Fragment {
+public class Fragment_NotificationsActivity extends Fragment {
 
     private RecyclerView resNotificationList;
     private AdapterNotificationFrag adapterNotificationFrag;
 
-    public FragmentNotificationsActivity() {
+    public Fragment_NotificationsActivity() {
 
     }
 

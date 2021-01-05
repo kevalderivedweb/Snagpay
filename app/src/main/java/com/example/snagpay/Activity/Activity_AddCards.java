@@ -15,7 +15,7 @@ import com.example.snagpay.FourDigitCardFormatWatcher;
 import com.example.snagpay.R;
 import com.example.snagpay.ShippingAddressActivity;
 
-public class AddCardsActivity extends AppCompatActivity {
+public class Activity_AddCards extends AppCompatActivity {
 
     private Button btnSavePaymentInfo;
     private ImageView backToReviewOrder;
@@ -56,7 +56,7 @@ public class AddCardsActivity extends AppCompatActivity {
                 }
 
                 if (newString == 11) {
-                    Intent intent = new Intent(AddCardsActivity.this, ShippingAddressActivity.class);
+                    Intent intent = new Intent(Activity_AddCards.this, ShippingAddressActivity.class);
                     intent.putExtra("value", 2);
                     startActivity(intent);
                 }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activity.AddCardsActivity"
+    tools:context=".Activity.Activity_AddCards"
     android:focusableInTouchMode="true">
 
     <RelativeLayout

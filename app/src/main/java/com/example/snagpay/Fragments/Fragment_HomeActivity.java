@@ -1,4 +1,4 @@
-package com.example.snagpay;
+package com.example.snagpay.Fragments;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -10,13 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.snagpay.Adapter.AdapterHomeGrid;
+import com.example.snagpay.R;
 
-public class FragmentHomeActivity extends Fragment {
+public class Fragment_HomeActivity extends Fragment {
 
     private RecyclerView recHomeInGrid;
     private AdapterHomeGrid resHomeGridAdapter;
 
-    public FragmentHomeActivity() {
+    public Fragment_HomeActivity() {
 
     }
 

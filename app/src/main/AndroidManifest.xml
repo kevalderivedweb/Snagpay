@@ -51,7 +51,7 @@
         <activity android:name=".ThankYouActivity" />
         <activity android:name=".AddShippingAddressActivity" />
         <activity android:name=".ShippingAddressActivity" />
-        <activity android:name=".Activity.AddCardsActivity" />
+        <activity android:name=".Activity.Activity_AddCards" />
         <activity android:name=".ReviewOrderActivity" />
         <activity android:name=".ProductDetailsActivity" />
         <activity android:name=".HomeInnerActivity" />

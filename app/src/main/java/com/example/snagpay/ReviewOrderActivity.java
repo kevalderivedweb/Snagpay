@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.snagpay.Activity.AddCardsActivity;
+import com.example.snagpay.Activity.Activity_AddCards;
 
 public class ReviewOrderActivity extends AppCompatActivity {
 
@@ -41,7 +41,7 @@ public class ReviewOrderActivity extends AppCompatActivity {
         btnCompletePurchase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ReviewOrderActivity.this, AddCardsActivity.class);
+                Intent intent = new Intent(ReviewOrderActivity.this, Activity_AddCards.class);
                 intent.putExtra("let", 11);
                 startActivity(intent);
             }

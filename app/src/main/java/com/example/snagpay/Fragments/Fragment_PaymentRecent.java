@@ -1,4 +1,4 @@
-package com.example.snagpay;
+package com.example.snagpay.Fragments;
 
 import androidx.fragment.app.Fragment;
 
@@ -14,14 +14,15 @@ import java.util.ArrayList;
 
 import com.example.snagpay.Model.DetailPaymentModel;
 import com.example.snagpay.Model.PaymentModel;
+import com.example.snagpay.R;
 
-public class FragmentPaymentRecent extends Fragment {
+public class Fragment_PaymentRecent extends Fragment {
 
     private ExpandableListAdapterPaymentRecent listAdapterPayment;
     private ExpandableListView expListViewPayment;
     private ArrayList<PaymentModel> paymentModelArrayList = new ArrayList<>();
 
-    public FragmentPaymentRecent() {
+    public Fragment_PaymentRecent() {
 
     }
 
