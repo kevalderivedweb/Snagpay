@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ProductDetailsActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/img"
+                    android:scaleType="fitXY"/>
+                <ImageView
+                    android:id="@+id/backToHomeInner"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/back_white"/>
+                <ImageView
+                    android:id="@+id/shrImg"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/share"/>
+                <ImageView
+                    android:id="@+id/productFavourite"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@+id/shrImg"
+                    android:src="@drawable/heart"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/dd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="90-Minute Chicago Architecture Boat Tour One, Two or Three (Up to 40% Off)"
+                    android:fontFamily="@font/roboto_bold"
+                    android:lineSpacingExtra="4dp"
+                    android:letterSpacing="0.02"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"/>
+
+                <TextView
+                    android:id="@+id/tr"
+                    android:layout_below="@id/dd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4.0"
+                    android:layout_marginTop="5dp"
+                    android:textSize="14dp"
+                    android:textColor="@color/blue"/>
+
+                <androidx.appcompat.widget.AppCompatRatingBar
+                    android:id="@+id/ratingBarProductDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:layout_toRightOf="@id/tr"
+                    android:layout_below="@+id/dd"
+                    android:layout_marginLeft="5dp"
+                    android:isIndicator="false"
+                    android:stepSize="1"
+                    android:layout_marginTop="5dp"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:theme="@style/RatingBar"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dd"
+                    android:layout_toRightOf="@id/ratingBarProductDetails"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@color/blue"
+                    android:layout_marginTop="5dp"
+                    android:textSize="14dp"
+                    android:text="200 ratings"/>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/light_gray" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Boat Tour for One"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="14dp"
+                    android:layout_centerVertical="true"
+                    android:letterSpacing="0.02"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$150"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textColor="@color/green"
+                    android:layout_toLeftOf="@+id/nb"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:textSize="14dp"/>
+
+                <ImageView
+                    android:id="@+id/nb"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/black_dropdown"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"/>
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/light_gray" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnBuyNowProduct"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Buy Now"
+                    android:layout_marginHorizontal="5dp"
+                    android:textAllCaps="false"
+                    android:background="@color/blue"
+                    android:textColor="@color/white"
+                    android:letterSpacing="0.1"
+                    android:textSize="16dp"/>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@color/light_gray" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:letterSpacing="0.04"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="@color/blue"
+                    android:text="Add to cart"/>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@color/light_gray" />
+
+            <RelativeLayout
+                android:id="@+id/giveAsAGift"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:letterSpacing="0.04"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="@color/black"
+                    android:text="Give as a Gift"/>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@color/light_gray" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:letterSpacing="0.04"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="#6f6f6f"
+                    android:text="Add to Wishlist"/>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/light_gray" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Highlights"
+                android:letterSpacing="0.03"
+                android:textSize="16dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="9dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chicago river tour paired with architecture and history lessons about the city's most popular landmarks"
+                android:textSize="14dp"
+                android:layout_marginTop="3dp"
+                android:letterSpacing="0.04"
+                android:layout_marginHorizontal="7dp"
+                android:lineSpacingExtra="2dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/light_gray" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="7dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_bold"
+                android:text="About this Deal"
+                android:letterSpacing="0.03"
+                android:textSize="16dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="5dp" />
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/top"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="10dp"/>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                android:textSize="14dp"
+                android:letterSpacing="0.04"
+                android:layout_marginTop="3dp"
+                android:layout_marginHorizontal="7dp"
+                android:lineSpacingExtra="2dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/light_gray" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="7dp">
+                <TextView
+                    android:id="@+id/customerText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Customer Reviews"
+                    android:letterSpacing="0.03"
+                    android:textSize="16dp"
+                    android:layout_marginTop="5dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="3dp"
+                    android:text="SEE ALL"
+                    android:textStyle="bold"
+                    android:textColor="@color/blue"/>
+
+                <TextView
+                    android:id="@+id/customeR"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/customerText"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="4.0"
+                    android:textColor="@color/black"
+                    android:textSize="30dp" />
+
+                <androidx.appcompat.widget.AppCompatRatingBar
+                    android:id="@+id/ratingAgainProduct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:layout_toRightOf="@id/customeR"
+                    android:layout_below="@+id/customerText"
+                    android:layout_marginLeft="7dp"
+                    android:isIndicator="false"
+                    android:stepSize="1"
+                    android:layout_marginTop="12dp"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:theme="@style/RatingBar"/>
+
+                <TextView
+                    android:id="@+id/countRtng"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="200 ratings"
+                    android:textColor="#548fc3"
+                    android:textSize="14dp"
+                    android:letterSpacing="0.04"
+                    android:layout_toRightOf="@+id/customeR"
+                    android:layout_below="@+id/ratingAgainProduct"
+                    android:layout_marginLeft="7dp"/>
+
+                <TextView
+                    android:id="@+id/sortBytxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sort By : "
+                    android:textColor="#393939"
+                    android:letterSpacing="0.04"
+                    android:textSize="14dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_toRightOf="@+id/customeR"
+                    android:layout_below="@+id/countRtng"
+                    android:layout_marginLeft="7dp"/>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_toRightOf="@+id/sortBytxt"
+                    android:layout_below="@+id/countRtng">
+
+                    <TextView
+                        android:id="@+id/mostRecenttxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Most Recent"
+                        android:textSize="14dp"
+                        android:textColor="#393939"/>
+
+                    <ImageView
+                        android:id="@+id/nbb"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_marginTop="4dp"
+                        android:src="@drawable/black_dropdown"
+                        android:layout_toRightOf="@+id/mostRecenttxt"
+                        android:layout_marginLeft="4dp"/>
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/recentRev"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
+                android:text="Recent Reviews"
+                android:letterSpacing="0.03"
+                android:textSize="13dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="7dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/resProductUserReview"
+                android:layout_width="match_parent"
+                android:nestedScrollingEnabled="false"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"/>
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingVertical="8dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/pay"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lorem ipsum"
+        android:textColor="@color/black"
+        android:textSize="14dp"
+        android:fontFamily="@font/roboto_medium"
+        android:letterSpacing="0.02"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lorem ipsum is simply dummy text."
+        android:textColor="@color/dark_gray"
+        android:textSize="12dp"
+        android:gravity="center"
+        android:layout_marginHorizontal="15dp"
+        android:letterSpacing="0.02"
+        android:layout_marginTop="5dp"/>
+
+</LinearLayout>

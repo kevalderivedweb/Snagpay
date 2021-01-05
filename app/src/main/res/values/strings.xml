@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Snag Pay</string>
+    <string name="sign_in_agreement">By clicking below, I agree to the <font color='#3c5bc3'>Terms of Use </font><font color='#757575'>and have read the </font><font color='#3c5bc3'>Privacy Statement.</font></string>
+</resources>

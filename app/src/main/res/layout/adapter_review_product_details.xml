@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/light_gray" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
+        <RelativeLayout
+            android:id="@+id/imagevieww"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/circular_relative">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="K"
+                android:textColor="@color/black"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/katrinatxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Katrina"
+            android:textColor="@color/black"
+            android:textSize="12dp"
+            android:layout_toRightOf="@+id/imagevieww"
+            android:layout_marginTop="11dp"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Oct 23, 2020"
+            android:textSize="12dp"
+            android:layout_below="@+id/katrinatxt"
+            android:layout_toRightOf="@+id/imagevieww"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="10dp"/>
+
+        <androidx.appcompat.widget.AppCompatRatingBar
+            android:id="@+id/ratingAgainProduct111"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:numStars="5"
+            android:layout_below="@+id/imagevieww"
+            android:layout_marginLeft="10dp"
+            android:isIndicator="false"
+            android:stepSize="1"
+            android:layout_marginTop="5dp"
+            style="?android:attr/ratingBarStyleSmall"
+            android:theme="@style/RatingBar"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+            android:layout_below="@+id/ratingAgainProduct111"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="3dp"
+            android:textSize="14dp"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
