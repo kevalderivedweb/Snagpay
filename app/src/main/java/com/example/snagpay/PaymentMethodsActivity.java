@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.snagpay.Activity.AddCardsActivity;
 import com.example.snagpay.Adapter.AdapterPaymentMethods;
 
 public class PaymentMethodsActivity extends AppCompatActivity {

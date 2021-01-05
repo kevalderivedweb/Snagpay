@@ -1,11 +1,13 @@
-package com.example.snagpay;
+package com.example.snagpay.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
 
-public class AboutSnagpay extends AppCompatActivity {
+import com.example.snagpay.R;
+
+public class Activity_AboutSnagpay extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

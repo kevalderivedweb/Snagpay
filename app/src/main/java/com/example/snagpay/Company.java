@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.snagpay.Activity.Activity_AboutSnagpay;
+
 public class Company extends AppCompatActivity {
 
     @Override
@@ -24,7 +26,7 @@ public class Company extends AppCompatActivity {
         findViewById(R.id.aboutSnagpay).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Company.this, AboutSnagpay.class));
+                startActivity(new Intent(Company.this, Activity_AboutSnagpay.class));
             }
         });
 

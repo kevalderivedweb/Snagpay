@@ -1,4 +1,4 @@
-package com.example.snagpay;
+package com.example.snagpay.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import com.example.snagpay.FourDigitCardFormatWatcher;
+import com.example.snagpay.R;
+import com.example.snagpay.ShippingAddressActivity;
 
 public class AddCardsActivity extends AppCompatActivity {
 

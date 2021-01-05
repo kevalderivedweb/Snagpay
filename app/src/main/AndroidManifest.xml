@@ -28,7 +28,7 @@
         <activity android:name=".InvestorRelations" />
         <activity android:name=".PressInner" />
         <activity android:name=".Press" />
-        <activity android:name=".AboutSnagpay" />
+        <activity android:name=".Activity.Activity_AboutSnagpay" />
         <activity android:name=".Company" />
         <activity android:name=".SnagpayDeals" />
         <activity android:name=".ResetPasswordActivity" />
@@ -51,7 +51,7 @@
         <activity android:name=".ThankYouActivity" />
         <activity android:name=".AddShippingAddressActivity" />
         <activity android:name=".ShippingAddressActivity" />
-        <activity android:name=".AddCardsActivity" />
+        <activity android:name=".Activity.AddCardsActivity" />
         <activity android:name=".ReviewOrderActivity" />
         <activity android:name=".ProductDetailsActivity" />
         <activity android:name=".HomeInnerActivity" />
