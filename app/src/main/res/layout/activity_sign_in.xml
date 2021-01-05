@@ -120,7 +120,8 @@
         android:textColor="#049b12"
         android:text="Forgot password?"/>
 
-    <TextView
+
+        <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
