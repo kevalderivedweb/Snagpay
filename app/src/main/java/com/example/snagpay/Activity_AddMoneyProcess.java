@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class AddMoneyProcess extends AppCompatActivity {
+public class Activity_AddMoneyProcess extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,7 @@ public class AddMoneyProcess extends AppCompatActivity {
         findViewById(R.id.btnAddMoneyFinal).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AddMoneyProcess.this, AddMoneySuccessfullyActivity.class));
+                startActivity(new Intent(Activity_AddMoneyProcess.this, Activity_AddMoneySuccessfully.class));
                 finish();
             }
         });
