@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".FragmentOrderHistory">
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="60dp"
+       android:orientation="horizontal"
+       android:weightSum="3">
+
+        <LinearLayout
+            android:id="@+id/tabLinearPurcahseOrder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            android:gravity="center"
+            android:layout_weight="1">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tabTxtPurcahse1Order"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:text="Current"
+                android:layout_marginHorizontal="10dp"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:background="@drawable/button_gray_order_history"/>
+        </LinearLayout>
+
+       <LinearLayout
+           android:id="@+id/tabLinearPurcahse2Order"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:padding="5dp"
+           android:gravity="center"
+           android:layout_weight="1">
+
+           <TextView
+               android:id="@+id/tabTxtPurcahse2Order"
+               android:layout_width="match_parent"
+               android:layout_height="35dp"
+               android:text="Completed"
+               android:layout_marginHorizontal="10dp"
+               android:fontFamily="@font/roboto_medium"
+               android:gravity="center"
+               android:textColor="#3e3e3e"
+               android:textSize="15dp"
+               android:background="@drawable/btn_white_round_order"/>
+       </LinearLayout>
+
+       <LinearLayout
+           android:id="@+id/tabLinearPurcahse3Order"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:padding="5dp"
+           android:gravity="center"
+           android:layout_weight="1">
+
+           <TextView
+               android:id="@+id/tabTxtPurcahse3Order"
+               android:layout_width="match_parent"
+               android:layout_height="35dp"
+               android:text="Cancelled"
+               android:layout_marginHorizontal="10dp"
+               android:fontFamily="@font/roboto_medium"
+               android:gravity="center"
+               android:textColor="#3e3e3e"
+               android:textSize="15dp"
+               android:background="@drawable/btn_white_round_order"/>
+       </LinearLayout>
+   </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fragmentLinearOrderHistory"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" />
+
+</LinearLayout>

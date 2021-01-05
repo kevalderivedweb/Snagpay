@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+    <ImageView
+        android:id="@+id/imgNotificationAdapter"
+        android:layout_width="70dp"
+        android:layout_centerVertical="true"
+        android:layout_height="70dp"
+        android:src="@drawable/deal_day"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/imgNotificationAdapter"
+        android:layout_marginTop="3dp"
+        android:layout_marginStart="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Deal of the Day"
+            android:letterSpacing="0.02"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="15dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="24-Hours to save BIG on this hot deal."
+            android:textColor="@color/black"
+            android:layout_marginTop="3dp"
+            android:letterSpacing="0.02"
+            android:fontFamily="@font/roboto_regular"
+            android:textSize="13dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3 hour ago"
+            android:letterSpacing="0.02"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/dark_gray"
+            android:fontFamily="@font/roboto_regular"
+            android:textSize="12dp"/>
+
+    </LinearLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/light_gray"/>
+
+</RelativeLayout>

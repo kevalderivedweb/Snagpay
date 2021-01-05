@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".NotificationSettingsActivity">
+
+    <RelativeLayout
+        android:id="@+id/vb"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <ImageView
+            android:id="@+id/backToPaymentInfo1"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/back_black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notification Settings"
+            android:layout_toRightOf="@id/backToPaymentInfo1"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/roboto_bold"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            android:letterSpacing="0.02"
+            android:layout_marginLeft="10dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@color/light_gray"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/notiTextAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Account"
+            android:textSize="18dp"
+            android:letterSpacing="0.02"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/roboto_bold"
+            android:textColor="#CC000000"/>
+
+        <TextView
+            android:id="@+id/notiAlertsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Important Message Alerts"
+            android:textSize="14dp"
+            android:letterSpacing="0.02"
+            android:layout_marginTop="7dp"
+            android:layout_below="@+id/notiTextAccount"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="#CC000000"/>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="10dp"
+            android:layout_below="@+id/notiTextAccount"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentEnd="true"
+            app:track="@drawable/custom_track"
+            android:thumb="@drawable/custom_thumb" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"
+        android:layout_marginTop="8dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/notiTextShipments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Shipments"
+            android:textSize="18dp"
+            android:letterSpacing="0.02"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/roboto_bold"
+            android:textColor="#CC000000"/>
+
+        <TextView
+            android:id="@+id/notiAlertsShipments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Shipments Notifications"
+            android:textSize="14dp"
+            android:letterSpacing="0.02"
+            android:layout_marginTop="7dp"
+            android:layout_below="@+id/notiTextShipments"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="#CC000000"/>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="10dp"
+            android:layout_below="@+id/notiTextShipments"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentEnd="true"
+            app:track="@drawable/custom_track"
+            android:thumb="@drawable/custom_thumb" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"
+        android:layout_marginTop="8dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/notiTextRecommendations"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Recommendations"
+            android:textSize="18dp"
+            android:letterSpacing="0.02"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/roboto_bold"
+            android:textColor="#CC000000"/>
+
+        <TextView
+            android:id="@+id/notiAlertsPersonalised"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Personalised Notifications"
+            android:textSize="14dp"
+            android:letterSpacing="0.02"
+            android:layout_marginTop="7dp"
+            android:layout_below="@+id/notiTextRecommendations"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="#CC000000"/>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="10dp"
+            android:layout_below="@+id/notiTextRecommendations"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentEnd="true"
+            app:track="@drawable/custom_track"
+            android:thumb="@drawable/custom_thumb" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"
+        android:layout_marginTop="8dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/notiTextWishlist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Wishlist"
+            android:textSize="18dp"
+            android:letterSpacing="0.02"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/roboto_bold"
+            android:textColor="#CC000000"/>
+
+        <TextView
+            android:id="@+id/notiAlertsWishlist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wishlist Notifications"
+            android:textSize="14dp"
+            android:letterSpacing="0.02"
+            android:layout_marginTop="7dp"
+            android:layout_below="@+id/notiTextWishlist"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="#CC000000"/>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="10dp"
+            android:layout_below="@+id/notiTextWishlist"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentEnd="true"
+            app:track="@drawable/custom_track"
+            android:thumb="@drawable/custom_thumb" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"
+        android:layout_marginTop="8dp"/>
+
+</LinearLayout>

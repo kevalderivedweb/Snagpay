@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical"
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/paymentHolderName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Micheal  Stevens"
+            android:textColor="@color/black"
+            android:textSize="16dp"/>
+        <TextView
+            android:id="@+id/paymentHolderCardNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5412 7501 2345 0987"
+            android:layout_marginTop="7dp"
+            android:layout_below="@+id/paymentHolderName"
+            android:textColor="@color/black"
+            android:textSize="16dp"/>
+        <TextView
+            android:id="@+id/paymentDigit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="09/2020"
+            android:layout_below="@+id/paymentHolderCardNo"
+            android:textColor="@color/black"
+            android:layout_marginTop="7dp"
+            android:textSize="16dp"/>
+
+        <TextView
+            android:layout_width="45dp"
+            android:layout_height="30dp"
+            android:background="@drawable/txt_5dp_lightgray"
+            android:text="334"
+            android:gravity="center"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            android:layout_below="@+id/paymentHolderCardNo"
+            android:layout_toEndOf="@+id/paymentDigit"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/pymtradio1"
+            android:text="Edit"
+            android:textColor="@color/green"
+            android:textSize="16dp"
+            android:layout_marginRight="10dp"/>
+
+        <ImageView
+            android:id="@+id/pymtradio1"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="1dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/selected" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/light_gray"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>

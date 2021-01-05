@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".More">
+
+    <RelativeLayout
+        android:id="@+id/vb"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <ImageView
+            android:id="@+id/backToPaymentInfo1"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/back_black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="More"
+            android:layout_toRightOf="@id/backToPaymentInfo1"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            android:letterSpacing="0.02"
+            android:layout_marginLeft="10dp"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_gray"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:text="Customer Support"
+                android:textColor="@color/black"
+                android:layout_marginStart="10dp"
+                android:gravity="center_vertical"
+                android:letterSpacing="0.02"
+                android:textSize="16dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/light_gray"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:text="Return Policies"
+                android:textColor="@color/black"
+                android:layout_marginStart="10dp"
+                android:gravity="center_vertical"
+                android:letterSpacing="0.02"
+                android:textSize="16dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/light_gray"/>
+
+            <TextView
+                android:id="@+id/termsCondition"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:text="Terms &amp; Condition"
+                android:textColor="@color/black"
+                android:layout_marginStart="10dp"
+                android:gravity="center_vertical"
+                android:letterSpacing="0.02"
+                android:textSize="16dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/light_gray"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:text="Private Policy"
+                android:textColor="@color/black"
+                android:layout_marginStart="10dp"
+                android:gravity="center_vertical"
+                android:letterSpacing="0.02"
+                android:textSize="16dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/light_gray"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:text="FAQ"
+                android:textColor="@color/black"
+                android:layout_marginStart="10dp"
+                android:gravity="center_vertical"
+                android:letterSpacing="0.02"
+                android:textSize="16dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/light_gray"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:text="Gifting"
+                android:textColor="@color/black"
+                android:layout_marginStart="10dp"
+                android:gravity="center_vertical"
+                android:letterSpacing="0.02"
+                android:textSize="16dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/light_gray"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:text="Report Infringement"
+                android:textColor="@color/black"
+                android:layout_marginStart="10dp"
+                android:gravity="center_vertical"
+                android:letterSpacing="0.02"
+                android:textSize="16dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/light_gray"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:text="About App"
+                android:textColor="@color/black"
+                android:layout_marginStart="10dp"
+                android:gravity="center_vertical"
+                android:letterSpacing="0.02"
+                android:textSize="16dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/light_gray"/>
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

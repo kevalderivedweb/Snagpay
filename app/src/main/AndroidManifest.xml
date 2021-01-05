@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.snagpay">
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.SnagPay">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity android:name=".IncredibleDealsInner" />
+        <activity android:name=".More" />
+        <activity android:name=".WorkwithSnagpay" />
+        <activity android:name=".IncredibleDeals" />
+        <activity android:name=".SnagpayGuideItems" />
+        <activity android:name=".SnagpayGuide" />
+        <activity android:name=".Jobs" />
+        <activity android:name=".InvestorRelations" />
+        <activity android:name=".PressInner" />
+        <activity android:name=".Press" />
+        <activity android:name=".AboutSnagpay" />
+        <activity android:name=".Company" />
+        <activity android:name=".SnagpayDeals" />
+        <activity android:name=".ResetPasswordActivity" />
+        <activity android:name=".GiveAsGiftActivity" />
+        <activity android:name=".CartActivity" />
+        <activity android:name=".TermsCondition" />
+        <activity android:name=".AddMoneySuccessfullyActivity" />
+        <activity android:name=".AddMoneyProcess" />
+        <activity android:name=".AddMoneyWallet" />
+        <activity android:name=".StatementActivity" />
+        <activity android:name=".SnagpayWalletActivity" />
+        <activity android:name=".NotificationSettingsActivity" />
+        <activity android:name=".CustomerSupportActivity" />
+        <activity android:name=".PaymentMethodsActivity" />
+        <activity android:name=".ManageMyWishListActivity" />
+        <activity android:name=".OrderDetailsActivity" />
+        <activity android:name=".MyPurchasesActivity" />
+        <activity android:name=".FilterSortByActivity" />
+        <activity android:name=".CategoriesInnerItemsActivity" />
+        <activity android:name=".ThankYouActivity" />
+        <activity android:name=".AddShippingAddressActivity" />
+        <activity android:name=".ShippingAddressActivity" />
+        <activity android:name=".AddCardsActivity" />
+        <activity android:name=".ReviewOrderActivity" />
+        <activity android:name=".ProductDetailsActivity" />
+        <activity android:name=".HomeInnerActivity" />
+        <activity android:name=".ChangePasswordActivity" />
+        <activity android:name=".CheckEmailActivity" />
+        <activity android:name=".ForgotPasswordActivity" />
+        <activity android:name=".SignInSignUpActivity" />
+        <activity android:name=".SelectCityActivity" />
+        <activity android:name=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity" />
+    </application>
+
+</manifest>

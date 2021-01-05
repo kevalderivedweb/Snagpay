@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
+        android:layout_above="@+id/navigationBar">
+
+        <LinearLayout
+            android:id="@+id/fragmentLinearHome"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"/>
+    </LinearLayout>
+
+   <LinearLayout
+       android:id="@+id/navigationBar"
+       android:layout_width="match_parent"
+       android:layout_height="52dp"
+       android:weightSum="5"
+       android:layout_alignParentBottom="true"
+       android:orientation="vertical">
+
+       <View
+           android:layout_width="match_parent"
+           android:layout_height="1dp"
+           android:background="@color/gray"/>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="50dp"
+           android:orientation="horizontal">
+
+       <LinearLayout
+           android:id="@+id/navLinear1"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:orientation="vertical"
+           android:gravity="center"
+           android:layout_weight="1">
+           <ImageView
+               android:id="@+id/navBottomImageHome"
+               android:layout_width="17dp"
+               android:layout_height="17dp"
+               android:src="@drawable/bottom_nav_home_active"/>
+           <TextView
+               android:id="@+id/navBottomTxtHome"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Home"
+               android:textSize="12dp"
+               android:layout_marginTop="5dp"
+               android:textColor="@color/blue"/>
+       </LinearLayout>
+
+       <LinearLayout
+           android:id="@+id/navLinear2"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:orientation="vertical"
+           android:gravity="center"
+           android:layout_weight="1">
+           <ImageView
+               android:id="@+id/navBottomImageCategories"
+               android:layout_width="17dp"
+               android:layout_height="17dp"
+               android:src="@drawable/bottom_nav_category"/>
+           <TextView
+               android:id="@+id/navBottomTxtCategories"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="5dp"
+               android:textSize="12dp"
+               android:text="Categories"/>
+       </LinearLayout>
+
+       <LinearLayout
+           android:id="@+id/navLinear3"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:orientation="vertical"
+           android:gravity="center"
+           android:layout_weight="1">
+           <ImageView
+               android:id="@+id/navBottomImageNotifications"
+               android:layout_width="17dp"
+               android:layout_height="17dp"
+               android:src="@drawable/bottom_nav_notification"/>
+           <TextView
+               android:id="@+id/navBottomTxtNotifications"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="5dp"
+               android:textSize="12dp"
+               android:text="Notifications"/>
+       </LinearLayout>
+
+       <LinearLayout
+           android:id="@+id/navLinear4"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:orientation="vertical"
+           android:gravity="center"
+           android:layout_weight="1">
+           <ImageView
+               android:id="@+id/navBottomImageWishList"
+               android:layout_width="17dp"
+               android:layout_height="17dp"
+               android:src="@drawable/bottom_nav_wishlist"/>
+           <TextView
+               android:id="@+id/navBottomTxtWishList"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="5dp"
+               android:textSize="12dp"
+               android:text="Wishlist"/>
+       </LinearLayout>
+
+       <LinearLayout
+           android:id="@+id/navLinear5"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:orientation="vertical"
+           android:gravity="center"
+           android:layout_weight="1">
+           <ImageView
+               android:id="@+id/navBottomImageMyStuff"
+               android:layout_width="17dp"
+               android:layout_height="17dp"
+               android:src="@drawable/bottom_nav_profile"/>
+           <TextView
+               android:id="@+id/navBottomTxtMyStuff"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="5dp"
+               android:textSize="12dp"
+               android:text="My Stuff"/>
+       </LinearLayout>
+       </LinearLayout>
+   </LinearLayout>
+
+</RelativeLayout>
