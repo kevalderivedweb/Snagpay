@@ -141,7 +141,7 @@ public class UserSession {
     }
 
     public void setLongitude(String longitude) {
-        editor.putString(LATITUDE, longitude);
+        editor.putString(LONGITUDE, longitude);
         editor.commit();
     }
 

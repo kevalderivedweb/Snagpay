@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
@@ -48,6 +49,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class Activity_SelectCity extends AppCompatActivity {
@@ -120,12 +122,6 @@ public class Activity_SelectCity extends AppCompatActivity {
                             };
                         };
 
-
-                        Intent intent = new Intent(Activity_SelectCity.this,Activity_SignInSignUp.class);
-                        intent.putExtra("city_id"," ");
-                        startActivity(intent);
-                        finish();
-
                     }
                     else{
 
@@ -137,6 +133,12 @@ public class Activity_SelectCity extends AppCompatActivity {
 
                         Toast.makeText(Activity_SelectCity.this, "Please allow permission from Setting > App Manager > Snagpay", Toast.LENGTH_SHORT).show();
                     }
+                }
+                else {
+                    Intent intent = new Intent(Activity_SelectCity.this, Activity_SignInSignUp.class);
+                    intent.putExtra("city_id"," ");
+                    startActivity(intent);
+                    finish();
                 }
 
                 Log.e("location", session.getLatitude() + " " + session.getLongitude() + " " + session.getAddress() + " " + session.getCity() + " " +
@@ -159,9 +161,6 @@ public class Activity_SelectCity extends AppCompatActivity {
                         //	GetStudnet("0","0");
 
                     }
-                }else {
-                    Toast.makeText(Activity_SelectCity.this, "City not Selected", Toast.LENGTH_SHORT).show();
-
                 }
 
             }
@@ -307,11 +306,51 @@ public class Activity_SelectCity extends AppCompatActivity {
             return;
         }
 
-        Intent intent = new Intent(this, GetAddressIntentService.class);
-        intent.putExtra("add_receiver", addressResultReceiver);
-        intent.putExtra("add_location", currentLocation);
-        startService(intent);
+        Location location = currentLocation;
 
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        List<Address> addresses = null;
+        try {
+            addresses = geocoder.getFromLocation(
+                    location.getLatitude(),
+                    location.getLongitude(),
+                    1);
+        } catch (Exception ioException) {
+            Log.e("", "Error in getting address for the location");
+        }
+
+        if (addresses == null || addresses.size() == 0) {
+        } else {
+            Address address = addresses.get(0);
+
+            session.setLatitude(String.valueOf(address.getLatitude()));
+            session.setLongitude(String.valueOf(address.getLongitude()));
+            try {
+
+                if (address.getThoroughfare().equals("null")) {
+                    session.setAddress(address.getFeatureName() + ", " + address.getLocality());
+                } else if (!address.getThoroughfare().equals("null")) {
+                    session.setAddress(address.getFeatureName() + ", " + address.getThoroughfare() + ", " + address.getLocality());
+                }
+            } catch (Exception e) {
+
+            }
+
+            session.setCity(address.getSubAdminArea());
+            session.setState(address.getAdminArea());
+            session.setCountry(address.getCountryName());
+            session.setPostCode(address.getPostalCode());
+
+            Log.e("LocationDetails", session.getLongitude()+"---"+
+                    session.getLatitude()+"---"+
+                    session.getAddress()+"---"+
+                    session.getCity()+"---"+
+                    session.getState()+"---"+
+                    session.getCountry()+"---"+
+                    session.getPostCode()+"---"
+            );
+
+        }
     }
 
     @Override

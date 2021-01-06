@@ -65,6 +65,8 @@ public class Fragment_SignIn extends Fragment {
         customTextView(txtPrivacyLogIn);
 
 
+        Log.e("Data",session.getLatitude());
+
         view.findViewById(R.id.txtForgotPasswordLogIn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
