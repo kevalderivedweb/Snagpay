@@ -1,6 +1,7 @@
 package com.example.snagpay.Pager;
 
 import android.content.Context;
+import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -12,12 +13,14 @@ import com.example.snagpay.Fragments.Fragment_SignUp;
 public class TabSignInSignUpActivity extends FragmentPagerAdapter {
 
     private Context myContext;
+    private String mCityId;
     private int totalTabs;
 
-    public TabSignInSignUpActivity(Context context, FragmentManager fm, int totalTabs) {
+    public TabSignInSignUpActivity(Context context, FragmentManager fm, int totalTabs,String CityId) {
         super(fm);
         myContext = context;
         this.totalTabs = totalTabs;
+        this.mCityId = CityId;
     }
 
     // this is for fragment tabs
@@ -29,6 +32,9 @@ public class TabSignInSignUpActivity extends FragmentPagerAdapter {
                 return signInActivity;
             case 1:
                 Fragment_SignUp signUpActivity = new Fragment_SignUp();
+                Bundle bundle = new Bundle();
+                bundle.putString("city_id", mCityId);
+                signUpActivity.setArguments(bundle);
                 return signUpActivity;
 
             default:

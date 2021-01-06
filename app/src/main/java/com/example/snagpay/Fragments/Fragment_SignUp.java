@@ -17,6 +17,7 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ public class Fragment_SignUp extends Fragment {
 
     private TextView txtPrivacySignUp;
     private UserSession session;
+    private String mCityID;
 
     public Fragment_SignUp() {
 
@@ -43,6 +45,15 @@ public class Fragment_SignUp extends Fragment {
         session = new UserSession(getActivity());
 
         View view = inflater.inflate(R.layout.activity_sign_up, container, false);
+
+
+        try {
+            mCityID = getArguments().getString("city_id");
+            Log.e("mCityID",mCityID+"--"+session.getPostCode());
+        } catch (Exception e) {
+
+        }
+
 
         txtPrivacySignUp = view.findViewById(R.id.txtPrivacySignUp);
 

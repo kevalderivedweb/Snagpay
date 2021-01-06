@@ -29,6 +29,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.snagpay.API.VolleyMultipartRequest;
+import com.example.snagpay.Adapter.SelectCitySpinner;
+import com.example.snagpay.Model.CityModel;
 import com.example.snagpay.R;
 import com.example.snagpay.Utils.GetAddressIntentService;
 import com.example.snagpay.Utils.UserSession;
@@ -45,6 +47,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Activity_SelectCity extends AppCompatActivity {
@@ -63,7 +66,7 @@ public class Activity_SelectCity extends AppCompatActivity {
     private Location currentLocation;
 
     private LocationCallback locationCallback;
-
+    private ArrayList<CityModel> mDataCity = new ArrayList<>();
 
 
     @Override
@@ -117,6 +120,12 @@ public class Activity_SelectCity extends AppCompatActivity {
                             };
                         };
 
+
+                        Intent intent = new Intent(Activity_SelectCity.this,Activity_SignInSignUp.class);
+                        intent.putExtra("city_id"," ");
+                        startActivity(intent);
+                        finish();
+
                     }
                     else{
 
@@ -132,6 +141,34 @@ public class Activity_SelectCity extends AppCompatActivity {
 
                 Log.e("location", session.getLatitude() + " " + session.getLongitude() + " " + session.getAddress() + " " + session.getCity() + " " +
                         session.getState() + " " + session.getCountry() + " " + session.getPostCode());
+            }
+        });
+
+        mCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                if(i!=mDataCity.size()-1){
+                    try {
+
+                        Intent intent = new Intent(Activity_SelectCity.this,Activity_SignInSignUp.class);
+                        intent.putExtra("city_id",mDataCity.get(i).getCityId());
+                        startActivity(intent);
+                        finish();
+                    }catch (Exception e){
+                        //	GetStudnet("0","0");
+
+                    }
+                }else {
+                    Toast.makeText(Activity_SelectCity.this, "City not Selected", Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
     }
@@ -162,36 +199,27 @@ public class Activity_SelectCity extends AppCompatActivity {
 
                                 try {
 
-                                    JSONArray jsonObject1 = jsonObject.getJSONArray("data");
+                                    JSONArray jsonArray = jsonObject.getJSONArray("data");
 
-                                    String[] City = new String[jsonObject1.length()];
-                                    String[] cityId = new String[jsonObject1.length()];
 
-                                    for (int i = 0; i < jsonObject1.length(); i++) {
-                                        JSONObject object = jsonObject1.getJSONObject(i);
-                                        City[i] = object.getString("city_name");
-                                        cityId[i] = object.getString("city_id");
+                                    for (int i = 0 ; i<jsonArray.length() ; i++){
+                                        JSONObject object = jsonArray.getJSONObject(i);
+                                        CityModel BatchModel = new CityModel();
+                                        BatchModel.setCityname(object.getString("city_name"));
+                                        BatchModel.setCityId(object.getString("city_id"));
+                                        mDataCity.add(BatchModel);
                                     }
 
-
-                                    ArrayAdapter<String> adapter_age = new ArrayAdapter<String>(Activity_SelectCity.this,
-                                            android.R.layout.simple_spinner_item, City);
-                                    mCity.setAdapter(adapter_age);
-                                    mCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                        @Override
-                                        public void onItemSelected(AdapterView<?> parent, View view,
-                                                                   int position, long id) {
-                                            mCityName = (String) parent.getItemAtPosition(position);
-                                            Log.v("item", (String) parent.getItemAtPosition(position));
-                                            Log.e("mCityName", mCityName);
-                                            Toast.makeText(Activity_SelectCity.this, cityId[position], Toast.LENGTH_SHORT).show();
-                                        }
-
-                                        @Override
-                                        public void onNothingSelected(AdapterView<?> parent) {
-                                            // TODO Auto-generated method stub
-                                        }
-                                    });
+                                    CityModel BatchModel = new CityModel();
+                                    BatchModel.setCityId("");
+                                    BatchModel.setCityname("Please select City");
+                                    mDataCity.add(BatchModel);
+                                    SelectCitySpinner adapter = new SelectCitySpinner(Activity_SelectCity.this,
+                                            android.R.layout.simple_spinner_item,
+                                            mDataCity);
+                                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+                                    mCity.setAdapter(adapter);
+                                    mCity.setSelection(adapter.getCount());
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }

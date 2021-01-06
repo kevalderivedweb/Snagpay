@@ -15,6 +15,7 @@ public class Activity_SignInSignUp extends AppCompatActivity {
 
     private TabLayout tabLayoutSignInUp;
     private ViewPager viewPagerSignInUp;
+    private String CityId = " ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +23,15 @@ public class Activity_SignInSignUp extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in_sign_up);
 
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
+
+
+        Bundle extras = getIntent().getExtras();
+        if(extras == null) {
+            CityId= null;
+        } else {
+            CityId= extras.getString("city_id");
+        }
+
 
         tabLayoutSignInUp=(TabLayout)findViewById(R.id.tabLayoutSignInUp);
         viewPagerSignInUp=(ViewPager)findViewById(R.id.viewPagerSignInUp);
@@ -35,7 +45,7 @@ public class Activity_SignInSignUp extends AppCompatActivity {
 
         tabLayoutSignInUp.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        final TabSignInSignUpActivity pagerTabActivity = new TabSignInSignUpActivity(this,getSupportFragmentManager(), tabLayoutSignInUp.getTabCount());
+        final TabSignInSignUpActivity pagerTabActivity = new TabSignInSignUpActivity(this,getSupportFragmentManager(), tabLayoutSignInUp.getTabCount(),CityId);
         viewPagerSignInUp.setAdapter(pagerTabActivity);
 
         viewPagerSignInUp.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayoutSignInUp));
@@ -82,6 +92,8 @@ public class Activity_SignInSignUp extends AppCompatActivity {
                 m_sign_up_color.setBackgroundColor(getResources().getColor(R.color.purple_700));
             }
         }); */
+
+
     }
 
 
