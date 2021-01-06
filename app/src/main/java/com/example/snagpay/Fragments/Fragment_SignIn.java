@@ -178,9 +178,38 @@ public class Fragment_SignIn extends Fragment {
                         Log.e("Response",response.data.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(new String(response.data));
+                            JSONObject object = jsonObject.getJSONObject("data");
 
                             if (jsonObject.getString("ResponseCode").equals("200")){
-                                session.createLoginSession();
+
+                                session.createLoginSession(object.getString("user_id"),
+                                        object.getString("first_name"),
+                                        object.getString("last_name"),
+                                        object.getString("email"),
+                                        object.getString("phone_no"),
+                                        object.getString("facebook_id"),
+                                        object.getString("google_id"),
+                                        object.getString("type"),
+                                        object.getString("address"),
+                                        object.getString("city_id"),
+                                        object.getString("state_id"),
+                                        object.getString("country_id"),
+                                        object.getString("postcode"),
+                                        object.getString("is_email_verified"),
+                                        object.getString("is_email_verified"),
+                                        object.getString("otp"),
+                                        object.getString("latitude"),
+                                        object.getString("longitude"),
+                                        object.getString("business_name"),
+                                        object.getString("type_of_business"),
+                                        object.getString("can_we_run_credit_report"),
+                                        object.getString("avg_sales_per_month"),
+                                        object.getString("how_long_have_you"),
+                                        object.getString("no_of_physical_locations"),
+                                        object.getString("website_or_page"),
+                                        object.getString("is_approved"),
+                                        object.getString("api_token")
+                                        );
 
                                 Intent intent = new Intent(getContext(), MainActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

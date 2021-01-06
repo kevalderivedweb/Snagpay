@@ -52,7 +52,7 @@ public class Fragment_SignUp extends Fragment {
             @Override
             public void onClick(View v) {
 
-                session.createLoginSession();
+                //session.createLoginSession();
 
                 NotificationManager mNotificationManager =
                         (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
