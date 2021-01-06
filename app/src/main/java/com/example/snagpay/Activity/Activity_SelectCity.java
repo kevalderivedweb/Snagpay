@@ -244,14 +244,9 @@ public class Activity_SelectCity extends AppCompatActivity {
     private void getAddress() {
 
         if (!Geocoder.isPresent()) {
-            Toast.makeText(Activity_SelectCity.this,
-                    "Can't find current address, ",
-                    Toast.LENGTH_SHORT).show();
+
             return;
         }
-        Toast.makeText(Activity_SelectCity.this,
-                "find current address, ",
-                Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(this, GetAddressIntentService.class);
         intent.putExtra("add_receiver", addressResultReceiver);
@@ -269,9 +264,7 @@ public class Activity_SelectCity extends AppCompatActivity {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     startLocationUpdates();
                 } else {
-                    Toast.makeText(this, "Location permission not granted, " +
-                                    "restart the app if you want the feature",
-                            Toast.LENGTH_SHORT).show();
+
                 }
                 return;
             }
@@ -304,13 +297,12 @@ public class Activity_SelectCity extends AppCompatActivity {
 
             String currentAdd = resultData.getString("address_result");
 
-            showResults(currentAdd);
+            Log.e("location", session.getLatitude() + " " + session.getLongitude() + " " + session.getAddress() + " " + session.getCity() + " " +
+                    session.getState() + " " + session.getCountry() + " " + session.getPostCode());
         }
     }
 
-    private void showResults(String currentAdd){
-        currentAddTv.setText(currentAdd);
-    }
+
 
 
     @Override

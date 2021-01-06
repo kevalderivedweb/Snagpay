@@ -18,6 +18,7 @@ public class GetAddressIntentService extends IntentService {
 
     private static final String IDENTIFIER = "GetAddressIntentService";
     private ResultReceiver addressResultReceiver;
+    private UserSession userSession;
 
     public GetAddressIntentService() {
         super(IDENTIFIER);
@@ -26,6 +27,9 @@ public class GetAddressIntentService extends IntentService {
     //handle the address request
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
+
+        userSession = new UserSession(getApplicationContext());
+
         String msg = "";
         //get result receiver from intent
         addressResultReceiver = intent.getParcelableExtra("add_receiver");
@@ -63,6 +67,12 @@ public class GetAddressIntentService extends IntentService {
             sendResultsToReceiver(1, msg);
         } else {
             Address address = addresses.get(0);
+
+            userSession.setLatitude(String.valueOf(address.getLatitude()));
+            userSession.setLongitude(String.valueOf(address.getLongitude()));
+
+
+
             StringBuffer addressDetails = new StringBuffer();
 
             addressDetails.append("Lat: ");
@@ -72,7 +82,17 @@ public class GetAddressIntentService extends IntentService {
             addressDetails.append("Long: ");
             addressDetails.append(address.getLongitude());
             addressDetails.append("\n");
-            
+
+            if (address.getThoroughfare().equals("null")){
+                userSession.setAddress(address.getFeatureName() + ", " + address.getLocality());
+            }else {
+                userSession.setAddress(address.getFeatureName() + ", " + address.getThoroughfare() + ", " + address.getLocality());
+            }
+
+            userSession.setCity(address.getSubAdminArea());
+            userSession.setState(address.getAdminArea());
+            userSession.setCountry(address.getCountryName());
+            userSession.setPostCode(address.getPostalCode());
 
             addressDetails.append(address.getFeatureName());
             addressDetails.append("\n");
@@ -84,7 +104,7 @@ public class GetAddressIntentService extends IntentService {
             addressDetails.append(address.getLocality());
             addressDetails.append("\n");
 
-            addressDetails.append("County: ");
+            addressDetails.append("City: ");
             addressDetails.append(address.getSubAdminArea());
             addressDetails.append("\n");
 

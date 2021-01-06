@@ -51,7 +51,6 @@
                     android:id="@+id/spinnerSelectCity"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:theme="@style/Spinner"
                     android:background="@drawable/spinner_list_city" />
 
                 <ImageView

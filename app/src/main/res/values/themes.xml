@@ -26,7 +26,5 @@
         <item name="colorControlActivated">#FDCE2A</item>
     </style>
 
-    <style name="Spinner" parent="Widget.AppCompat.Light.DropDownItem.Spinner">
-        <item name="android:textSize">14dp</item>
-    </style>
+
 </resources>
