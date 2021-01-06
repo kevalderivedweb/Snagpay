@@ -83,10 +83,15 @@ public class GetAddressIntentService extends IntentService {
             addressDetails.append(address.getLongitude());
             addressDetails.append("\n");
 
-            if (address.getThoroughfare().equals("null")){
-                userSession.setAddress(address.getFeatureName() + ", " + address.getLocality());
-            }else {
-                userSession.setAddress(address.getFeatureName() + ", " + address.getThoroughfare() + ", " + address.getLocality());
+            try {
+
+                if (address.getThoroughfare().equals("null")) {
+                    userSession.setAddress(address.getFeatureName() + ", " + address.getLocality());
+                } else if (!address.getThoroughfare().equals("null")) {
+                    userSession.setAddress(address.getFeatureName() + ", " + address.getThoroughfare() + ", " + address.getLocality());
+                }
+            }catch (Exception e){
+
             }
 
             userSession.setCity(address.getSubAdminArea());

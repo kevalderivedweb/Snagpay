@@ -60,8 +60,6 @@ public class Activity_SelectCity extends AppCompatActivity {
 
     private LocationAddressResultReceiver addressResultReceiver;
 
-    private TextView currentAddTv;
-
     private Location currentLocation;
 
     private LocationCallback locationCallback;
@@ -79,19 +77,9 @@ public class Activity_SelectCity extends AppCompatActivity {
         session = new UserSession(Activity_SelectCity.this);
         btnUseMyLocation = findViewById(R.id.btnUseMyLocation);
 
-
-        btnUseMyLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), Activity_SignInSignUp.class));
-            }
-        });
-
         getCity();
 
         addressResultReceiver = new LocationAddressResultReceiver(new Handler());
-
-        currentAddTv = findViewById(R.id.txtSelectCity);
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -103,6 +91,49 @@ public class Activity_SelectCity extends AppCompatActivity {
             };
         };
         startLocationUpdates();
+
+        btnUseMyLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(Activity_SelectCity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                {
+
+                    // Should we show an explanation?
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(Activity_SelectCity.this, android.Manifest.permission.ACCESS_FINE_LOCATION)){
+
+
+                        // You can show your dialog message here but instead I am
+                        // showing the grant permission dialog box
+                        ActivityCompat.requestPermissions(Activity_SelectCity.this, new String[] {
+                                        Manifest.permission.ACCESS_FINE_LOCATION,
+                                        Manifest.permission.ACCESS_COARSE_LOCATION },
+                                2);
+
+                        locationCallback = new LocationCallback() {
+                            @Override
+                            public void onLocationResult(LocationResult locationResult) {
+                                currentLocation = locationResult.getLocations().get(0);
+                                getAddress();
+                            };
+                        };
+
+                    }
+                    else{
+
+                        //Requesting permission
+                        ActivityCompat.requestPermissions(Activity_SelectCity.this, new String[] {
+                                        Manifest.permission.ACCESS_FINE_LOCATION,
+                                        Manifest.permission.ACCESS_COARSE_LOCATION },
+                                2);
+
+                        Toast.makeText(Activity_SelectCity.this, "Please allow permission from Setting > App Manager > Snagpay", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                Log.e("location", session.getLatitude() + " " + session.getLongitude() + " " + session.getAddress() + " " + session.getCity() + " " +
+                        session.getState() + " " + session.getCountry() + " " + session.getPostCode());
+            }
+        });
     }
 
     private void getCity() {
@@ -297,8 +328,6 @@ public class Activity_SelectCity extends AppCompatActivity {
 
             String currentAdd = resultData.getString("address_result");
 
-            Log.e("location", session.getLatitude() + " " + session.getLongitude() + " " + session.getAddress() + " " + session.getCity() + " " +
-                    session.getState() + " " + session.getCountry() + " " + session.getPostCode());
         }
     }
 
@@ -308,7 +337,7 @@ public class Activity_SelectCity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        startLocationUpdates();
+       // startLocationUpdates();
     }
 
     @Override
