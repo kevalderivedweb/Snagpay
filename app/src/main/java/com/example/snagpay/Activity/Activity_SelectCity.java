@@ -295,7 +295,7 @@ public class Activity_SelectCity extends AppCompatActivity {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     startLocationUpdates();
                 } else {
-
+                    onResume();
                 }
                 return;
             }
