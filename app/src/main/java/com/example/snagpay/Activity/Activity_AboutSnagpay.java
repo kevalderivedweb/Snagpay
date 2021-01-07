@@ -9,6 +9,8 @@ import com.example.snagpay.R;
 
 public class Activity_AboutSnagpay extends AppCompatActivity {
 
+
+    String Gefsdfdsf;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
