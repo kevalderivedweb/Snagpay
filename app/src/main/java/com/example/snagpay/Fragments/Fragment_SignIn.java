@@ -58,6 +58,7 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
     private String lastName;
     private String userEmail;
     private String userId;
+    private KProgressHUD googleDialog;
 
     public Fragment_SignIn() {
 
@@ -115,6 +116,15 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
         view.findViewById(R.id.btnGoogleLogin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                 googleDialog = KProgressHUD.create(getActivity())
+                        .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                        .setLabel("Please wait")
+                        .setCancellable(false)
+                        .setAnimationSpeed(2)
+                        .setDimAmount(0.5f)
+                        .show();
+
                 Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
                 startActivityForResult(intent,RC_SIGN_IN);
 
@@ -418,6 +428,8 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==RC_SIGN_IN){
+
+            googleDialog.dismiss();
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
         }
