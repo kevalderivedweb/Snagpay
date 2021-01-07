@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,8 +48,9 @@ public class Fragment_SignUp extends Fragment {
     private TextView txtPrivacySignUp;
     private UserSession session;
     private String mCityID;
-    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     private EditText mEmail, mPassword, mName;
+    private CheckBox checkboxEmailDealsSignUp;
 
     public Fragment_SignUp() {
 
@@ -65,7 +67,10 @@ public class Fragment_SignUp extends Fragment {
         mEmail = view.findViewById(R.id.email);
         mPassword = view.findViewById(R.id.password);
         mName = view.findViewById(R.id.first_name);
+        checkboxEmailDealsSignUp = view.findViewById(R.id.checkboxEmailDealsSignUp);
 
+        Log.e("locate", session.getLatitude()+"---"+session.getLongitude()+"---"+session.getAddress()+"---"+session.getCity()+"---"+session.getState()+
+                "---"+session.getCountry()+"---"+session.getPostCode());
 
         try {
             mCityID = getArguments().getString("city_id");
@@ -94,7 +99,11 @@ public class Fragment_SignUp extends Fragment {
                 } else if (mPassword.getText().toString().isEmpty()) {
                     Toast.makeText(getActivity(), "Please Enter Your Password", Toast.LENGTH_SHORT).show();
                 } else {
-                    SignUp(mName.getText().toString(),mEmail.getText().toString(), mPassword.getText().toString());
+                     if (checkboxEmailDealsSignUp.isChecked()) {
+                         SignUp(mName.getText().toString(), mEmail.getText().toString(), mPassword.getText().toString());
+                     }else {
+                         Toast.makeText(getActivity(), "Tick the Box First", Toast.LENGTH_SHORT).show();
+                     }
                 }
             }
         });
@@ -256,6 +265,9 @@ public class Fragment_SignUp extends Fragment {
                 params.put("country", session.getCountry());
                 params.put("postcode", session.getPostCode());
                 params.put("city_id", mCityID);
+
+                Log.e("inff", session.getLatitude()+"---"+session.getLongitude()+"---"+session.getAddress()+"---"+session.getCity()+"---"+session.getState()+
+                        "---"+session.getCountry()+"---"+session.getPostCode());
                 return params;
             }
 

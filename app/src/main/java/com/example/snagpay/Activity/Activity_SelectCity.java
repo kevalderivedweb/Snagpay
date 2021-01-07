@@ -341,7 +341,7 @@ public class Activity_SelectCity extends AppCompatActivity {
             session.setCountry(address.getCountryName());
             session.setPostCode(address.getPostalCode());
 
-            Log.e("LocationDetails", session.getLongitude()+"---"+
+            Log.e("LocationDetails", "---"+address.getLongitude()+"---"+
                     session.getLatitude()+"---"+
                     session.getAddress()+"---"+
                     session.getCity()+"---"+

@@ -1,5 +1,6 @@
 package com.example.snagpay.Fragments;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.app.NotificationManager;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.snagpay.Utils.UserSession;
 import com.example.snagpay.Activity.Activity_Cart;
@@ -27,11 +29,19 @@ import com.example.snagpay.Activity.Activity_SnagpayDeals;
 import com.example.snagpay.Activity.Activity_SnagpayGuide;
 import com.example.snagpay.Activity.Activity_SnagpayWallet;
 import com.example.snagpay.Activity.Activity_WorkwithSnagpay;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 
-public class Fragment_MyStuffActivity extends Fragment {
+public class Fragment_MyStuffActivity extends Fragment implements GoogleApiClient.OnConnectionFailedListener {
 
     private UserSession session;
-
+    private GoogleApiClient googleApiClient;
+    private GoogleSignInOptions gso;
+    
     public Fragment_MyStuffActivity() {
 
     }
@@ -45,6 +55,15 @@ public class Fragment_MyStuffActivity extends Fragment {
         View view = inflater.inflate(R.layout.activity_fragment_my_stuff, container, false);
 
         session = new UserSession(getContext());
+
+        gso =  new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        googleApiClient=new GoogleApiClient.Builder(getContext())
+                .enableAutoManage(getActivity(),this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+                .build();
 
         view.findViewById(R.id.lyotDeals).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,12 +134,23 @@ public class Fragment_MyStuffActivity extends Fragment {
         view.findViewById(R.id.btnSignOut).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 session.logout();
 
-                // for remove notification in notif bar
-                NotificationManager mNotificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-
-                mNotificationManager.cancel(0);
+                Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
+                        new ResultCallback<Status>() {
+                            @Override
+                            public void onResult(Status status) {
+                                if (status.isSuccess()){
+                                    Intent intent = new Intent(getContext(), Activity_SelectCity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
+                                    getActivity().finish();
+                                }else{
+                                    Toast.makeText(getContext(),"Session not close", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
 
                 Intent intent = new Intent(getContext(), Activity_SelectCity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -165,5 +195,10 @@ public class Fragment_MyStuffActivity extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast.makeText(getContext(), "Sign out Falied", Toast.LENGTH_SHORT).show();
     }
 }

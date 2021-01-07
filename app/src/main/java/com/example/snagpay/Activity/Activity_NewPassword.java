@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -27,49 +28,46 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Activity_ForgotPassword extends AppCompatActivity {
-    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-    private EditText mEmail;
+public class Activity_NewPassword extends AppCompatActivity {
+
+    private EditText editNewPass, editConfirmPass;
     private UserSession session;
+    private String mEmail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forgot_password);
+        setContentView(R.layout.activity__new_password);
 
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(getResources().getColor(R.color.blue));
 
+        editNewPass = findViewById(R.id.editNewPass);
+        editConfirmPass = findViewById(R.id.editConfirmPass);
 
-        session = new UserSession(Activity_ForgotPassword.this);
-        mEmail = findViewById(R.id.email);
+        session = new UserSession(Activity_NewPassword.this);
+        mEmail = getIntent().getStringExtra("emailPass");
 
-        
-
-        findViewById(R.id.btnSentEmailForgot).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btnNewPassword).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(mEmail.getText().toString().isEmpty()){
-                    Toast.makeText(Activity_ForgotPassword.this,"Please Enter Your Email",Toast.LENGTH_SHORT).show();
-                }else if (!mEmail.getText().toString().trim().matches(emailPattern)) {
-                    Toast.makeText(Activity_ForgotPassword.this,"Invalid email address",Toast.LENGTH_SHORT).show();
-                }else{
-                    ForgotPassword(mEmail.getText().toString());
+                if (editNewPass.getText().toString().isEmpty()){
+                    Toast.makeText(Activity_NewPassword.this, "Enter Password", Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
-
-        findViewById(R.id.backForgotPass).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
+                else if (editConfirmPass.getText().toString().isEmpty()){
+                    Toast.makeText(Activity_NewPassword.this, "Enter Confirm Password", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    newPassword(editNewPass.getText().toString(), editConfirmPass.getText().toString(), mEmail);
+                }
             }
         });
     }
 
-    private void ForgotPassword(final String Email) {
-        final KProgressHUD progressDialog = KProgressHUD.create(Activity_ForgotPassword.this)
+    private void newPassword(String newPass, String confPass, String mEmail) {
+        final KProgressHUD progressDialog = KProgressHUD.create(Activity_NewPassword.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setLabel("Please wait")
                 .setCancellable(false)
@@ -79,7 +77,7 @@ public class Activity_ForgotPassword extends AppCompatActivity {
         //getting the tag from the edittext
 
         //our custom volley request
-        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, session.BASEURL + "forgot-password",
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, session.BASEURL + "new-password",
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
@@ -90,19 +88,17 @@ public class Activity_ForgotPassword extends AppCompatActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(new String(response.data));
 
-
                             if (jsonObject.getString("ResponseCode").equals("200")){
 
-                                Intent intent = new Intent(Activity_ForgotPassword.this, Activity_CheckOtp.class);
-                                intent.putExtra("emailForgott", mEmail.getText().toString());
-                                startActivity(intent);
-                                
+                                startActivity(new Intent(getApplicationContext(), Activity_SignInSignUp.class));
+                                finish();
+
                             }
 
-                            Toast.makeText(Activity_ForgotPassword.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Activity_NewPassword.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
 
                         } catch (Exception e) {
-                            Toast.makeText(Activity_ForgotPassword.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Activity_NewPassword.this, e.getMessage(), Toast.LENGTH_SHORT).show();
 
                         }
                     }
@@ -112,7 +108,7 @@ public class Activity_ForgotPassword extends AppCompatActivity {
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
 
-                        Toast.makeText(Activity_ForgotPassword.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_NewPassword.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }) {
 
@@ -125,7 +121,9 @@ public class Activity_ForgotPassword extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("email", Email);
+                params.put("email", mEmail);
+                params.put("new_password", newPass);
+                params.put("confirm_password", confPass);
                 return params;
             }
 
@@ -149,7 +147,6 @@ public class Activity_ForgotPassword extends AppCompatActivity {
             }
         };
         //adding the request to volley
-        Volley.newRequestQueue(Activity_ForgotPassword.this).add(volleyMultipartRequest);
+        Volley.newRequestQueue(Activity_NewPassword.this).add(volleyMultipartRequest);
     }
-
 }
