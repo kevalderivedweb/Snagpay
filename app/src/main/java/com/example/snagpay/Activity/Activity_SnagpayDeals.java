@@ -31,12 +31,12 @@ public class Activity_SnagpayDeals extends AppCompatActivity {
         });
 
         recDeals.setLayoutManager(new GridLayoutManager(Activity_SnagpayDeals.this, 2));
-        adapterHomeInner = new AdapterHomeInner(Activity_SnagpayDeals.this, new AdapterHomeInner.OnItemClickListener() {
+        /*adapterHomeInner = new AdapterHomeInner(Activity_SnagpayDeals.this, new AdapterHomeInner.OnItemClickListener() {
             @Override
             public void onItemClick(int item) {
 
             }
-        });
+        });*/
         recDeals.setAdapter(adapterHomeInner);
     }
 }

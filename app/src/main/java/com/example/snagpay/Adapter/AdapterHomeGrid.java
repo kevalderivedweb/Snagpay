@@ -3,6 +3,7 @@ package com.example.snagpay.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,18 +15,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.snagpay.Activity.Activity_HomeInner;
+import com.example.snagpay.Model.CategoryModel;
 import com.example.snagpay.R;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class AdapterHomeGrid extends RecyclerView.Adapter<AdapterHomeGrid.Viewholder> {
 
+    private final OnItemClickListener listener;
     private Context mContext;
+    private ArrayList<CategoryModel> categoryModelArrayList;
+    private ImageView resGridHomeImage;
 
-    private int[] imagesResGridHome = {R.drawable.goods, R.drawable.service, R.drawable.travel, R.drawable.food, R.drawable.ticket, R.drawable.advertise};
-    private String[] textResGridHome = {"Goods", "Services", "Travel", "Food", "Event Tickets", "Advertising"};
-    private String[] colorResGridHome = {"#e71b1c", "#004ce6", "#00a3d8", "#018055", "#671c9d", "#ffaa01"};
-
-    public AdapterHomeGrid(Context mContext) {
+    public AdapterHomeGrid(Context mContext, ArrayList<CategoryModel> categoryModelArrayList, OnItemClickListener onItemClickListener) {
         this.mContext = mContext;
+        this.categoryModelArrayList = categoryModelArrayList;
+        this.listener = onItemClickListener;
     }
 
     @NonNull
@@ -39,27 +45,36 @@ public class AdapterHomeGrid extends RecyclerView.Adapter<AdapterHomeGrid.Viewho
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
 
-        holder.resGridHomeImage.setImageResource(imagesResGridHome[position]);
-        holder.resGridHomeText.setText(textResGridHome[position]);
-        holder.resGridHomeLinear.setBackgroundColor(Color.parseColor(colorResGridHome[position % colorResGridHome.length]));
-
-        holder.qq.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivity(new Intent(mContext, Activity_HomeInner.class));
+                listener.onItemClick(position);
             }
         });
+        Log.e("samplee", categoryModelArrayList.get(0).getCategory_name() + " ds");
+
+      /*  holder.qq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.
+            }
+        });*/
+        Picasso.get()
+                .load(categoryModelArrayList.get(position).getCategory_image())
+                .into(resGridHomeImage);
+
+        holder.resGridHomeText.setText(categoryModelArrayList.get(position).getCategory_name());
+        holder.resGridHomeLinear.setBackgroundColor(Color.parseColor(categoryModelArrayList.get(position).getBackround_color()));
     }
 
     @Override
     public int getItemCount() {
-        return imagesResGridHome.length;
+        return categoryModelArrayList.size();
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
 
         LinearLayout resGridHomeLinear, qq;
-        ImageView resGridHomeImage;
         TextView resGridHomeText;
 
         public Viewholder(@NonNull View itemView) {
@@ -68,7 +83,10 @@ public class AdapterHomeGrid extends RecyclerView.Adapter<AdapterHomeGrid.Viewho
             resGridHomeLinear = itemView.findViewById(R.id.resGridHomeLinear);
             resGridHomeImage = itemView.findViewById(R.id.resGridHomeImage);
             resGridHomeText = itemView.findViewById(R.id.resGridHomeText);
-            qq = itemView.findViewById(R.id.qq);
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int item);
     }
 }

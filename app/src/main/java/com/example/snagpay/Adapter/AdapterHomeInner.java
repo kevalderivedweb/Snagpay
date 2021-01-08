@@ -4,19 +4,29 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.snagpay.Model.CategoryDetailsModel;
 import com.example.snagpay.R;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class AdapterHomeInner extends RecyclerView.Adapter<AdapterHomeInner.Viewholder> {
 
     private final OnItemClickListener listener;
     private Context mContext;
+    private ArrayList<CategoryDetailsModel> categoryDetailsModelArrayList;
+    private ImageView imgCatHomeInner;
 
-    public AdapterHomeInner(Context mContext, OnItemClickListener listener) {
+    public AdapterHomeInner(Context mContext, ArrayList<CategoryDetailsModel> categoryDetailsModelArrayList, OnItemClickListener listener) {
         this.listener = listener;
+        this.categoryDetailsModelArrayList = categoryDetailsModelArrayList;
         this.mContext = mContext;
     }
 
@@ -37,17 +47,40 @@ public class AdapterHomeInner extends RecyclerView.Adapter<AdapterHomeInner.View
             }
         });
 
+        Picasso.get()
+                .load(categoryDetailsModelArrayList.get(position).getDeal_image())
+                .into(imgCatHomeInner);
+        holder.titleHome.setText(categoryDetailsModelArrayList.get(position).getTitle());
+        holder.cityName.setText(categoryDetailsModelArrayList.get(position).getCity_name());
+        holder.totalRating.setText("(" + categoryDetailsModelArrayList.get(position).getTotal_rating() + " Rating)");
+        holder.priceRegular.setText("$" +categoryDetailsModelArrayList.get(position).getRegular_price());
+        holder.itemsBought.setText(categoryDetailsModelArrayList.get(position).getBought() + "+ bought");
+
+        holder.ratingBarInnerHome.setStepSize(0.1f);
+        holder.ratingBarInnerHome.setRating(Float.parseFloat(categoryDetailsModelArrayList.get(position).getAvg_rating()));
+        holder.ratingBarInnerHome.setIsIndicator(true);
     }
 
     @Override
     public int getItemCount() {
-        return 4;
+        return categoryDetailsModelArrayList.size();
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
 
+        TextView titleHome, cityName, totalRating, priceRegular, itemsBought;
+        RatingBar ratingBarInnerHome;
+
         public Viewholder(@NonNull View itemView) {
             super(itemView);
+
+            imgCatHomeInner = itemView.findViewById(R.id.imgCatHomeInner);
+            titleHome = itemView.findViewById(R.id.titleHome);
+            cityName = itemView.findViewById(R.id.cityName);
+            totalRating = itemView.findViewById(R.id.totalRating);
+            priceRegular = itemView.findViewById(R.id.priceRegular);
+            itemsBought = itemView.findViewById(R.id.itemsBought);
+            ratingBarInnerHome = itemView.findViewById(R.id.ratingBarInnerHome);
         }
     }
 

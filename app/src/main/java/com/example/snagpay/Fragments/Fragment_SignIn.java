@@ -4,8 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,14 +17,15 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -33,16 +37,30 @@ import com.example.snagpay.Utils.UserSession;
 import com.example.snagpay.Activity.Activity_ForgotPassword;
 import com.example.snagpay.Activity.MainActivity;
 import com.example.snagpay.R;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.kaopiz.kprogresshud.KProgressHUD;
-
 import org.json.JSONObject;
-
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,6 +78,12 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
     private String userId;
     private KProgressHUD googleDialog;
 
+    private static final String TAG = "MainActivity";
+    private CallbackManager mCallbackManager;
+    private FirebaseAuth mAuth;
+    private LoginButton login_button;
+    private Button btnFacebookLogin;
+
     public Fragment_SignIn() {
 
     }
@@ -70,11 +94,19 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
 
         View view = inflater.inflate(R.layout.activity_sign_in, container, false);
 
+        FacebookSdk.sdkInitialize(getActivity());
         session = new UserSession(getContext());
+        mAuth = FirebaseAuth.getInstance();
+
+        mCallbackManager = CallbackManager.Factory.create();
 
         txtPrivacyLogIn = view.findViewById(R.id.txtPrivacyLogIn);
         mEmail = view.findViewById(R.id.email);
         mPassword = view.findViewById(R.id.password);
+        login_button = view.findViewById(R.id.login_button);
+        btnFacebookLogin = view.findViewById(R.id.btnFacebookLogin);
+
+        login_button.setReadPermissions("public_profile", "email" );
 
         customTextView(txtPrivacyLogIn);
 
@@ -88,6 +120,34 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
 
         Log.e("Data",session.getLatitude());
 
+        btnFacebookLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                login_button.performClick();
+            }
+        });
+
+        login_button.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Log.e("fiele", "facebook:onSuccess:" + loginResult);
+                handleFacebookAccessToken(loginResult.getAccessToken());
+            }
+
+            @Override
+            public void onCancel() {
+                Toast.makeText(getContext(), "cancel", Toast.LENGTH_SHORT).show();
+                Log.e("fiele", "facebook:onCancel");
+                // ...
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Log.e("fiele", "facebook:onError", error);
+                // ...
+            }
+        });
+
         view.findViewById(R.id.txtForgotPasswordLogIn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,8 +158,6 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
         view.findViewById(R.id.btnLogIn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
 
                 if(mEmail.getText().toString().isEmpty()){
                     Toast.makeText(getActivity(),"Please Enter Your Email",Toast.LENGTH_SHORT).show();
@@ -131,8 +189,36 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
             }
         });
 
+        printHashKey(getContext());
+
         return view;
     }
+
+    private void handleFacebookAccessToken(AccessToken token) {
+        Log.d(TAG, "handleFacebookAccessToken:" + token);
+
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithCredential:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            Toast.makeText(getContext(), "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                        // ...
+                    }
+                });
+    }
+
+
 
     private void customTextView(TextView view) {
 
@@ -427,11 +513,26 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if(requestCode==RC_SIGN_IN){
 
             googleDialog.dismiss();
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
+        }else {
+            mCallbackManager.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            Log.i(TAG, "onStart: Someone logged in <3");
+        } else {
+            Log.i(TAG, "onStart: No one logged in :/");
         }
     }
 
@@ -453,6 +554,22 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
 
         }else{
             Toast.makeText(getContext(),"Sign in cancel",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public static void printHashKey(Context pContext) {
+        try {
+            PackageInfo info = pContext.getPackageManager().getPackageInfo(pContext.getPackageName(), PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String hashKey = new String(Base64.encode(md.digest(), 0));
+                Log.e("printHashKey", "printHashKey() Hash Key: " + hashKey);
+            }
+        } catch (NoSuchAlgorithmException e) {
+            Log.e(TAG, "printHashKey()", e);
+        } catch (Exception e) {
+            Log.e(TAG, "printHashKey()", e);
         }
     }
 

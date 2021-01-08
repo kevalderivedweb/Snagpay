@@ -47,12 +47,12 @@ public class Activity_CategoriesInnerItems extends AppCompatActivity {
         });
 
         resCategoriesInner.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
-        resHomeInnerAdapter = new AdapterHomeInner(Activity_CategoriesInnerItems.this, new AdapterHomeInner.OnItemClickListener() {
+       /* resHomeInnerAdapter = new AdapterHomeInner(Activity_CategoriesInnerItems.this, new AdapterHomeInner.OnItemClickListener() {
             @Override
             public void onItemClick(int item) {
                 startActivity(new Intent(Activity_CategoriesInnerItems.this, Activity_ProductDetails.class));
             }
-        });
+        });*/
 
         resCategoriesInner.setAdapter(resHomeInnerAdapter);
 

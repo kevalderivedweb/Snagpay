@@ -38,12 +38,12 @@ public class Activity_SnagpayGuideItems extends AppCompatActivity {
         txtSnagpayItems = findViewById(R.id.txtSnagpayItems);
 
         resGuideItems.setLayoutManager(new GridLayoutManager(Activity_SnagpayGuideItems.this, 2));
-        adapterHomeInner = new AdapterHomeInner(Activity_SnagpayGuideItems.this, new AdapterHomeInner.OnItemClickListener() {
+        /*adapterHomeInner = new AdapterHomeInner(Activity_SnagpayGuideItems.this, new AdapterHomeInner.OnItemClickListener() {
             @Override
             public void onItemClick(int item) {
 
             }
-        });
+        });*/
 
         resGuideItems.setAdapter(adapterHomeInner);
 

@@ -28,12 +28,12 @@ public class Activity_IncredibleDealsInner extends AppCompatActivity {
         resDealsIncredibles = findViewById(R.id.resDealsIncredibles);
 
         resDealsIncredibles.setLayoutManager(new GridLayoutManager(Activity_IncredibleDealsInner.this, 2));
-        adapterHomeInner = new AdapterHomeInner(Activity_IncredibleDealsInner.this, new AdapterHomeInner.OnItemClickListener() {
+        /*adapterHomeInner = new AdapterHomeInner(Activity_IncredibleDealsInner.this, new AdapterHomeInner.OnItemClickListener() {
             @Override
             public void onItemClick(int item) {
 
             }
-        });
+        });*/
         resDealsIncredibles.setAdapter(adapterHomeInner);
 
         findViewById(R.id.backToPaymentInfo1).setOnClickListener(new View.OnClickListener() {

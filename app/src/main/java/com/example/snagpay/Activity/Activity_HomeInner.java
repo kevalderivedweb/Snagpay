@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.snagpay.Fragments.Fragment_HomeInner;
 import com.example.snagpay.Fragments.Fragment_Map;
@@ -20,6 +21,7 @@ public class Activity_HomeInner extends AppCompatActivity {
     private ImageView backToHome;
     private LinearLayout linearFilterSortBy;
     private LinearLayout openMap;
+    private String category_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,9 @@ public class Activity_HomeInner extends AppCompatActivity {
         linearFilterSortBy = findViewById(R.id.linearFilterSortBy);
         openMap = findViewById(R.id.openMap);
 
-        Fragment_HomeInner homeInnerFragment = new Fragment_HomeInner();
+        category_id = getIntent().getStringExtra("category_id");
+
+        Fragment_HomeInner homeInnerFragment = new Fragment_HomeInner(category_id);
         replaceFragment(R.id.fragHomeMap, homeInnerFragment, "Inner");
 
         linearFilterSortBy.setOnClickListener(new View.OnClickListener() {

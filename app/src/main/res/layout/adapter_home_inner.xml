@@ -14,17 +14,17 @@
         app:cardCornerRadius="12dp">
 
         <ImageView
+            android:id="@+id/imgCatHomeInner"
             android:layout_width="match_parent"
             android:layout_height="175dp"
             android:scaleType="fitXY"
-            android:layout_gravity="center"
-            android:src="@drawable/img1"/>
+            android:layout_gravity="center"/>
     </androidx.cardview.widget.CardView>
 
     <TextView
+        android:id="@+id/titleHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Wireless Blutooth Earphone"
         android:textSize="15dp"
         android:layout_marginTop="5dp"
         android:letterSpacing="0.04"
@@ -32,10 +32,10 @@
         android:textColor="#2a246e"/>
 
     <TextView
+        android:id="@+id/cityName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
-        android:text="Mesa : 22mi"
         android:letterSpacing="0.04"
         android:textColor="#535453"/>
 
@@ -49,24 +49,25 @@
             android:layout_height="wrap_content"
             android:numStars="5"
             android:isIndicator="false"
+
             android:stepSize="1"
             style="?android:attr/ratingBarStyleSmall"
             android:theme="@style/RatingBar"/>
 
         <TextView
+            android:id="@+id/totalRating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:letterSpacing="0.04"
             android:textColor="#383838"
             android:textSize="12dp"
-            android:layout_toRightOf="@+id/ratingBarInnerHome"
-            android:text="(220 Rating)"/>
+            android:layout_toRightOf="@+id/ratingBarInnerHome"/>
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/priceRegular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="$29.95"
         android:layout_marginTop="2dp"
         android:fontFamily="@font/roboto_medium"
         android:textColor="#3b8112"
@@ -81,9 +82,9 @@
         android:fontFamily="@font/roboto_medium"/>
 
     <TextView
+        android:id="@+id/itemsBought"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="590+ bought"
         android:layout_marginTop="2dp"
         android:textColor="@color/gray"/>
 </LinearLayout>
