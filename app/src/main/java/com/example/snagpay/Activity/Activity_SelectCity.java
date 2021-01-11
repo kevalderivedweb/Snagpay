@@ -6,18 +6,24 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -33,13 +39,13 @@ import com.example.snagpay.API.VolleyMultipartRequest;
 import com.example.snagpay.Adapter.SelectCitySpinner;
 import com.example.snagpay.Model.CityModel;
 import com.example.snagpay.R;
-import com.example.snagpay.Utils.GetAddressIntentService;
 import com.example.snagpay.Utils.UserSession;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.material.snackbar.Snackbar;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONArray;
@@ -70,6 +76,10 @@ public class Activity_SelectCity extends AppCompatActivity {
     private LocationCallback locationCallback;
     private ArrayList<CityModel> mDataCity = new ArrayList<>();
 
+    private static final String LOG_TAG = "CheckNetworkStatus";
+    private NetworkChangeReceiver receiver;
+    private boolean isConnected = false;
+    private boolean IsFirstTime = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +87,10 @@ public class Activity_SelectCity extends AppCompatActivity {
         setContentView(R.layout.activity_select_city);
 
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
+
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        receiver = new NetworkChangeReceiver();
+        registerReceiver(receiver, filter);
 
         mCity = findViewById(R.id.spinnerSelectCity);
         session = new UserSession(Activity_SelectCity.this);
@@ -135,10 +149,15 @@ public class Activity_SelectCity extends AppCompatActivity {
                     }
                 }
                 else {
-                    Intent intent = new Intent(Activity_SelectCity.this, Activity_SignInSignUp.class);
-                    intent.putExtra("city_id"," ");
-                    startActivity(intent);
-                    finish();
+
+                    if (isNetworkConnected()) {
+                        Intent intent = new Intent(Activity_SelectCity.this, Activity_SignInSignUp.class);
+                        intent.putExtra("city_id", " ");
+                        startActivity(intent);
+                        finish();
+                    }else {
+                        Toast.makeText(Activity_SelectCity.this, "Check Your Internet Connenction", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 Log.e("location", session.getLatitude() + " " + session.getLongitude() + " " + session.getAddress() + " " + session.getCity() + " " +
@@ -153,10 +172,14 @@ public class Activity_SelectCity extends AppCompatActivity {
                 if(i!=mDataCity.size()-1){
                     try {
 
-                        Intent intent = new Intent(Activity_SelectCity.this,Activity_SignInSignUp.class);
-                        intent.putExtra("city_id",mDataCity.get(i).getCityId());
-                        startActivity(intent);
-                        finish();
+                        if (isNetworkConnected()) {
+                            Intent intent = new Intent(Activity_SelectCity.this, Activity_SignInSignUp.class);
+                            intent.putExtra("city_id", mDataCity.get(i).getCityId());
+                            startActivity(intent);
+                            finish();
+                        }else {
+                            Toast.makeText(Activity_SelectCity.this, "Check Your Internet Connenction", Toast.LENGTH_SHORT).show();
+                        }
                     }catch (Exception e){
                         //	GetStudnet("0","0");
 
@@ -398,19 +421,83 @@ public class Activity_SelectCity extends AppCompatActivity {
         }
     }
 
-
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-       // startLocationUpdates();
-    }
-
     @Override
     protected void onPause() {
         super.onPause();
         fusedLocationClient.removeLocationUpdates(locationCallback);
+    }
+
+    public class NetworkChangeReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+
+            Log.v(LOG_TAG, "Receieved notification about network status");
+            isNetworkAvailable(context);
+
+        }
+
+
+        private boolean isNetworkAvailable(Context context) {
+            ConnectivityManager connectivity = (ConnectivityManager)
+                    context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (connectivity != null) {
+                NetworkInfo[] info = connectivity.getAllNetworkInfo();
+                if (info != null) {
+                    for (int i = 0; i < info.length; i++) {
+                        if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+                            if(!isConnected){
+                                Log.v(LOG_TAG, "Now you are connected to Internet!");
+
+
+                                if(IsFirstTime){
+                                    IsFirstTime = false;
+                                }else {
+                                    Toast.makeText(context, "Good! Connected to Internet", Toast.LENGTH_SHORT).show();
+                                }
+                                
+                                Snackbar snackbar = Snackbar
+                                        .make(findViewById(R.id.layoutt), "Good! Connected to Internet", Snackbar.LENGTH_LONG);
+
+                                ViewGroup group = (ViewGroup) snackbar.getView();
+                                group.setBackgroundColor(ContextCompat.getColor(Activity_SelectCity.this, R.color.white));
+                                View sbView = snackbar.getView();
+                                TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
+                                textView.setTextColor(Color.GREEN);
+                               // snackbar.show();
+
+                                isConnected = true;
+                                //do your processing here ---
+                                //if you need to post any data to the server or get status
+                                //update from the server
+                            }
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            Log.v(LOG_TAG, "You are not connected to Internet!");
+            Toast.makeText(context, "Sorry! Not connected to internet", Toast.LENGTH_SHORT).show();
+
+            Snackbar snackbar = Snackbar
+                    .make(findViewById(R.id.layoutt), "Sorry! Not connected to internet", Snackbar.LENGTH_LONG);
+
+            ViewGroup group = (ViewGroup) snackbar.getView();
+            group.setBackgroundColor(ContextCompat.getColor(Activity_SelectCity.this, R.color.white));
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+          //  snackbar.show();
+
+            isConnected = false;
+            return false;
+        }
+    }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null;
     }
 
 }

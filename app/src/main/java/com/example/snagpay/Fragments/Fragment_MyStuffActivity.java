@@ -56,14 +56,19 @@ public class Fragment_MyStuffActivity extends Fragment implements GoogleApiClien
 
         session = new UserSession(getContext());
 
-        gso =  new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
+        try {
 
-        googleApiClient=new GoogleApiClient.Builder(getContext())
-                .enableAutoManage(getActivity(),this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
-                .build();
+            gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .build();
+
+            googleApiClient = new GoogleApiClient.Builder(getContext())
+                    .enableAutoManage(getActivity(), this)
+                    .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                    .build();
+        } catch (Exception e){
+
+        }
 
         view.findViewById(R.id.lyotDeals).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,33 +136,37 @@ public class Fragment_MyStuffActivity extends Fragment implements GoogleApiClien
             }
         });
 
-        view.findViewById(R.id.btnSignOut).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        try {
+            view.findViewById(R.id.btnSignOut).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                session.logout();
+                    session.logout();
 
-                Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
-                        new ResultCallback<Status>() {
-                            @Override
-                            public void onResult(Status status) {
-                                if (status.isSuccess()){
-                                    Intent intent = new Intent(getContext(), Activity_SelectCity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    startActivity(intent);
-                                    getActivity().finish();
-                                }else{
-                                    Toast.makeText(getContext(),"Session not close", Toast.LENGTH_LONG).show();
+                    Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
+                            new ResultCallback<Status>() {
+                                @Override
+                                public void onResult(Status status) {
+                                    if (status.isSuccess()) {
+                                        Intent intent = new Intent(getContext(), Activity_SelectCity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(intent);
+                                        getActivity().finish();
+                                    } else {
+                                        Toast.makeText(getContext(), "Session not close", Toast.LENGTH_LONG).show();
+                                    }
                                 }
-                            }
-                        });
+                            });
 
-                Intent intent = new Intent(getContext(), Activity_SelectCity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                getActivity().finish();
-            }
-        });
+                    Intent intent = new Intent(getContext(), Activity_SelectCity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+            });
+        } catch (Exception e){
+
+        }
 
         view.findViewById(R.id.lyotCompany).setOnClickListener(new View.OnClickListener() {
             @Override

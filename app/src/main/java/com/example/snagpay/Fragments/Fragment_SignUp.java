@@ -207,7 +207,6 @@ public class Fragment_SignUp extends Fragment {
                                         object.getString("country_id"),
                                         object.getString("postcode"),
                                         object.getString("is_email_verified"),
-                                        object.getString("is_email_verified"),
                                         object.getString("otp"),
                                         object.getString("latitude"),
                                         object.getString("longitude"),
@@ -218,6 +217,7 @@ public class Fragment_SignUp extends Fragment {
                                         object.getString("how_long_have_you"),
                                         object.getString("no_of_physical_locations"),
                                         object.getString("website_or_page"),
+                                        object.getString("cost_of_goods"),
                                         object.getString("is_approved"),
                                         object.getString("api_token")
                                 );

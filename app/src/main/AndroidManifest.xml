@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.snagpay">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:allowBackup="true"
@@ -16,7 +18,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SnagPay">
-        <activity android:name=".Activity.Activity_NewPassword" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -40,6 +41,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".Activity.Activity_NewPassword" />
         <activity android:name=".Activity.Activity_IncredibleDealsInner" />
         <activity android:name=".Activity.Activity_More" />
         <activity android:name=".Activity.Activity_WorkwithSnagpay" />
@@ -94,6 +96,7 @@
         <service
             android:name=".Utils.GetAddressIntentService"
             android:exported="false" />
+
     </application>
 
 </manifest>
