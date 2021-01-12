@@ -28,10 +28,10 @@ public class TabSignInSignUpActivity extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                Fragment_SignIn signInActivity = new Fragment_SignIn();
+                Fragment_SignIn signInActivity = new Fragment_SignIn(myContext);
                 return signInActivity;
             case 1:
-                Fragment_SignUp signUpActivity = new Fragment_SignUp();
+                Fragment_SignUp signUpActivity = new Fragment_SignUp(myContext);
                 Bundle bundle = new Bundle();
                 bundle.putString("city_id", mCityId);
                 signUpActivity.setArguments(bundle);

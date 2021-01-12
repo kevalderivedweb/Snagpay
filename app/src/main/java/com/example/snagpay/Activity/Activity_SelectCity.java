@@ -70,9 +70,7 @@ public class Activity_SelectCity extends AppCompatActivity {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 2;
 
     private LocationAddressResultReceiver addressResultReceiver;
-
     private Location currentLocation;
-
     private LocationCallback locationCallback;
     private ArrayList<CityModel> mDataCity = new ArrayList<>();
 
@@ -156,7 +154,15 @@ public class Activity_SelectCity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     }else {
-                        Toast.makeText(Activity_SelectCity.this, "Check Your Internet Connenction", Toast.LENGTH_SHORT).show();
+                        Snackbar snackbar = Snackbar
+                                .make(findViewById(R.id.layoutt), "Sorry! Not connected to internet", Snackbar.LENGTH_SHORT);
+
+                        ViewGroup group = (ViewGroup) snackbar.getView();
+                        group.setBackgroundColor(ContextCompat.getColor(Activity_SelectCity.this, R.color.white));
+                        View sbView = snackbar.getView();
+                        TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
+                        textView.setTextColor(Color.RED);
+                        snackbar.show();
                     }
                 }
 
@@ -178,7 +184,15 @@ public class Activity_SelectCity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         }else {
-                            Toast.makeText(Activity_SelectCity.this, "Check Your Internet Connenction", Toast.LENGTH_SHORT).show();
+                            Snackbar snackbar = Snackbar
+                                    .make(findViewById(R.id.layoutt), "Sorry! Not connected to internet", Snackbar.LENGTH_SHORT);
+
+                            ViewGroup group = (ViewGroup) snackbar.getView();
+                            group.setBackgroundColor(ContextCompat.getColor(Activity_SelectCity.this, R.color.white));
+                            View sbView = snackbar.getView();
+                            TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
+                            textView.setTextColor(Color.RED);
+                            snackbar.show();
                         }
                     }catch (Exception e){
                         //	GetStudnet("0","0");
@@ -425,7 +439,12 @@ public class Activity_SelectCity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         fusedLocationClient.removeLocationUpdates(locationCallback);
+        unregisterReceiver(receiver);
     }
+
+    //
+    // for check connection and also for snackbar
+    //
 
     public class NetworkChangeReceiver extends BroadcastReceiver {
 
@@ -453,18 +472,18 @@ public class Activity_SelectCity extends AppCompatActivity {
                                 if(IsFirstTime){
                                     IsFirstTime = false;
                                 }else {
-                                    Toast.makeText(context, "Good! Connected to Internet", Toast.LENGTH_SHORT).show();
-                                }
-                                
-                                Snackbar snackbar = Snackbar
-                                        .make(findViewById(R.id.layoutt), "Good! Connected to Internet", Snackbar.LENGTH_LONG);
+                                    //     Toast.makeText(context, "Good! Connected to Internet", Toast.LENGTH_SHORT).show();
+                                    Snackbar snackbar = Snackbar
+                                            .make(findViewById(R.id.layoutt), "Good! Connected to Internet", Snackbar.LENGTH_SHORT);
 
-                                ViewGroup group = (ViewGroup) snackbar.getView();
-                                group.setBackgroundColor(ContextCompat.getColor(Activity_SelectCity.this, R.color.white));
-                                View sbView = snackbar.getView();
-                                TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
-                                textView.setTextColor(Color.GREEN);
-                               // snackbar.show();
+                                    ViewGroup group = (ViewGroup) snackbar.getView();
+                                    group.setBackgroundColor(ContextCompat.getColor(Activity_SelectCity.this, R.color.white));
+                                    View sbView = snackbar.getView();
+                                    TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
+                                    textView.setTextColor(Color.GREEN);
+                                    snackbar.show();
+                                }
+                                getCity();
 
                                 isConnected = true;
                                 //do your processing here ---
@@ -478,24 +497,24 @@ public class Activity_SelectCity extends AppCompatActivity {
             }
 
             Log.v(LOG_TAG, "You are not connected to Internet!");
-            Toast.makeText(context, "Sorry! Not connected to internet", Toast.LENGTH_SHORT).show();
+         //   Toast.makeText(context, "Sorry! Not connected to internet", Toast.LENGTH_SHORT).show();
 
             Snackbar snackbar = Snackbar
-                    .make(findViewById(R.id.layoutt), "Sorry! Not connected to internet", Snackbar.LENGTH_LONG);
+                    .make(findViewById(R.id.layoutt), "Sorry! Not connected to internet", Snackbar.LENGTH_SHORT);
 
             ViewGroup group = (ViewGroup) snackbar.getView();
             group.setBackgroundColor(ContextCompat.getColor(Activity_SelectCity.this, R.color.white));
             View sbView = snackbar.getView();
             TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
             textView.setTextColor(Color.RED);
-          //  snackbar.show();
+            snackbar.show();
 
             isConnected = false;
             return false;
         }
     }
 
-    private boolean isNetworkConnected() {
+    public boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;
     }

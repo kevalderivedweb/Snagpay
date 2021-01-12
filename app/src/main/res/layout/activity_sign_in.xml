@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:id="@+id/q11"
     android:layout_height="match_parent">
 <ScrollView
     android:layout_height="match_parent"
@@ -89,36 +90,54 @@
                 android:src="@drawable/icon_pass_invisible"/>
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/txtPrivacyLogIn"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:lineSpacingExtra="5dp"
-            android:textSize="12dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginTop="10dp">
+
+            <CheckBox
+                android:id="@+id/checkBox4"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:scaleX="0.6"
+                android:scaleY="0.6"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:buttonTint="@color/light_black"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/checkBox4"
+                android:text="Stay logged in"
+                android:layout_centerVertical="true"
+                android:textColor="@color/light_black"
+                android:textSize="12dp"
+                android:layout_marginStart="5dp"/>
+
+            <TextView
+                android:id="@+id/txtForgotPasswordLogIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:textSize="12dp"
+                android:textColor="#049b12"
+                android:text="Forgot password?"/>
+
+        </RelativeLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnLogIn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="20dp"
             android:text="Sign In"
             android:textSize="15dp"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:background="@drawable/button_round_shape"/>
-
-        <TextView
-            android:id="@+id/txtForgotPasswordLogIn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:gravity="center"
-            android:textSize="12dp"
-            android:textColor="#049b12"
-            android:text="Forgot password?"/>
 
 
         <TextView

@@ -1,142 +1,635 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:id="@+id/q12"
     android:layout_height="match_parent">
     <ScrollView
         android:layout_height="match_parent"
         android:layout_width="match_parent">
         <LinearLayout
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="15dp"
-            android:orientation="vertical"
-            tools:context=".Fragments.Fragment_SignIn">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/linearSignUpUser"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="15dp"
                 android:orientation="vertical"
-                android:padding="5dp"
-                android:layout_height="wrap_content">
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp">
+                tools:context=".Fragments.Fragment_SignIn">
 
-                    <EditText
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:padding="5dp"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:id="@+id/first_name"
-                        android:hint="First and last name"
-                        android:textCursorDrawable="@drawable/cursor_green_color"
-                        android:paddingLeft="55dp"
-                        android:textSize="14dp"
-                        android:background="@drawable/rounded_edittext" />
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginTop="13dp"
-                        android:layout_marginLeft="20dp"
-                        android:src="@drawable/icon_user"/>
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp">
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:hint="Email"
-                        android:id="@+id/email"
-                        android:paddingLeft="55dp"
-                        android:textSize="14dp"
-                        android:textCursorDrawable="@drawable/cursor_green_color"
-                        android:background="@drawable/rounded_edittext" />
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginTop="13dp"
-                        android:layout_marginLeft="20dp"
-                        android:src="@drawable/icon_email"/>
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="12dp">
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:hint="Password"
-                        android:paddingLeft="55dp"
-                        android:textSize="14dp"
-                        android:id="@+id/password"
-                        android:textCursorDrawable="@drawable/cursor_green_color"
-                        android:inputType="textPassword"
-                        android:background="@drawable/rounded_edittext" />
-
-                    <ImageView
-                        android:layout_width="17dp"
-                        android:layout_height="20dp"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginLeft="21dp"
-                        android:src="@drawable/icon_password"/>
-
-                    <ImageView
-                        android:id="@+id/icon_password_visible_signup"
-                        android:layout_width="35dp"
-                        android:layout_height="15dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginRight="12dp"
-                        android:layout_alignParentRight="true"
-                        android:src="@drawable/icon_pass_visible"/>
-
-                    <ImageView
-                        android:id="@+id/icon_password_invisible_signup"
-                        android:layout_width="35dp"
-                        android:layout_height="15dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginTop="16dp"
-                        android:visibility="invisible"
-                        android:layout_marginRight="12dp"
-                        android:src="@drawable/icon_pass_invisible"/>
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp">
-
-                    <CheckBox
-                        android:id="@+id/checkboxEmailDealsSignUp"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
                         android:layout_marginLeft="5dp"
-                        android:buttonTint="@color/green"/>
+                        android:layout_marginRight="5dp">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:id="@+id/first_name"
+                            android:hint="First and last name"
+                            android:textCursorDrawable="@drawable/cursor_green_color"
+                            android:paddingLeft="55dp"
+                            android:textSize="14dp"
+                            android:background="@drawable/rounded_edittext" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginTop="13dp"
+                            android:layout_marginLeft="20dp"
+                            android:src="@drawable/icon_user"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:hint="Email"
+                            android:id="@+id/email"
+                            android:paddingLeft="55dp"
+                            android:textSize="14dp"
+                            android:textCursorDrawable="@drawable/cursor_green_color"
+                            android:background="@drawable/rounded_edittext" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginTop="13dp"
+                            android:layout_marginLeft="20dp"
+                            android:src="@drawable/icon_email"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="12dp">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:hint="Password"
+                            android:paddingLeft="55dp"
+                            android:textSize="14dp"
+                            android:id="@+id/password"
+                            android:textCursorDrawable="@drawable/cursor_green_color"
+                            android:inputType="textPassword"
+                            android:background="@drawable/rounded_edittext" />
+
+                        <ImageView
+                            android:layout_width="17dp"
+                            android:layout_height="20dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginLeft="21dp"
+                            android:src="@drawable/icon_password"/>
+
+                        <ImageView
+                            android:id="@+id/icon_password_visible_signup"
+                            android:layout_width="35dp"
+                            android:layout_height="15dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginRight="12dp"
+                            android:layout_alignParentRight="true"
+                            android:src="@drawable/icon_pass_visible"/>
+
+                        <ImageView
+                            android:id="@+id/icon_password_invisible_signup"
+                            android:layout_width="35dp"
+                            android:layout_height="15dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="16dp"
+                            android:visibility="invisible"
+                            android:layout_marginRight="12dp"
+                            android:src="@drawable/icon_pass_invisible"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="25dp">
+
+                        <CheckBox
+                            android:id="@+id/checkboxEmailDealsSignUp"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="5dp"
+                            android:buttonTint="@color/green"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:lineSpacingExtra="5dp"
+                            android:textSize="12dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_toRightOf="@+id/checkboxEmailDealsSignUp"
+                            android:text="Yes I want to save money by receiving personalised SNAGpay emails with awesome deals."/>
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/txtPrivacySignUp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:lineSpacingExtra="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="12dp"
+                        android:layout_marginRight="5dp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnSignUp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="25dp"
+                        android:text="Sign Up"
+                        android:textSize="15dp"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:background="@drawable/button_round_shape"/>
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:lineSpacingExtra="5dp"
+                        android:layout_marginTop="25dp"
                         android:textSize="12dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_toRightOf="@+id/checkboxEmailDealsSignUp"
-                        android:text="Yes I want to save money by receiving personalised SNAGpay emails with awesome deals."/>
+                        android:gravity="center"
+                        android:text="OR"/>
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnGoogleLoginSignUp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:text="Login with Google"
+                    android:textSize="15dp"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:background="@drawable/button_round_google"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnFacebookLoginSign"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="Login with Facebook"
+                    android:textSize="15dp"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:background="@drawable/button_round_facebook"
+                    android:layout_marginBottom="5dp"/>
+
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/login_button2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="30dp"
+                    android:visibility="gone"
+                    android:layout_marginBottom="30dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearSellerSignUp"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="15dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Create your SNAGpay seller Account."
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textSize="18dp"/>
+                
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="8dp"
+                    android:text="Tell us about your business se we can start yout compaign."/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Your contact details"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textSize="16dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Your name"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="14dp"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:hint="Type here"
+                    android:paddingStart="20dp"
+                    android:textSize="14dp"
+                    android:id="@+id/EmailSeller"
+                    android:layout_marginTop="10dp"
+                    android:textCursorDrawable="@drawable/cursor_green_color"
+                    android:background="@drawable/rounded_edittext" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Email"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="14dp"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:hint="Type here"
+                    android:paddingStart="20dp"
+                    android:textSize="14dp"
+                    android:id="@+id/nameSeller"
+                    android:layout_marginTop="10dp"
+                    android:textCursorDrawable="@drawable/cursor_green_color"
+                    android:background="@drawable/rounded_edittext" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Phone number"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="14dp"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:hint="Type here"
+                    android:paddingStart="20dp"
+                    android:textSize="14dp"
+                    android:id="@+id/phoneNoSeller"
+                    android:layout_marginTop="10dp"
+                    android:textCursorDrawable="@drawable/cursor_green_color"
+                    android:background="@drawable/rounded_edittext" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Your business details"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textSize="16dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Business name"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="14dp"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:hint="Type here"
+                    android:paddingStart="20dp"
+                    android:textSize="14dp"
+                    android:id="@+id/bussNAmeSeller"
+                    android:layout_marginTop="10dp"
+                    android:textCursorDrawable="@drawable/cursor_green_color"
+                    android:background="@drawable/rounded_edittext" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Street Address"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="14dp"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Type here"
+                    android:paddingStart="20dp"
+                    android:paddingTop="10dp"
+                    android:textSize="14dp"
+                    android:minLines="5"
+                    android:gravity="top|left"
+                    android:id="@+id/streetAddressSeller"
+                    android:layout_marginTop="10dp"
+                    android:scrollbars="vertical"
+                    android:textCursorDrawable="@drawable/cursor_green_color"
+                    android:background="@drawable/rounded_edittext" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Select city"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="14dp"/>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/spinner_listcity_witharrow"
+                    android:layout_marginTop="10dp"  >
+                    <Spinner
+                        android:id="@+id/cityListSeller"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_centerVertical="true"
+                        android:background="@null"
+                        android:textSize="16sp"
+                        android:minHeight="0dp" />
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="20dp"
+                        android:src="@drawable/down_arrow2" />
                 </RelativeLayout>
 
                 <TextView
-                    android:id="@+id/txtPrivacySignUp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Zip Code"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="14dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="14dp"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:hint="Type here"
+                    android:paddingStart="20dp"
+                    android:textSize="14dp"
+                    android:id="@+id/zipCodeSeller"
+                    android:layout_marginTop="10dp"
+                    android:textCursorDrawable="@drawable/cursor_green_color"
+                    android:background="@drawable/rounded_edittext" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="State"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="14dp"/>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/spinner_listcity_witharrow"
+                    android:layout_marginTop="10dp"  >
+                    <Spinner
+                        android:id="@+id/stateSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_centerVertical="true"
+                        android:background="@null"
+                        android:textSize="16sp"
+                        android:minHeight="0dp" />
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="20dp"
+                        android:src="@drawable/down_arrow2" />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Country"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="14dp"/>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/spinner_listcity_witharrow"
+                    android:layout_marginTop="10dp"  >
+                    <Spinner
+                        android:id="@+id/countrySpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_centerVertical="true"
+                        android:background="@null"
+                        android:textSize="16sp"
+                        android:minHeight="0dp" />
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="20dp"
+                        android:src="@drawable/down_arrow2" />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Type of business"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="14dp"/>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/spinner_listcity_witharrow"
+                    android:layout_marginTop="10dp"  >
+                    <Spinner
+                        android:id="@+id/typeBusinessSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_centerVertical="true"
+                        android:background="@null"
+                        android:textSize="16sp"
+                        android:minHeight="0dp" />
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="20dp"
+                        android:src="@drawable/down_arrow2" />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Your business website or facebook page"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="14dp"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:paddingStart="20dp"
+                    android:textSize="14dp"
+                    android:id="@+id/websiteSeller"
+                    android:layout_marginTop="10dp"
+                    android:textCursorDrawable="@drawable/cursor_green_color"
+                    android:background="@drawable/rounded_edittext" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Number of physical locations"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="14dp"/>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/spinner_listcity_witharrow"
+                    android:layout_marginTop="10dp"  >
+                    <Spinner
+                        android:id="@+id/physicalLocationSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_centerVertical="true"
+                        android:background="@null"
+                        android:textSize="16sp"
+                        android:minHeight="0dp" />
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="20dp"
+                        android:src="@drawable/down_arrow2" />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="How long have you been in business?"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="14dp"/>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/spinner_listcity_witharrow"
+                    android:layout_marginTop="10dp"  >
+                    <Spinner
+                        android:id="@+id/howLongSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_centerVertical="true"
+                        android:background="@null"
+                        android:textSize="16sp"
+                        android:minHeight="0dp" />
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="20dp"
+                        android:src="@drawable/down_arrow2" />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Average sales per month"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="14dp"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:hint="Type here"
+                    android:paddingStart="20dp"
+                    android:textSize="14dp"
+                    android:id="@+id/avgSalesSeller"
+                    android:layout_marginTop="10dp"
+                    android:textCursorDrawable="@drawable/cursor_green_color"
+                    android:background="@drawable/rounded_edittext" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Can we run a credit report?"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="14dp"/>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/spinner_listcity_witharrow"
+                    android:layout_marginTop="10dp"  >
+                    <Spinner
+                        android:id="@+id/creditReportSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_centerVertical="true"
+                        android:background="@null"
+                        android:textSize="16sp"
+                        android:minHeight="0dp" />
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="20dp"
+                        android:src="@drawable/down_arrow2" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/txtSellerPrivacySignUp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
@@ -146,7 +639,7 @@
                     android:layout_marginRight="5dp" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnSignUp"
+                    android:id="@+id/btnSignUpSeller"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
@@ -154,38 +647,11 @@
                     android:textSize="15dp"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
+                    android:layout_marginBottom="15dp"
                     android:background="@drawable/button_round_shape"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
-                    android:textSize="12dp"
-                    android:gravity="center"
-                    android:text="OR"/>
             </LinearLayout>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:text="Login with Google"
-                android:textSize="15dp"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:background="@drawable/button_round_google"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="Login with Facebook"
-                android:textSize="15dp"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:background="@drawable/button_round_facebook"
-                android:layout_marginBottom="5dp"/>
         </LinearLayout>
     </ScrollView>
-
 </RelativeLayout>

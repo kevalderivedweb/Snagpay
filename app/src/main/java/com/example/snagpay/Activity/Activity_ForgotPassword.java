@@ -1,14 +1,23 @@
 package com.example.snagpay.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -20,6 +29,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.snagpay.API.VolleyMultipartRequest;
 import com.example.snagpay.R;
 import com.example.snagpay.Utils.UserSession;
+import com.google.android.material.snackbar.Snackbar;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONObject;
@@ -28,9 +38,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Activity_ForgotPassword extends AppCompatActivity {
-    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     private EditText mEmail;
     private UserSession session;
+
+    private static final String LOG_TAG = "CheckNetworkStatus";
+    private NetworkChangeReceiver receiver;
+    private boolean isConnected = false;
+    private boolean IsFirstTime = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +60,9 @@ public class Activity_ForgotPassword extends AppCompatActivity {
         session = new UserSession(Activity_ForgotPassword.this);
         mEmail = findViewById(R.id.email);
 
-        
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        receiver = new NetworkChangeReceiver();
+        registerReceiver(receiver, filter);
 
         findViewById(R.id.btnSentEmailForgot).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +73,20 @@ public class Activity_ForgotPassword extends AppCompatActivity {
                 }else if (!mEmail.getText().toString().trim().matches(emailPattern)) {
                     Toast.makeText(Activity_ForgotPassword.this,"Invalid email address",Toast.LENGTH_SHORT).show();
                 }else{
-                    ForgotPassword(mEmail.getText().toString());
+                    if (isNetworkConnected()){
+                        ForgotPassword(mEmail.getText().toString());
+                    }else {
+                        Snackbar snackbar = Snackbar
+                                .make(findViewById(R.id.q23), "Sorry! Not connected to internet", Snackbar.LENGTH_SHORT);
+
+                        ViewGroup group = (ViewGroup) snackbar.getView();
+                        group.setBackgroundColor(ContextCompat.getColor(Activity_ForgotPassword.this, R.color.white));
+                        View sbView = snackbar.getView();
+                        TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
+                        textView.setTextColor(Color.RED);
+                        snackbar.show();
+                    }
+
                 }
             }
         });
@@ -150,6 +181,82 @@ public class Activity_ForgotPassword extends AppCompatActivity {
         };
         //adding the request to volley
         Volley.newRequestQueue(Activity_ForgotPassword.this).add(volleyMultipartRequest);
+    }
+
+
+    //
+    // for check connection and also for snackbar
+    //
+    public class NetworkChangeReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+
+            Log.v(LOG_TAG, "Receieved notification about network status");
+            isNetworkAvailable(context);
+
+        }
+
+
+        private boolean isNetworkAvailable(Context context) {
+            ConnectivityManager connectivity = (ConnectivityManager)
+                    context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (connectivity != null) {
+                NetworkInfo[] info = connectivity.getAllNetworkInfo();
+                if (info != null) {
+                    for (int i = 0; i < info.length; i++) {
+                        if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+                            if(!isConnected){
+                                Log.v(LOG_TAG, "Now you are connected to Internet!");
+
+
+                                if(IsFirstTime){
+                                    IsFirstTime = false;
+                                }else {
+                                    //     Toast.makeText(context, "Good! Connected to Internet", Toast.LENGTH_SHORT).show();
+                                    Snackbar snackbar = Snackbar
+                                            .make(findViewById(R.id.q23), "Good! Connected to Internet", Snackbar.LENGTH_SHORT);
+
+                                    ViewGroup group = (ViewGroup) snackbar.getView();
+                                    group.setBackgroundColor(ContextCompat.getColor(Activity_ForgotPassword.this, R.color.white));
+                                    View sbView = snackbar.getView();
+                                    TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
+                                    textView.setTextColor(Color.GREEN);
+                                    snackbar.show();
+                                }
+
+                                isConnected = true;
+                                //do your processing here ---
+                                //if you need to post any data to the server or get status
+                                //update from the server
+                            }
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            Log.v(LOG_TAG, "You are not connected to Internet!");
+            //   Toast.makeText(context, "Sorry! Not connected to internet", Toast.LENGTH_SHORT).show();
+
+            Snackbar snackbar = Snackbar
+                    .make(findViewById(R.id.q23), "Sorry! Not connected to internet", Snackbar.LENGTH_SHORT);
+
+            ViewGroup group = (ViewGroup) snackbar.getView();
+            group.setBackgroundColor(ContextCompat.getColor(Activity_ForgotPassword.this, R.color.white));
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
+
+            isConnected = false;
+            return false;
+        }
+    }
+
+    public boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null;
     }
 
 }

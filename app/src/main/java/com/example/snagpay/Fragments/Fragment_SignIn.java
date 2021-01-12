@@ -1,15 +1,20 @@
 package com.example.snagpay.Fragments;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
@@ -33,6 +38,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.snagpay.API.VolleyMultipartRequest;
+import com.example.snagpay.Activity.Activity_SelectCity;
 import com.example.snagpay.Utils.UserSession;
 import com.example.snagpay.Activity.Activity_ForgotPassword;
 import com.example.snagpay.Activity.MainActivity;
@@ -52,6 +58,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -66,11 +73,12 @@ import java.util.Map;
 
 public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConnectionFailedListener {
 
-    private TextView txtPrivacyLogIn;
     private UserSession session;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     private EditText mEmail,mPassword;
-    private GoogleApiClient googleApiClient;
+
+    // for google signin
+    public static GoogleApiClient googleApiClient;
     private static final int RC_SIGN_IN = 1;
     private String firstName;
     private String lastName;
@@ -78,14 +86,21 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
     private String userId;
     private KProgressHUD googleDialog;
 
+    // for facebook sign in
     private static final String TAG = "MainActivity";
     private CallbackManager mCallbackManager;
     private FirebaseAuth mAuth;
     private LoginButton login_button;
     private Button btnFacebookLogin;
 
-    public Fragment_SignIn() {
+    private static final String LOG_TAG = "CheckNetworkStatus";
+    private NetworkChangeReceiver receiver;
+    private boolean isConnected = false;
+    private Context context;
+    private boolean IsFirstTime = true;
 
+    public Fragment_SignIn(Context context) {
+        this.context = context;
     }
 
     @Override
@@ -94,21 +109,22 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
 
         View view = inflater.inflate(R.layout.activity_sign_in, container, false);
 
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        receiver = new NetworkChangeReceiver();
+        context.registerReceiver(receiver, filter);
+
         FacebookSdk.sdkInitialize(getActivity());
         session = new UserSession(getContext());
         mAuth = FirebaseAuth.getInstance();
 
         mCallbackManager = CallbackManager.Factory.create();
 
-        txtPrivacyLogIn = view.findViewById(R.id.txtPrivacyLogIn);
         mEmail = view.findViewById(R.id.email);
         mPassword = view.findViewById(R.id.password);
         login_button = view.findViewById(R.id.login_button);
         btnFacebookLogin = view.findViewById(R.id.btnFacebookLogin);
 
         login_button.setReadPermissions("public_profile", "email" );
-
-        customTextView(txtPrivacyLogIn);
 
         GoogleSignInOptions gso =  new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -123,7 +139,19 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
         btnFacebookLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login_button.performClick();
+                if (isNetworkConnected()) {
+                    login_button.performClick();
+                }else {
+                    Snackbar snackbar = Snackbar
+                            .make(getActivity().findViewById(R.id.q11), "Sorry! Not connected to internet", Snackbar.LENGTH_SHORT);
+
+                    ViewGroup group = (ViewGroup) snackbar.getView();
+                    group.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.white));
+                    View sbView = snackbar.getView();
+                    TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
+                    textView.setTextColor(Color.RED);
+                    snackbar.show();
+                }
             }
         });
 
@@ -166,28 +194,58 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
                 }else if(mPassword.getText().toString().isEmpty()){
                     Toast.makeText(getActivity(),"Please Enter Your Password",Toast.LENGTH_SHORT).show();
                 }else {
-                    SignIn(mEmail.getText().toString(),mPassword.getText().toString());
+                    if (isNetworkConnected()) {
+                        SignIn(mEmail.getText().toString(), mPassword.getText().toString());
+                    }else {
+                        Snackbar snackbar = Snackbar
+                                .make(getActivity().findViewById(R.id.q11), "Sorry! Not connected to internet", Snackbar.LENGTH_SHORT);
+
+                        ViewGroup group = (ViewGroup) snackbar.getView();
+                        group.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.white));
+                        View sbView = snackbar.getView();
+                        TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
+                        textView.setTextColor(Color.RED);
+                        snackbar.show();
+                    }
                 }
             }
         });
 
-        view.findViewById(R.id.btnGoogleLogin).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        try {
 
-                 googleDialog = KProgressHUD.create(getActivity())
-                        .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                        .setLabel("Please wait")
-                        .setCancellable(false)
-                        .setAnimationSpeed(2)
-                        .setDimAmount(0.5f)
-                        .show();
+            view.findViewById(R.id.btnGoogleLogin).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-                startActivityForResult(intent,RC_SIGN_IN);
+                    if (isNetworkConnected()) {
+                        googleDialog = KProgressHUD.create(getActivity())
+                                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                                .setLabel("Please wait")
+                                .setCancellable(false)
+                                .setAnimationSpeed(2)
+                                .setDimAmount(0.5f)
+                                .show();
 
-            }
-        });
+                        Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+                        startActivityForResult(intent, RC_SIGN_IN);
+                    }
+                    else {
+                        Snackbar snackbar = Snackbar
+                                .make(getActivity().findViewById(R.id.q11), "Sorry! Not connected to internet", Snackbar.LENGTH_SHORT);
+
+                        ViewGroup group = (ViewGroup) snackbar.getView();
+                        group.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.white));
+                        View sbView = snackbar.getView();
+                        TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
+                        textView.setTextColor(Color.RED);
+                        snackbar.show();
+                    }
+
+                }
+            });
+        }catch (Exception e){
+
+        }
 
         printHashKey(getContext());
 
@@ -216,60 +274,6 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
                         // ...
                     }
                 });
-    }
-
-
-
-    private void customTextView(TextView view) {
-
-        SpannableStringBuilder spanTxt = new SpannableStringBuilder("By clicking below, I agree to the ");
-        spanTxt.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.dark_gray)), 0, spanTxt.length(), 0);
-        spanTxt.append("Terms of Use");
-        spanTxt.setSpan(new ClickableSpan() {
-            @Override
-            public void updateDrawState(TextPaint ds) {
-                ds.setUnderlineText(false);    // this remove the underline
-            }
-            @Override
-            public void onClick(View widget) {
-
-                try {
-                    Uri webpage = Uri.parse("https://www.google.com");
-                    Intent myIntent = new Intent(Intent.ACTION_VIEW, webpage);
-                    startActivity(myIntent);
-                } catch (ActivityNotFoundException e) {
-                    Toast.makeText(getActivity(), "No application can handle this request. Please install a web browser or check your URL.",  Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
-                }
-
-            }
-        }, spanTxt.length() - "Terms of Use".length(), spanTxt.length(), 0);
-        spanTxt.setSpan(new ForegroundColorSpan(Color.BLUE), 34, 46, 0);
-        spanTxt.append(" and have read the");
-        spanTxt.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.dark_gray)), 46, spanTxt.length(), 0);
-        spanTxt.append(" Privacy Statement.");
-        spanTxt.setSpan(new ClickableSpan() {
-            @Override
-            public void updateDrawState(TextPaint ds) {
-                ds.setUnderlineText(false);    // this remove the underline
-            }
-            @Override
-            public void onClick(View widget) {
-
-                try {
-                    Uri webpage = Uri.parse("https://www.facebook.com");
-                    Intent myIntent = new Intent(Intent.ACTION_VIEW, webpage);
-                    startActivity(myIntent);
-                } catch (ActivityNotFoundException e) {
-                    Toast.makeText(getActivity(), "No application can handle this request. Please install a web browser or check your URL.",  Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
-                }
-            }
-        }, spanTxt.length() - " Privacy Statement.".length(), spanTxt.length(), 0);
-        spanTxt.setSpan(new ForegroundColorSpan(Color.BLUE), 64, 83, 0);
-
-        view.setMovementMethod(LinkMovementMethod.getInstance());
-        view.setText(spanTxt, TextView.BufferType.NORMAL);
     }
 
 
@@ -571,6 +575,89 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
         } catch (Exception e) {
             Log.e(TAG, "printHashKey()", e);
         }
+    }
+
+    //
+    // for check connection and also for snackbar
+    //
+    public class NetworkChangeReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+
+            Log.v(LOG_TAG, "Receieved notification about network status");
+            isNetworkAvailable(context);
+
+        }
+
+
+        private boolean isNetworkAvailable(Context context) {
+            ConnectivityManager connectivity = (ConnectivityManager)
+                    context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (connectivity != null) {
+                NetworkInfo[] info = connectivity.getAllNetworkInfo();
+                if (info != null) {
+                    for (int i = 0; i < info.length; i++) {
+                        if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+                            if(!isConnected){
+                                Log.v(LOG_TAG, "Now you are connected to Internet!");
+
+
+
+                                    //     Toast.makeText(context, "Good! Connected to Internet", Toast.LENGTH_SHORT).show();
+
+                                if(IsFirstTime){
+                                    IsFirstTime = false;
+                                }else {
+                                    Snackbar snackbar = Snackbar
+                                            .make(getActivity().findViewById(R.id.q11), "Good! Connected to Internet", Snackbar.LENGTH_SHORT);
+
+                                    ViewGroup group = (ViewGroup) snackbar.getView();
+                                    group.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.white));
+                                    View sbView = snackbar.getView();
+                                    TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
+                                    textView.setTextColor(Color.GREEN);
+                                    snackbar.show();
+                                }
+
+                                isConnected = true;
+                                //do your processing here ---
+                                //if you need to post any data to the server or get status
+                                //update from the server
+                            }
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            Log.v(LOG_TAG, "You are not connected to Internet!");
+            //   Toast.makeText(context, "Sorry! Not connected to internet", Toast.LENGTH_SHORT).show();
+
+            Snackbar snackbar = Snackbar
+                    .make(getActivity().findViewById(R.id.q11), "Sorry! Not connected to internet", Snackbar.LENGTH_SHORT);
+
+            ViewGroup group = (ViewGroup) snackbar.getView();
+            group.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.white));
+            View sbView = snackbar.getView();
+            TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
+            textView.setTextColor(Color.RED);
+            snackbar.show();
+
+            isConnected = false;
+            return false;
+        }
+    }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        //context.unregisterReceiver(receiver);
     }
 
 }

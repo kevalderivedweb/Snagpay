@@ -24,7 +24,6 @@ public class Activity_SignInSignUp extends AppCompatActivity {
 
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
 
-
         Bundle extras = getIntent().getExtras();
         if(extras == null) {
             CityId= null;

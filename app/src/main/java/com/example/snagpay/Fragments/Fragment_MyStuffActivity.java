@@ -142,21 +142,25 @@ public class Fragment_MyStuffActivity extends Fragment implements GoogleApiClien
                 public void onClick(View v) {
 
                     session.logout();
+                    try {
 
-                    Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
-                            new ResultCallback<Status>() {
-                                @Override
-                                public void onResult(Status status) {
-                                    if (status.isSuccess()) {
-                                        Intent intent = new Intent(getContext(), Activity_SelectCity.class);
-                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        startActivity(intent);
-                                        getActivity().finish();
-                                    } else {
-                                        Toast.makeText(getContext(), "Session not close", Toast.LENGTH_LONG).show();
+                        Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
+                                new ResultCallback<Status>() {
+                                    @Override
+                                    public void onResult(Status status) {
+                                        if (status.isSuccess()) {
+                                            Intent intent = new Intent(getContext(), Activity_SelectCity.class);
+                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                            startActivity(intent);
+                                            getActivity().finish();
+                                        } else {
+                                            Toast.makeText(getContext(), "Session not close", Toast.LENGTH_LONG).show();
+                                        }
                                     }
-                                }
-                            });
+                                });
+                    }catch (Exception e){
+
+                    }
 
                     Intent intent = new Intent(getContext(), Activity_SelectCity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

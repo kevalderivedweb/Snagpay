@@ -3,13 +3,24 @@ package com.example.snagpay.Activity;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.snagpay.Fragments.Fragment_CategoriesActivity;
 import com.example.snagpay.Fragments.Fragment_HomeActivity;
@@ -17,6 +28,7 @@ import com.example.snagpay.Fragments.Fragment_MyStuffActivity;
 import com.example.snagpay.Fragments.Fragment_NotificationsActivity;
 import com.example.snagpay.Fragments.Fragment_WishListAcivity;
 import com.example.snagpay.R;
+import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 
