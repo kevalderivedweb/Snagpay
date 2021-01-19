@@ -23,10 +23,59 @@ public class Activity_More extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.txtCustomerSupport).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Activity_More.this, Activity_CustomerSupport.class));
+            }
+        });
+
+        findViewById(R.id.txtReturnPolices).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Activity_More.this, Activity_ReturnPolicies.class));
+            }
+        });
+
         findViewById(R.id.termsCondition).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Activity_More.this, Activity_TermsCondition.class));
+            }
+        });
+
+        findViewById(R.id.txtPrivacyPolicy).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Activity_More.this, Activity_PrivatePolicy.class));
+            }
+        });
+
+        findViewById(R.id.txtFaq).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Activity_More.this, Activity_Faq.class));
+            }
+        });
+
+        findViewById(R.id.txtGifting).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Activity_More.this, Activity_Gifting.class));
+            }
+        });
+
+        findViewById(R.id.txtReportInfringement).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Activity_More.this, Activity_Report_Infringement.class));
+            }
+        });
+
+        findViewById(R.id.txtAboutApp).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Activity_More.this, Activity_About_App.class));
             }
         });
     }

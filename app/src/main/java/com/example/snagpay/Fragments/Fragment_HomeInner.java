@@ -118,6 +118,7 @@ public class Fragment_HomeInner extends Fragment {
                                         categoryDetailsModelArrayList.add(categoryDetailsModel);
                                     }
                                     adapterHomeInner.notifyDataSetChanged();
+
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                     Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();

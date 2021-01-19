@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.snagpay.Adapter.ExpandableListAdapterFilterSort;
+import com.example.snagpay.Adapter.ExpListAdapterFilterSort;
 import com.example.snagpay.R;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class Activity_FilterSortBy extends AppCompatActivity {
     private Button btnFilter;
     private ImageView backToCategoriesInner;
 
-    ExpandableListAdapterFilterSort listAdapter;
+    ExpListAdapterFilterSort listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader;
     List<String> listDataSubHeader;
@@ -47,7 +47,7 @@ public class Activity_FilterSortBy extends AppCompatActivity {
         // preparing list data
         prepareListData();
 
-        listAdapter = new ExpandableListAdapterFilterSort(this, listDataHeader, listDataSubHeader, listDataChild);
+        listAdapter = new ExpListAdapterFilterSort(this, listDataHeader, listDataSubHeader, listDataChild);
         // setting list adapter
         expListView.setAdapter(listAdapter);
         // Listview Group click listener

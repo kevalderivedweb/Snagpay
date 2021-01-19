@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,9 +38,7 @@ public class AdapterAddAnotherCity extends RecyclerView.Adapter<AdapterAddAnothe
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
         holder.cityName.setText(cityName[position]);
 
-        if (selectedItem == position) {
-            holder.checkBoxAddCity.setImageResource(R.drawable.check);
-        }
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,7 +58,7 @@ public class AdapterAddAnotherCity extends RecyclerView.Adapter<AdapterAddAnothe
     public class Viewholder extends RecyclerView.ViewHolder {
 
         TextView cityName;
-        ImageView checkBoxAddCity;
+        CheckBox checkBoxAddCity;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);

@@ -2,6 +2,7 @@ package com.example.snagpay.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -19,6 +20,20 @@ public class Activity_WorkwithSnagpay extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        findViewById(R.id.learnSnagpay).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Activity_WorkwithSnagpay.this, Activity_LearnMerchant.class));
+            }
+        });
+
+        findViewById(R.id.vendorCode).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Activity_WorkwithSnagpay.this, Activity_VendorCodeProduct.class));
             }
         });
     }

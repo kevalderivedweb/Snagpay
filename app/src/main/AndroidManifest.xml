@@ -18,7 +18,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SnagPay">
-
+        <activity android:name=".Activity.Activity_About_App"></activity>
+        <activity android:name=".Activity.Activity_Report_Infringement" />
+        <activity android:name=".Activity.Activity_Gifting" />
+        <activity android:name=".Activity.Activity_Faq" />
+        <activity android:name=".Activity.Activity_PrivatePolicy" />
+        <activity android:name=".Activity.Activity_ReturnPolicies" />
+        <activity android:name=".Activity.Activity_VendorCodeProduct" />
+        <activity android:name=".Activity.Activity_LearnMerchant" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -43,9 +50,7 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
-
-        <activity android:name=".Activity.Activity_ThanksSeller"/>
+        <activity android:name=".Activity.Activity_ThanksSeller" />
         <activity android:name=".Activity.Activity_NewPassword" />
         <activity android:name=".Activity.Activity_IncredibleDealsInner" />
         <activity android:name=".Activity.Activity_More" />

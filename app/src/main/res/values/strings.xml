@@ -3,4 +3,23 @@
     <string name="sign_in_agreement">By clicking below, I agree to the <font color='#3c5bc3'>Terms of Use </font><font color='#757575'>and have read the </font><font color='#3c5bc3'>Privacy Statement.</font></string>
     <string name="facebook_app_id">318742359446499</string>
     <string name="fb_login_protocol_scheme">fb318742359446499</string>
+
+
+    <!--for red star at the end of textview-->
+    <string name="identify">Identify the company that you are associated with:<font color='red'>*</font></string>
+    <string name="ownRights">Please identify the Brand or Product that you own the rights to:<font color='red'>*</font></string>
+    <string name="Nature">Nature of Complaint choices need to change-Damaged Product. Item Description was incorret, Received wrong item, expiration date should be the choices<font color='red'>*</font></string>
+    <string name="site">Specify the infringement on the Snagpay site?<font color='red'>*</font></string>
+    <string name="please">Please tell us how we can fix the problem?<font color='red'>*</font></string>
+    <string name="firstName">First Name<font color='red'>*</font></string>
+    <string name="lastName">Last Name<font color='red'>*</font></string>
+    <string name="Country">Country<font color='red'>*</font></string>
+    <string name="City">City<font color='red'>*</font></string>
+    <string name="StreetAddress">Street Address<font color='red'>*</font></string>
+    <string name="ZipCode">Zip Code<font color='red'>*</font></string>
+    <string name="PhoneNumber">Phone Number<font color='red'>*</font></string>
+    <string name="EmailAddress">Email Address (for corresponding with SNAGpay)<font color='red'>*</font></string>
+    <string name="ConfirmEmailAddress">Confirm Email Address<font color='red'>*</font></string>
+
+
 </resources>

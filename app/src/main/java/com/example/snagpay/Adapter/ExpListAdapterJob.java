@@ -17,7 +17,7 @@ import com.example.snagpay.R;
 
 import java.util.ArrayList;
 
-public class ExpandJob extends BaseExpandableListAdapter {
+public class ExpListAdapterJob extends BaseExpandableListAdapter {
 
     private Context _context;
 
@@ -26,7 +26,7 @@ public class ExpandJob extends BaseExpandableListAdapter {
     private RecyclerView jobRes;
     private JobsExpandAdapter jobsExpandAdapter;
 
-    public ExpandJob (Context context, ArrayList<JobModel> jobModelArrayList) {
+    public ExpListAdapterJob(Context context, ArrayList<JobModel> jobModelArrayList) {
         this._context = context;
         this.jobModelArrayList = jobModelArrayList;
 

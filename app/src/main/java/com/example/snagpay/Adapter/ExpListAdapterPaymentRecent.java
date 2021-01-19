@@ -14,13 +14,13 @@ import java.util.ArrayList;
 
 import com.example.snagpay.Model.PaymentModel;
 
-public class ExpandableListAdapterPaymentRecent extends BaseExpandableListAdapter {
+public class ExpListAdapterPaymentRecent extends BaseExpandableListAdapter {
 
     private Context _context;
 
     ArrayList<PaymentModel> paymentModelArrayListl;
 
-    public ExpandableListAdapterPaymentRecent(Context context, ArrayList<PaymentModel> listDataHeader) {
+    public ExpListAdapterPaymentRecent(Context context, ArrayList<PaymentModel> listDataHeader) {
         this._context = context;
         this.paymentModelArrayListl = listDataHeader;
 

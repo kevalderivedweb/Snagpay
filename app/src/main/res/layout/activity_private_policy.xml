@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.Activity_TermsCondition"
+    tools:context=".Activity.Activity_PrivatePolicy"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -23,7 +23,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Terms &amp; Conditions"
+            android:text="Private Policy"
             android:layout_toRightOf="@id/backToPaymentInfo1"
             android:layout_centerVertical="true"
             android:fontFamily="@font/roboto_bold"
@@ -51,12 +51,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
                 android:gravity="center"
-                android:background="@drawable/term">
+                android:background="@drawable/privacy">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Terms &amp; Condition"
+                    android:text="Private Policy"
                     android:textColor="@color/white"
                     android:gravity="center"
                     android:layout_marginHorizontal="15dp"

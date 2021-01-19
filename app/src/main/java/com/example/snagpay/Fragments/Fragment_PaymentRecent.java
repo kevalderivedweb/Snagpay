@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
-import com.example.snagpay.Adapter.ExpandableListAdapterPaymentRecent;
+import com.example.snagpay.Adapter.ExpListAdapterPaymentRecent;
 
 import java.util.ArrayList;
 
@@ -18,7 +18,7 @@ import com.example.snagpay.R;
 
 public class Fragment_PaymentRecent extends Fragment {
 
-    private ExpandableListAdapterPaymentRecent listAdapterPayment;
+    private ExpListAdapterPaymentRecent listAdapterPayment;
     private ExpandableListView expListViewPayment;
     private ArrayList<PaymentModel> paymentModelArrayList = new ArrayList<>();
 
@@ -38,7 +38,7 @@ public class Fragment_PaymentRecent extends Fragment {
         // preparing list data
 
 
-        listAdapterPayment = new ExpandableListAdapterPaymentRecent(getContext(), paymentModelArrayList);
+        listAdapterPayment = new ExpListAdapterPaymentRecent(getContext(), paymentModelArrayList);
         // setting list adapter
         expListViewPayment.setAdapter(listAdapterPayment);
         // Listview Group click listener

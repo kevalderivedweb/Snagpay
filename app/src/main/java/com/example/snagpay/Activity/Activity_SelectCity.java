@@ -311,6 +311,8 @@ public class Activity_SelectCity extends AppCompatActivity {
             }
         };
         //adding the request to volley
+        volleyMultipartRequest.setShouldRetryServerErrors(true);
+
         Volley.newRequestQueue(Activity_SelectCity.this).add(volleyMultipartRequest);
     }
 
@@ -439,7 +441,6 @@ public class Activity_SelectCity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         fusedLocationClient.removeLocationUpdates(locationCallback);
-        unregisterReceiver(receiver);
     }
 
     //
@@ -483,7 +484,7 @@ public class Activity_SelectCity extends AppCompatActivity {
                                     textView.setTextColor(Color.GREEN);
                                     snackbar.show();
                                 }
-                                getCity();
+                                //getCity();
 
                                 isConnected = true;
                                 //do your processing here ---

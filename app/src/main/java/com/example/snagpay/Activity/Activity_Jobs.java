@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ExpandableListView;
 
-import com.example.snagpay.Adapter.ExpandJob;
+import com.example.snagpay.Adapter.ExpListAdapterJob;
 import com.example.snagpay.Model.DetailJobModel;
 import com.example.snagpay.Model.JobModel;
 import com.example.snagpay.R;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class Activity_Jobs extends AppCompatActivity {
 
-    private ExpandJob expandJob;
+    private ExpListAdapterJob expandJob;
     private ExpandableListView expListView;
     private ArrayList<JobModel> jobModelArrayList = new ArrayList<>();
 
@@ -36,7 +36,7 @@ public class Activity_Jobs extends AppCompatActivity {
         expListView.setDivider(getResources().getDrawable(R.color.white));
         expListView.setChildDivider(getResources().getDrawable(R.color.light_gray));
 
-        expandJob = new ExpandJob(Activity_Jobs.this, jobModelArrayList);
+        expandJob = new ExpListAdapterJob(Activity_Jobs.this, jobModelArrayList);
         // setting list adapter
         expListView.setAdapter(expandJob);
         // Listview Group click listener

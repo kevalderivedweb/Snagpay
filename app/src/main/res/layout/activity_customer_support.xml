@@ -47,6 +47,24 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:gravity="center"
+                android:background="@drawable/customer">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Customer Support"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:layout_marginHorizontal="15dp"
+                    android:textSize="18dp"
+                    android:letterSpacing="0.02"/>
+
+            </RelativeLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

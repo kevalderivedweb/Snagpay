@@ -47,6 +47,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/txtCustomerSupport"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:text="Customer Support"
@@ -62,6 +63,7 @@
                 android:background="@color/light_gray"/>
 
             <TextView
+                android:id="@+id/txtReturnPolices"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:text="Return Policies"
@@ -93,6 +95,7 @@
                 android:background="@color/light_gray"/>
 
             <TextView
+                android:id="@+id/txtPrivacyPolicy"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:text="Private Policy"
@@ -108,6 +111,7 @@
                 android:background="@color/light_gray"/>
 
             <TextView
+                android:id="@+id/txtFaq"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:text="FAQ"
@@ -123,6 +127,7 @@
                 android:background="@color/light_gray"/>
 
             <TextView
+                android:id="@+id/txtGifting"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:text="Gifting"
@@ -138,6 +143,7 @@
                 android:background="@color/light_gray"/>
 
             <TextView
+                android:id="@+id/txtReportInfringement"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:text="Report Infringement"
@@ -153,6 +159,7 @@
                 android:background="@color/light_gray"/>
 
             <TextView
+                android:id="@+id/txtAboutApp"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:text="About App"
