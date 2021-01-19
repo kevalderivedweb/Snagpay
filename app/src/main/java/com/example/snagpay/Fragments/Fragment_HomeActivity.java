@@ -27,6 +27,7 @@ import com.example.snagpay.Model.CategoryModel;
 import com.example.snagpay.Model.CityModel;
 import com.example.snagpay.R;
 import com.example.snagpay.Utils.UserSession;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONArray;
@@ -44,6 +45,8 @@ public class Fragment_HomeActivity extends Fragment {
     private UserSession session;
     private ArrayList<CategoryModel> categoryModelArrayList;
 
+    private ShimmerFrameLayout mShimmerViewContainer;
+
     public Fragment_HomeActivity() {
 
     }
@@ -59,6 +62,7 @@ public class Fragment_HomeActivity extends Fragment {
         categoryModelArrayList = new ArrayList<>();
 
         recHomeInGrid = view.findViewById(R.id.recHomeInGrid);
+        mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
 
         getCategories();
 
@@ -82,8 +86,8 @@ public class Fragment_HomeActivity extends Fragment {
                 .setLabel("Please wait")
                 .setCancellable(false)
                 .setAnimationSpeed(2)
-                .setDimAmount(0.5f)
-                .show();
+                .setDimAmount(0.5f);
+             //   .show();
         //getting the tag from the edittext
 
         //our custom volley request
@@ -93,7 +97,7 @@ public class Fragment_HomeActivity extends Fragment {
                     public void onResponse(NetworkResponse response) {
 
                         progressDialog.dismiss();
-
+                        categoryModelArrayList.clear();
 
                         try {
                             JSONObject jsonObject = new JSONObject(new String(response.data));
@@ -120,6 +124,10 @@ public class Fragment_HomeActivity extends Fragment {
                                         categoryModelArrayList.add(categoryModel);
                                     }
                                     resHomeGridAdapter.notifyDataSetChanged();
+
+                                    mShimmerViewContainer.stopShimmerAnimation();
+                                    mShimmerViewContainer.setVisibility(View.GONE);
+
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                     Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -176,5 +184,18 @@ public class Fragment_HomeActivity extends Fragment {
         };
         //adding the request to volley
         Volley.newRequestQueue(getContext()).add(volleyMultipartRequest);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mShimmerViewContainer.startShimmerAnimation();
+
+    }
+
+    @Override
+    public void onPause() {
+        mShimmerViewContainer.stopShimmerAnimation();
+        super.onPause();
     }
 }

@@ -18,4 +18,5 @@
     <color name="transparence">#00FFFFFF</color>
     <color name="white_txt">#DFDFDF</color>
     <color name="purple">#4a1d86</color>
+    <color name="placeholder_bg">#dddddd</color>
 </resources>

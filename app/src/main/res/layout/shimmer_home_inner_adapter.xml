@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        app:cardCornerRadius="12dp">
+
+        <View
+            android:id="@+id/imgCatHomeInner"
+            android:layout_width="match_parent"
+            android:layout_height="175dp"
+            android:scaleType="fitXY"
+            android:background="@color/placeholder_bg"
+            android:layout_gravity="center"/>
+    </androidx.cardview.widget.CardView>
+
+    <View
+        android:id="@+id/titleHome"
+        android:layout_width="150dp"
+        android:layout_height="15dp"
+        android:textSize="15dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/placeholder_bg"
+        android:letterSpacing="0.04"
+        android:fontFamily="@font/roboto_bold"
+        android:textColor="#2a246e"/>
+
+    <View
+        android:id="@+id/cityName"
+        android:layout_width="75dp"
+        android:layout_height="14dp"
+        android:background="@color/placeholder_bg"
+        android:layout_marginTop="3dp"
+        android:letterSpacing="0.04"
+        android:textColor="#535453"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp">
+        <View
+            android:id="@+id/ratingBarInnerHome"
+            android:layout_width="50dp"
+            android:background="@color/placeholder_bg"
+            android:layout_height="12dp"
+            android:numStars="5"
+            android:isIndicator="false"
+            android:stepSize="1"
+            style="?android:attr/ratingBarStyleSmall"
+            android:theme="@style/RatingBar"/>
+
+        <TextView
+            android:id="@+id/totalRating"
+            android:layout_width="40dp"
+            android:background="@color/placeholder_bg"
+            android:layout_height="12dp"
+            android:letterSpacing="0.04"
+            android:textColor="#383838"
+            android:textSize="12dp"
+            android:layout_toRightOf="@+id/ratingBarInnerHome"/>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/priceRegular"
+        android:layout_width="85dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="2dp"
+        android:background="@color/placeholder_bg"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="#3b8112"
+        android:textSize="25dp"/>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="14dp"
+        android:textColor="#45871e"
+        android:layout_marginTop="2dp"
+        android:background="@color/placeholder_bg"
+        android:fontFamily="@font/roboto_medium"/>
+
+    <View
+        android:id="@+id/itemsBought"
+        android:layout_width="60dp"
+        android:layout_height="14dp"
+        android:layout_marginTop="2dp"
+        android:background="@color/placeholder_bg"
+        android:textColor="@color/gray"/>
+</LinearLayout>

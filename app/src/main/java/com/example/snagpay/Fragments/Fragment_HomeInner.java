@@ -25,6 +25,7 @@ import com.example.snagpay.Model.CategoryDetailsModel;
 import com.example.snagpay.Model.CategoryModel;
 import com.example.snagpay.R;
 import com.example.snagpay.Utils.UserSession;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONArray;
@@ -43,6 +44,8 @@ public class Fragment_HomeInner extends Fragment {
     private UserSession session;
     public static ArrayList<CategoryDetailsModel> categoryDetailsModelArrayList;
 
+    private ShimmerFrameLayout mShimmerViewContainer;
+
     public Fragment_HomeInner(String category_id) {
         this.category_id = category_id;
     }
@@ -60,6 +63,7 @@ public class Fragment_HomeInner extends Fragment {
         getCategoriesDetails(category_id);
 
         recHomeInner = view.findViewById(R.id.recHomeInner);
+        mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
 
         recHomeInner.setLayoutManager(new GridLayoutManager(getContext(),2));
         adapterHomeInner = new AdapterHomeInner(getContext(), categoryDetailsModelArrayList, new AdapterHomeInner.OnItemClickListener() {
@@ -79,8 +83,8 @@ public class Fragment_HomeInner extends Fragment {
                 .setLabel("Please wait")
                 .setCancellable(false)
                 .setAnimationSpeed(2)
-                .setDimAmount(0.5f)
-                .show();
+                .setDimAmount(0.5f);
+               // .show();
         //getting the tag from the edittext
 
         //our custom volley request
@@ -90,7 +94,7 @@ public class Fragment_HomeInner extends Fragment {
                     public void onResponse(NetworkResponse response) {
 
                         progressDialog.dismiss();
-
+                        categoryDetailsModelArrayList.clear();
 
                         try {
                             JSONObject jsonObject = new JSONObject(new String(response.data));
@@ -118,6 +122,9 @@ public class Fragment_HomeInner extends Fragment {
                                         categoryDetailsModelArrayList.add(categoryDetailsModel);
                                     }
                                     adapterHomeInner.notifyDataSetChanged();
+
+                                    mShimmerViewContainer.stopShimmerAnimation();
+                                    mShimmerViewContainer.setVisibility(View.GONE);
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -175,5 +182,18 @@ public class Fragment_HomeInner extends Fragment {
         };
         //adding the request to volley
         Volley.newRequestQueue(getContext()).add(volleyMultipartRequest);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mShimmerViewContainer.startShimmerAnimation();
+
+    }
+
+    @Override
+    public void onPause() {
+        mShimmerViewContainer.stopShimmerAnimation();
+        super.onPause();
     }
 }
