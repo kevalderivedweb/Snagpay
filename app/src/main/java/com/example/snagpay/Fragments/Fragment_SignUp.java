@@ -40,7 +40,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.snagpay.API.VolleyMultipartRequest;
+import com.example.snagpay.Activity.Activity_SelectCity;
+import com.example.snagpay.Activity.Activity_SignInSignUp;
 import com.example.snagpay.Activity.Activity_ThanksSeller;
+import com.example.snagpay.Adapter.SelectCitySpinner;
+import com.example.snagpay.Model.CityModel;
 import com.example.snagpay.Utils.UserSession;
 import com.example.snagpay.Activity.MainActivity;
 import com.example.snagpay.R;
@@ -66,6 +70,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -80,7 +86,21 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
     private UserSession session;
     private String mCityID;
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-    private EditText mEmail, mPassword, mName;
+    private EditText mEmail, mPassword, mName, nameSeller, emailSeller, phoneNoSeller, businessNameSeller, streetAddressSeller, zipCodeSeller,
+                    costOfGoods, businessWebsite, avgSalesSeller;
+
+    private Spinner stateSpinner, citySpinner, typeBusinessSpinner, physicalLocationSpinner, howLongSpinner, creditReportSpinner;
+
+    private ArrayList<CityModel> mDataState = new ArrayList<>();
+    private ArrayList<CityModel> mDataCity = new ArrayList<>();
+
+    private String state_id;
+    private String city_id;
+    private String type_of_business;
+    private String numLocations;
+    private String numHowLongYrs;
+    private String numCreditReport;
+
     private CheckBox checkboxEmailDealsSignUp;
     private LinearLayout linearSellerSignUp, linearSignUpUser;
 
@@ -104,8 +124,6 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
     private boolean isConnected = false;
     private Context context;
     private boolean IsFirstTime = true;
-
-    private Spinner cityListSeller;
 
     public Fragment_SignUp(Context context) {
         this.context = context;
@@ -139,35 +157,22 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
         linearSignUpUser = view.findViewById(R.id.linearSignUpUser);
         linearSellerSignUp = view.findViewById(R.id.linearSellerSignUp);
 
-        cityListSeller = view.findViewById(R.id.cityListSeller);
+        nameSeller = view.findViewById(R.id.nameSeller);
+        emailSeller = view.findViewById(R.id.emailSeller);
+        phoneNoSeller = view.findViewById(R.id.phoneNoSeller);
+        businessNameSeller = view.findViewById(R.id.businessNameSeller);
+        streetAddressSeller = view.findViewById(R.id.streetAddressSeller);
+        zipCodeSeller = view.findViewById(R.id.zipCodeSeller);
+        costOfGoods = view.findViewById(R.id.costOfGoods);
+        businessWebsite = view.findViewById(R.id.businessWebsite);
+        avgSalesSeller = view.findViewById(R.id.avgSalesSeller);
 
-        ArrayList<String> list = new ArrayList<String>();
-        list.add("string1");
-        list.add("string2");
-        list.add("string3");
-        list.add("Select one");
-        final int listsize = list.size() - 1;
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, list) {
-            @Override
-            public int getCount() {
-                return(listsize); // Truncate the list
-            }
-        };
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        cityListSeller.setAdapter(dataAdapter);
-        cityListSeller.setSelection(listsize); // Hidden item to appear in the spinner
-
-        cityListSeller.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        stateSpinner = view.findViewById(R.id.stateSpinner);
+        citySpinner = view.findViewById(R.id.citySpinner);
+        typeBusinessSpinner = view.findViewById(R.id.typeBusinessSpinner);
+        physicalLocationSpinner = view.findViewById(R.id.physicalLocationSpinner);
+        howLongSpinner = view.findViewById(R.id.howLongSpinner);
+        creditReportSpinner = view.findViewById(R.id.creditReportSpinner);
 
         login_button2.setReadPermissions("public_profile", "email" );
 
@@ -274,7 +279,7 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
                     Toast.makeText(getActivity(), "Please Enter Your Password", Toast.LENGTH_SHORT).show();
                 } else {
                      if (checkboxEmailDealsSignUp.isChecked()) {
-                         if (isNetworkConnected()) {
+                         /*if (isNetworkConnected()) {
                              SignUp(mName.getText().toString(), mEmail.getText().toString(), mPassword.getText().toString());
                              linearSignUpUser.setVisibility(View.GONE);
                              linearSellerSignUp.setVisibility(View.VISIBLE);
@@ -288,7 +293,9 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
                              TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
                              textView.setTextColor(Color.RED);
                              snackbar.show();
-                         }
+                         }*/
+
+                         merchantSignUp(mName.getText().toString(), mEmail.getText().toString());
                      }else {
                          Toast.makeText(getActivity(), "Tick the Box First", Toast.LENGTH_SHORT).show();
                      }
@@ -299,12 +306,413 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
         view.findViewById(R.id.btnSignUpSeller).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), Activity_ThanksSeller.class);
-                getActivity().startActivity(intent);
+                /*Intent intent = new Intent(getContext(), Activity_ThanksSeller.class);
+                getActivity().startActivity(intent);*/
+
+                SignUp();
+            }
+        });
+
+        getState();
+
+        SelectCitySpinner adapterState = new SelectCitySpinner(getContext(),
+                android.R.layout.simple_spinner_item,
+                mDataState);
+        adapterState.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        stateSpinner.setAdapter(adapterState);
+        stateSpinner.setSelection(adapterState.getCount());
+
+        stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position != mDataState.size()-1){
+                    try {
+                        state_id = mDataState.get(position).getCityId();
+                        Toast.makeText(getContext(), state_id, Toast.LENGTH_SHORT).show();
+                        getCity();
+                    }catch (Exception e){
+                        //	GetStudnet("0","0");
+
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        SelectCitySpinner adapterCity = new SelectCitySpinner(getContext(),
+                android.R.layout.simple_spinner_item,
+                mDataCity);
+        adapterCity.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        citySpinner.setAdapter(adapterCity);
+        citySpinner.setSelection(adapterCity.getCount());
+
+        citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position != mDataCity.size()-1){
+                    try {
+                        city_id = mDataCity.get(position).getCityId();
+
+                    }catch (Exception e){
+                        //	GetStudnet("0","0");
+
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        ArrayList<String> typeOfBusiness = new ArrayList<String>();
+        typeOfBusiness.add("Goods");
+        typeOfBusiness.add("Services");
+        typeOfBusiness.add("Event Tickets");
+        typeOfBusiness.add("Travel");
+        typeOfBusiness.add("Food");
+        typeOfBusiness.add("Advertising");
+        typeOfBusiness.add("Select one...");
+        final int listsize = typeOfBusiness.size() - 1;
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, typeOfBusiness) {
+            @Override
+            public int getCount() {
+                return(listsize); // Truncate the list
+            }
+        };
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        typeBusinessSpinner.setAdapter(dataAdapter);
+        typeBusinessSpinner.setSelection(listsize); // Hidden item to appear in the spinner
+        typeBusinessSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                type_of_business = String.valueOf(position + 1);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        ArrayList<String> phyLoc = new ArrayList<String>();
+        phyLoc.add("One location");
+        phyLoc.add("Two locations");
+        phyLoc.add("Three locations");
+        phyLoc.add("Five or more locations");
+        phyLoc.add("Select one...");
+        final int listsizeLoc = phyLoc.size() - 1;
+        ArrayAdapter<String> locAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, phyLoc) {
+            @Override
+            public int getCount() {
+                return(listsizeLoc); // Truncate the list
+            }
+        };
+        locAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        physicalLocationSpinner.setAdapter(locAdapter);
+        physicalLocationSpinner.setSelection(listsizeLoc); // Hidden item to appear in the spinner
+        physicalLocationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                numLocations = String.valueOf(position + 1);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        ArrayList<String> howLongYrs = new ArrayList<String>();
+        howLongYrs.add("One year");
+        howLongYrs.add("Two years");
+        howLongYrs.add("Three years");
+        howLongYrs.add("Five or more years");
+        howLongYrs.add("Select one...");
+        final int listsizeYrs = howLongYrs.size() - 1;
+        ArrayAdapter<String> yrsLongAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, howLongYrs) {
+            @Override
+            public int getCount() {
+                return(listsizeYrs); // Truncate the list
+            }
+        };
+        yrsLongAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        howLongSpinner.setAdapter(yrsLongAdapter);
+        howLongSpinner.setSelection(listsizeYrs); // Hidden item to appear in the spinner
+        howLongSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                numHowLongYrs = String.valueOf(position + 1);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        ArrayList<String> crdtReportArray = new ArrayList<String>();
+        crdtReportArray.add("Yes");
+        crdtReportArray.add("No");
+        crdtReportArray.add("Select one...");
+        final int reportInt = crdtReportArray.size() - 1;
+        ArrayAdapter<String> rprtAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, crdtReportArray) {
+            @Override
+            public int getCount() {
+                return(reportInt); // Truncate the list
+            }
+        };
+        rprtAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        creditReportSpinner.setAdapter(rprtAdapter);
+        creditReportSpinner.setSelection(reportInt); // Hidden item to appear in the spinner
+        creditReportSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                numCreditReport = String.valueOf(position + 1);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 
         return view;
+    }
+
+    private void getState() {
+        final KProgressHUD progressDialog = KProgressHUD.create(getContext())
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel("Please wait")
+                .setCancellable(false)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f)
+                .show();
+        //getting the tag from the edittext
+
+        //our custom volley request
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "get-states?country_id=1",
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+
+                        progressDialog.dismiss();
+
+                        Log.e("Response",response.data.toString());
+                        try {
+                            JSONObject jsonObject = new JSONObject(new String(response.data));
+
+                            if (jsonObject.getString("ResponseCode").equals("200")){
+
+                                try {
+
+                                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+
+                                    for (int i = 0 ; i<jsonArray.length() ; i++){
+                                        JSONObject object = jsonArray.getJSONObject(i);
+                                        CityModel BatchModel = new CityModel();
+                                        BatchModel.setCityname(object.getString("state_name"));
+                                        BatchModel.setCityId(object.getString("state_id"));
+                                        mDataState.add(BatchModel);
+                                    }
+
+                                    CityModel BatchModel = new CityModel();
+                                    BatchModel.setCityId("");
+                                    BatchModel.setCityname("Please select State");
+                                    mDataState.add(BatchModel);
+                                    SelectCitySpinner adapter = new SelectCitySpinner(getContext(),
+                                            android.R.layout.simple_spinner_item,
+                                            mDataState);
+                                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+                                    stateSpinner.setAdapter(adapter);
+                                    stateSpinner.setSelection(adapter.getCount());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }else if(jsonObject.getString("ResponseCode").equals("401")){
+
+
+                            }
+
+                            Toast.makeText(getContext(), jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
+
+                        } catch (Exception e) {
+                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+
+                        Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+
+            /*
+             * If you want to add more parameters with the image
+             * you can do it here
+             * here we have only one parameter with the image
+             * which is tags
+             * */
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                return params;
+            }
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/json");
+                // params.put("Authorization", "Bearer " + session.getAPIToken());
+                return params;
+            }
+
+            /*
+             * Here we are passing image by renaming it with a unique name
+             * */
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+
+                return params;
+            }
+        };
+        //adding the request to volley
+        volleyMultipartRequest.setShouldRetryServerErrors(true);
+
+        Volley.newRequestQueue(getContext()).add(volleyMultipartRequest);
+    }
+
+    private void getCity() {
+        final KProgressHUD progressDialog = KProgressHUD.create(getContext())
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel("Please wait")
+                .setCancellable(false)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f)
+                .show();
+        //getting the tag from the edittext
+
+        //our custom volley request
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "get-cities?state_id=" + state_id,
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+
+                        progressDialog.dismiss();
+
+                        Log.e("Response",response.data.toString());
+                        try {
+                            JSONObject jsonObject = new JSONObject(new String(response.data));
+
+                            if (jsonObject.getString("ResponseCode").equals("200")){
+
+                                try {
+
+                                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+
+                                    for (int i = 0 ; i<jsonArray.length() ; i++){
+                                        JSONObject object = jsonArray.getJSONObject(i);
+                                        CityModel BatchModel = new CityModel();
+                                        BatchModel.setCityname(object.getString("city_name"));
+                                        BatchModel.setCityId(object.getString("city_id"));
+                                        mDataCity.add(BatchModel);
+                                    }
+
+                                    CityModel BatchModel = new CityModel();
+                                    BatchModel.setCityId("");
+                                    BatchModel.setCityname("Please select City");
+                                    mDataCity.add(BatchModel);
+                                    SelectCitySpinner adapter = new SelectCitySpinner(getContext(),
+                                            android.R.layout.simple_spinner_item,
+                                            mDataCity);
+                                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+                                    citySpinner.setAdapter(adapter);
+                                    citySpinner.setSelection(adapter.getCount());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }else if(jsonObject.getString("ResponseCode").equals("401")){
+
+                               /* session.logout();
+                                Intent intent = new Intent(Activity_SelectCity.this, Activity_SelectCity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();*/
+                            }
+
+                            Toast.makeText(getContext(), jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
+
+                        } catch (Exception e) {
+                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+
+                        Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+
+            /*
+             * If you want to add more parameters with the image
+             * you can do it here
+             * here we have only one parameter with the image
+             * which is tags
+             * */
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                return params;
+            }
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/json");
+                // params.put("Authorization", "Bearer " + session.getAPIToken());
+                return params;
+            }
+
+            /*
+             * Here we are passing image by renaming it with a unique name
+             * */
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+
+                return params;
+            }
+        };
+        //adding the request to volley
+        volleyMultipartRequest.setShouldRetryServerErrors(true);
+
+        Volley.newRequestQueue(getContext()).add(volleyMultipartRequest);
+    }
+
+    private void merchantSignUp(String name, String email) {
+
+        nameSeller.setText(name);
+        emailSeller.setText(email);
     }
 
     private void customTextView(TextView view) {
@@ -417,7 +825,7 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
         view.setText(spanTxt, TextView.BufferType.NORMAL);
     }
 
-    private void SignUp(final String Name,final String Email, final String Password) {
+    private void SignUp() {
         final KProgressHUD progressDialog = KProgressHUD.create(getActivity())
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setLabel("Please wait")
@@ -434,7 +842,6 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
                     public void onResponse(NetworkResponse response) {
 
                         progressDialog.dismiss();
-
 
                         try {
                             JSONObject jsonObject = new JSONObject(new String(response.data).toString());
@@ -505,17 +912,25 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("full_name", Name);
-                params.put("email", Email);
-                params.put("password", Password);
+                params.put("full_name", nameSeller.getText().toString());
+                params.put("email", emailSeller.getText().toString());
+                params.put("password", mPassword.getText().toString());
+                params.put("phone_no", phoneNoSeller.getText().toString());
+                params.put("business_name", businessNameSeller.getText().toString());
+                params.put("address", streetAddressSeller.getText().toString());
                 params.put("latitude", session.getLatitude());
                 params.put("longitude", session.getLongitude());
-                params.put("address", session.getAddress());
-                params.put("city", session.getCity());
-                params.put("state", session.getState());
-                params.put("country", session.getCountry());
-                params.put("postcode", session.getPostCode());
-                params.put("city_id", mCityID);
+                params.put("city_id", session.getCity());
+                params.put("state_id", session.getState());
+                params.put("country_id", "1");
+                params.put("postcode", zipCodeSeller.getText().toString());
+                params.put("type_of_business", mPassword.getText().toString());
+                params.put("website_or_page", businessWebsite.getText().toString());
+                params.put("no_of_physical_locations", mPassword.getText().toString());
+                params.put("how_long_have_you", mPassword.getText().toString());
+                params.put("avg_sales_per_month", avgSalesSeller.getText().toString());
+                params.put("can_we_run_credit_report", mPassword.getText().toString());
+                params.put("cost_of_goods", costOfGoods.getText().toString());
 
                 Log.e("inff", session.getLatitude()+"---"+session.getLongitude()+"---"+session.getAddress()+"---"+session.getCity()+"---"+session.getState()+
                         "---"+session.getCountry()+"---"+session.getPostCode());

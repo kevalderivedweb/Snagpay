@@ -21,12 +21,11 @@ public class UserSession {
     private static final String IS_LOGIN = "IsLoggedIn";
     private static final String LONGITUDE = "longitude";
     private static final String LATITUDE = "latitude";
-    private static final String ADDRESS = "address";
     private static final String CITY = "city";
     private static final String STATE = "state";
     private static final String COUNTRY = "country";
     private static final String POST_CODE = "postCode";
-    private static final String CITY_ID = "cityID";
+
 
 
     private final String USER_ID = "User_id";
@@ -37,7 +36,8 @@ public class UserSession {
     private final String FACEBOOKID = "facebook_id";
     private final String GOOGLEID = "google_id";
     private final String TYPE = "type";
-    private final String PROFADDRESS = "prof_address";
+    private final String ADDRESS = "prof_address";
+    private final String CITY_ID = "cityID";
     private final String STATEID = "state_id";
     private final String COUNTRYID = "country_id";
     private final String POSTCODE = "postcode";
@@ -101,7 +101,7 @@ public class UserSession {
         editor.putString(FACEBOOKID, facebook_id);
         editor.putString(GOOGLEID, google_id);
         editor.putString(TYPE, type);
-        editor.putString(PROFADDRESS, address);
+        editor.putString(ADDRESS, address);
         editor.putString(CITY_ID, city_id);
         editor.putString(STATEID, state_id);
         editor.putString(COUNTRYID, country_id);
@@ -236,8 +236,8 @@ public class UserSession {
         return sharedPreferences.getString(TYPE, "");
     }
 
-    public String getPROFADDRESS() {
-        return sharedPreferences.getString(PROFADDRESS, "");
+    public String getADDRESS() {
+        return sharedPreferences.getString(ADDRESS, "");
     }
 
     public String getSTATEID() {
