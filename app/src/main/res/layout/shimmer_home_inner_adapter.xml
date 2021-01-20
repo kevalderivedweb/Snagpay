@@ -57,12 +57,13 @@
             style="?android:attr/ratingBarStyleSmall"
             android:theme="@style/RatingBar"/>
 
-        <TextView
+        <View
             android:id="@+id/totalRating"
             android:layout_width="40dp"
             android:background="@color/placeholder_bg"
             android:layout_height="12dp"
             android:letterSpacing="0.04"
+            android:layout_marginStart="5dp"
             android:textColor="#383838"
             android:textSize="12dp"
             android:layout_toRightOf="@+id/ratingBarInnerHome"/>

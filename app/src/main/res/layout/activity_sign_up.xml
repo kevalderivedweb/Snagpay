@@ -207,7 +207,6 @@
 
             <LinearLayout
                 android:id="@+id/linearSellerSignUp"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -437,37 +436,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Country"
-                    android:textColor="@color/black"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textSize="14dp"/>
-
-                <RelativeLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="45dp"
-                    android:background="@drawable/spinner_listcity_witharrow"
-                    android:layout_marginTop="10dp"  >
-                    <Spinner
-                        android:id="@+id/countrySpinner"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:layout_centerVertical="true"
-                        android:background="@null"
-                        android:textSize="16sp"
-                        android:minHeight="0dp" />
-                    <ImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="20dp"
-                        android:src="@drawable/down_arrow2" />
-                </RelativeLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:text="Type of business"
                     android:textColor="@color/black"
                     android:layout_marginTop="10dp"
@@ -499,6 +467,25 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="Cost of goods"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="14dp"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:paddingStart="20dp"
+                    android:textSize="14dp"
+                    android:id="@+id/costOfGoods"
+                    android:layout_marginTop="10dp"
+                    android:textCursorDrawable="@drawable/cursor_green_color"
+                    android:background="@drawable/rounded_edittext" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="Your business website or facebook page"
                     android:textColor="@color/black"
                     android:layout_marginTop="10dp"
@@ -510,7 +497,7 @@
                     android:layout_height="45dp"
                     android:paddingStart="20dp"
                     android:textSize="14dp"
-                    android:id="@+id/websiteSeller"
+                    android:id="@+id/businessWebsite"
                     android:layout_marginTop="10dp"
                     android:textCursorDrawable="@drawable/cursor_green_color"
                     android:background="@drawable/rounded_edittext" />

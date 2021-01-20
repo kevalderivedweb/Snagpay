@@ -23,10 +23,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,6 +68,7 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -101,6 +105,8 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
     private Context context;
     private boolean IsFirstTime = true;
 
+    private Spinner cityListSeller;
+
     public Fragment_SignUp(Context context) {
         this.context = context;
     }
@@ -132,6 +138,36 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
         btnFacebookLoginSign = view.findViewById(R.id.btnFacebookLoginSign);
         linearSignUpUser = view.findViewById(R.id.linearSignUpUser);
         linearSellerSignUp = view.findViewById(R.id.linearSellerSignUp);
+
+        cityListSeller = view.findViewById(R.id.cityListSeller);
+
+        ArrayList<String> list = new ArrayList<String>();
+        list.add("string1");
+        list.add("string2");
+        list.add("string3");
+        list.add("Select one");
+        final int listsize = list.size() - 1;
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, list) {
+            @Override
+            public int getCount() {
+                return(listsize); // Truncate the list
+            }
+        };
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        cityListSeller.setAdapter(dataAdapter);
+        cityListSeller.setSelection(listsize); // Hidden item to appear in the spinner
+
+        cityListSeller.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getContext(), String.valueOf(position), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         login_button2.setReadPermissions("public_profile", "email" );
 
