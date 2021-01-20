@@ -83,7 +83,6 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
     private EditText mEmail, mPassword, mName;
     private CheckBox checkboxEmailDealsSignUp;
     private LinearLayout linearSellerSignUp, linearSignUpUser;
-    private String av;
 
     // for google login
     private static final int RC_SIGN_IN = 1;
