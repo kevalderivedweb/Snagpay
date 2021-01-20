@@ -25,7 +25,6 @@ import com.example.snagpay.Model.CategoryDetailsModel;
 import com.example.snagpay.Model.CategoryModel;
 import com.example.snagpay.R;
 import com.example.snagpay.Utils.UserSession;
-import com.facebook.shimmer.ShimmerFrameLayout;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONArray;
@@ -44,8 +43,6 @@ public class Fragment_HomeInner extends Fragment {
     private UserSession session;
     public static ArrayList<CategoryDetailsModel> categoryDetailsModelArrayList;
 
-    private ShimmerFrameLayout mShimmerViewContainer;
-
     public Fragment_HomeInner(String category_id) {
         this.category_id = category_id;
     }
@@ -60,16 +57,15 @@ public class Fragment_HomeInner extends Fragment {
         session = new UserSession(getContext());
         categoryDetailsModelArrayList = new ArrayList<>();
 
-        getCategoriesDetails(category_id);
+        getCategoriesDetails();
 
         recHomeInner = view.findViewById(R.id.recHomeInner);
-        mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
 
         recHomeInner.setLayoutManager(new GridLayoutManager(getContext(),2));
         adapterHomeInner = new AdapterHomeInner(getContext(), categoryDetailsModelArrayList, new AdapterHomeInner.OnItemClickListener() {
             @Override
             public void onItemClick(int item) {
-               // startActivity(new Intent(getContext(), Activity_ProductDetails.class));
+                startActivity(new Intent(getContext(), Activity_ProductDetails.class));
             }
         });
         recHomeInner.setAdapter(adapterHomeInner);
@@ -77,24 +73,24 @@ public class Fragment_HomeInner extends Fragment {
         return view;
     }
 
-    public void getCategoriesDetails(String category_id){
+    public void getCategoriesDetails(){
         final KProgressHUD progressDialog = KProgressHUD.create(getContext())
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setLabel("Please wait")
                 .setCancellable(false)
                 .setAnimationSpeed(2)
-                .setDimAmount(0.5f);
-               // .show();
+                .setDimAmount(0.5f)
+                .show();
         //getting the tag from the edittext
 
         //our custom volley request
-        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "category-details/" + category_id,
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "category-details/1",
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
 
                         progressDialog.dismiss();
-                        categoryDetailsModelArrayList.clear();
+
 
                         try {
                             JSONObject jsonObject = new JSONObject(new String(response.data));
@@ -122,10 +118,6 @@ public class Fragment_HomeInner extends Fragment {
                                         categoryDetailsModelArrayList.add(categoryDetailsModel);
                                     }
                                     adapterHomeInner.notifyDataSetChanged();
-
-                                    mShimmerViewContainer.stopShimmerAnimation();
-                                    mShimmerViewContainer.setVisibility(View.GONE);
-
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                     Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -182,18 +174,5 @@ public class Fragment_HomeInner extends Fragment {
         };
         //adding the request to volley
         Volley.newRequestQueue(getContext()).add(volleyMultipartRequest);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mShimmerViewContainer.startShimmerAnimation();
-
-    }
-
-    @Override
-    public void onPause() {
-        mShimmerViewContainer.stopShimmerAnimation();
-        super.onPause();
     }
 }

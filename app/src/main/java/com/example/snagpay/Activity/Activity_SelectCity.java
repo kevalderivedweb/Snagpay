@@ -40,6 +40,12 @@ import com.example.snagpay.Adapter.SelectCitySpinner;
 import com.example.snagpay.Model.CityModel;
 import com.example.snagpay.R;
 import com.example.snagpay.Utils.UserSession;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -58,7 +64,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class Activity_SelectCity extends AppCompatActivity {
+public class Activity_SelectCity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
     private Spinner mCity;
     private String mCityName;
@@ -78,7 +84,8 @@ public class Activity_SelectCity extends AppCompatActivity {
     private NetworkChangeReceiver receiver;
     private boolean isConnected = false;
     private boolean IsFirstTime = true;
-
+    private GoogleApiClient googleApiClient;
+    private GoogleSignInOptions gso;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +102,23 @@ public class Activity_SelectCity extends AppCompatActivity {
         btnUseMyLocation = findViewById(R.id.btnUseMyLocation);
 
         getCity();
+
+        gso =  new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        googleApiClient=new GoogleApiClient.Builder(Activity_SelectCity.this)
+                .enableAutoManage(Activity_SelectCity.this,Activity_SelectCity.this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+                .build();
+
+
+        Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                    }
+                });
 
         addressResultReceiver = new LocationAddressResultReceiver(new Handler());
 
@@ -259,6 +283,13 @@ public class Activity_SelectCity extends AppCompatActivity {
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
+                            }else if(jsonObject.getString("ResponseCode").equals("401")){
+
+                                session.logout();
+                                Intent intent = new Intent(Activity_SelectCity.this, Activity_SelectCity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
                             }
 
                             Toast.makeText(Activity_SelectCity.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
@@ -407,6 +438,12 @@ public class Activity_SelectCity extends AppCompatActivity {
             }
 
         }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast.makeText(Activity_SelectCity.this, "Sign out Falied", Toast.LENGTH_SHORT).show();
+
     }
 
     private class LocationAddressResultReceiver extends ResultReceiver {

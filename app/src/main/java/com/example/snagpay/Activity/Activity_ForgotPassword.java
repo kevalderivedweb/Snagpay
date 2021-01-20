@@ -128,6 +128,13 @@ public class Activity_ForgotPassword extends AppCompatActivity {
                                 intent.putExtra("emailForgott", mEmail.getText().toString());
                                 startActivity(intent);
                                 
+                            }else if(jsonObject.getString("ResponseCode").equals("401")){
+
+                                session.logout();
+                                Intent intent = new Intent(Activity_ForgotPassword.this, Activity_SelectCity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
                             }
 
                             Toast.makeText(Activity_ForgotPassword.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();

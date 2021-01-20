@@ -127,6 +127,13 @@ public class Activity_NewPassword extends AppCompatActivity {
                                 startActivity(new Intent(getApplicationContext(), Activity_SignInSignUp.class));
                                 finish();
 
+                            }else if(jsonObject.getString("ResponseCode").equals("401")){
+
+                                session.logout();
+                                Intent intent = new Intent(Activity_NewPassword.this, Activity_SelectCity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
                             }
 
                             Toast.makeText(Activity_NewPassword.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "74204419531",
+    "project_id": "snag-pay",
+    "storage_bucket": "snag-pay.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:74204419531:android:a402de5c4ed506cddd924e",
+        "android_client_info": {
+          "package_name": "com.example.snagpay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "74204419531-an68t77s5vnk0u98igtkvtu5rgub1njo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcg7AdCSftb3xdm60tixji5WJaN_Nad8Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "74204419531-an68t77s5vnk0u98igtkvtu5rgub1njo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

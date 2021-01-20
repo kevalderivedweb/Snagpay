@@ -335,6 +335,13 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                                 getActivity().finish();
+                            }else if(jsonObject.getString("ResponseCode").equals("401")){
+
+                                session.logout();
+                                Intent intent = new Intent(getActivity(), Activity_SelectCity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                getActivity().finish();
                             }
 
                             Toast.makeText(getActivity(), jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();

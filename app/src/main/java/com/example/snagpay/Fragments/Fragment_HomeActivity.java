@@ -19,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.snagpay.API.VolleyMultipartRequest;
+import com.example.snagpay.Activity.Activity_CheckOtp;
 import com.example.snagpay.Activity.Activity_HomeInner;
 import com.example.snagpay.Activity.Activity_SelectCity;
 import com.example.snagpay.Adapter.AdapterHomeGrid;
@@ -132,6 +133,13 @@ public class Fragment_HomeActivity extends Fragment {
                                     e.printStackTrace();
                                     Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
+                            }else if(jsonObject.getString("ResponseCode").equals("401")){
+
+                                session.logout();
+                                Intent intent = new Intent(getActivity(), Activity_SelectCity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                getActivity().finish();
                             }
 
                         } catch (Exception e) {
