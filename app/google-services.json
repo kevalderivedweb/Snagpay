@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "74204419531-fbhbu4758g2guna1ljfa0m4qcnr7n0n2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.snagpay",
+            "certificate_hash": "0bb0073cccb6383910db773366860ec390c33aac"
+          }
+        },
+        {
           "client_id": "74204419531-an68t77s5vnk0u98igtkvtu5rgub1njo.apps.googleusercontent.com",
           "client_type": 3
         }

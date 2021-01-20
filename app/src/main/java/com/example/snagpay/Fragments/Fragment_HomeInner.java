@@ -57,7 +57,7 @@ public class Fragment_HomeInner extends Fragment {
         session = new UserSession(getContext());
         categoryDetailsModelArrayList = new ArrayList<>();
 
-        getCategoriesDetails();
+        getCategoriesDetails(category_id);
 
         recHomeInner = view.findViewById(R.id.recHomeInner);
 
@@ -73,7 +73,7 @@ public class Fragment_HomeInner extends Fragment {
         return view;
     }
 
-    public void getCategoriesDetails(){
+    public void getCategoriesDetails(String category_id){
         final KProgressHUD progressDialog = KProgressHUD.create(getContext())
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setLabel("Please wait")
@@ -84,22 +84,23 @@ public class Fragment_HomeInner extends Fragment {
         //getting the tag from the edittext
 
         //our custom volley request
-        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "category-details/1",
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "category-details?category_id="+category_id,
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
 
                         progressDialog.dismiss();
 
-
                         try {
-                            JSONObject jsonObject = new JSONObject(new String(response.data));
 
+                            JSONObject jsonObject = new JSONObject(new String(response.data));
+                            Log.e("Response",jsonObject.toString());
                             if (jsonObject.getString("ResponseCode").equals("200")){
 
                                 try {
 
-                                    JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                                    JSONObject data = jsonObject.getJSONObject("data");
+                                    JSONObject jsonObject1 = data.getJSONObject("deals");
 
                                     JSONArray jsonArray = jsonObject1.getJSONArray("data");
 

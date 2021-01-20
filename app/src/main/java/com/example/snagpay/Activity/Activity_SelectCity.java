@@ -113,12 +113,12 @@ public class Activity_SelectCity extends AppCompatActivity implements GoogleApiC
                 .build();
 
 
-        Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
+       /* Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
                     @Override
                     public void onResult(Status status) {
                     }
-                });
+                });*/
 
         addressResultReceiver = new LocationAddressResultReceiver(new Handler());
 
