@@ -137,12 +137,12 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
 
         session = new UserSession(getActivity());
 
+
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         receiver = new NetworkChangeReceiver();
         context.registerReceiver(receiver, filter);
 
         FacebookSdk.sdkInitialize(getActivity());
-        session = new UserSession(getContext());
         mAuth = FirebaseAuth.getInstance();
 
         mCallbackManager = CallbackManager.Factory.create();
@@ -173,6 +173,7 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
         physicalLocationSpinner = view.findViewById(R.id.physicalLocationSpinner);
         howLongSpinner = view.findViewById(R.id.howLongSpinner);
         creditReportSpinner = view.findViewById(R.id.creditReportSpinner);
+
 
         login_button2.setReadPermissions("public_profile", "email" );
 
@@ -279,8 +280,7 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
                     Toast.makeText(getActivity(), "Please Enter Your Password", Toast.LENGTH_SHORT).show();
                 } else {
                      if (checkboxEmailDealsSignUp.isChecked()) {
-                         /*if (isNetworkConnected()) {
-                             SignUp(mName.getText().toString(), mEmail.getText().toString(), mPassword.getText().toString());
+                         if (isNetworkConnected()) {
                              linearSignUpUser.setVisibility(View.GONE);
                              linearSellerSignUp.setVisibility(View.VISIBLE);
                          }else {
@@ -293,7 +293,7 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
                              TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
                              textView.setTextColor(Color.RED);
                              snackbar.show();
-                         }*/
+                         }
 
                          merchantSignUp(mName.getText().toString(), mEmail.getText().toString());
                      }else {
@@ -306,10 +306,40 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
         view.findViewById(R.id.btnSignUpSeller).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(getContext(), Activity_ThanksSeller.class);
-                getActivity().startActivity(intent);*/
 
-                SignUp();
+                if (nameSeller.getText().toString().isEmpty()) {
+                    Toast.makeText(getActivity(), "Please enter your name", Toast.LENGTH_SHORT).show();
+                }else if (emailSeller.getText().toString().isEmpty()) {
+                    Toast.makeText(getActivity(), "Please enter your email", Toast.LENGTH_SHORT).show();
+                } else if (!emailSeller.getText().toString().trim().matches(emailPattern)) {
+                    Toast.makeText(getActivity(), "Invalid email address", Toast.LENGTH_SHORT).show();
+                } else if (phoneNoSeller.getText().toString().isEmpty()) {
+                    Toast.makeText(getActivity(), "Please enter your phone number", Toast.LENGTH_SHORT).show();
+                } else if (businessNameSeller.getText().toString().isEmpty()) {
+                    Toast.makeText(getActivity(), "Please enter your Business name", Toast.LENGTH_SHORT).show();
+                } else if (streetAddressSeller.getText().toString().isEmpty()) {
+                    Toast.makeText(getActivity(), "Please enter your Address", Toast.LENGTH_SHORT).show();
+                } else if (state_id == null) {
+                    Toast.makeText(getActivity(), "Please enter stateID", Toast.LENGTH_SHORT).show();
+                } else {
+
+                        if (isNetworkConnected()) {
+
+                            SignUp();
+
+                        }else {
+                            Snackbar snackbar = Snackbar
+                                    .make(getActivity().findViewById(R.id.q12), "Sorry! Not connected to internet", Snackbar.LENGTH_SHORT);
+
+                            ViewGroup group = (ViewGroup) snackbar.getView();
+                            group.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.white));
+                            View sbView = snackbar.getView();
+                            TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
+                            textView.setTextColor(Color.RED);
+                            snackbar.show();
+                        }
+
+                }
             }
         });
 
@@ -392,6 +422,7 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 type_of_business = String.valueOf(position + 1);
+                Toast.makeText(getContext(), String.valueOf(type_of_business), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -447,7 +478,7 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
         howLongSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                numHowLongYrs = String.valueOf(position + 1);
+                numHowLongYrs = String.valueOf( "+" + (position + 1));
             }
 
             @Override
@@ -481,6 +512,8 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
 
             }
         });
+
+
 
         return view;
     }
@@ -713,6 +746,7 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
 
         nameSeller.setText(name);
         emailSeller.setText(email);
+        streetAddressSeller.setText(session.getADDRESS());
     }
 
     private void customTextView(TextView view) {
@@ -880,6 +914,9 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
                                         object.getString("api_token")
                                 );
 
+                                 Intent intent = new Intent(getContext(), Activity_ThanksSeller.class);
+                                 getActivity().startActivity(intent);
+
                                /* Intent intent = new Intent(getContext(), MainActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
@@ -920,20 +957,24 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
                 params.put("address", streetAddressSeller.getText().toString());
                 params.put("latitude", session.getLatitude());
                 params.put("longitude", session.getLongitude());
-                params.put("city_id", session.getCity());
-                params.put("state_id", session.getState());
+                params.put("city_id", city_id);
+                params.put("state_id", state_id);
                 params.put("country_id", "1");
                 params.put("postcode", zipCodeSeller.getText().toString());
-                params.put("type_of_business", mPassword.getText().toString());
+                params.put("type_of_business", type_of_business);
                 params.put("website_or_page", businessWebsite.getText().toString());
-                params.put("no_of_physical_locations", mPassword.getText().toString());
-                params.put("how_long_have_you", mPassword.getText().toString());
+                params.put("no_of_physical_locations", numLocations);
+                params.put("how_long_have_you", numHowLongYrs);
                 params.put("avg_sales_per_month", avgSalesSeller.getText().toString());
-                params.put("can_we_run_credit_report", mPassword.getText().toString());
+                params.put("can_we_run_credit_report", numCreditReport);
                 params.put("cost_of_goods", costOfGoods.getText().toString());
 
-                Log.e("inff", session.getLatitude()+"---"+session.getLongitude()+"---"+session.getAddress()+"---"+session.getCity()+"---"+session.getState()+
-                        "---"+session.getCountry()+"---"+session.getPostCode());
+                Log.e("inff", nameSeller.getText().toString() + "---" + emailSeller.getText().toString() + "---" +
+                        phoneNoSeller.getText().toString() + "---" + businessNameSeller.getText().toString() + "---" + streetAddressSeller.getText().toString() + "---" +
+                        session.getCityId() + "---" + session.getSTATEID() + "---" + zipCodeSeller.getText().toString() + "---" +
+                        session.getBUSS_TYPE() + "---" + businessWebsite.getText().toString() + "---" + session.getPHYSICAL_LOCATION() +
+                        "---" + session.getHOW_LONG() + avgSalesSeller.getText().toString() + "---" + session.getCREDIT_REPORT() + "---" +
+                        costOfGoods.getText().toString());
                 return params;
             }
 
