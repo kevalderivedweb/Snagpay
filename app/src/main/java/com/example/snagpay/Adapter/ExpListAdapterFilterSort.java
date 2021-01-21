@@ -7,10 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.snagpay.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -18,16 +20,20 @@ public class ExpListAdapterFilterSort extends BaseExpandableListAdapter {
 
 	private Context _context;
 	private List<String> _listDataHeader; // header titles
-	private List<String> _listDataSubHeader;
+	private List<String> _listDataSubHeader; // Subheader titles
 	// child data in format of header title, child title
 	private HashMap<String, List<String>> _listDataChild;
+	private final OnItemClickListener listener;
+	private int mGroupPosition;
+	private int mChildPosition;
 
-	public ExpListAdapterFilterSort(Context context, List<String> listDataHeader, List<String> listDataSubHeader,
-                                    HashMap<String, List<String>> listChildData) {
+	public ExpListAdapterFilterSort(Context context, List<String> listDataHeader,
+									ArrayList<String> listDataSubHeader, HashMap<String, List<String>> listChildData, OnItemClickListener onItemClickListener) {
 		this._context = context;
 		this._listDataHeader = listDataHeader;
 		this._listDataSubHeader = listDataSubHeader;
 		this._listDataChild = listChildData;
+		this.listener = onItemClickListener;
 	}
 
 	@Override
@@ -43,7 +49,7 @@ public class ExpListAdapterFilterSort extends BaseExpandableListAdapter {
 
 	@Override
 	public View getChildView(int groupPosition, final int childPosition,
-			boolean isLastChild, View convertView, ViewGroup parent) {
+							 boolean isLastChild, View convertView, ViewGroup parent) {
 
 		final String childText = (String) getChild(groupPosition, childPosition);
 
@@ -53,10 +59,27 @@ public class ExpListAdapterFilterSort extends BaseExpandableListAdapter {
 			convertView = infalInflater.inflate(R.layout.list_item_filter_sort, null);
 		}
 
-		TextView txtListChild = (TextView) convertView
-				.findViewById(R.id.lblListItem);
+		TextView txtListChild = (TextView) convertView.findViewById(R.id.lblListItem);
+		RadioButton radioButton = (RadioButton) convertView.findViewById(R.id.radio);
 
 		txtListChild.setText(childText);
+
+		radioButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				listener.onItemClick(groupPosition,childPosition);
+			}
+		});
+
+		if(mGroupPosition==groupPosition){
+
+			if(mChildPosition==childPosition){
+				_listDataSubHeader.set(mGroupPosition,childText);
+				radioButton.setChecked(true);
+			}else {
+				radioButton.setChecked(false);
+			}
+		}
 		return convertView;
 	}
 
@@ -83,24 +106,24 @@ public class ExpListAdapterFilterSort extends BaseExpandableListAdapter {
 
 	@Override
 	public View getGroupView(int groupPosition, boolean isExpanded,
-			View convertView, ViewGroup parent) {
+							 View convertView, ViewGroup parent) {
 		String headerTitle = (String) getGroup(groupPosition);
 		if (convertView == null) {
-			LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			LayoutInflater infalInflater = (LayoutInflater) this._context
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = infalInflater.inflate(R.layout.list_group_filter_sort, null);
 		}
 
 		TextView lblListHeader = (TextView) convertView.findViewById(R.id.lblListHeader);
-		TextView lblListSubHeader = (TextView) convertView.findViewById(R.id.subHeader);
-		ImageView ivGroupIndicator = convertView.findViewById(R.id.ivGroupIndicator);
-
 		lblListHeader.setTypeface(null, Typeface.BOLD);
 		lblListHeader.setText(headerTitle);
-		lblListSubHeader.setText(_listDataSubHeader.get(groupPosition));
 
-		ivGroupIndicator.setSelected(isExpanded);
+		TextView subHeader = (TextView) convertView.findViewById(R.id.subHeader);
+		subHeader.setTypeface(null, Typeface.BOLD);
+		subHeader.setText(_listDataSubHeader.get(groupPosition));
 
-		return convertView;
+
+	return convertView;
 	}
 
 	@Override
@@ -111,6 +134,16 @@ public class ExpListAdapterFilterSort extends BaseExpandableListAdapter {
 	@Override
 	public boolean isChildSelectable(int groupPosition, int childPosition) {
 		return true;
+	}
+
+	public void filterList(int groupPosition, int childPosition) {
+		mGroupPosition = groupPosition;
+		mChildPosition = childPosition;
+		notifyDataSetChanged();
+	}
+
+	public interface OnItemClickListener {
+		void onItemClick(int groupPosition, int childPosition);
 	}
 
 }

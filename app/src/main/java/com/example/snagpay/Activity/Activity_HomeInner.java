@@ -19,7 +19,7 @@ import com.example.snagpay.R;
 public class Activity_HomeInner extends AppCompatActivity {
 
     private ImageView backToHome;
-    private LinearLayout linearFilterSortBy;
+
     private LinearLayout openMap;
     private String category_id;
 
@@ -31,7 +31,6 @@ public class Activity_HomeInner extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
 
         backToHome = findViewById(R.id.backToHome);
-        linearFilterSortBy = findViewById(R.id.linearFilterSortBy);
         openMap = findViewById(R.id.openMap);
 
         category_id = getIntent().getStringExtra("category_id");
@@ -39,12 +38,7 @@ public class Activity_HomeInner extends AppCompatActivity {
         Fragment_HomeInner homeInnerFragment = new Fragment_HomeInner(category_id);
         replaceFragment(R.id.fragHomeMap, homeInnerFragment, "Inner");
 
-        linearFilterSortBy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Activity_HomeInner.this, Activity_FilterSortBy.class));
-            }
-        });
+
 
         openMap.setOnClickListener(new View.OnClickListener() {
             @Override

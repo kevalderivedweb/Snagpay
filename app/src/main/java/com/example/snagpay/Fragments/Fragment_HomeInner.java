@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -19,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.snagpay.API.VolleyMultipartRequest;
+import com.example.snagpay.Activity.Activity_FilterSortBy;
 import com.example.snagpay.Adapter.AdapterHomeInner;
 import com.example.snagpay.Activity.Activity_ProductDetails;
 import com.example.snagpay.Model.CategoryDetailsModel;
@@ -45,6 +47,9 @@ public class Fragment_HomeInner extends Fragment {
     public static ArrayList<CategoryDetailsModel> categoryDetailsModelArrayList;
 
     private ShimmerFrameLayout mShimmerViewContainer;
+    private String SubCatString;
+    private LinearLayout linearFilterSortBy;
+
 
     public Fragment_HomeInner(String category_id) {
         this.category_id = category_id;
@@ -73,6 +78,18 @@ public class Fragment_HomeInner extends Fragment {
             }
         });
         recHomeInner.setAdapter(adapterHomeInner);
+
+
+        linearFilterSortBy = view.findViewById(R.id.linearFilterSortBy);
+
+        linearFilterSortBy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), Activity_FilterSortBy.class);
+                intent.putExtra("category",SubCatString);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
@@ -105,6 +122,9 @@ public class Fragment_HomeInner extends Fragment {
 
                                     JSONObject data = jsonObject.getJSONObject("data");
                                     JSONObject jsonObject1 = data.getJSONObject("deals");
+                                    JSONArray sub_categories = data.getJSONArray("sub_categories");
+                                    
+                                    SubCatString = sub_categories.toString();
 
                                     JSONArray jsonArray = jsonObject1.getJSONArray("data");
 

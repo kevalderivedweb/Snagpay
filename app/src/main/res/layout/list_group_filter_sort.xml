@@ -34,6 +34,7 @@
         android:layout_below="@+id/lblListHeader"
         android:layout_marginStart="10dp"
         android:textSize="14dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="20dp"/>
+
 
 </RelativeLayout>

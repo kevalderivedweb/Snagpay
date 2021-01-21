@@ -8,6 +8,92 @@
     xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.Fragment_HomeInner">
 
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/one"
+        android:padding="7dp">
+
+        <ImageView
+            android:id="@+id/as"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/dollar_logo"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"/>
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/as"
+            android:layout_marginLeft="5dp"
+            android:text="1,235"
+            android:textSize="18dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:background="@drawable/txt_5dp_round_shape" />
+
+        <LinearLayout
+            android:id="@+id/linearFilterSortBy"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true">
+            <RelativeLayout
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/border_around_relative_5dp"
+                android:layout_toLeftOf="@id/FilterHomeInner"
+                android:layout_marginRight="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="7dp"
+                    android:layout_centerVertical="true"
+                    android:textSize="12dp"
+                    android:textColor="#383838"
+                    android:layout_alignParentRight="true"
+                    android:text="Sort By"/>
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="15dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/dropdown"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/FilterHomeInner"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/border_around_relative_5dp"
+                android:layout_marginRight="2dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:textSize="12dp"
+                    android:textColor="#383838"
+                    android:layout_alignParentRight="true"
+                    android:text="Filter"/>
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="15dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/dropdown"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_view_container"
         android:layout_width="match_parent"
@@ -15,6 +101,7 @@
         android:layout_gravity="center"
         android:orientation="vertical"
         shimmer:duration="800"
+        android:layout_below="@+id/one"
         tools:ignore="MissingConstraints">
 
         <!-- Adding 3 rows of placeholders -->
@@ -87,6 +174,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recHomeInner"
         android:layout_width="match_parent"
+        android:layout_below="@+id/one"
+
         android:layout_height="match_parent" />
 
 </RelativeLayout>
