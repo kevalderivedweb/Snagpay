@@ -101,6 +101,9 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
     private String numHowLongYrs;
     private String numCreditReport;
 
+    private int intCostGoods = 0;
+    private String strCostGoods;
+
     private CheckBox checkboxEmailDealsSignUp;
     private LinearLayout linearSellerSignUp, linearSignUpUser;
 
@@ -307,6 +310,8 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
             @Override
             public void onClick(View v) {
 
+                intCostGoods = Integer.parseInt(costOfGoods.getText().toString());
+
                 if (nameSeller.getText().toString().isEmpty()) {
                     Toast.makeText(getActivity(), "Please enter your name", Toast.LENGTH_SHORT).show();
                 }else if (emailSeller.getText().toString().isEmpty()) {
@@ -320,8 +325,35 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
                 } else if (streetAddressSeller.getText().toString().isEmpty()) {
                     Toast.makeText(getActivity(), "Please enter your Address", Toast.LENGTH_SHORT).show();
                 } else if (state_id == null) {
-                    Toast.makeText(getActivity(), "Please enter stateID", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Please select State", Toast.LENGTH_SHORT).show();
+                } else if (city_id == null) {
+                    Toast.makeText(getActivity(), "Please select City", Toast.LENGTH_SHORT).show();
+                } else if (zipCodeSeller.getText().toString().isEmpty()) {
+                    Toast.makeText(getActivity(), "Please enter Zipcode", Toast.LENGTH_SHORT).show();
+                } else if (type_of_business == null) {
+                    Toast.makeText(getActivity(), "Please select Business type", Toast.LENGTH_SHORT).show();
+                } else if (costOfGoods.getText().toString().isEmpty()) {
+                    Toast.makeText(getActivity(), "Please enter Goods cost", Toast.LENGTH_SHORT).show();
+                }
+                else if (String.valueOf(intCostGoods).isEmpty()){
+                    Toast.makeText(context, "Please enter value of Goods Cost between 1 to 100", Toast.LENGTH_SHORT).show();
+                }
+                else if (intCostGoods >= 101 || intCostGoods <= 0){
+                    Toast.makeText(context, "Please enter value of Goods Cost between 1 to 100", Toast.LENGTH_SHORT).show();
+                }
+                else if (businessWebsite.getText().toString().isEmpty()) {
+                    Toast.makeText(getActivity(), "Please enter Website", Toast.LENGTH_SHORT).show();
+                } else if (numLocations == null) {
+                    Toast.makeText(getActivity(), "Please select Physical locations", Toast.LENGTH_SHORT).show();
+                } else if (numHowLongYrs == null) {
+                    Toast.makeText(getActivity(), "Please select Business Experience", Toast.LENGTH_SHORT).show();
+                } else if (avgSalesSeller.getText().toString().isEmpty()) {
+                    Toast.makeText(getActivity(), "Please enter Average Sales", Toast.LENGTH_SHORT).show();
+                } else if (numCreditReport == null) {
+                    Toast.makeText(getActivity(), "Please select Credit Report", Toast.LENGTH_SHORT).show();
                 } else {
+
+                    strCostGoods = String.valueOf(intCostGoods);
 
                         if (isNetworkConnected()) {
 
@@ -358,7 +390,6 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
                 if(position != mDataState.size()-1){
                     try {
                         state_id = mDataState.get(position).getCityId();
-                        Toast.makeText(getContext(), state_id, Toast.LENGTH_SHORT).show();
                         getCity();
                     }catch (Exception e){
                         //	GetStudnet("0","0");
@@ -421,8 +452,10 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
         typeBusinessSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                type_of_business = String.valueOf(position + 1);
-                Toast.makeText(getContext(), String.valueOf(type_of_business), Toast.LENGTH_SHORT).show();
+
+                if (position != 6) {
+                    type_of_business = String.valueOf(position + 1);
+                }
             }
 
             @Override
@@ -450,7 +483,13 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
         physicalLocationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                numLocations = String.valueOf(position + 1);
+                if (position != 4) {
+                    if (position == 3){
+                        numLocations = "+5";
+                    }else {
+                        numLocations = String.valueOf(position + 1);
+                    }
+                }
             }
 
             @Override
@@ -478,7 +517,13 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
         howLongSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                numHowLongYrs = String.valueOf( "+" + (position + 1));
+                if (position != 4) {
+                    if (position == 3){
+                        numHowLongYrs = "+5";
+                    } else {
+                        numHowLongYrs = String.valueOf("+" + (position + 1));
+                    }
+                }
             }
 
             @Override
@@ -504,7 +549,9 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
         creditReportSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                numCreditReport = String.valueOf(position + 1);
+                if (position != 2) {
+                    numCreditReport = String.valueOf(position);
+                }
             }
 
             @Override
@@ -914,13 +961,15 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
                                         object.getString("api_token")
                                 );
 
-                                 Intent intent = new Intent(getContext(), Activity_ThanksSeller.class);
-                                 getActivity().startActivity(intent);
-
-                               /* Intent intent = new Intent(getContext(), MainActivity.class);
+                                Intent intent = new Intent(getContext(), Activity_ThanksSeller.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
-                                getActivity().finish();*/
+                                getActivity().finish();
+
+                            }
+
+                            else if (jsonObject.getString("ResponseCode").equals("422")){
+                                Toast.makeText(context, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
                             }
 
                             Toast.makeText(getActivity(), jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
@@ -967,7 +1016,7 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
                 params.put("how_long_have_you", numHowLongYrs);
                 params.put("avg_sales_per_month", avgSalesSeller.getText().toString());
                 params.put("can_we_run_credit_report", numCreditReport);
-                params.put("cost_of_goods", costOfGoods.getText().toString());
+                params.put("cost_of_goods", strCostGoods);
 
                 Log.e("inff", nameSeller.getText().toString() + "---" + emailSeller.getText().toString() + "---" +
                         phoneNoSeller.getText().toString() + "---" + businessNameSeller.getText().toString() + "---" + streetAddressSeller.getText().toString() + "---" +
