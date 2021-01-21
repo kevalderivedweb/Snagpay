@@ -67,6 +67,7 @@ import java.util.Map;
 public class Activity_SelectCity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
     private Spinner mCity;
+    private Spinner mState;
     private String mCityName;
     private Button btnUseMyLocation;
     private UserSession session;
@@ -78,6 +79,7 @@ public class Activity_SelectCity extends AppCompatActivity implements GoogleApiC
     private LocationAddressResultReceiver addressResultReceiver;
     private Location currentLocation;
     private LocationCallback locationCallback;
+    private ArrayList<CityModel> mDataState = new ArrayList<>();
     private ArrayList<CityModel> mDataCity = new ArrayList<>();
 
     private static final String LOG_TAG = "CheckNetworkStatus";
@@ -167,7 +169,7 @@ public class Activity_SelectCity extends AppCompatActivity implements GoogleApiC
                                         Manifest.permission.ACCESS_COARSE_LOCATION },
                                 2);
 
-                        Toast.makeText(Activity_SelectCity.this, "Please allow permission from Setting > App Manager > Snagpay", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_SelectCity.this, "Please allow permission from Setting > App Manager > Snagpay > Permissions", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else {
@@ -194,6 +196,7 @@ public class Activity_SelectCity extends AppCompatActivity implements GoogleApiC
                         session.getState() + " " + session.getCountry() + " " + session.getPostCode());
             }
         });
+
 
         mCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -233,6 +236,8 @@ public class Activity_SelectCity extends AppCompatActivity implements GoogleApiC
         });
     }
 
+
+
     private void getCity() {
         final KProgressHUD progressDialog = KProgressHUD.create(Activity_SelectCity.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
@@ -244,7 +249,7 @@ public class Activity_SelectCity extends AppCompatActivity implements GoogleApiC
         //getting the tag from the edittext
 
         //our custom volley request
-        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "get-states?country_id=1",
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "get-cities?state_id=1",
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
@@ -280,6 +285,120 @@ public class Activity_SelectCity extends AppCompatActivity implements GoogleApiC
                                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
                                     mCity.setAdapter(adapter);
                                     mCity.setSelection(adapter.getCount());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }else if(jsonObject.getString("ResponseCode").equals("401")){
+
+                                session.logout();
+                                Intent intent = new Intent(Activity_SelectCity.this, Activity_SelectCity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+                            }
+
+                            Toast.makeText(Activity_SelectCity.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
+
+                        } catch (Exception e) {
+                            Toast.makeText(Activity_SelectCity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+
+                        Toast.makeText(Activity_SelectCity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+
+            /*
+             * If you want to add more parameters with the image
+             * you can do it here
+             * here we have only one parameter with the image
+             * which is tags
+             * */
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                return params;
+            }
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/json");
+                // params.put("Authorization", "Bearer " + session.getAPIToken());
+                return params;
+            }
+
+            /*
+             * Here we are passing image by renaming it with a unique name
+             * */
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+
+                return params;
+            }
+        };
+        //adding the request to volley
+        volleyMultipartRequest.setShouldRetryServerErrors(true);
+
+        Volley.newRequestQueue(Activity_SelectCity.this).add(volleyMultipartRequest);
+    }
+
+    private void getState() {
+        final KProgressHUD progressDialog = KProgressHUD.create(Activity_SelectCity.this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel("Please wait")
+                .setCancellable(false)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f)
+                .show();
+        //getting the tag from the edittext
+
+        //our custom volley request
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "get-states?country_id=1",
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+
+                        progressDialog.dismiss();
+
+                        Log.e("Response",response.data.toString());
+                        try {
+                            JSONObject jsonObject = new JSONObject(new String(response.data));
+
+                            if (jsonObject.getString("ResponseCode").equals("200")){
+
+                                try {
+
+                                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+
+                                    for (int i = 0 ; i<jsonArray.length() ; i++){
+                                        JSONObject object = jsonArray.getJSONObject(i);
+                                        CityModel BatchModel = new CityModel();
+                                        BatchModel.setCityname(object.getString("state_name"));
+                                        BatchModel.setCityId(object.getString("state_id"));
+                                        mDataState.add(BatchModel);
+                                    }
+
+                                    CityModel BatchModel = new CityModel();
+                                    BatchModel.setCityId("");
+                                    BatchModel.setCityname("Please select State");
+                                    mDataState.add(BatchModel);
+                                    SelectCitySpinner adapter = new SelectCitySpinner(Activity_SelectCity.this,
+                                            android.R.layout.simple_spinner_item,
+                                            mDataState);
+                                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+                                    mState.setAdapter(adapter);
+                                    mState.setSelection(adapter.getCount());
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }

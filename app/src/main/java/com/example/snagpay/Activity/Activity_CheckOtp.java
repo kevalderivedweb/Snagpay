@@ -127,6 +127,10 @@ public class Activity_CheckOtp extends AppCompatActivity {
 
                             }
 
+                            else if (jsonObject.getString("ResponseCode").equals("422")){
+                                Toast.makeText(Activity_CheckOtp.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
+                            }
+
                             Toast.makeText(Activity_CheckOtp.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
 
                         } catch (Exception e) {

@@ -21,12 +21,11 @@ public class UserSession {
     private static final String IS_LOGIN = "IsLoggedIn";
     private static final String LONGITUDE = "longitude";
     private static final String LATITUDE = "latitude";
-    private static final String ADDRESS = "address";
     private static final String CITY = "city";
     private static final String STATE = "state";
     private static final String COUNTRY = "country";
     private static final String POST_CODE = "postCode";
-    private static final String CITY_ID = "cityID";
+
 
 
     private final String USER_ID = "User_id";
@@ -37,7 +36,8 @@ public class UserSession {
     private final String FACEBOOKID = "facebook_id";
     private final String GOOGLEID = "google_id";
     private final String TYPE = "type";
-    private final String PROFADDRESS = "prof_address";
+    private final String ADDRESS = "prof_address";
+    private final String CITY_ID = "cityID";
     private final String STATEID = "state_id";
     private final String COUNTRYID = "country_id";
     private final String POSTCODE = "postcode";
@@ -101,7 +101,7 @@ public class UserSession {
         editor.putString(FACEBOOKID, facebook_id);
         editor.putString(GOOGLEID, google_id);
         editor.putString(TYPE, type);
-        editor.putString(PROFADDRESS, address);
+        editor.putString(ADDRESS, address);
         editor.putString(CITY_ID, city_id);
         editor.putString(STATEID, state_id);
         editor.putString(COUNTRYID, country_id);
@@ -203,69 +203,150 @@ public class UserSession {
         return sharedPreferences.getString(CITY_ID, "");
     }
 
+    public void setUSER_ID(String user_id) {
+        editor.putString(USER_ID, user_id);
+        editor.commit();
+    }
 
     public String getUSER_ID() {
         return sharedPreferences.getString(USER_ID, "");
+    }
+
+    public void setFIRSTNAME(String firstname) {
+        editor.putString(FIRSTNAME, firstname);
+        editor.commit();
     }
 
     public String getFIRSTNAME() {
         return sharedPreferences.getString(FIRSTNAME, "");
     }
 
+    public void setLASTNAME(String lastname) {
+        editor.putString(LASTNAME, lastname);
+        editor.commit();
+    }
+
     public String getLASTNAME() {
         return sharedPreferences.getString(LASTNAME, "");
+    }
+
+    public void setEMAIL(String email) {
+        editor.putString(EMAIL, email);
+        editor.commit();
     }
 
     public String getEMAIL() {
         return sharedPreferences.getString(EMAIL, "");
     }
 
+    public void setFACEBOOKID(String facebookid) {
+        editor.putString(FACEBOOKID, facebookid);
+        editor.commit();
+    }
+
     public String getFACEBOOKID() {
         return sharedPreferences.getString(FACEBOOKID, "");
+    }
+
+    public void setGOOGLEID(String googleid) {
+        editor.putString(GOOGLEID, googleid);
+        editor.commit();
     }
 
     public String getGOOGLEID() {
         return sharedPreferences.getString(GOOGLEID, "");
     }
 
+    public void setPHONENO(String phoneno) {
+        editor.putString(PHONENO, phoneno);
+        editor.commit();
+    }
+
     public String getPHONENO() {
         return sharedPreferences.getString(PHONENO, "");
+    }
+
+    public void setTYPE(String type) {
+        editor.putString(TYPE, type);
+        editor.commit();
     }
 
     public String getTYPE() {
         return sharedPreferences.getString(TYPE, "");
     }
 
-    public String getPROFADDRESS() {
-        return sharedPreferences.getString(PROFADDRESS, "");
+    public void setADDRESS(String address) {
+        editor.putString(ADDRESS, address);
+        editor.commit();
+    }
+
+    public String getADDRESS() {
+        return sharedPreferences.getString(ADDRESS, "");
     }
 
     public String getSTATEID() {
         return sharedPreferences.getString(STATEID, "");
     }
 
+    public void setSTATEID(String stateid) {
+        editor.putString(STATEID, stateid);
+        editor.commit();
+    }
+
+    public void setCOUNTRYID(String countryid) {
+        editor.putString(COUNTRYID, countryid);
+        editor.commit();
+    }
+
     public String getCOUNTRYID() {
         return sharedPreferences.getString(COUNTRYID, "");
+    }
+
+    public void setPOSTCODE(String postcode) {
+        editor.putString(POSTCODE, postcode);
+        editor.commit();
     }
 
     public String getPOSTCODE() {
         return sharedPreferences.getString(POSTCODE, "");
     }
 
+    public void setEMAILVERIFY(String emailverify) {
+        editor.putString(EMAILVERIFY, emailverify);
+        editor.commit();
+    }
+
     public String getEMAILVERIFY() {
         return sharedPreferences.getString(EMAILVERIFY, "");
     }
 
+    public void setOTP(String otp) {
+        editor.putString(OTP, otp);
+        editor.commit();
+    }
     public String getOTP() {
         return sharedPreferences.getString(OTP, "");
     }
 
+    public void setLAT(String lat) {
+        editor.putString(LAT, lat);
+        editor.commit();
+    }
     public String getLAT() {
         return sharedPreferences.getString(LAT, "");
     }
 
+    public void setLONG(String mLong) {
+        editor.putString(LONG, mLong);
+        editor.commit();
+    }
     public String getLONG() {
         return sharedPreferences.getString(LONG, "");
+    }
+
+    public void setBUSS_NAME(String bussName) {
+        editor.putString(BUSS_NAME, bussName);
+        editor.commit();
     }
 
     public String getBUSS_NAME() {
@@ -276,28 +357,68 @@ public class UserSession {
         return sharedPreferences.getString(TYPE, "");
     }
 
+    public void setBUSS_TYPE(String buss_type) {
+        editor.putString(BUSS_TYPE, buss_type);
+        editor.commit();
+    }
+
     public String getCREDIT_REPORT() {
         return sharedPreferences.getString(CREDIT_REPORT, "");
+    }
+
+    public void setCREDIT_REPORT(String credit_report) {
+        editor.putString(CREDIT_REPORT, credit_report);
+        editor.commit();
+    }
+
+    public void setAVG_SALES(String avgSales) {
+        editor.putString(AVG_SALES, avgSales);
+        editor.commit();
     }
 
     public String getAVG_SALES() {
         return sharedPreferences.getString(AVG_SALES, "");
     }
 
+    public void setHOW_LONG(String how_long) {
+        editor.putString(HOW_LONG, how_long);
+        editor.commit();
+    }
+
     public String getHOW_LONG() {
         return sharedPreferences.getString(HOW_LONG, "");
+    }
+
+    public void setPHYSICAL_LOCATION(String physical_location) {
+        editor.putString(PHYSICAL_LOCATION, physical_location);
+        editor.commit();
     }
 
     public String getPHYSICAL_LOCATION() {
         return sharedPreferences.getString(PHYSICAL_LOCATION, "");
     }
 
+    public void setWEBSITE(String website) {
+        editor.putString(WEBSITE, website);
+        editor.commit();
+    }
+
     public String getWEBSITE() {
         return sharedPreferences.getString(WEBSITE, "");
     }
 
+    public void setGOODS(String goods) {
+        editor.putString(GOODS, goods);
+        editor.commit();
+    }
+
     public String getGOODS() {
         return sharedPreferences.getString(GOODS, "");
+    }
+
+    public void setISAPPROVE(String isapprove) {
+        editor.putString(ISAPPROVE, isapprove);
+        editor.commit();
     }
 
     public String getISAPPROVE() {

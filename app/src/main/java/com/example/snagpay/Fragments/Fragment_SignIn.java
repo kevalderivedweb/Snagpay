@@ -422,9 +422,10 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
                         Log.e("Response",response.data.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(new String(response.data));
-                            JSONObject object = jsonObject.getJSONObject("data");
 
                             if (jsonObject.getString("ResponseCode").equals("200")){
+
+                                JSONObject object = jsonObject.getJSONObject("data");
 
                                 session.createLoginSession(object.getString("user_id"),
                                         object.getString("first_name"),
@@ -440,7 +441,6 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
                                         object.getString("country_id"),
                                         object.getString("postcode"),
                                         object.getString("is_email_verified"),
-                                        object.getString("is_email_verified"),
                                         object.getString("otp"),
                                         object.getString("latitude"),
                                         object.getString("longitude"),
@@ -451,6 +451,7 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
                                         object.getString("how_long_have_you"),
                                         object.getString("no_of_physical_locations"),
                                         object.getString("website_or_page"),
+                                        object.getString("cost_of_goods"),
                                         object.getString("is_approved"),
                                         object.getString("api_token")
                                         );
@@ -460,12 +461,13 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
                                 startActivity(intent);
                                 getActivity().finish();
                             }
-                            
-                            Toast.makeText(getActivity(), jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
+
+                            else if (jsonObject.getString("ResponseCode").equals("422")){
+                                Toast.makeText(context, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
+                            }
 
                         } catch (Exception e) {
-                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-
+                            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
