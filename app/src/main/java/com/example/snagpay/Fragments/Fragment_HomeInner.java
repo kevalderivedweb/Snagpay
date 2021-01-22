@@ -109,15 +109,11 @@ public class Fragment_HomeInner extends Fragment {
             String startPrice =  separated[0].replace("$", "");
             String endPrice =  separated[1].replace("$", "");
 
-            getCategoriesDetails(category_id, mShort, mCategory, startPrice.replace(" ",""), endPrice.replace(" ",""));
+            getCategoriesDetails(category_id, mShort, mCategory, startPrice, endPrice);
         }
     }
 
     public void getCategoriesDetails(String category_id, String mShort, String mCategory, String startPrice, String endPrice){
-
-
-        Log.e("FilterData",category_id+"---"+mShort+"---"+mCategory+"---"+startPrice+"---"+endPrice);
-
         final KProgressHUD progressDialog = KProgressHUD.create(getContext())
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setLabel("Please wait")
@@ -128,11 +124,7 @@ public class Fragment_HomeInner extends Fragment {
         //getting the tag from the edittext
 
         //our custom volley request
-        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "category-details?category_id="+category_id
-                +"&sort_by_deals="+mShort
-                +"&filter_category_id="+mCategory
-                +"&from_price_range="+startPrice
-                +"&to_price_range="+endPrice,
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "category-details?category_id="+category_id,
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
@@ -205,7 +197,10 @@ public class Fragment_HomeInner extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-
+                params.put("sort_by_deals", mShort);
+                params.put("filter_category_id", mCategory);
+                params.put("from_price_range", startPrice);
+                params.put("to_price_range", endPrice);
                 return params;
             }
 
