@@ -144,14 +144,14 @@ public class Activity_FilterSortBy extends AppCompatActivity {
 
         List<String> Category = new ArrayList<String>();
         CategoryId = new ArrayList<String>();
-        JSONArray jsonObject = new JSONArray(newString);
+        JSONArray jsonArray = new JSONArray(newString);
 
         listDataSubHeader.add("Price : Low to High");
-        listDataSubHeader.add(jsonObject.getJSONObject(0).getString("category_name"));
+        listDataSubHeader.add(jsonArray.getJSONObject(0).getString("category_name"));
         listDataSubHeader.add("$0.0 - $50.0");
 
-        for (int i = 0 ; i<jsonObject.length() ; i++){
-            JSONObject object = jsonObject.getJSONObject(i);
+        for (int i = 0 ; i<jsonArray.length() ; i++){
+            JSONObject object = jsonArray.getJSONObject(i);
             Category.add(object.getString("category_name"));
             CategoryId.add(object.getString("category_id"));
         }
