@@ -26,7 +26,6 @@ public class AdapterHomeGrid extends RecyclerView.Adapter<AdapterHomeGrid.Viewho
     private final OnItemClickListener listener;
     private Context mContext;
     private ArrayList<CategoryModel> categoryModelArrayList;
-    private ImageView resGridHomeImage;
 
     public AdapterHomeGrid(Context mContext, ArrayList<CategoryModel> categoryModelArrayList, OnItemClickListener onItemClickListener) {
         this.mContext = mContext;
@@ -61,7 +60,7 @@ public class AdapterHomeGrid extends RecyclerView.Adapter<AdapterHomeGrid.Viewho
         });*/
         Picasso.get()
                 .load(categoryModelArrayList.get(position).getCategory_image())
-                .into(resGridHomeImage);
+                .into(holder.resGridHomeImage);
 
         holder.resGridHomeText.setText(categoryModelArrayList.get(position).getCategory_name());
         holder.resGridHomeLinear.setBackgroundColor(Color.parseColor(categoryModelArrayList.get(position).getBackround_color()));
@@ -74,6 +73,7 @@ public class AdapterHomeGrid extends RecyclerView.Adapter<AdapterHomeGrid.Viewho
 
     public class Viewholder extends RecyclerView.ViewHolder {
 
+        ImageView resGridHomeImage;
         LinearLayout resGridHomeLinear, qq;
         TextView resGridHomeText;
 

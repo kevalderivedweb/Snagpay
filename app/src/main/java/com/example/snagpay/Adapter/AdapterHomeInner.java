@@ -26,7 +26,6 @@ public class AdapterHomeInner extends RecyclerView.Adapter<AdapterHomeInner.View
     private final OnItemClickListener listener;
     private Context mContext;
     private ArrayList<CategoryDetailsModel> categoryDetailsModelArrayList;
-    private ImageView imgCatHomeInner;
 
     public AdapterHomeInner(Context mContext, ArrayList<CategoryDetailsModel> categoryDetailsModelArrayList, OnItemClickListener listener) {
         this.listener = listener;
@@ -51,9 +50,9 @@ public class AdapterHomeInner extends RecyclerView.Adapter<AdapterHomeInner.View
             }
         });
 
-       /* Picasso.get()
+        Picasso.get()
                 .load(categoryDetailsModelArrayList.get(position).getDeal_image())
-                .into(imgCatHomeInner);*/
+                .into(holder.imgCatHomeInner);
 
        /* Picasso.get().load(categoryDetailsModelArrayList.get(position).getDeal_image())
                 .memoryPolicy(MemoryPolicy.NO_CACHE)
@@ -73,9 +72,9 @@ public class AdapterHomeInner extends RecyclerView.Adapter<AdapterHomeInner.View
         holder.ratingBarInnerHome.setRating(Float.parseFloat(categoryDetailsModelArrayList.get(position).getAvg_rating()));
         holder.ratingBarInnerHome.setIsIndicator(true);
 
-        Glide.with(mContext)
+       /* Glide.with(mContext)
                 .load(categoryDetailsModelArrayList.get(position).getDeal_image())
-                .into(imgCatHomeInner);
+                .into(imgCatHomeInner);*/
 
     }
 
@@ -86,6 +85,7 @@ public class AdapterHomeInner extends RecyclerView.Adapter<AdapterHomeInner.View
 
     public class Viewholder extends RecyclerView.ViewHolder {
 
+        ImageView imgCatHomeInner;
         TextView titleHome, cityName, totalRating, priceRegular, itemsBought;
         RatingBar ratingBarInnerHome;
 

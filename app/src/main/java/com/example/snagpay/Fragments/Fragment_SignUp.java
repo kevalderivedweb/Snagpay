@@ -204,18 +204,21 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
             public void onSuccess(LoginResult loginResult) {
                 Log.e("fiele", "facebook:onSuccess:" + loginResult);
                 handleFacebookAccessToken(loginResult.getAccessToken());
+                Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onCancel() {
                 Toast.makeText(getContext(), "cancel", Toast.LENGTH_SHORT).show();
                 Log.e("fiele", "facebook:onCancel");
+                Toast.makeText(context, "Cancel", Toast.LENGTH_SHORT).show();
                 // ...
             }
 
             @Override
             public void onError(FacebookException error) {
                 Log.e("fiele", "facebook:onError", error);
+                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                 // ...
             }
         });
