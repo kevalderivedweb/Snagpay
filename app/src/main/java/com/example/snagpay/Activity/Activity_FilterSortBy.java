@@ -113,7 +113,7 @@ public class Activity_FilterSortBy extends AppCompatActivity {
                 intent.putExtra("listCategory", idCategory);
                 intent.putExtra("listPrice", listDataSubHeader.get(2));
                 setResult(2,intent);
-                finish();//finishing activity
+                finish();
             }
         });
 
@@ -128,7 +128,7 @@ public class Activity_FilterSortBy extends AppCompatActivity {
         listDataChild = new HashMap<String, List<String>>();
 
         // Adding child data
-        listDataHeader.add("Short");
+        listDataHeader.add("Sort");
         listDataHeader.add("Category");
         listDataHeader.add("Price");
 

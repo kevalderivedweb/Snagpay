@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="175dp"
             android:scaleType="fitXY"
-            android:background="@color/placeholder_bg"
+            android:background="@drawable/view_for_shimmers"
             android:layout_gravity="center"/>
     </androidx.cardview.widget.CardView>
 
@@ -28,7 +28,7 @@
         android:layout_height="15dp"
         android:textSize="15dp"
         android:layout_marginTop="5dp"
-        android:background="@color/placeholder_bg"
+        android:background="@drawable/view_for_shimmers"
         android:letterSpacing="0.04"
         android:fontFamily="@font/roboto_bold"
         android:textColor="#2a246e"/>
@@ -37,7 +37,7 @@
         android:id="@+id/cityName"
         android:layout_width="75dp"
         android:layout_height="14dp"
-        android:background="@color/placeholder_bg"
+        android:background="@drawable/view_for_shimmers"
         android:layout_marginTop="3dp"
         android:letterSpacing="0.04"
         android:textColor="#535453"/>
@@ -49,7 +49,7 @@
         <View
             android:id="@+id/ratingBarInnerHome"
             android:layout_width="50dp"
-            android:background="@color/placeholder_bg"
+            android:background="@drawable/view_for_shimmers"
             android:layout_height="12dp"
             android:numStars="5"
             android:isIndicator="false"
@@ -60,7 +60,7 @@
         <View
             android:id="@+id/totalRating"
             android:layout_width="40dp"
-            android:background="@color/placeholder_bg"
+            android:background="@drawable/view_for_shimmers"
             android:layout_height="12dp"
             android:letterSpacing="0.04"
             android:layout_marginStart="5dp"
@@ -74,7 +74,7 @@
         android:layout_width="85dp"
         android:layout_height="25dp"
         android:layout_marginTop="2dp"
-        android:background="@color/placeholder_bg"
+        android:background="@drawable/view_for_shimmers"
         android:fontFamily="@font/roboto_medium"
         android:textColor="#3b8112"
         android:textSize="25dp"/>
@@ -84,7 +84,7 @@
         android:layout_height="14dp"
         android:textColor="#45871e"
         android:layout_marginTop="2dp"
-        android:background="@color/placeholder_bg"
+        android:background="@drawable/view_for_shimmers"
         android:fontFamily="@font/roboto_medium"/>
 
     <View
@@ -92,6 +92,6 @@
         android:layout_width="60dp"
         android:layout_height="14dp"
         android:layout_marginTop="2dp"
-        android:background="@color/placeholder_bg"
+        android:background="@drawable/view_for_shimmers"
         android:textColor="@color/gray"/>
 </LinearLayout>

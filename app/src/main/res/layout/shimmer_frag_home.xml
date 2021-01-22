@@ -25,16 +25,16 @@
                 android:id="@+id/resGridHomeImage"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
-                android:background="@color/placeholder_bg"/>
+                android:background="@drawable/view_for_shimmers" />
 
             <View
                 android:id="@+id/resGridHomeText"
                 android:layout_width="100dp"
                 android:layout_height="20dp"
+                android:background="@drawable/view_for_shimmers"
                 android:textSize="16dp"
                 android:layout_marginTop="15dp"
-                android:letterSpacing="0.1"
-                android:background="@color/placeholder_bg"/>
+                android:letterSpacing="0.1"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

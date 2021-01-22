@@ -119,8 +119,8 @@ public class Fragment_HomeInner extends Fragment {
                 .setLabel("Please wait")
                 .setCancellable(false)
                 .setAnimationSpeed(2)
-                .setDimAmount(0.5f)
-                .show();
+                .setDimAmount(0.5f);
+                //.show();
         //getting the tag from the edittext
 
         //our custom volley request
@@ -131,6 +131,8 @@ public class Fragment_HomeInner extends Fragment {
                 +"&to_price_range="+endPrice, new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
+
+                        Log.e("dataa", category_id + "---"+ mShort + "---"+ mCategory + "---" + startPrice + "---" + endPrice);
 
                         progressDialog.dismiss();
                         categoryDetailsModelArrayList.clear();
@@ -152,6 +154,7 @@ public class Fragment_HomeInner extends Fragment {
 
                                     for (int i = 0 ; i<jsonArray.length() ; i++){
                                         JSONObject object = jsonArray.getJSONObject(i);
+
                                         CategoryDetailsModel categoryDetailsModel = new CategoryDetailsModel();
                                         categoryDetailsModel.setDeal_image(object.getString("deal_image"));
                                         categoryDetailsModel.setTitle(object.getString("title"));
@@ -164,6 +167,12 @@ public class Fragment_HomeInner extends Fragment {
 
                                         categoryDetailsModelArrayList.add(categoryDetailsModel);
                                     }
+
+                                    Log.e("servicess", categoryDetailsModelArrayList.get(0).getTitle() + "---" +
+                                            categoryDetailsModelArrayList.get(0).getCity_name() + "---" +
+                                            categoryDetailsModelArrayList.get(0).getState_name() + "---" +
+                                            categoryDetailsModelArrayList.get(0).getAvg_rating() + "---" +
+                                            categoryDetailsModelArrayList.get(0).getRegular_price());
                                     adapterHomeInner.notifyDataSetChanged();
 
                                     mShimmerViewContainer.stopShimmerAnimation();
