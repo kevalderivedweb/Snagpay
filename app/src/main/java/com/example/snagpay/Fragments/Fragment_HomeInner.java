@@ -124,8 +124,11 @@ public class Fragment_HomeInner extends Fragment {
         //getting the tag from the edittext
 
         //our custom volley request
-        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "category-details?category_id="+category_id,
-                new Response.Listener<NetworkResponse>() {
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "category-details?category_id="+category_id
+                +"&sort_by_deals="+mShort
+                +"&filter_category_id="+mCategory
+                +"&from_price_range="+startPrice
+                +"&to_price_range="+endPrice, new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
 
@@ -197,10 +200,7 @@ public class Fragment_HomeInner extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("sort_by_deals", mShort);
-                params.put("filter_category_id", mCategory);
-                params.put("from_price_range", startPrice);
-                params.put("to_price_range", endPrice);
+
                 return params;
             }
 
