@@ -1,6 +1,7 @@
 package com.example.snagpay.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +12,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.snagpay.Model.CategoryDetailsModel;
 import com.example.snagpay.R;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -47,18 +51,32 @@ public class AdapterHomeInner extends RecyclerView.Adapter<AdapterHomeInner.View
             }
         });
 
-        Picasso.get()
+       /* Picasso.get()
                 .load(categoryDetailsModelArrayList.get(position).getDeal_image())
-                .into(imgCatHomeInner);
+                .into(imgCatHomeInner);*/
+
+       /* Picasso.get().load(categoryDetailsModelArrayList.get(position).getDeal_image())
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
+                .into(imgCatHomeInner);*/
+
+       /* */
+
+       // Log.e("imagee", categoryDetailsModelArrayList.get(position).getDeal_image() + " ");
+
         holder.titleHome.setText(categoryDetailsModelArrayList.get(position).getTitle());
         holder.cityName.setText(categoryDetailsModelArrayList.get(position).getCity_name());
         holder.totalRating.setText("(" + categoryDetailsModelArrayList.get(position).getTotal_rating() + " Rating)");
-        holder.priceRegular.setText("$" +categoryDetailsModelArrayList.get(position).getRegular_price());
+        holder.priceRegular.setText("$" +categoryDetailsModelArrayList.get(position).getSell_price());
         holder.itemsBought.setText(categoryDetailsModelArrayList.get(position).getBought() + "+ bought");
 
         holder.ratingBarInnerHome.setStepSize(0.1f);
         holder.ratingBarInnerHome.setRating(Float.parseFloat(categoryDetailsModelArrayList.get(position).getAvg_rating()));
         holder.ratingBarInnerHome.setIsIndicator(true);
+
+        Glide.with(mContext)
+                .load(categoryDetailsModelArrayList.get(position).getDeal_image())
+                .into(imgCatHomeInner);
+
     }
 
     @Override

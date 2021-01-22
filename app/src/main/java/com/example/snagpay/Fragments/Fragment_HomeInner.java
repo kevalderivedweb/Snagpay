@@ -43,7 +43,7 @@ public class Fragment_HomeInner extends Fragment {
     private AdapterHomeInner adapterHomeInner;
     private String category_id;
     private UserSession session;
-    public static ArrayList<CategoryDetailsModel> categoryDetailsModelArrayList;
+    private ArrayList<CategoryDetailsModel> categoryDetailsModelArrayList = new ArrayList<>();;
 
     private ShimmerFrameLayout mShimmerViewContainer;
     private String SubCatString;
@@ -62,7 +62,6 @@ public class Fragment_HomeInner extends Fragment {
         View view = inflater.inflate(R.layout.activity_home_inner_fragment, container, false);
 
         session = new UserSession(getContext());
-        categoryDetailsModelArrayList = new ArrayList<>();
 
         getCategoriesDetails(category_id, "", "", "", "");
 
@@ -109,6 +108,8 @@ public class Fragment_HomeInner extends Fragment {
             String startPrice =  separated[0].replace("$", "");
             String endPrice =  separated[1].replace("$", "");
 
+            categoryDetailsModelArrayList.clear();
+            adapterHomeInner.notifyDataSetChanged();
             getCategoriesDetails(category_id, mShort, mCategory, startPrice, endPrice);
         }
     }
@@ -135,7 +136,7 @@ public class Fragment_HomeInner extends Fragment {
                         Log.e("dataa", category_id + "---"+ mShort + "---"+ mCategory + "---" + startPrice + "---" + endPrice);
 
                         progressDialog.dismiss();
-                        categoryDetailsModelArrayList.clear();
+
                         try {
 
                             JSONObject jsonObject = new JSONObject(new String(response.data));
@@ -162,7 +163,7 @@ public class Fragment_HomeInner extends Fragment {
                                         categoryDetailsModel.setState_name(object.getString("state_name"));
                                         categoryDetailsModel.setTotal_rating(object.getString("total_rating"));
                                         categoryDetailsModel.setAvg_rating(object.getString("avg_rating"));
-                                        categoryDetailsModel.setRegular_price(object.getString("regular_price"));
+                                        categoryDetailsModel.setSell_price(object.getString("sell_price"));
                                         categoryDetailsModel.setBought(object.getString("bought"));
 
                                         categoryDetailsModelArrayList.add(categoryDetailsModel);
