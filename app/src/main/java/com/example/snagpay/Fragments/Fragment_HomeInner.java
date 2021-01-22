@@ -41,7 +41,7 @@ public class Fragment_HomeInner extends Fragment {
 
     private RecyclerView recHomeInner;
     private AdapterHomeInner adapterHomeInner;
-    private String category_id;
+    private String mainCategory_id;
     private UserSession session;
     public static ArrayList<CategoryDetailsModel> categoryDetailsModelArrayList;
 
@@ -50,8 +50,8 @@ public class Fragment_HomeInner extends Fragment {
     private LinearLayout linearFilterSortBy;
 
 
-    public Fragment_HomeInner(String category_id) {
-        this.category_id = category_id;
+    public Fragment_HomeInner(String mainCategory_id) {
+        this.mainCategory_id = mainCategory_id;
     }
 
     @Override
@@ -64,7 +64,7 @@ public class Fragment_HomeInner extends Fragment {
         session = new UserSession(getContext());
         categoryDetailsModelArrayList = new ArrayList<>();
 
-        getCategoriesDetails(category_id, "", "", "", "");
+        getCategoriesDetails(mainCategory_id, "", "", "", "");
 
         recHomeInner = view.findViewById(R.id.recHomeInner);
         mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
@@ -109,11 +109,11 @@ public class Fragment_HomeInner extends Fragment {
             String startPrice =  separated[0].replace("$", "");
             String endPrice =  separated[1].replace("$", "");
 
-            getCategoriesDetails(category_id, mShort, mCategory, startPrice, endPrice);
+            getCategoriesDetails(mainCategory_id, mShort, mCategory, startPrice, endPrice);
         }
     }
 
-    public void getCategoriesDetails(String category_id, String mShort, String mCategory, String startPrice, String endPrice){
+    public void getCategoriesDetails(String mainCategory_id, String mShort, String mCategory, String startPrice, String endPrice){
         final KProgressHUD progressDialog = KProgressHUD.create(getContext())
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setLabel("Please wait")
@@ -124,7 +124,7 @@ public class Fragment_HomeInner extends Fragment {
         //getting the tag from the edittext
 
         //our custom volley request
-        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "category-details?category_id="+category_id,
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "category-details?category_id="+mainCategory_id,
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
