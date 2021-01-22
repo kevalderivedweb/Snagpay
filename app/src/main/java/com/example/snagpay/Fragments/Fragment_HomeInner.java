@@ -24,7 +24,6 @@ import com.example.snagpay.Activity.Activity_FilterSortBy;
 import com.example.snagpay.Adapter.AdapterHomeInner;
 import com.example.snagpay.Activity.Activity_ProductDetails;
 import com.example.snagpay.Model.CategoryDetailsModel;
-import com.example.snagpay.Model.CategoryModel;
 import com.example.snagpay.R;
 import com.example.snagpay.Utils.UserSession;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -65,7 +64,7 @@ public class Fragment_HomeInner extends Fragment {
         session = new UserSession(getContext());
         categoryDetailsModelArrayList = new ArrayList<>();
 
-        getCategoriesDetails(category_id);
+        getCategoriesDetails(category_id, "", "", "", "");
 
         recHomeInner = view.findViewById(R.id.recHomeInner);
         mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
@@ -85,16 +84,36 @@ public class Fragment_HomeInner extends Fragment {
         linearFilterSortBy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), Activity_FilterSortBy.class);
+
+                Intent intent=new Intent(getContext(), Activity_FilterSortBy.class);
                 intent.putExtra("category",SubCatString);
-                startActivity(intent);
+                startActivityForResult(intent, 2);// Activity is started with requestCode 2
             }
         });
 
         return view;
     }
 
-    public void getCategoriesDetails(String category_id){
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        // check if the request code is same as what is passed  here it is 2
+        if(requestCode==2)
+        {
+            String mShort=data.getStringExtra("listShort").replace(" ", "");
+            String mCategory=data.getStringExtra("listCategory");
+            String mPrice=data.getStringExtra("listPrice");
+
+            String[] separated = mPrice.split("-");
+            String startPrice =  separated[0].replace("$", "");
+            String endPrice =  separated[1].replace("$", "");
+
+            getCategoriesDetails(category_id, mShort, mCategory, startPrice, endPrice);
+        }
+    }
+
+    public void getCategoriesDetails(String category_id, String mShort, String mCategory, String startPrice, String endPrice){
         final KProgressHUD progressDialog = KProgressHUD.create(getContext())
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setLabel("Please wait")
@@ -111,7 +130,7 @@ public class Fragment_HomeInner extends Fragment {
                     public void onResponse(NetworkResponse response) {
 
                         progressDialog.dismiss();
-
+                        categoryDetailsModelArrayList.clear();
                         try {
 
                             JSONObject jsonObject = new JSONObject(new String(response.data));
@@ -178,7 +197,10 @@ public class Fragment_HomeInner extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-
+                params.put("sort_by_deals", mShort);
+                params.put("filter_category_id", mCategory);
+                params.put("from_price_range", startPrice);
+                params.put("to_price_range", endPrice);
                 return params;
             }
 

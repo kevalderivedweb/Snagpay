@@ -26,15 +26,15 @@ import java.util.List;
 
 public class Activity_FilterSortBy extends AppCompatActivity {
 
-    private Button btnFilter;
-    private ImageView backToCategoriesInner;
-    private LinearLayout linearFilterSortBy;
     ExpListAdapterFilterSort listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
     private ArrayList<String> listDataSubHeader;
     private String newString;
+
+    private List<String> CategoryId;
+    private String idCategory = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +85,11 @@ public class Activity_FilterSortBy extends AppCompatActivity {
                                 listDataHeader.get(groupPosition)).get(
                                 childPosition), Toast.LENGTH_SHORT)
                         .show();
+
+                if (groupPosition == 1){
+                    idCategory = CategoryId.get(childPosition);
+
+                }
                 listAdapter.filterList(groupPosition,childPosition);
             }
         });
@@ -102,6 +107,13 @@ public class Activity_FilterSortBy extends AppCompatActivity {
                     Log.e("listDataSubHeader",listDataSubHeader.get(i));
 
                 }
+
+                Intent intent=new Intent();
+                intent.putExtra("listShort", listDataSubHeader.get(0));
+                intent.putExtra("listCategory", idCategory);
+                intent.putExtra("listPrice", listDataSubHeader.get(2));
+                setResult(2,intent);
+                finish();//finishing activity
             }
         });
 
@@ -129,7 +141,9 @@ public class Activity_FilterSortBy extends AppCompatActivity {
         mShort.add("Rating : High to Low");
         mShort.add("Rating : Low to High");
 
+
         List<String> Category = new ArrayList<String>();
+        CategoryId = new ArrayList<String>();
         JSONArray jsonObject = new JSONArray(newString);
 
         listDataSubHeader.add("Price : Low to High");
@@ -139,6 +153,7 @@ public class Activity_FilterSortBy extends AppCompatActivity {
         for (int i = 0 ; i<jsonObject.length() ; i++){
             JSONObject object = jsonObject.getJSONObject(i);
             Category.add(object.getString("category_name"));
+            CategoryId.add(object.getString("category_id"));
         }
 
         List<String> Price = new ArrayList<String>();
