@@ -425,6 +425,11 @@ public class UserSession {
         return sharedPreferences.getString(ISAPPROVE, "");
     }
 
+    public void setAPITOKEN(String apitoken) {
+        editor.putString(APITOKEN, apitoken);
+        editor.commit();
+    }
+
     public String getAPITOKEN() {
         return sharedPreferences.getString(APITOKEN, "");
     }

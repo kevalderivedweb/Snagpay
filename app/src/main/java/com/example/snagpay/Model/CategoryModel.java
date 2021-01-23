@@ -1,5 +1,7 @@
 package com.example.snagpay.Model;
 
+import java.util.ArrayList;
+
 public class CategoryModel {
 
     String category_id;
@@ -9,6 +11,15 @@ public class CategoryModel {
     String category_image;
     String parent_id;
     String parent_level;
+    ArrayList<SubCategoriesModel> subCategoriesModelArrayList;
+
+    public ArrayList<SubCategoriesModel> getSubCategoriesModelArrayList() {
+        return subCategoriesModelArrayList;
+    }
+
+    public void setSubCategoriesModelArrayList(ArrayList<SubCategoriesModel> subCategoriesModelArrayList) {
+        this.subCategoriesModelArrayList = subCategoriesModelArrayList;
+    }
 
     public String getCategory_id() {
         return category_id;

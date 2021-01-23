@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Activity_ForgotPassword extends AppCompatActivity {
+
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     private EditText mEmail;
     private UserSession session;

@@ -81,7 +81,6 @@
         <activity android:name=".Activity.Activity_OrderDetails" />
         <activity android:name=".Activity.Activity_MyPurchases" />
         <activity android:name=".Activity.Activity_FilterSortBy" />
-        <activity android:name=".Activity.Activity_CategoriesInnerItems" />
         <activity android:name=".Activity.Activity_ThankYou" />
         <activity android:name=".Activity.Activity_AddShippingAddress" />
         <activity android:name=".Activity.Activity_ShippingAddress" />

@@ -74,7 +74,7 @@ public class AdapterHomeGrid extends RecyclerView.Adapter<AdapterHomeGrid.Viewho
     public class Viewholder extends RecyclerView.ViewHolder {
 
         ImageView resGridHomeImage;
-        LinearLayout resGridHomeLinear, qq;
+        LinearLayout resGridHomeLinear;
         TextView resGridHomeText;
 
         public Viewholder(@NonNull View itemView) {

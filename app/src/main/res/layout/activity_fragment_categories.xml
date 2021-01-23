@@ -25,214 +25,51 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="Popular Categories"
-            android:layout_marginLeft="10dp"
-            android:textSize="18dp"
-            android:gravity="center"
-            android:fontFamily="@font/roboto_bold"
-            android:textColor="@color/black"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recCategories"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="-5dp"
-            android:nestedScrollingEnabled="false"
-            android:padding="5dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="Popular Categories"
+                android:layout_marginLeft="10dp"
+                android:textSize="18dp"
+                android:gravity="center"
+                android:fontFamily="@font/roboto_bold"
+                android:textColor="@color/black"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:background="@color/light_gray"
-            android:layout_marginTop="3dp"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recCategories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-5dp"
+                android:nestedScrollingEnabled="false"
+                android:padding="5dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="All Categories"
-            android:layout_marginLeft="10dp"
-            android:textSize="18dp"
-            android:gravity="center"
-            android:fontFamily="@font/roboto_bold"
-            android:textColor="@color/black"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/light_gray"
+                android:layout_marginTop="3dp"/>
 
-        <LinearLayout
-            android:id="@+id/lnrLyot"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Goods"
-            android:layout_marginLeft="10dp"
-            android:textSize="16dp"
-            android:layout_marginTop="-5dp"
-            android:gravity="center"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/black"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="All Categories"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:textSize="18dp"
+                android:gravity="center"
+                android:fontFamily="@font/roboto_bold"
+                android:textColor="@color/black"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Electronics"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="15dp"
-            android:gravity="center"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="@color/dark_gray"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Home and Garden"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="15dp"
-            android:gravity="center"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="@color/dark_gray"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Business and Industrial"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="15dp"
-            android:gravity="center"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="@color/dark_gray"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Fashion"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="15dp"
-            android:gravity="center"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="@color/dark_gray"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Health and  Beauti"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="15dp"
-            android:gravity="center"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="@color/dark_gray"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sports"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="15dp"
-            android:gravity="center"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="@color/dark_gray"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Motors"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="15dp"
-            android:gravity="center"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="@color/dark_gray"/>
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Services"
-            android:layout_marginLeft="10dp"
-            android:textSize="16dp"
-            android:layout_marginTop="15dp"
-            android:gravity="center"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/black"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Home Services"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="15dp"
-            android:gravity="center"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="@color/dark_gray"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Work Services"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="15dp"
-            android:gravity="center"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="@color/dark_gray"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Personal Services"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="15dp"
-            android:gravity="center"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="@color/dark_gray"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Event Tickets"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="15dp"
-            android:gravity="center"
-            android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/black"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sports"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="15dp"
-            android:gravity="center"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="@color/dark_gray"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Concerts"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="15dp"
-            android:gravity="center"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="@color/dark_gray"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Theater and Comedy"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="15dp"
-            android:gravity="center"
-            android:fontFamily="@font/roboto_regular"
-            android:textColor="@color/dark_gray"/>
-
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recAllCategories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
     </LinearLayout>
     </androidx.core.widget.NestedScrollView>

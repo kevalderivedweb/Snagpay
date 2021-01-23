@@ -14,18 +14,22 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.snagpay.Activity.Activity_HomeInner;
+import com.example.snagpay.Model.CategoryModel;
 import com.example.snagpay.R;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class AdapterCategoriesItems extends RecyclerView.Adapter<AdapterCategoriesItems.Viewholder> {
 
-    Context mContext;
+    private Context mContext;
+    private final OnItemClickListener listener;
+    private ArrayList<CategoryModel> categoryModelArrayList;
 
-    private int[] imagesResGridHome = {R.drawable.goods, R.drawable.service, R.drawable.travel, R.drawable.food, R.drawable.ticket, R.drawable.advertise};
-    private String[] textResGridHome = {"Goods", "Services", "Travel", "Food", "Event Tickets", "Advertising"};
-    private String[] colorResGridHome = {"#e71b1c", "#004ce6", "#00a3d8", "#018055", "#671c9d", "#ffaa01"};
-
-    public AdapterCategoriesItems(Context mContext) {
+    public AdapterCategoriesItems(Context mContext, ArrayList<CategoryModel> categoryModelArrayList, OnItemClickListener onItemClickListener) {
         this.mContext = mContext;
+        this.categoryModelArrayList = categoryModelArrayList;
+        this.listener = onItemClickListener;
     }
 
     @NonNull
@@ -39,26 +43,29 @@ public class AdapterCategoriesItems extends RecyclerView.Adapter<AdapterCategori
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
 
-        holder.resGridHomeImage.setImageResource(imagesResGridHome[position]);
-        holder.resGridHomeText.setText(textResGridHome[position]);
-        holder.resGridHomeLinear.setBackgroundColor(Color.parseColor(colorResGridHome[position % colorResGridHome.length]));
+        Picasso.get()
+                .load(categoryModelArrayList.get(position).getCategory_image())
+                .into(holder.resGridHomeImage);
 
-        holder.qq.setOnClickListener(new View.OnClickListener() {
+        holder.resGridHomeText.setText(categoryModelArrayList.get(position).getCategory_name());
+        holder.resGridHomeLinear.setBackgroundColor(Color.parseColor(categoryModelArrayList.get(position).getBackround_color()));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivity(new Intent(mContext, Activity_HomeInner.class));
+                listener.onItemClick(position);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return imagesResGridHome.length;
+        return categoryModelArrayList.size();
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
 
-        LinearLayout resGridHomeLinear, qq;
+        LinearLayout resGridHomeLinear;
         ImageView resGridHomeImage;
         TextView resGridHomeText;
 
@@ -68,8 +75,11 @@ public class AdapterCategoriesItems extends RecyclerView.Adapter<AdapterCategori
             resGridHomeLinear = itemView.findViewById(R.id.resGridHomeLinear);
             resGridHomeImage = itemView.findViewById(R.id.resGridHomeImage);
             resGridHomeText = itemView.findViewById(R.id.resGridHomeText);
-            qq = itemView.findViewById(R.id.qq);
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int item);
     }
 }
 

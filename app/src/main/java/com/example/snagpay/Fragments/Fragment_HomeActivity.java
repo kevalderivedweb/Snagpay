@@ -81,7 +81,7 @@ public class Fragment_HomeActivity extends Fragment {
         return view;
     }
 
-    public void getCategories(){
+    private void getCategories(){
         final KProgressHUD progressDialog = KProgressHUD.create(getContext())
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setLabel("Please wait")
