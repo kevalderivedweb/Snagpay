@@ -41,7 +41,8 @@ public class AdapterAllCategories extends RecyclerView.Adapter<AdapterAllCategor
         holder.headerNameCat.setText(allCategoryArrayList.get(position).getCategory_name());
 
         holder.resSubAllCategories.setLayoutManager(new LinearLayoutManager(mContext));
-        adapterSubCategory = new AdapterSubCategory(mContext, allCategoryArrayList.get(position).getSubCategoriesModelArrayList());
+        adapterSubCategory = new AdapterSubCategory(mContext, allCategoryArrayList.get(position).getSubCategoriesModelArrayList(),
+                allCategoryArrayList.get(position).getCategory_id());
 
         holder.resSubAllCategories.setAdapter(adapterSubCategory);
 

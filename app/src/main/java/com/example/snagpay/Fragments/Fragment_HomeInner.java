@@ -47,11 +47,13 @@ public class Fragment_HomeInner extends Fragment {
 
     private ShimmerFrameLayout mShimmerViewContainer;
     private String SubCatString;
+    private String subCategoryId = "";
     private LinearLayout linearFilterSortBy;
 
 
-    public Fragment_HomeInner(String category_id) {
+    public Fragment_HomeInner(String category_id, String subCategoryId) {
         this.category_id = category_id;
+        this.subCategoryId = subCategoryId;
     }
 
     @Override
@@ -63,7 +65,12 @@ public class Fragment_HomeInner extends Fragment {
 
         session = new UserSession(getContext());
 
-        getCategoriesDetails(category_id, "", "", "", "");
+        if (subCategoryId == null){
+            getCategoriesDetails(category_id, "", "", "", "");
+        }else {
+            getCategoriesDetails(category_id, "", subCategoryId, "", "");
+        }
+
 
         recHomeInner = view.findViewById(R.id.recHomeInner);
         mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
@@ -98,20 +105,24 @@ public class Fragment_HomeInner extends Fragment {
     {
         super.onActivityResult(requestCode, resultCode, data);
         // check if the request code is same as what is passed  here it is 2
-        if(requestCode==2)
-        {
-            String mShort=data.getStringExtra("listShort").replace(" ", "");
-            String mCategory=data.getStringExtra("listCategory");
-            String mPrice=data.getStringExtra("listPrice");
+        if (data != null) {
+            if (requestCode == 2) {
+                String mShort = data.getStringExtra("listShort").replace(" ", "");
+                String mCategory = data.getStringExtra("listCategory");
+                String mPrice = data.getStringExtra("listPrice");
 
-            String[] separated = mPrice.split("-");
-            String startPrice =  separated[0].replace("$", "");
-            String endPrice =  separated[1].replace("$", "");
+                String[] separated = mPrice.split("-");
+                String startPrice = separated[0].replace("$", "");
+                String endPrice = separated[1].replace("$", "");
 
-            categoryDetailsModelArrayList.clear();
-            adapterHomeInner.notifyDataSetChanged();
-            getCategoriesDetails(category_id, mShort, mCategory, startPrice, endPrice);
+                categoryDetailsModelArrayList.clear();
+                adapterHomeInner.notifyDataSetChanged();
+                getCategoriesDetails(category_id, mShort, mCategory, startPrice, endPrice);
+            }
+        }else {
+
         }
+
     }
 
     public void getCategoriesDetails(String category_id, String mShort, String mCategory, String startPrice, String endPrice){

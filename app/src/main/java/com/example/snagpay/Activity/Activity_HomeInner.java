@@ -22,6 +22,7 @@ public class Activity_HomeInner extends AppCompatActivity {
 
     private LinearLayout openMap;
     private String category_id;
+    private String subCategoryId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +35,10 @@ public class Activity_HomeInner extends AppCompatActivity {
         openMap = findViewById(R.id.openMap);
 
         category_id = getIntent().getStringExtra("category_id");
+        subCategoryId = getIntent().getStringExtra("subCategoryId");
 
-        Fragment_HomeInner homeInnerFragment = new Fragment_HomeInner(category_id);
+        Fragment_HomeInner homeInnerFragment = new Fragment_HomeInner(category_id, subCategoryId);
         replaceFragment(R.id.fragHomeMap, homeInnerFragment, "Inner");
-
-
 
         openMap.setOnClickListener(new View.OnClickListener() {
             @Override

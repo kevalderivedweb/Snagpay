@@ -147,7 +147,7 @@ public class Fragment_CategoriesActivity extends Fragment {
                                         ArrayList<SubCategoriesModel> subCategoriesModelArrayList = new ArrayList<>();
 
                                         for (int j = 0; j<jsonArray1.length(); j++){
-                                            JSONObject object1 = jsonArray1.getJSONObject(i);
+                                            JSONObject object1 = jsonArray1.getJSONObject(j);
 
                                             SubCategoriesModel subCategoriesModel = new SubCategoriesModel();
                                             subCategoriesModel.setSubCategory_id(object1.getString("category_id"));
