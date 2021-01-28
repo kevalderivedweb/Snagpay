@@ -96,7 +96,7 @@
             android:layout_marginTop="10dp">
 
             <CheckBox
-                android:id="@+id/checkb"
+                android:id="@+id/checkBoxStayLogIn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scaleX="0.35"
@@ -108,7 +108,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/checkb"
+                android:layout_toRightOf="@+id/checkBoxStayLogIn"
                 android:text="Stay logged in"
                 android:layout_centerVertical="true"
                 android:textColor="@color/light_black"

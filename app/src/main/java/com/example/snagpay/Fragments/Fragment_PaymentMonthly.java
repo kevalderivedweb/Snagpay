@@ -11,12 +11,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.example.snagpay.R;
+import com.example.snagpay.Utils.UserSession;
 
 public class Fragment_PaymentMonthly extends Fragment {
 
     private String[] yearList = {"2020"};
     private String[] monthList = {"March"};
     private Spinner spinnerSelectYearHistory,spinnerSelectMonthHistory;
+    private UserSession session;
 
     public Fragment_PaymentMonthly() {
 
@@ -30,6 +32,8 @@ public class Fragment_PaymentMonthly extends Fragment {
 
         View view = inflater.inflate(R.layout.activity_fragment_payment_monthly, container, false);
 
+        session = new UserSession(getContext());
+
         spinnerSelectYearHistory = view.findViewById(R.id.spinnerSelectYearHistory);
         spinnerSelectMonthHistory = view.findViewById(R.id.spinnerSelectMonthHistory);
 
@@ -41,4 +45,23 @@ public class Fragment_PaymentMonthly extends Fragment {
 
         return view;
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
+
 }

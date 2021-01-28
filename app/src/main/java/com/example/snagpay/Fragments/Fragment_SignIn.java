@@ -28,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,12 +71,14 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConnectionFailedListener {
 
     private UserSession session;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     private EditText mEmail,mPassword;
+    private CheckBox checkBoxStayLogIn;
 
     // for google signin
     public static GoogleApiClient googleApiClient;
@@ -114,7 +117,7 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
         context.registerReceiver(receiver, filter);
 
         FacebookSdk.sdkInitialize(getActivity());
-        session = new UserSession(getContext());
+        session = new UserSession(Objects.requireNonNull(getContext()));
         mAuth = FirebaseAuth.getInstance();
 
         mCallbackManager = CallbackManager.Factory.create();
@@ -123,6 +126,7 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
         mPassword = view.findViewById(R.id.password);
         login_button = view.findViewById(R.id.login_button);
         btnFacebookLogin = view.findViewById(R.id.btnFacebookLogin);
+        checkBoxStayLogIn = view.findViewById(R.id.checkBoxStayLogIn);
 
         login_button.setReadPermissions("public_profile", "email" );
 
@@ -146,7 +150,7 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
                             .make(getActivity().findViewById(R.id.q11), "Sorry! Not connected to internet", Snackbar.LENGTH_SHORT);
 
                     ViewGroup group = (ViewGroup) snackbar.getView();
-                    group.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.white));
+                    group.setBackgroundColor(ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.white));
                     View sbView = snackbar.getView();
                     TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
                     textView.setTextColor(Color.RED);
@@ -195,7 +199,16 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
                     Toast.makeText(getActivity(),"Please Enter Your Password",Toast.LENGTH_SHORT).show();
                 }else {
                     if (isNetworkConnected()) {
-                        SignIn(mEmail.getText().toString(), mPassword.getText().toString());
+
+                        if (checkBoxStayLogIn.isChecked()){
+                            session.stayLoggedIn(true);
+                            SignIn(mEmail.getText().toString(), mPassword.getText().toString());
+                        }
+                        else {
+                            SignIn(mEmail.getText().toString(), mPassword.getText().toString());
+                            session.stayLoggedIn(false);
+                        }
+
                     }else {
                         Snackbar snackbar = Snackbar
                                 .make(getActivity().findViewById(R.id.q11), "Sorry! Not connected to internet", Snackbar.LENGTH_SHORT);
@@ -402,7 +415,7 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
 
 
     private void SignIn(final String Email, final String Password) {
-        final KProgressHUD progressDialog = KProgressHUD.create(getActivity())
+        final KProgressHUD progressDialog = KProgressHUD.create(Objects.requireNonNull(getActivity()))
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setLabel("Please wait")
                 .setCancellable(false)
@@ -459,7 +472,7 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
                                 Intent intent = new Intent(getContext(), MainActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
-                                getActivity().finish();
+                                Objects.requireNonNull(getActivity()).finish();
                             }
 
                             else if (jsonObject.getString("ResponseCode").equals("422")){
@@ -514,7 +527,7 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
             }
         };
         //adding the request to volley
-        Volley.newRequestQueue(getActivity()).add(volleyMultipartRequest);
+        Volley.newRequestQueue(Objects.requireNonNull(getActivity())).add(volleyMultipartRequest);
     }
 
 
@@ -669,4 +682,21 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
         //context.unregisterReceiver(receiver);
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
 }

@@ -10,24 +10,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.snagpay.R;
 
-public class AdapterFragWishlistRecentViewed extends RecyclerView.Adapter<AdapterFragWishlistRecentViewed.Viewholder> {
+public class AdapterWishlistRecentViewed extends RecyclerView.Adapter<AdapterWishlistRecentViewed.Viewholder> {
 
     private Context mContext;
 
-    public AdapterFragWishlistRecentViewed(Context mContext) {
+    public AdapterWishlistRecentViewed(Context mContext) {
         this.mContext = mContext;
     }
 
     @NonNull
     @Override
-    public AdapterFragWishlistRecentViewed.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdapterWishlistRecentViewed.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.adapter_frag_wishlist_recentviewed, null);
         return new Viewholder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdapterFragWishlistRecentViewed.Viewholder holder, int position) {
+    public void onBindViewHolder(@NonNull AdapterWishlistRecentViewed.Viewholder holder, int position) {
 
     }
 

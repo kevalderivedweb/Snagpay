@@ -15,12 +15,14 @@ import java.util.ArrayList;
 import com.example.snagpay.Model.DetailPaymentModel;
 import com.example.snagpay.Model.PaymentModel;
 import com.example.snagpay.R;
+import com.example.snagpay.Utils.UserSession;
 
 public class Fragment_PaymentRecent extends Fragment {
 
     private ExpListAdapterPaymentRecent listAdapterPayment;
     private ExpandableListView expListViewPayment;
     private ArrayList<PaymentModel> paymentModelArrayList = new ArrayList<>();
+    private UserSession session;
 
     public Fragment_PaymentRecent() {
 
@@ -31,6 +33,7 @@ public class Fragment_PaymentRecent extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.activity_fragment_payment_recent, container, false);
+        session = new UserSession(getContext());
 
         expListViewPayment = (ExpandableListView) view.findViewById(R.id.lvExpPayment);
         expListViewPayment.setChildDivider(getResources().getDrawable(R.color.white));
@@ -90,6 +93,24 @@ public class Fragment_PaymentRecent extends Fragment {
 
             paymentModel.setDetailPaymentModels(detailPaymentModels);
             paymentModelArrayList.add(paymentModel);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (!session.isCheckIn()){
+            session.logout();
         }
     }
 }

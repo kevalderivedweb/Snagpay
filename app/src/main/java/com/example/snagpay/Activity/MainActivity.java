@@ -28,6 +28,7 @@ import com.example.snagpay.Fragments.Fragment_MyStuffActivity;
 import com.example.snagpay.Fragments.Fragment_NotificationsActivity;
 import com.example.snagpay.Fragments.Fragment_WishListAcivity;
 import com.example.snagpay.R;
+import com.example.snagpay.Utils.UserSession;
 import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,12 +37,16 @@ public class MainActivity extends AppCompatActivity {
     private ImageView navBottomImageHome, navBottomImageCategories, navBottomImageNotifications, navBottomImageWishList, navBottomImageMyStuff;
     private TextView navBottomTxtHome, navBottomTxtCategories, navBottomTxtNotifications, navBottomTxtWishList, navBottomTxtMyStuff;
 
+    private UserSession session;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
+
+        session = new UserSession(MainActivity.this);
 
         navLinear1 = findViewById(R.id.navLinear1);
         navLinear2 = findViewById(R.id.navLinear2);
@@ -176,6 +181,24 @@ public class MainActivity extends AppCompatActivity {
                 .replace(containerViewId, fragment, fragmentTag)
                 .disallowAddToBackStack()
                 .commit();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
     }
 
 }

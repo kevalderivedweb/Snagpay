@@ -15,11 +15,13 @@ import com.example.snagpay.Fragments.Fragment_OrderCancelled;
 import com.example.snagpay.Fragments.Fragment_OrderCompleted;
 import com.example.snagpay.Fragments.Fragment_OrderCurrent;
 import com.example.snagpay.R;
+import com.example.snagpay.Utils.UserSession;
 
 public class Fragment_OrderHistory extends Fragment {
 
     private LinearLayout tabLinearPurcahse1Order, tabLinearPurcahse2Order, tabLinearPurcahse3Order;
     private TextView tabTxtPurcahse1Order, tabTxtPurcahse2Order, tabTxtPurcahse3Order;
+    private UserSession session;
 
     public Fragment_OrderHistory() {
 
@@ -30,6 +32,8 @@ public class Fragment_OrderHistory extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.activity_fragment_order_history, container, false);
+
+        session = new UserSession(getContext());
 
         final FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.fragmentLinearOrderHistory, new Fragment_OrderCurrent(), "NewFragmentTag");
@@ -97,5 +101,23 @@ public class Fragment_OrderHistory extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
     }
 }

@@ -12,11 +12,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.snagpay.R;
+import com.example.snagpay.Utils.UserSession;
 
 public class Fragment_PaymentHistory extends Fragment {
 
     private LinearLayout tabLinearPurcahse1Payment, tabLinearPurcahse2Payment;
     private TextView tabTxtPurcahse1Payment, tabTxtPurcahse2Payment;
+    private UserSession session;
 
     public Fragment_PaymentHistory() {
 
@@ -27,6 +29,8 @@ public class Fragment_PaymentHistory extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.activity_fragment_payment_history, container, false);
+
+        session = new UserSession(getContext());
 
         final FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.fragmentLinearPaymentHistory, new Fragment_PaymentRecent(), "PaymentHistory1");
@@ -71,4 +75,23 @@ public class Fragment_PaymentHistory extends Fragment {
 
         return view;
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
+
 }

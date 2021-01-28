@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.snagpay.Adapter.AdapterHomeInner;
 import com.example.snagpay.Model.CategoryDetailsModel;
 import com.example.snagpay.R;
+import com.example.snagpay.Utils.UserSession;
 
 import java.util.ArrayList;
 
@@ -23,12 +24,14 @@ public class Activity_Gifting extends AppCompatActivity {
     private RecyclerView recGifting;
     private AdapterHomeInner adapterHomeInner;
     private ArrayList<CategoryDetailsModel> categoryDetailsModelArrayList;
+    private UserSession session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gifting);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
+        session = new UserSession(Activity_Gifting.this);
 
         findViewById(R.id.backToPaymentInfo1).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,4 +70,23 @@ public class Activity_Gifting extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
+
 }

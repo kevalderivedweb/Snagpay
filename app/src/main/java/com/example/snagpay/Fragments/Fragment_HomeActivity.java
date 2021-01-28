@@ -206,4 +206,22 @@ public class Fragment_HomeActivity extends Fragment {
         mShimmerViewContainer.stopShimmerAnimation();
         super.onPause();
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
 }

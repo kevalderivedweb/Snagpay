@@ -197,7 +197,10 @@ public class Fragment_HomeInner extends Fragment {
                             }
 
                         } catch (Exception e) {
-                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                          //  Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                            mShimmerViewContainer.stopShimmerAnimation();
+                            mShimmerViewContainer.setVisibility(View.GONE);
+                            Toast.makeText(getContext(), "No Data", Toast.LENGTH_SHORT).show();
 
                         }
 
@@ -259,5 +262,23 @@ public class Fragment_HomeInner extends Fragment {
     public void onPause() {
         mShimmerViewContainer.stopShimmerAnimation();
         super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
     }
 }

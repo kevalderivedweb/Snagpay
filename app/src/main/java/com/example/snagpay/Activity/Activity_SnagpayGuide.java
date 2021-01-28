@@ -10,18 +10,21 @@ import android.view.View;
 
 import com.example.snagpay.Adapter.AdapterGuide;
 import com.example.snagpay.R;
+import com.example.snagpay.Utils.UserSession;
 
 public class Activity_SnagpayGuide extends AppCompatActivity {
 
     private RecyclerView recGuide;
     private AdapterGuide adapterGuide;
     private String[] guideItems = {"Food & Drink", "Travel and Leisure", "Event Tickets", "Products and Services", "Advertising and Marketing"};
+    private UserSession session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_snagpay_guide);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
+        session = new UserSession(Activity_SnagpayGuide.this);
 
         findViewById(R.id.backToPaymentInfo1).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,4 +50,23 @@ public class Activity_SnagpayGuide extends AppCompatActivity {
         recGuide.setAdapter(adapterGuide);
 
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
+
 }

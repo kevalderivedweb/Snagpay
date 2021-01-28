@@ -13,11 +13,13 @@ import android.view.ViewGroup;
 
 import com.example.snagpay.Adapter.AdapterOrderCurrent;
 import com.example.snagpay.R;
+import com.example.snagpay.Utils.UserSession;
 
 public class Fragment_OrderCurrent extends Fragment {
 
     private RecyclerView resOrderCurrent;
     private AdapterOrderCurrent adapterOrderCurrent;
+    private UserSession session;
 
     public Fragment_OrderCurrent() {
 
@@ -29,6 +31,9 @@ public class Fragment_OrderCurrent extends Fragment {
 
         View view = inflater.inflate(R.layout.activity_fragment_order_current, container, false);
 
+        session = new UserSession(getContext());
+
+
         resOrderCurrent = view.findViewById(R.id.resOrderCurrent);
 
         resOrderCurrent.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -36,5 +41,23 @@ public class Fragment_OrderCurrent extends Fragment {
         resOrderCurrent.setAdapter(adapterOrderCurrent);
 
         return view;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
     }
 }

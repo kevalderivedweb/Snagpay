@@ -12,11 +12,16 @@ import android.view.ViewGroup;
 
 import com.example.snagpay.Adapter.AdapterNotificationFrag;
 import com.example.snagpay.R;
+import com.example.snagpay.Utils.UserSession;
+
+import java.util.Objects;
 
 public class Fragment_NotificationsActivity extends Fragment {
 
     private RecyclerView resNotificationList;
     private AdapterNotificationFrag adapterNotificationFrag;
+
+    private UserSession session;
 
     public Fragment_NotificationsActivity() {
 
@@ -30,6 +35,8 @@ public class Fragment_NotificationsActivity extends Fragment {
 
         View view = inflater.inflate(R.layout.activity_fragment_notifications, container, false);
 
+        session = new UserSession(Objects.requireNonNull(getContext()));
+
         resNotificationList = view.findViewById(R.id.resNotificationList);
 
         resNotificationList.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -37,5 +44,23 @@ public class Fragment_NotificationsActivity extends Fragment {
         resNotificationList.setAdapter(adapterNotificationFrag);
 
         return view;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
     }
 }

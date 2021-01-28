@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.snagpay.Adapter.ExpListAdapterFilterSort;
 import com.example.snagpay.R;
+import com.example.snagpay.Utils.UserSession;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,12 +36,14 @@ public class Activity_FilterSortBy extends AppCompatActivity {
 
     private List<String> CategoryId;
     private String idCategory = "0";
+    private UserSession session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter_sort_by);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
+        session = new UserSession(Activity_FilterSortBy.this);
 
         findViewById(R.id.backToCategoriesInner).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,6 +170,22 @@ public class Activity_FilterSortBy extends AppCompatActivity {
         listDataChild.put(listDataHeader.get(2), Price);
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
 
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
 
 }

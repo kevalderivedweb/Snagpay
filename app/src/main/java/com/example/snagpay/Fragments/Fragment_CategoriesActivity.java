@@ -226,4 +226,22 @@ public class Fragment_CategoriesActivity extends Fragment {
         Volley.newRequestQueue(getContext()).add(volleyMultipartRequest);
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
+
 }

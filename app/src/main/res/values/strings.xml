@@ -5,7 +5,7 @@
     <string name="fb_login_protocol_scheme">fb318742359446499</string>
 
 
-    <!--for red star at the end of textview-->
+    <!--for red star at the end of textView-->
     <string name="identify">Identify the company that you are associated with:<font color='red'>*</font></string>
     <string name="ownRights">Please identify the Brand or Product that you own the rights to:<font color='red'>*</font></string>
     <string name="Nature">Nature of Complaint choices need to change-Damaged Product. Item Description was incorret, Received wrong item, expiration date should be the choices<font color='red'>*</font></string>

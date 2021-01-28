@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.example.snagpay.Adapter.CustomInfoWindowGoogleMap;
 import com.example.snagpay.Model.MapModel;
 import com.example.snagpay.R;
+import com.example.snagpay.Utils.UserSession;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -26,11 +27,14 @@ public class Fragment_Map extends Fragment implements  OnMapReadyCallback {
     private ArrayList<MapModel> mapModelArrayList;
     public static HashMap<Marker, MapModel> mRestaurantMap = new HashMap<>();
     private GoogleMap mGoogleMap;
+    private UserSession session;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_map_fragment, container, false);
+
+        session = new UserSession(getContext());
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -125,6 +129,24 @@ public class Fragment_Map extends Fragment implements  OnMapReadyCallback {
             // the following two lines
             marker.showInfoWindow();
             marker.hideInfoWindow();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (!session.isCheckIn()){
+            session.logout();
         }
     }
 }

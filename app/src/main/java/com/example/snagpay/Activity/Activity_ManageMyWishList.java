@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import com.example.snagpay.Adapter.AdapterAddAnotherCity;
 import com.example.snagpay.Adapter.CityNameListAdapter;
 import com.example.snagpay.R;
+import com.example.snagpay.Utils.UserSession;
 
 import java.util.ArrayList;
 
@@ -27,12 +28,14 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
     private Button btnAddAnotherCity, btnAddNewCategory;
     private String[] cityName = {"Phoenix", "Tuscon", "Mesa", "Boston", "Scottsdale", "Gilbert", "Glendale", "Tampe"};
     private ArrayList<String> addCityList = new ArrayList<>();
+    private UserSession session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_my_wish_list);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
+        session = new UserSession(Activity_ManageMyWishList.this);
 
         recAddAnotherCity = findViewById(R.id.recAddAnotherCity);
         btnAddAnotherCity = findViewById(R.id.btnAddAnotherCity);
@@ -143,4 +146,23 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
+
 }

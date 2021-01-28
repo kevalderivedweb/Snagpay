@@ -25,6 +25,7 @@ public class UserSession {
     private static final String STATE = "state";
     private static final String COUNTRY = "country";
     private static final String POST_CODE = "postCode";
+    private static final String STAYLOGGEDIN = "stayLoggedIn";
 
 
 
@@ -125,6 +126,15 @@ public class UserSession {
 
     public boolean isLoggedIn() {
         return sharedPreferences.getBoolean(IS_LOGIN, false);
+    }
+
+    public boolean isCheckIn() {
+        return sharedPreferences.getBoolean(STAYLOGGEDIN, false);
+    }
+
+    public void stayLoggedIn (boolean isCheckIn) {
+        editor.putBoolean(STAYLOGGEDIN, isCheckIn);
+        editor.commit();
     }
 
     public boolean logout() {

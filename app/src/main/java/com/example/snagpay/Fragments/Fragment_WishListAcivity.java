@@ -1,6 +1,5 @@
 package com.example.snagpay.Fragments;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,19 +12,22 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.snagpay.Adapter.AdapterFragWishlist;
-import com.example.snagpay.Adapter.AdapterFragWishlistRecentViewed;
+import com.example.snagpay.Adapter.AdapterWishlist;
+import com.example.snagpay.Adapter.AdapterWishlistRecentViewed;
 import com.example.snagpay.R;
+import com.example.snagpay.Utils.UserSession;
 
 public class Fragment_WishListAcivity extends Fragment {
 
     private RecyclerView resFragWishList,resFragRecentlyViewed;
-    private AdapterFragWishlist adapterFragWishlist;
-    private AdapterFragWishlistRecentViewed adapterFragWishlistRecentViewed;
+    private AdapterWishlist adapterFragWishlist;
+    private AdapterWishlistRecentViewed adapterFragWishlistRecentViewed;
 
     private RelativeLayout rltvWishListTopBar, rltvWishListTopBarDeleteCancel;
     private TextView txtEditWishlistTopBar;
     private ImageView imgCancelWishlishTopBar;
+
+    private UserSession session;
 
     public Fragment_WishListAcivity() {
 
@@ -37,6 +39,8 @@ public class Fragment_WishListAcivity extends Fragment {
 
         View view = inflater.inflate(R.layout.activity_fragment_wish_list_acivity, container, false);
 
+        session = new UserSession(getContext());
+
         imgCancelWishlishTopBar = view.findViewById(R.id.imgCancelWishlishTopBar);
         rltvWishListTopBar = view.findViewById(R.id.rltvWishListTopBar);
         rltvWishListTopBarDeleteCancel = view.findViewById(R.id.rltvWishListTopBarDeleteCancel);
@@ -46,11 +50,11 @@ public class Fragment_WishListAcivity extends Fragment {
         resFragRecentlyViewed = view.findViewById(R.id.resFragRecentlyViewed);
 
         resFragWishList.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapterFragWishlist = new AdapterFragWishlist(getActivity());
+        adapterFragWishlist = new AdapterWishlist(getActivity());
         resFragWishList.setAdapter(adapterFragWishlist);
 
         resFragRecentlyViewed.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapterFragWishlistRecentViewed = new AdapterFragWishlistRecentViewed(getActivity());
+        adapterFragWishlistRecentViewed = new AdapterWishlistRecentViewed(getActivity());
         resFragRecentlyViewed.setAdapter(adapterFragWishlistRecentViewed);
 
         // for top bar hidden
@@ -72,4 +76,23 @@ public class Fragment_WishListAcivity extends Fragment {
 
         return view;
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
+
 }

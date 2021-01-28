@@ -9,8 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.snagpay.R;
+import com.example.snagpay.Utils.UserSession;
 
 public class Fragment_OrderCompleted extends Fragment {
+
+    private UserSession session;
 
     public Fragment_OrderCompleted() {
 
@@ -24,7 +27,26 @@ public class Fragment_OrderCompleted extends Fragment {
 
         View view = inflater.inflate(R.layout.activity_fragment_order_completed, container, false);
 
+        session = new UserSession(getContext());
 
         return view;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
     }
 }

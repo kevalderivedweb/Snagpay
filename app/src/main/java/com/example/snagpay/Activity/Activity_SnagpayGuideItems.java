@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.snagpay.Adapter.AdapterHomeInner;
 import com.example.snagpay.R;
+import com.example.snagpay.Utils.UserSession;
 
 public class Activity_SnagpayGuideItems extends AppCompatActivity {
 
@@ -19,12 +20,14 @@ public class Activity_SnagpayGuideItems extends AppCompatActivity {
     private AdapterHomeInner adapterHomeInner;
     private LinearLayout linrSnagPayItems;
     private TextView txtSnagpayItems;
+    private UserSession session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_snagpay_guide_items);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
+        session = new UserSession(Activity_SnagpayGuideItems.this);
 
         findViewById(R.id.backToPaymentInfo1).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,4 +62,23 @@ public class Activity_SnagpayGuideItems extends AppCompatActivity {
             linrSnagPayItems.setVisibility(View.VISIBLE);
         }
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (!session.isCheckIn()){
+            session.logout();
+        }
+    }
+
 }
