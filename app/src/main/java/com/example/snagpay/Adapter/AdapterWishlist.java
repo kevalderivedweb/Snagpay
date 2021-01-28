@@ -41,8 +41,8 @@ public class AdapterWishlist extends RecyclerView.Adapter<AdapterWishlist.Viewho
         Picasso.get().load(categoryDetailsModelArrayList.get(position).getDeal_image()).into(holder.imgWishlist);
 
         holder.titleWishlist.setText(categoryDetailsModelArrayList.get(position).getTitle());
-        holder.boughtWishlist.setText(categoryDetailsModelArrayList.get(position).getBought());
-        holder.priceWishlist.setText(categoryDetailsModelArrayList.get(position).getSell_price());
+        holder.boughtWishlist.setText(categoryDetailsModelArrayList.get(position).getBought() + "+ bought");
+        holder.priceWishlist.setText("$" + categoryDetailsModelArrayList.get(position).getSell_price());
 
         Log.e("logoo", categoryDetailsModelArrayList.get(position).getTitle() + "--" + categoryDetailsModelArrayList.get(position).getBought() +
                 "--" + categoryDetailsModelArrayList.get(position).getSell_price());

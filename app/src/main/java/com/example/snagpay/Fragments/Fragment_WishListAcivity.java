@@ -22,7 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.snagpay.API.VolleyMultipartRequest;
 import com.example.snagpay.Adapter.AdapterWishlist;
-import com.example.snagpay.Adapter.AdapterWishlistRecentViewed;
+import com.example.snagpay.Adapter.AdapterWishlistRecent;
 import com.example.snagpay.Model.CategoryDetailsModel;
 import com.example.snagpay.R;
 import com.example.snagpay.Utils.UserSession;
@@ -39,14 +39,15 @@ import java.util.Map;
 public class Fragment_WishListAcivity extends Fragment {
 
     private RecyclerView resFragWishList,resFragRecentlyViewed;
-    private AdapterWishlist adapterFragWishlist;
-    private AdapterWishlistRecentViewed adapterFragWishlistRecentViewed;
+    private AdapterWishlist adapterWishlist;
+    private AdapterWishlistRecent adapterWishlistRecent;
 
     private RelativeLayout rltvWishListTopBar, rltvWishListTopBarDeleteCancel;
     private TextView txtEditWishlistTopBar;
     private ImageView imgCancelWishlishTopBar;
 
     private ArrayList<CategoryDetailsModel> categoryDetailsModelArrayList = new ArrayList<>();
+    private ArrayList<CategoryDetailsModel> categoryDetailsModelArrayRecent = new ArrayList<>();
 
     private UserSession session;
 
@@ -73,12 +74,12 @@ public class Fragment_WishListAcivity extends Fragment {
         getWishlist();
 
         resFragWishList.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapterFragWishlist = new AdapterWishlist(getActivity(), categoryDetailsModelArrayList);
-        resFragWishList.setAdapter(adapterFragWishlist);
+        adapterWishlist = new AdapterWishlist(getActivity(), categoryDetailsModelArrayList);
+        resFragWishList.setAdapter(adapterWishlist);
 
         resFragRecentlyViewed.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapterFragWishlistRecentViewed = new AdapterWishlistRecentViewed(getActivity());
-        resFragRecentlyViewed.setAdapter(adapterFragWishlistRecentViewed);
+        adapterWishlistRecent = new AdapterWishlistRecent(getActivity(), categoryDetailsModelArrayRecent);
+        resFragRecentlyViewed.setAdapter(adapterWishlistRecent);
 
 
         // for top bar hidden
@@ -128,10 +129,14 @@ public class Fragment_WishListAcivity extends Fragment {
                         try {
 
                             JSONObject data = jsonObject.getJSONObject("data");
-                            JSONObject jsonObject1 = data.getJSONObject("wishlist");
-                            JSONArray sub_categories = data.getJSONArray("recently_viewed");
 
+                            JSONObject jsonObject1 = data.getJSONObject("wishlist");
                             JSONArray jsonArray = jsonObject1.getJSONArray("data");
+
+                            //  JSONObject recentViews = data.getJSONObject("recently_viewed");
+                            //  JSONArray jsonArrayRecent = recentViews.getJSONArray("data");
+
+
 
                             for (int i = 0 ; i<jsonArray.length() ; i++){
                                 JSONObject object = jsonArray.getJSONObject(i);
@@ -145,7 +150,6 @@ public class Fragment_WishListAcivity extends Fragment {
                                 categoryDetailsModel.setCategory_id(object.getString("category_id"));
 
                                 categoryDetailsModelArrayList.add(categoryDetailsModel);
-
                             }
 
                             Log.e("ree", categoryDetailsModelArrayList.get(0).getTitle() + "--" + categoryDetailsModelArrayList.get(0).getSell_price()
@@ -153,7 +157,22 @@ public class Fragment_WishListAcivity extends Fragment {
 
                             Log.e("daaaaata", jsonObject1.toString() + "  --");
 
-                            adapterFragWishlist.notifyDataSetChanged();
+                            adapterWishlist.notifyDataSetChanged();
+
+                            for (int i = 0 ; i<jsonArray.length() ; i++){
+                                JSONObject object = jsonArray.getJSONObject(i);
+
+                                CategoryDetailsModel categoryDetailsModel = new CategoryDetailsModel();
+                                categoryDetailsModel.setDeal_image(object.getString("deal_image"));
+                                categoryDetailsModel.setTitle(object.getString("title"));
+                                categoryDetailsModel.setSell_price(object.getString("sell_price"));
+                                categoryDetailsModel.setBought(object.getString("bought"));
+                                categoryDetailsModel.setMain_category_id(object.getString("main_category_id"));
+                                categoryDetailsModel.setCategory_id(object.getString("category_id"));
+
+                                categoryDetailsModelArrayRecent.add(categoryDetailsModel);
+                            }
+                            adapterWishlistRecent.notifyDataSetChanged();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
