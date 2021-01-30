@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.snagpay.API.VolleyMultipartRequest;
+import com.example.snagpay.Activity.Activity_ProductDetails;
 import com.example.snagpay.Adapter.AdapterWishlist;
 import com.example.snagpay.Adapter.AdapterWishlistRecent;
 import com.example.snagpay.Model.CategoryDetailsModel;
@@ -104,11 +106,21 @@ public class Fragment_WishListAcivity extends Fragment {
                         categoryDetailsModelArrayList.get(item).setSelected(true);
                     }
                     adapterWishlist.notifyDataSetChanged();
+
                 } else {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("dealID", categoryDetailsModelArrayList.get(item).getDeal_id());
+                    bundle.putString("isWishlist", categoryDetailsModelArrayList.get(item).getIs_wishlist());
+
+                    Intent intent = new Intent(getContext(), Activity_ProductDetails.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
 
                 }
             }
         });
+
+        adapterWishlist.notifyDataSetChanged();
 
         resFragWishList.setAdapter(adapterWishlist);
 
@@ -319,6 +331,7 @@ public class Fragment_WishListAcivity extends Fragment {
                                         categoryDetailsModel.setBought(object.getString("bought"));
                                         categoryDetailsModel.setMain_category_id(object.getString("main_category_id"));
                                         categoryDetailsModel.setCategory_id(object.getString("category_id"));
+                                        categoryDetailsModel.setIs_wishlist(object.getString("is_wishlist"));
                                         categoryDetailsModel.setSelected(false);
 
                                         categoryDetailsModelArrayList.add(categoryDetailsModel);
