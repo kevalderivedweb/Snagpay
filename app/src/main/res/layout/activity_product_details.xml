@@ -208,6 +208,7 @@
                 android:background="@color/light_gray" />
 
             <RelativeLayout
+                android:id="@+id/addToWishlist"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center">
@@ -219,6 +220,22 @@
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="#6f6f6f"
                     android:text="Add to Wishlist"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/removeFromWishlist"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:visibility="gone"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:letterSpacing="0.04"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="#6f6f6f"
+                    android:text="Remove from Wishlist"/>
             </RelativeLayout>
 
             <View

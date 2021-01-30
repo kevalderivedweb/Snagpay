@@ -2,6 +2,7 @@ package com.example.snagpay.Fragments;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -25,6 +26,7 @@ import com.example.snagpay.Adapter.AdapterHomeInner;
 import com.example.snagpay.Activity.Activity_ProductDetails;
 import com.example.snagpay.Model.CategoryDetailsModel;
 import com.example.snagpay.R;
+import com.example.snagpay.Utils.EndlessRecyclerViewScrollListener;
 import com.example.snagpay.Utils.UserSession;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.kaopiz.kprogresshud.KProgressHUD;
@@ -50,6 +52,9 @@ public class Fragment_HomeInner extends Fragment {
     private String subCategoryId = "";
     private LinearLayout linearFilterSortBy;
 
+    private int last_size;
+    private String Mpage = "1";
+    private LinearLayoutManager linearlayout;
 
     public Fragment_HomeInner(String category_id, String subCategoryId) {
         this.category_id = category_id;
@@ -66,24 +71,45 @@ public class Fragment_HomeInner extends Fragment {
         session = new UserSession(getContext());
 
         if (subCategoryId == null){
-            getCategoriesDetails(category_id, "", "", "", "");
+            getCategoriesDetails(category_id, "", "", "", "", "1");
         }else {
-            getCategoriesDetails(category_id, "", subCategoryId, "", "");
+            getCategoriesDetails(category_id, "", subCategoryId, "", "", "1");
         }
 
 
         recHomeInner = view.findViewById(R.id.recHomeInner);
         mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
 
-        recHomeInner.setLayoutManager(new GridLayoutManager(getContext(),2));
+        linearlayout = new GridLayoutManager(getActivity(), 2);
+        recHomeInner.setLayoutManager(linearlayout);
         adapterHomeInner = new AdapterHomeInner(getContext(), categoryDetailsModelArrayList, new AdapterHomeInner.OnItemClickListener() {
             @Override
             public void onItemClick(int item) {
-                startActivity(new Intent(getContext(), Activity_ProductDetails.class));
+
+                Bundle bundle = new Bundle();
+                bundle.putString("dealID", categoryDetailsModelArrayList.get(item).getDeal_id());
+                bundle.putString("isWishlist", categoryDetailsModelArrayList.get(item).getIs_wishlist());
+
+                Intent intent = new Intent(getContext(), Activity_ProductDetails.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+
             }
         });
         recHomeInner.setAdapter(adapterHomeInner);
 
+        recHomeInner.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearlayout) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                Log.e("PageStatus",page + "  " + last_size);
+                if (page!=last_size){
+                    Mpage = String.valueOf(page+1);
+
+                    getCategoriesDetails("", "", "", "", "", Mpage);
+
+                }
+            }
+        });
 
         linearFilterSortBy = view.findViewById(R.id.linearFilterSortBy);
 
@@ -117,7 +143,7 @@ public class Fragment_HomeInner extends Fragment {
 
                 categoryDetailsModelArrayList.clear();
                 adapterHomeInner.notifyDataSetChanged();
-                getCategoriesDetails(category_id, mShort, mCategory, startPrice, endPrice);
+                getCategoriesDetails(category_id, mShort, mCategory, startPrice, endPrice, "1");
             }
         }else {
 
@@ -125,7 +151,7 @@ public class Fragment_HomeInner extends Fragment {
 
     }
 
-    public void getCategoriesDetails(String category_id, String mShort, String mCategory, String startPrice, String endPrice){
+    public void getCategoriesDetails(String category_id, String mShort, String mCategory, String startPrice, String endPrice, String page){
         final KProgressHUD progressDialog = KProgressHUD.create(getContext())
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setLabel("Please wait")
@@ -137,10 +163,11 @@ public class Fragment_HomeInner extends Fragment {
 
         //our custom volley request
         VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "category-details?category_id="+category_id
-                +"&sort_by_deals="+mShort
-                +"&filter_category_id="+mCategory
-                +"&from_price_range="+startPrice
-                +"&to_price_range="+endPrice, new Response.Listener<NetworkResponse>() {
+                + "&sort_by_deals="+mShort
+                + "&filter_category_id="+mCategory
+                + "&from_price_range="+startPrice
+                + "&to_price_range="+endPrice
+                + "?page=" + page, new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
 
@@ -159,6 +186,7 @@ public class Fragment_HomeInner extends Fragment {
                                     JSONObject data = jsonObject.getJSONObject("data");
                                     JSONObject jsonObject1 = data.getJSONObject("deals");
                                     JSONArray sub_categories = data.getJSONArray("sub_categories");
+                                    last_size = jsonObject1.getInt("last_page");
                                     
                                     SubCatString = sub_categories.toString();
 
@@ -176,15 +204,17 @@ public class Fragment_HomeInner extends Fragment {
                                         categoryDetailsModel.setAvg_rating(object.getString("avg_rating"));
                                         categoryDetailsModel.setSell_price(object.getString("sell_price"));
                                         categoryDetailsModel.setBought(object.getString("bought"));
+                                        categoryDetailsModel.setDeal_id(object.getString("deal_id"));
+                                        categoryDetailsModel.setIs_wishlist(object.getString("is_wishlist"));
 
                                         categoryDetailsModelArrayList.add(categoryDetailsModel);
                                     }
 
-                                    Log.e("servicess", categoryDetailsModelArrayList.get(0).getTitle() + "---" +
-                                            categoryDetailsModelArrayList.get(0).getCity_name() + "---" +
+                                    Log.e("servicess", categoryDetailsModelArrayList.get(0).getDeal_id() + "---" +
+                                            categoryDetailsModelArrayList.get(0).getIs_wishlist() + "---" +
                                             categoryDetailsModelArrayList.get(0).getState_name() + "---" +
                                             categoryDetailsModelArrayList.get(0).getAvg_rating() + "---" +
-                                            categoryDetailsModelArrayList.get(0).getRegular_price());
+                                            categoryDetailsModelArrayList.get(0).getSell_price());
                                     adapterHomeInner.notifyDataSetChanged();
 
                                     mShimmerViewContainer.stopShimmerAnimation();

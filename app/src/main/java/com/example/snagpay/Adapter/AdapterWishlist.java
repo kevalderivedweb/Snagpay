@@ -1,12 +1,14 @@
 package com.example.snagpay.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,10 +21,13 @@ import java.util.ArrayList;
 
 public class AdapterWishlist extends RecyclerView.Adapter<AdapterWishlist.Viewholder> {
 
+    private final OnItemClickListener listener;
     private Context mContext;
     private ArrayList<CategoryDetailsModel> categoryDetailsModelArrayList;
+    private CategoryDetailsModel categoryDetailsModel = new CategoryDetailsModel();
 
-    public AdapterWishlist(Context mContext, ArrayList<CategoryDetailsModel> categoryDetailsModelArrayList) {
+    public AdapterWishlist(Context mContext, ArrayList<CategoryDetailsModel> categoryDetailsModelArrayList,  OnItemClickListener listener) {
+        this.listener = listener;
         this.mContext = mContext;
         this.categoryDetailsModelArrayList = categoryDetailsModelArrayList;
     }
@@ -46,6 +51,23 @@ public class AdapterWishlist extends RecyclerView.Adapter<AdapterWishlist.Viewho
 
         Log.e("logoo", categoryDetailsModelArrayList.get(position).getTitle() + "--" + categoryDetailsModelArrayList.get(position).getBought() +
                 "--" + categoryDetailsModelArrayList.get(position).getSell_price());
+
+        if (categoryDetailsModelArrayList.get(position).isSelected()) {
+            holder.itemView.setBackgroundColor(Color.parseColor("#CCCBCB"));
+        } else {
+            holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
+
+        }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                listener.onItemClick(position);
+
+            }
+        });
+
     }
 
     @Override
@@ -67,5 +89,18 @@ public class AdapterWishlist extends RecyclerView.Adapter<AdapterWishlist.Viewho
             priceWishlist = itemView.findViewById(R.id.priceWishlist);
 
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int item);
+    }
+
+    public void seleceAll(int i){
+        categoryDetailsModelArrayList.get(i).setSelected(true);
+        notifyDataSetChanged();
+    }
+    public void deSelectAll(int i){
+        categoryDetailsModelArrayList.get(i).setSelected(false);
+        notifyDataSetChanged();
     }
 }

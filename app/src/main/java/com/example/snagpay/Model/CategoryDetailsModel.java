@@ -39,6 +39,16 @@ public class CategoryDetailsModel {
     String total_rating;
     String is_wishlist;
 
+    boolean isSelected;
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
     public String getDeal_id() {
         return deal_id;
     }
