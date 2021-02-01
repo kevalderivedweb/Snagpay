@@ -45,7 +45,7 @@ public class Fragment_HomeInner extends Fragment {
     private AdapterHomeInner adapterHomeInner;
     private String category_id;
     private UserSession session;
-    private ArrayList<CategoryDetailsModel> categoryDetailsModelArrayList = new ArrayList<>();;
+    private ArrayList<CategoryDetailsModel> categoryDetailsModelArrayList = new ArrayList<>();
 
     private ShimmerFrameLayout mShimmerViewContainer;
     private String SubCatString;

@@ -14,15 +14,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <androidx.appcompat.widget.AppCompatRadioButton
-            android:id="@+id/radio0"
+            android:id="@+id/radioMyAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleX="0.5"
             android:scaleY="0.5"
             android:layout_marginTop="-6dp"
             android:layout_marginLeft="4dp"
-            android:button="@drawable/radio_button_custom"
-            android:checked="true" />
+            android:button="@drawable/radio_button_custom" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,15 +29,16 @@
             android:layout_marginLeft="-5dp"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/shippingAddress"
                 android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14dp"
                 android:textColor="@color/black"
-                android:letterSpacing="0.01"
-                android:text="321, Michigan Street Bloomfield, MI 94141 United Status"/>
+                android:letterSpacing="0.01"/>
 
             <TextView
+                android:id="@+id/shippingPhoneNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
@@ -63,9 +63,10 @@
         android:weightSum="2">
 
         <TextView
+            android:id="@+id/removeShippingAddress"
             android:layout_weight="1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="Remove"
             android:textColor="@color/red"
             android:letterSpacing="0.01"
@@ -74,9 +75,10 @@
             android:fontFamily="@font/roboto_medium"/>
 
         <TextView
+            android:id="@+id/editShippingAddress"
             android:layout_weight="1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="Edit"
             android:gravity="center"
             android:textSize="14dp"

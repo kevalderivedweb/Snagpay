@@ -37,6 +37,13 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
         session = new UserSession(Activity_ManageMyWishList.this);
 
+        findViewById(R.id.backToFragMyStuff).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         recAddAnotherCity = findViewById(R.id.recAddAnotherCity);
         btnAddAnotherCity = findViewById(R.id.btnAddAnotherCity);
         btnAddNewCategory = findViewById(R.id.btnAddNewCategory);
@@ -48,15 +55,9 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
                 addCityList.remove(item);
             }
         });
-
         recAddAnotherCity.setAdapter(cityNameListAdapter);
 
-        findViewById(R.id.backToFragMyStuff).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+
 
         btnAddAnotherCity.setOnClickListener(new View.OnClickListener() {
             @Override

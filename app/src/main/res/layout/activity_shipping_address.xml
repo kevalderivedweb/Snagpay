@@ -38,7 +38,7 @@
                 android:layout_marginLeft="10dp"/>
         </RelativeLayout>
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <LinearLayout
@@ -48,8 +48,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/resShippingAddress"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"/>
+                    android:layout_height="wrap_content"/>
 
                 <View
                     android:layout_width="match_parent"
@@ -61,6 +60,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:gravity="center"
+                    android:layout_marginBottom="5dp"
                     android:background="@color/green">
 
                     <ImageView
@@ -77,11 +77,11 @@
                         android:letterSpacing="0.01" />
                 </LinearLayout>
             </LinearLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/hyy"
+        android:id="@+id/relativeShipping"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">

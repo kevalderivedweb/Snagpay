@@ -19,7 +19,7 @@
                 android:layout_height="match_parent"
                 android:padding="15dp"
                 android:orientation="vertical"
-                tools:context=".Fragments.Fragment_SignIn">
+                tools:context=".Fragments.Fragment_SignUp">
 
                 <LinearLayout
                     android:layout_width="match_parent"

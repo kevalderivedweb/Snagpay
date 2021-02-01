@@ -80,7 +80,7 @@ import java.util.Map;
 
 import static com.example.snagpay.Fragments.Fragment_SignIn.googleApiClient;
 
-public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConnectionFailedListener {
+public class    Fragment_SignUp extends Fragment implements GoogleApiClient.OnConnectionFailedListener {
 
     private TextView txtPrivacySignUp, txtSellerPrivacySignUp;
     private UserSession session;
@@ -562,7 +562,6 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
 
             }
         });
-
 
 
         return view;

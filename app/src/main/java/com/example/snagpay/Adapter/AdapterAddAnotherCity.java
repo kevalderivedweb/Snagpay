@@ -18,7 +18,6 @@ public class AdapterAddAnotherCity extends RecyclerView.Adapter<AdapterAddAnothe
     private final OnItemClickListener listener;
     private Context mContext;
     private String[]cityName;
-    private int selectedItem = -1;
 
     public AdapterAddAnotherCity(Context mContext, String[] cityName, AdapterAddAnotherCity.OnItemClickListener onItemClickListener) {
         this.mContext = mContext;
@@ -43,7 +42,7 @@ public class AdapterAddAnotherCity extends RecyclerView.Adapter<AdapterAddAnothe
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectedItem = position;
+
                 listener.onItemClick(position);
                 notifyDataSetChanged();
             }

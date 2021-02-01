@@ -86,6 +86,7 @@ public class Fragment_WishListAcivity extends Fragment {
 
 
         resFragWishList.setNestedScrollingEnabled(false);
+        resFragRecentlyViewed.setNestedScrollingEnabled(false);
 
         getWishlist("1");
 

@@ -95,20 +95,18 @@
                 android:id="@+id/resFragWishList"
                 android:layout_width="match_parent"
                 android:layout_marginTop="-1dp"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
                 android:layout_marginTop="5dp"
-                android:visibility="gone"
                 android:background="@color/light_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:text="Recently Viewed"
-                android:visibility="gone"
                 android:gravity="center_vertical"
                 android:fontFamily="@font/roboto_bold"
                 android:textColor="@color/black"
@@ -119,7 +117,6 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/resFragRecentlyViewed"
                 android:layout_width="match_parent"
-                android:visibility="gone"
                 android:layout_marginBottom="-1dp"
                 android:layout_marginTop="-3dp"
                 android:layout_height="wrap_content"/>

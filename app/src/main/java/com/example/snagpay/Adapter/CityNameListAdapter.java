@@ -19,7 +19,6 @@ public class CityNameListAdapter extends RecyclerView.Adapter<CityNameListAdapte
     private final OnItemClickListener listener;
     private Context context;
     private ArrayList<String> addCityList;
-    private int selectedItem = -1;
 
     public CityNameListAdapter(Context context, ArrayList<String> addCityList, OnItemClickListener onItemClickListener) {
         this.context = context;
@@ -42,7 +41,7 @@ public class CityNameListAdapter extends RecyclerView.Adapter<CityNameListAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectedItem = position;
+
                 listener.onItemClick(position);
                 notifyDataSetChanged();
             }
