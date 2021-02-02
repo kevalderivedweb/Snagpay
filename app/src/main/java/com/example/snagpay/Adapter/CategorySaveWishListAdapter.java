@@ -15,15 +15,15 @@ import com.example.snagpay.R;
 
 import java.util.ArrayList;
 
-public class CityNameListAdapter extends RecyclerView.Adapter<CityNameListAdapter.Viewholder> {
+public class CategorySaveWishListAdapter extends RecyclerView.Adapter<CategorySaveWishListAdapter.Viewholder> {
 
     private final OnItemClickListener listener;
     private Context context;
-    private ArrayList<CityModel> addCityList;
+    private ArrayList<CityModel> categoryArrayList;
 
-    public CityNameListAdapter(Context context, ArrayList<CityModel> addCityList, OnItemClickListener onItemClickListener) {
+    public CategorySaveWishListAdapter(Context context, ArrayList<CityModel> categoryArrayList, OnItemClickListener onItemClickListener) {
         this.context = context;
-        this.addCityList = addCityList;
+        this.categoryArrayList = categoryArrayList;
         this.listener = onItemClickListener;
     }
 
@@ -31,39 +31,32 @@ public class CityNameListAdapter extends RecyclerView.Adapter<CityNameListAdapte
     @Override
     public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.adapter_cityname_list, null);
+        View view = inflater.inflate(R.layout.adapter_save_category_wishlist, null);
         return new Viewholder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
-        holder.cityNameWishlist.setText(addCityList.get(position).getCityname());
 
-        holder.removeCity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        holder.categoryWishListTxt.setText(categoryArrayList.get(position).getCityname());
 
-                listener.onItemClick(position);
-                notifyDataSetChanged();
-            }
-        });
     }
 
     @Override
     public int getItemCount() {
-        return addCityList.size();
+        return categoryArrayList.size();
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
 
-        TextView cityNameWishlist;
-        ImageView removeCity;
+        TextView categoryWishListTxt;
+        ImageView deleteCategoryWishList;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
 
-            cityNameWishlist = itemView.findViewById(R.id.cityNameWishList);
-            removeCity = itemView.findViewById(R.id.removeCity);
+            categoryWishListTxt = itemView.findViewById(R.id.categoryWishListTxt);
+            deleteCategoryWishList = itemView.findViewById(R.id.deleteCategoryWishList);
         }
     }
 

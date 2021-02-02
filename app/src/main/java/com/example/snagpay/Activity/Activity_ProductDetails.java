@@ -46,6 +46,7 @@ public class Activity_ProductDetails extends AppCompatActivity {
     private UserSession session;
 
     private String isWishlist;
+    private String dealId;
 
     private RelativeLayout addToWishlist, removeFromWishlist;
 
@@ -65,21 +66,8 @@ public class Activity_ProductDetails extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
 
-        String dealId = bundle.getString("dealID");
-        isWishlist = bundle.getString("isWishlist");
-
-        Log.e("dealAndWishStatus", dealId + "--" + isWishlist);
-
-        if (isWishlist.equals("0")){
-            productFavourite.setImageResource(R.drawable.heart);
-            addToWishlist.setVisibility(View.VISIBLE);
-            removeFromWishlist.setVisibility(View.GONE);
-        } else if (isWishlist.equals("1")){
-            productFavourite.setImageResource(R.drawable.fill_heart);
-            removeFromWishlist.setVisibility(View.VISIBLE);
-            addToWishlist.setVisibility(View.GONE);
-        }
-
+        String category_id = bundle.getString("category_id");
+        String subCategoryId = bundle.getString("subCategoryId");
 
         backToHomeInner.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,6 +115,10 @@ public class Activity_ProductDetails extends AppCompatActivity {
                 editWishList(dealId, isWishlist);
             }
         });
+
+        getCategoriesDetails(category_id, "", subCategoryId, "", "", "1");
+
+
 
     }
 
@@ -229,6 +221,126 @@ public class Activity_ProductDetails extends AppCompatActivity {
         //adding the request to volley
         Volley.newRequestQueue(Activity_ProductDetails.this).add(volleyMultipartRequest);
     }
+
+    public void getCategoriesDetails(String category_id, String mShort, String mCategory, String startPrice, String endPrice, String page){
+        final KProgressHUD progressDialog = KProgressHUD.create(Activity_ProductDetails.this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel("Please wait")
+                .setCancellable(false)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f);
+        //.show();
+        //getting the tag from the edittext
+
+        //our custom volley request
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "category-details?category_id="+category_id
+                + "&sort_by_deals="+mShort
+                + "&filter_category_id="+mCategory
+                + "&from_price_range="+startPrice
+                + "&to_price_range="+endPrice
+                + "?page=" + page, new Response.Listener<NetworkResponse>() {
+            @Override
+            public void onResponse(NetworkResponse response) {
+
+                Log.e("dataa", category_id + "---"+ mShort + "---"+ mCategory + "---" + startPrice + "---" + endPrice);
+
+                progressDialog.dismiss();
+
+                try {
+
+                    JSONObject jsonObject = new JSONObject(new String(response.data));
+                    Log.e("Response",jsonObject.toString());
+                    if (jsonObject.getString("ResponseCode").equals("200")){
+
+                        try {
+
+                            Log.e("cat", category_id + "---" + mCategory);
+
+                            JSONObject data = jsonObject.getJSONObject("data");
+                            JSONObject jsonObject1 = data.getJSONObject("deals");
+
+                            JSONArray jsonArray = jsonObject1.getJSONArray("data");
+
+                            for (int i = 0 ; i<jsonArray.length() ; i++){
+                                JSONObject object = jsonArray.getJSONObject(i);
+
+                                dealId = object.getString("deal_id");
+                                isWishlist = object.getString("is_wishlist");
+
+                                Log.e("dealWish", dealId + "---" + isWishlist);
+
+                            }
+
+                            if (isWishlist.equals("0")){
+                                productFavourite.setImageResource(R.drawable.heart);
+                                addToWishlist.setVisibility(View.VISIBLE);
+                                removeFromWishlist.setVisibility(View.GONE);
+                            } else if (isWishlist.equals("1")){
+                                productFavourite.setImageResource(R.drawable.fill_heart);
+                                removeFromWishlist.setVisibility(View.VISIBLE);
+                                addToWishlist.setVisibility(View.GONE);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(Activity_ProductDetails.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                } catch (Exception e) {
+                    //  Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    Toast.makeText(Activity_ProductDetails.this, "No Data", Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+
+                        Toast.makeText(Activity_ProductDetails.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+
+            /*
+             * If you want to add more parameters with the image
+             * you can do it here
+             * here we have only one parameter with the image
+             * which is tags
+             * */
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                return params;
+            }
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/json");
+                params.put("Authorization", "Bearer " + session.getAPITOKEN());
+                return params;
+            }
+
+            /*
+             * Here we are passing image by renaming it with a unique name
+             * */
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+
+                return params;
+            }
+        };
+        //adding the request to volley
+        Volley.newRequestQueue(Activity_ProductDetails.this).add(volleyMultipartRequest);
+    }
+
 
     /*@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)

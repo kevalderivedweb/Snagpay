@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:layout_height="50dp"
+        android:paddingHorizontal="15dp">
+        <TextView
+            android:id="@+id/categoryWishListTxt"
+            android:layout_width="wrap_content"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"
+            android:letterSpacing="0.02"
+            android:textSize="14dp"/>
+
+        <ImageView
+            android:id="@+id/deleteCategoryWishList"
+            android:layout_width="15dp"
+            android:layout_height="20dp"
+            android:src="@drawable/delete"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+
+</LinearLayout>

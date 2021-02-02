@@ -87,8 +87,8 @@ public class Fragment_HomeInner extends Fragment {
             public void onItemClick(int item) {
 
                 Bundle bundle = new Bundle();
-                bundle.putString("dealID", categoryDetailsModelArrayList.get(item).getDeal_id());
-                bundle.putString("isWishlist", categoryDetailsModelArrayList.get(item).getIs_wishlist());
+                bundle.putString("category_id", category_id);
+                bundle.putString("subCategoryId", categoryDetailsModelArrayList.get(item).getCategory_id());
 
                 Intent intent = new Intent(getContext(), Activity_ProductDetails.class);
                 intent.putExtras(bundle);
@@ -202,6 +202,7 @@ public class Fragment_HomeInner extends Fragment {
                                         categoryDetailsModel.setState_name(object.getString("state_name"));
                                         categoryDetailsModel.setTotal_rating(object.getString("total_rating"));
                                         categoryDetailsModel.setAvg_rating(object.getString("avg_rating"));
+                                        categoryDetailsModel.setCategory_id(object.getString("category_id"));
                                         categoryDetailsModel.setSell_price(object.getString("sell_price"));
                                         categoryDetailsModel.setBought(object.getString("bought"));
                                         categoryDetailsModel.setDeal_id(object.getString("deal_id"));

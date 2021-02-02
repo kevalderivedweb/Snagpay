@@ -85,8 +85,7 @@ public class Fragment_WishListAcivity extends Fragment {
         resFragRecentlyViewed = view.findViewById(R.id.resFragRecentlyViewed);
 
 
-        resFragWishList.setNestedScrollingEnabled(false);
-        resFragRecentlyViewed.setNestedScrollingEnabled(false);
+
 
         getWishlist("1");
 
@@ -110,8 +109,8 @@ public class Fragment_WishListAcivity extends Fragment {
 
                 } else {
                     Bundle bundle = new Bundle();
-                    bundle.putString("dealID", categoryDetailsModelArrayList.get(item).getDeal_id());
-                    bundle.putString("isWishlist", categoryDetailsModelArrayList.get(item).getIs_wishlist());
+                    bundle.putString("category_id", categoryDetailsModelArrayList.get(item).getMain_category_id());
+                    bundle.putString("subCategoryId", categoryDetailsModelArrayList.get(item).getCategory_id());
 
                     Intent intent = new Intent(getContext(), Activity_ProductDetails.class);
                     intent.putExtras(bundle);

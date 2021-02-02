@@ -1,28 +1,35 @@
 package com.example.snagpay.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.snagpay.Model.CityModel;
 import com.example.snagpay.R;
+
+import java.util.ArrayList;
 
 public class AdapterAddAnotherCity extends RecyclerView.Adapter<AdapterAddAnotherCity.Viewholder> {
 
     private final OnItemClickListener listener;
     private Context mContext;
-    private String[]cityName;
+    private ArrayList<CityModel> mDataCity;
+    private ArrayList<CityModel> addCityList;
 
-    public AdapterAddAnotherCity(Context mContext, String[] cityName, AdapterAddAnotherCity.OnItemClickListener onItemClickListener) {
+    public AdapterAddAnotherCity(Context mContext, ArrayList<CityModel> mDataCity, ArrayList<CityModel> addCityList, OnItemClickListener onItemClickListener) {
         this.mContext = mContext;
-        this.cityName = cityName;
+        this.mDataCity = mDataCity;
         this.listener = onItemClickListener;
+        this.addCityList = addCityList;
     }
 
     @NonNull
@@ -35,23 +42,30 @@ public class AdapterAddAnotherCity extends RecyclerView.Adapter<AdapterAddAnothe
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
-        holder.cityName.setText(cityName[position]);
 
+        holder.cityName.setText(mDataCity.get(position).getCityname());
 
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.checkBoxAddCity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 listener.onItemClick(position);
-                notifyDataSetChanged();
+
             }
         });
+
+        for (int i = 0; i < addCityList.size(); i++){
+            if (addCityList.get(i).getCityId().equals(mDataCity.get(position).getCityId())){
+                
+            }
+        }
+
+        Log.e("justCheckId", addCityList.get(0).getCityId() + "--");
     }
 
     @Override
     public int getItemCount() {
-        return cityName.length;
+        return mDataCity.size();
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
