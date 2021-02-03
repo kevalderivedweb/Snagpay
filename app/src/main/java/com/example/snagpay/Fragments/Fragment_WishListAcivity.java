@@ -37,7 +37,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 public class Fragment_WishListAcivity extends Fragment {
@@ -83,8 +82,6 @@ public class Fragment_WishListAcivity extends Fragment {
 
         resFragWishList = view.findViewById(R.id.resFragWishList);
         resFragRecentlyViewed = view.findViewById(R.id.resFragRecentlyViewed);
-
-
 
 
         getWishlist("1");

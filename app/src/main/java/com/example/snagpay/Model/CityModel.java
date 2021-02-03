@@ -4,6 +4,15 @@ public class CityModel {
 
     String Cityname;
     String CityId;
+    boolean isChecked;
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
 
     public String getCityname() {
         return Cityname;

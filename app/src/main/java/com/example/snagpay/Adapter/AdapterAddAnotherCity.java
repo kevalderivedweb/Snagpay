@@ -23,13 +23,13 @@ public class AdapterAddAnotherCity extends RecyclerView.Adapter<AdapterAddAnothe
     private final OnItemClickListener listener;
     private Context mContext;
     private ArrayList<CityModel> mDataCity;
-    private ArrayList<CityModel> addCityList;
+    private ArrayList<String> arrayCityId;
 
-    public AdapterAddAnotherCity(Context mContext, ArrayList<CityModel> mDataCity, ArrayList<CityModel> addCityList, OnItemClickListener onItemClickListener) {
+    public AdapterAddAnotherCity(Context mContext, ArrayList<CityModel> mDataCity, ArrayList<String> arrayCityId, OnItemClickListener onItemClickListener) {
         this.mContext = mContext;
         this.mDataCity = mDataCity;
         this.listener = onItemClickListener;
-        this.addCityList = addCityList;
+        this.arrayCityId = arrayCityId;
     }
 
     @NonNull
@@ -45,6 +45,21 @@ public class AdapterAddAnotherCity extends RecyclerView.Adapter<AdapterAddAnothe
 
         holder.cityName.setText(mDataCity.get(position).getCityname());
 
+        for (int i = 0; i<arrayCityId.size(); i++){
+            String city = arrayCityId.get(i);
+
+            if (city.equals(mDataCity.get(position).getCityId())){
+                mDataCity.get(position).setChecked(true);
+            }
+        }
+
+
+        if (mDataCity.get(position).isChecked()){
+            holder.checkBoxAddCity.setChecked(true);
+        } else {
+            holder.checkBoxAddCity.setChecked(false);
+        }
+
         holder.checkBoxAddCity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,13 +69,7 @@ public class AdapterAddAnotherCity extends RecyclerView.Adapter<AdapterAddAnothe
             }
         });
 
-        for (int i = 0; i < addCityList.size(); i++){
-            if (addCityList.get(i).getCityId().equals(mDataCity.get(position).getCityId())){
-                
-            }
-        }
 
-        Log.e("justCheckId", addCityList.get(0).getCityId() + "--");
     }
 
     @Override

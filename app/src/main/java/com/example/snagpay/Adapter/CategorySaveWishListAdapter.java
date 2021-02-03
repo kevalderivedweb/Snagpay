@@ -40,6 +40,15 @@ public class CategorySaveWishListAdapter extends RecyclerView.Adapter<CategorySa
 
         holder.categoryWishListTxt.setText(categoryArrayList.get(position).getCityname());
 
+        holder.deleteCategoryWishList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                listener.onItemClick(position);
+                notifyDataSetChanged();
+            }
+        });
+
     }
 
     @Override
