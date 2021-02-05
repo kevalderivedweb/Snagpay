@@ -30,7 +30,7 @@
             android:scaleX="0.6"
             android:scaleY="0.6"
             android:button="@drawable/custom_checkbox"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:buttonTint="@color/black"
             android:layout_centerVertical="true" />
     </RelativeLayout>

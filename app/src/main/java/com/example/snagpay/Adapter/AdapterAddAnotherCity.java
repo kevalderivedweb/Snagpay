@@ -30,6 +30,7 @@ public class AdapterAddAnotherCity extends RecyclerView.Adapter<AdapterAddAnothe
         this.mDataCity = mDataCity;
         this.listener = onItemClickListener;
         this.arrayCityId = arrayCityId;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -51,6 +52,7 @@ public class AdapterAddAnotherCity extends RecyclerView.Adapter<AdapterAddAnothe
             if (city.equals(mDataCity.get(position).getCityId())){
                 mDataCity.get(position).setChecked(true);
             }
+
         }
 
 
@@ -68,6 +70,7 @@ public class AdapterAddAnotherCity extends RecyclerView.Adapter<AdapterAddAnothe
 
             }
         });
+
 
 
     }

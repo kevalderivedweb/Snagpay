@@ -119,7 +119,7 @@ public class Activity_EditShippingAddress extends AppCompatActivity {
                 if(position != mDataState.size()-1){
                     try {
                         state_id = mDataState.get(position).getCityId();
-                        getCity();
+                        getCityFromState(state_id);
                     }catch (Exception e){
                         //	GetStudnet("0","0");
 
@@ -143,14 +143,15 @@ public class Activity_EditShippingAddress extends AppCompatActivity {
         citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position != mDataCity.size()-1){
+
+
                     try {
                         city_id = mDataCity.get(position).getCityId();
 
                     }catch (Exception e){
                         //	GetStudnet("0","0");
 
-                    }
+
                 }
             }
 
@@ -161,7 +162,6 @@ public class Activity_EditShippingAddress extends AppCompatActivity {
         });
 
         getState();
-        getCity();
 
         getEditShippingAddress(idShippingAddress);
     }
@@ -311,6 +311,8 @@ public class Activity_EditShippingAddress extends AppCompatActivity {
 
                                     Toast.makeText(Activity_EditShippingAddress.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
 
+                                    getState();
+
                                 } catch (JSONException e){
                                     e.printStackTrace();
                                     Toast.makeText(Activity_EditShippingAddress.this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -414,7 +416,7 @@ public class Activity_EditShippingAddress extends AppCompatActivity {
 
                                     CityModel BatchModel = new CityModel();
                                     BatchModel.setCityId("");
-                                    BatchModel.setCityname("Select state");
+                                    BatchModel.setCityname(nameStateSpinnerFirst);
                                     mDataState.add(BatchModel);
                                     SelectCitySpinner adapter = new SelectCitySpinner(Activity_EditShippingAddress.this,
                                             android.R.layout.simple_spinner_item,
@@ -422,6 +424,9 @@ public class Activity_EditShippingAddress extends AppCompatActivity {
                                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
                                     stateSpinner.setAdapter(adapter);
                                     stateSpinner.setSelection(adapter.getCount());
+
+                                    getCity();
+
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -465,7 +470,7 @@ public class Activity_EditShippingAddress extends AppCompatActivity {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/json");
-                // params.put("Authorization", "Bearer " + session.getAPIToken());
+                params.put("Authorization", "Bearer " + session.getAPITOKEN());
                 return params;
             }
 
@@ -503,6 +508,8 @@ public class Activity_EditShippingAddress extends AppCompatActivity {
 
                         progressDialog.dismiss();
 
+                        mDataCity.clear();
+
                         Log.e("Response",response.data.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(new String(response.data));
@@ -523,8 +530,8 @@ public class Activity_EditShippingAddress extends AppCompatActivity {
                                     }
 
                                     CityModel BatchModel = new CityModel();
-                                    BatchModel.setCityId("");
-                                    BatchModel.setCityname("Select city");
+                                    BatchModel.setCityId(city_id);
+                                    BatchModel.setCityname(nameCitySpinnerFirst);
                                     mDataCity.add(BatchModel);
                                     SelectCitySpinner adapter = new SelectCitySpinner(Activity_EditShippingAddress.this,
                                             android.R.layout.simple_spinner_item,
@@ -532,16 +539,12 @@ public class Activity_EditShippingAddress extends AppCompatActivity {
                                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
                                     citySpinner.setAdapter(adapter);
                                     citySpinner.setSelection(adapter.getCount());
+
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
                             }else if(jsonObject.getString("ResponseCode").equals("401")){
 
-                               /* session.logout();
-                                Intent intent = new Intent(Activity_SelectCity.this, Activity_SelectCity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                                finish();*/
                             }
 
                             Toast.makeText(Activity_EditShippingAddress.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
@@ -579,7 +582,116 @@ public class Activity_EditShippingAddress extends AppCompatActivity {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Accept", "application/json");
-                // params.put("Authorization", "Bearer " + session.getAPIToken());
+                params.put("Authorization", "Bearer " + session.getAPITOKEN());
+                return params;
+            }
+
+            /*
+             * Here we are passing image by renaming it with a unique name
+             * */
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+
+                return params;
+            }
+        };
+        //adding the request to volley
+        volleyMultipartRequest.setShouldRetryServerErrors(true);
+
+        Volley.newRequestQueue(Activity_EditShippingAddress.this).add(volleyMultipartRequest);
+    }
+
+
+    private void getCityFromState(String state_id) {
+        final KProgressHUD progressDialog = KProgressHUD.create(Activity_EditShippingAddress.this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel("Please wait")
+                .setCancellable(false)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f)
+                .show();
+        //getting the tag from the edittext
+
+        //our custom volley request
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "get-cities?state_id=" + state_id,
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+
+                        progressDialog.dismiss();
+
+                        mDataCity.clear();
+
+                        Log.e("Response",response.data.toString());
+                        try {
+                            JSONObject jsonObject = new JSONObject(new String(response.data));
+
+                            if (jsonObject.getString("ResponseCode").equals("200")){
+
+                                try {
+
+                                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+
+                                    for (int i = 0 ; i<jsonArray.length() ; i++){
+                                        JSONObject object = jsonArray.getJSONObject(i);
+                                        CityModel BatchModel = new CityModel();
+                                        BatchModel.setCityname(object.getString("city_name"));
+                                        BatchModel.setCityId(object.getString("city_id"));
+                                        mDataCity.add(BatchModel);
+                                    }
+
+                                    SelectCitySpinner adapter = new SelectCitySpinner(Activity_EditShippingAddress.this,
+                                            android.R.layout.simple_spinner_item,
+                                            mDataCity);
+                                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+                                    citySpinner.setAdapter(adapter);
+                                    citySpinner.setSelection(adapter.getCount());
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }else if(jsonObject.getString("ResponseCode").equals("401")){
+
+                            }
+
+                            Toast.makeText(Activity_EditShippingAddress.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
+
+                        } catch (Exception e) {
+                            Toast.makeText(Activity_EditShippingAddress.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+
+                        Toast.makeText(Activity_EditShippingAddress.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+
+            /*
+             * If you want to add more parameters with the image
+             * you can do it here
+             * here we have only one parameter with the image
+             * which is tags
+             * */
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                return params;
+            }
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/json");
+                params.put("Authorization", "Bearer " + session.getAPITOKEN());
                 return params;
             }
 

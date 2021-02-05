@@ -53,6 +53,7 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
     private ArrayList<CityModel> categoryArrayList = new ArrayList<>();
 
     private ArrayList<String> arrayCityId = new ArrayList<>();
+    private ArrayList<String> arrayCategoryId = new ArrayList<>();
     private UserSession session;
 
     private CityNameListAdapter cityNameListAdapter;
@@ -60,6 +61,7 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
     private CategorySaveWishListAdapter categoryWishListAdapter;
 
     private String citiesName;
+    private String categoryName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,9 +89,18 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
 
                 String removeCity = addCityList.get(item).getCityId();
 
-               // manageMyWishlist(removeCity); // when api of remove will come then applied here...
+                mDataCity.get(item).setChecked(false);
+
+                arrayCityId.remove(removeCity);
+
+                String deleteCity = TextUtils.join(",", arrayCityId);
+                Log.e("jussss", arrayCityId.toString() + " ");
+
+                manageMyWishlist(deleteCity); // when api of remove will come then applied here...
+
             }
         });
+
         recAddAnotherCity.setAdapter(cityNameListAdapter);
 
         recListCategory.setLayoutManager(new LinearLayoutManager(Activity_ManageMyWishList.this));
@@ -100,6 +111,7 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
             }
         });
         recListCategory.setAdapter(categoryWishListAdapter);
+
 
 
 
@@ -114,28 +126,12 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
                 Window window = dialogForCity.getWindow();
                 window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
 
-
+                Log.e("seperateCityId", arrayCityId.toString() + "--");
                 RecyclerView recyclerViewCity = dialogForCity.findViewById(R.id.dialogCityList);
                 recyclerViewCity.setLayoutManager(new LinearLayoutManager(dialogForCity.getContext()));
-
-                adapterAddAnotherCity1 = new AdapterAddAnotherCity(Activity_ManageMyWishList.this, mDataCity, arrayCityId, new AdapterAddAnotherCity.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(int item) {
-
-                        if (mDataCity.get(item).isChecked()){
-                            mDataCity.get(item).setChecked(false);
-                            arrayCityId.remove(mDataCity.get(item).getCityId());
-
-                        } else {
-                            mDataCity.get(item).setChecked(true);
-                            arrayCityId.add(mDataCity.get(item).getCityId());
-
-                        }
-                        cityNameListAdapter.notifyDataSetChanged();
-
-                    }
-                });
                 recyclerViewCity.setAdapter(adapterAddAnotherCity1);
+
+                adapterAddAnotherCity1.notifyDataSetChanged();
 
                 dialogForCity.findViewById(R.id.dialogCityClose).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -147,16 +143,16 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
                 dialogForCity.findViewById(R.id.btnDialogAddCity).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        cityNameListAdapter.notifyDataSetChanged();
-                        dialogForCity.dismiss();
 
+                        citiesName = "";
                         citiesName = TextUtils.join("," , arrayCityId);
 
                         Log.e("checkCityId", arrayCityId.toString() + "--");
                         Log.e("joined", citiesName + "--");
 
                         manageMyWishlist(citiesName);
-                        cityNameListAdapter.notifyDataSetChanged();
+
+                        dialogForCity.dismiss();
 
                     }
                 });
@@ -211,19 +207,19 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
             }
         });
 
-        getCategories();
+        getMyWishlist();
         getCity();
 
     }
 
-    private void manageMyWishlist(String citiesName) {
+    private void manageMyWishlist(String citiesNameSave) {
         final KProgressHUD progressDialog = KProgressHUD.create(Activity_ManageMyWishList.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setLabel("Please wait")
                 .setCancellable(false)
                 .setAnimationSpeed(2)
-                .setDimAmount(0.5f);
-        //   .show();
+                .setDimAmount(0.5f)
+                .show();
         //getting the tag from the edittext
 
         //our custom volley request
@@ -235,14 +231,20 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
                         progressDialog.dismiss();
 
                         try {
+
+
+                            addCityList.clear();
+
                             JSONObject jsonObject = new JSONObject(new String(response.data));
                             Log.e("Response",jsonObject.toString() + " --");
                             if (jsonObject.getString("ResponseCode").equals("200")){
 
                                 try {
 
-                                    cityNameListAdapter.notifyDataSetChanged();
-                                    dialogForCity.dismiss();
+
+                                    arrayCityId.clear();
+
+                                    getMyWishlist();
 
                                     Toast.makeText(Activity_ManageMyWishList.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
 
@@ -280,7 +282,8 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("city_ids", citiesName);
+                params.put("city_ids", citiesNameSave);
+                params.put("category_ids", categoryName);
 
                 return params;
             }
@@ -308,14 +311,14 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
         Volley.newRequestQueue(Activity_ManageMyWishList.this).add(volleyMultipartRequest);
     }
 
-    private void getCategories(){
+    private void getMyWishlist(){
         final KProgressHUD progressDialog = KProgressHUD.create(Activity_ManageMyWishList.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setLabel("Please wait")
                 .setCancellable(false)
                 .setAnimationSpeed(2)
-                .setDimAmount(0.5f);
-        //   .show();
+                .setDimAmount(0.5f)
+                .show();
         //getting the tag from the edittext
 
         //our custom volley request
@@ -327,6 +330,12 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
                         progressDialog.dismiss();
 
                         try {
+
+                            addCityList.clear();
+                            arrayCityId.clear();
+                            categoryArrayList.clear();
+                            arrayCategoryId.clear();
+
                             JSONObject jsonObject = new JSONObject(new String(response.data));
                             Log.e("Response",jsonObject.toString() + " --");
                             if (jsonObject.getString("ResponseCode").equals("200")){
@@ -359,13 +368,41 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
                                     }
                                     categoryWishListAdapter.notifyDataSetChanged();
 
+                                    for (int i = 0; i< categoryArrayList.size(); i++){
+                                        arrayCategoryId.add(categoryArrayList.get(i).getCityId());
+                                    }
+
+                                    categoryName = TextUtils.join("," , arrayCategoryId);
+
 
 
                                     for (int i = 0; i < addCityList.size(); i++){
                                         arrayCityId.add(addCityList.get(i).getCityId());
                                     }
 
+                                    adapterAddAnotherCity1 = new AdapterAddAnotherCity(Activity_ManageMyWishList.this, mDataCity, arrayCityId, new AdapterAddAnotherCity.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(int item) {
+
+                                            if (mDataCity.get(item).isChecked()){
+                                                mDataCity.get(item).setChecked(false);
+                                                arrayCityId.remove(mDataCity.get(item).getCityId());
+
+                                            } else {
+                                                mDataCity.get(item).setChecked(true);
+                                                arrayCityId.add(mDataCity.get(item).getCityId());
+
+                                            }
+                                            cityNameListAdapter.notifyDataSetChanged();
+
+                                        }
+                                    });
+
+                                    adapterAddAnotherCity1.notifyDataSetChanged();
+
                                     Log.e("seperateCityId", arrayCityId.toString() + "--");
+
+                                    citiesName = TextUtils.join("," , arrayCityId);
 
 
                                 } catch (JSONException e) {

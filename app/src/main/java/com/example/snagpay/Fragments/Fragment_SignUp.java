@@ -932,6 +932,9 @@ public class    Fragment_SignUp extends Fragment implements GoogleApiClient.OnCo
 
                             Log.e("Response",jsonObject.toString());
                             if (jsonObject.getString("ResponseCode").equals("200")){
+
+                                session.stayLoggedIn(true);
+
                                 JSONObject object = jsonObject.getJSONObject("data");
 
                                 session.createLoginSession(object.getString("user_id"),
@@ -963,7 +966,10 @@ public class    Fragment_SignUp extends Fragment implements GoogleApiClient.OnCo
                                         object.getString("api_token")
                                 );
 
-                                Intent intent = new Intent(getContext(), Activity_ThanksSeller.class);
+                                Intent intent = new Intent(getContext(), MainActivity.class);
+                            //    Intent intent = new Intent(getContext(), Activity_ThanksSeller.class);
+
+
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                                 getActivity().finish();

@@ -65,6 +65,8 @@ public class Fragment_HomeActivity extends Fragment {
         recHomeInGrid = view.findViewById(R.id.recHomeInGrid);
         mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
 
+        Log.e("tokennn", session.getAPITOKEN() + "");
+
         getCategories();
 
         recHomeInGrid.setLayoutManager(new GridLayoutManager(view.getContext(), 2));

@@ -88,7 +88,7 @@ public class Activity_ShippingAddress extends AppCompatActivity {
             public void onItemClickRemove(int item) {
 
                 removeShippingAddress(item);
-                adapterShippingAddress.notifyDataSetChanged();
+
             }
 
             @Override
@@ -96,6 +96,13 @@ public class Activity_ShippingAddress extends AppCompatActivity {
                 Intent intent = new Intent(Activity_ShippingAddress.this, Activity_EditShippingAddress.class);
                 intent.putExtra("idShippingAddress", item);
                 startActivity(intent);
+            }
+
+            @Override
+            public void onItemClickRadio(int item) {
+
+                Toast.makeText(Activity_ShippingAddress.this, String.valueOf(item), Toast.LENGTH_SHORT).show();
+
             }
         });
         adapterShippingAddress.notifyDataSetChanged();
@@ -144,7 +151,6 @@ public class Activity_ShippingAddress extends AppCompatActivity {
                         progressDialog.dismiss();
 
                         try {
-                            adapterShippingAddress.notifyDataSetChanged();
 
                             JSONObject jsonObject = new JSONObject(new String(response.data).toString());
 
@@ -153,7 +159,7 @@ public class Activity_ShippingAddress extends AppCompatActivity {
                             if (jsonObject.getString("ResponseCode").equals("200")){
 
                                 try {
-
+                                    getShippingAddressList();
                                     Toast.makeText(Activity_ShippingAddress.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
 
                                 } catch (JSONException e){
@@ -238,7 +244,7 @@ public class Activity_ShippingAddress extends AppCompatActivity {
                     public void onResponse(NetworkResponse response) {
 
                         progressDialog.dismiss();
-
+                        shippingAddressModelArrayList.clear();
                         try {
                             JSONObject jsonObject = new JSONObject(new String(response.data).toString());
 
@@ -355,4 +361,10 @@ public class Activity_ShippingAddress extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        getShippingAddressList();
+    }
 }
