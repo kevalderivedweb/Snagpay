@@ -130,7 +130,6 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
 
 
 
-
         btnAddAnotherCity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

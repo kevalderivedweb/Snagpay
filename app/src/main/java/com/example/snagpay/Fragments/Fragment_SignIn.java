@@ -238,7 +238,15 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
                 }else {
                     if (isNetworkConnected()) {
 
+                        if (checkBoxStayLogIn.isChecked()){
+                            session.stayLoggedIn(true);
+                        }
+                        else {
+                            session.stayLoggedIn(false);
+                        }
+
                         SignIn(mEmail.getText().toString(), mPassword.getText().toString());
+
 
                     }else {
                         Snackbar snackbar = Snackbar
@@ -348,6 +356,7 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
 
                             if (jsonObject.getString("ResponseCode").equals("200")){
 
+                                session.stayLoggedIn(true);
 
                                 session.createLoginSession(object.getString("user_id"),
                                         object.getString("first_name"),
@@ -711,14 +720,6 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
         ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;
     }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        //context.unregisterReceiver(receiver);
-    }
-
-
 
 
 }

@@ -27,7 +27,6 @@ public class UserSession {
     private static final String POST_CODE = "postCode";
 
 
-
     private final String USER_ID = "User_id";
     private final String FIRSTNAME = "first_name";
     private final String LASTNAME = "last_name";
@@ -92,7 +91,7 @@ public class UserSession {
                                    String is_approved,
                                    String api_token
     ) {
-        editor.putBoolean(IS_LOGIN, true);
+
         editor.putString(USER_ID, user_id);
         editor.putString(FIRSTNAME, first_name);
         editor.putString(LASTNAME, last_name);
@@ -437,4 +436,12 @@ public class UserSession {
     }
 
 
+    public void stayLoggedIn(boolean b) {
+        editor.putBoolean(IS_LOGIN, b);
+        editor.commit();
+    }
+
+    public boolean getStayLogIn(){
+        return sharedPreferences.getBoolean(IS_LOGIN, false);
+    }
 }

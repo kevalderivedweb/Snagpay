@@ -183,8 +183,14 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
-
+        if (!session.getStayLogIn()){
+            session.logout();
+        }
+    }
 
 
 }

@@ -203,12 +203,6 @@
                     android:src="@drawable/down_arrow2" />
             </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginTop="2dp"
-                android:background="@color/light_gray"
-                android:layout_marginHorizontal="2dp"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -253,13 +247,6 @@
                 android:textColor="@color/black"
                 android:textCursorDrawable="@drawable/cursor_blue_color"
                 android:fontFamily="@font/roboto_regular" />-->
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginTop="2dp"
-                android:background="@color/light_gray"
-                android:layout_marginHorizontal="2dp"/>
 
             <TextView
                 android:layout_width="match_parent"

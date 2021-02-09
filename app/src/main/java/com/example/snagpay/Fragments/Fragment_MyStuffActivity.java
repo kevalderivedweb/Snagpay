@@ -216,5 +216,4 @@ public class Fragment_MyStuffActivity extends Fragment implements GoogleApiClien
     }
 
 
-
 }
