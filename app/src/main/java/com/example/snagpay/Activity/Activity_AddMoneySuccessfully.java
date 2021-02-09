@@ -31,14 +31,6 @@ public class Activity_AddMoneySuccessfully extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        if (!session.isCheckIn()){
-            session.logout();
-        }
-    }
 
     @Override
     public void onDestroy() {

@@ -170,14 +170,7 @@ public class Activity_FilterSortBy extends AppCompatActivity {
         listDataChild.put(listDataHeader.get(2), Price);
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
 
-        if (!session.isCheckIn()){
-            session.logout();
-        }
-    }
 
     @Override
     public void onDestroy() {

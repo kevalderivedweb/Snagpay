@@ -475,14 +475,7 @@ public class Activity_AddShippingAddress extends AppCompatActivity {
         Volley.newRequestQueue(Activity_AddShippingAddress.this).add(volleyMultipartRequest);
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
 
-        if (!session.isCheckIn()){
-            session.logout();
-        }
-    }
 
     @Override
     public void onDestroy() {

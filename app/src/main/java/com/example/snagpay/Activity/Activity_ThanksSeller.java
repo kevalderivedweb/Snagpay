@@ -79,14 +79,7 @@ public class Activity_ThanksSeller extends AppCompatActivity {
         view.setText(spanTxt, TextView.BufferType.NORMAL);
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
 
-        if (!session.isCheckIn()){
-            session.logout();
-        }
-    }
 
     @Override
     public void onDestroy() {

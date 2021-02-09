@@ -215,14 +215,6 @@ public class Fragment_MyStuffActivity extends Fragment implements GoogleApiClien
         Toast.makeText(getContext(), "Sign out Falied", Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        if (!session.isCheckIn()){
-            session.logout();
-        }
-    }
 
     @Override
     public void onDestroy() {

@@ -42,14 +42,7 @@ public class Activity_Statement extends AppCompatActivity {
         spinnerSelectMonthHistory.setAdapter(spinnerArrayAdapterMonth);
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
 
-        if (!session.isCheckIn()){
-            session.logout();
-        }
-    }
 
     @Override
     public void onDestroy() {

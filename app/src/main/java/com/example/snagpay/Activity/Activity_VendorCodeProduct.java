@@ -47,14 +47,7 @@ public class Activity_VendorCodeProduct extends AppCompatActivity {
         recVendorLanguages.setAdapter(adapterVendorLanguages);
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
 
-        if (!session.isCheckIn()){
-            session.logout();
-        }
-    }
 
     @Override
     public void onDestroy() {

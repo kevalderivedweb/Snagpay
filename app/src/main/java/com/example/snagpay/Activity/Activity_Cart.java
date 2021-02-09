@@ -48,14 +48,7 @@ public class Activity_Cart extends AppCompatActivity {
         recMyCart.setAdapter(adapterMyCart);
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
 
-        if (!session.isCheckIn()){
-            session.logout();
-        }
-    }
 
     @Override
     public void onDestroy() {

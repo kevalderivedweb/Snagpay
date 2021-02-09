@@ -726,14 +726,7 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
         //context.unregisterReceiver(receiver);
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
 
-        if (!session.isCheckIn()){
-            session.logout();
-        }
-    }
 
     @Override
     public void onDestroy() {

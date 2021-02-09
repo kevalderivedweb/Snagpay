@@ -227,15 +227,6 @@ public class Fragment_CategoriesActivity extends Fragment {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-
-        if (!session.isCheckIn()){
-            session.logout();
-        }
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
 

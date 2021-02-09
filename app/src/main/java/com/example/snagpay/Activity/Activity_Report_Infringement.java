@@ -52,14 +52,7 @@ public class Activity_Report_Infringement extends AppCompatActivity {
         complaintListSpinner.setSelection(listsize); // Hidden item to appear in the spinner
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
 
-        if (!session.isCheckIn()){
-            session.logout();
-        }
-    }
 
     @Override
     public void onDestroy() {
