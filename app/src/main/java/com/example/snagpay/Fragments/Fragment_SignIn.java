@@ -17,9 +17,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
+import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.LinkMovementMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.Base64;
@@ -30,6 +33,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.AuthFailureError;
@@ -76,9 +80,11 @@ import java.util.Objects;
 public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConnectionFailedListener {
 
     private UserSession session;
-    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     private EditText mEmail,mPassword;
     private CheckBox checkBoxStayLogIn;
+
+    private ImageView icon_password_visible_login, icon_password_invisible_login;
 
     // for google signin
     public static GoogleApiClient googleApiClient;
@@ -127,6 +133,38 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
         login_button = view.findViewById(R.id.login_button);
         btnFacebookLogin = view.findViewById(R.id.btnFacebookLogin);
         checkBoxStayLogIn = view.findViewById(R.id.checkBoxStayLogIn);
+
+        icon_password_visible_login = view.findViewById(R.id.icon_password_visible_login);
+        icon_password_invisible_login = view.findViewById(R.id.icon_password_invisible_login);
+
+
+        icon_password_visible_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+                mPassword.setSelection(mPassword.length());
+                icon_password_visible_login.setVisibility(View.GONE);
+                icon_password_invisible_login.setVisibility(View.VISIBLE);
+
+                mPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+
+            }
+        });
+
+        icon_password_invisible_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                mPassword.setSelection(mPassword.length());
+
+                mPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+
+                icon_password_invisible_login.setVisibility(View.GONE);
+                icon_password_visible_login.setVisibility(View.VISIBLE);
+            }
+        });
 
         login_button.setReadPermissions("public_profile", "email" );
 
@@ -308,12 +346,16 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
 
                         progressDialog.dismiss();
 
-                        Log.e("Response",response.data.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(new String(response.data));
+
+                            Log.e("ResponseGoogle",new String(response.data));
+
                             JSONObject object = jsonObject.getJSONObject("data");
 
                             if (jsonObject.getString("ResponseCode").equals("200")){
+
+                                session.stayLoggedIn(true);
 
                                 session.createLoginSession(object.getString("user_id"),
                                         object.getString("first_name"),
@@ -329,7 +371,6 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
                                         object.getString("country_id"),
                                         object.getString("postcode"),
                                         object.getString("is_email_verified"),
-                                        object.getString("is_email_verified"),
                                         object.getString("otp"),
                                         object.getString("latitude"),
                                         object.getString("longitude"),
@@ -340,6 +381,7 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
                                         object.getString("how_long_have_you"),
                                         object.getString("no_of_physical_locations"),
                                         object.getString("website_or_page"),
+                                        object.getString("cost_of_goods"),
                                         object.getString("is_approved"),
                                         object.getString("api_token")
                                 );
@@ -432,9 +474,11 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
 
                         progressDialog.dismiss();
 
-                        Log.e("Response",response.data.toString());
+                      //  Log.e("ResponseSignIn",response.data.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(new String(response.data));
+
+                            Log.e("ResponseSignIn",new String(response.data));
 
                             if (jsonObject.getString("ResponseCode").equals("200")){
 

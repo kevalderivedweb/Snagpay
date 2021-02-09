@@ -103,20 +103,23 @@
 
                         <ImageView
                             android:id="@+id/icon_password_visible_signup"
-                            android:layout_width="35dp"
+                            android:layout_width="25dp"
                             android:layout_height="15dp"
                             android:layout_marginTop="16dp"
                             android:layout_marginRight="12dp"
+                            android:scaleType="fitXY"
                             android:layout_alignParentRight="true"
                             android:src="@drawable/icon_pass_visible"/>
 
                         <ImageView
                             android:id="@+id/icon_password_invisible_signup"
-                            android:layout_width="35dp"
+                            android:layout_width="25dp"
                             android:layout_height="15dp"
                             android:layout_alignParentRight="true"
                             android:layout_marginTop="16dp"
-                            android:visibility="invisible"
+                            android:scaleY="1.22"
+                            android:visibility="gone"
+                            android:scaleType="fitXY"
                             android:layout_marginRight="12dp"
                             android:src="@drawable/icon_pass_invisible"/>
                     </RelativeLayout>

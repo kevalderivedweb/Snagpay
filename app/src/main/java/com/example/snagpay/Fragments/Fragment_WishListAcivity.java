@@ -401,7 +401,7 @@ public class Fragment_WishListAcivity extends Fragment {
                 params.put("Accept", "application/json");
                 params.put("Authorization", "Bearer " + session.getAPITOKEN());
 
-                Log.e("tokenId", session.getAPITOKEN()+"");
+                Log.e("tokenId", session.getAPITOKEN()+"--");
                 return params;
             }
 

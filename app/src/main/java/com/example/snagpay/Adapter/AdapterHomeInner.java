@@ -1,6 +1,7 @@
 package com.example.snagpay.Adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,6 +64,8 @@ public class AdapterHomeInner extends RecyclerView.Adapter<AdapterHomeInner.View
        // Log.e("imagee", categoryDetailsModelArrayList.get(position).getDeal_image() + " ");
 
         holder.titleHome.setText(categoryDetailsModelArrayList.get(position).getTitle());
+        holder.titleHome.setEllipsize(TextUtils.TruncateAt.END);
+
         holder.cityName.setText(categoryDetailsModelArrayList.get(position).getCity_name());
         holder.totalRating.setText("(" + categoryDetailsModelArrayList.get(position).getTotal_rating() + " Rating)");
         holder.priceRegular.setText("$" +categoryDetailsModelArrayList.get(position).getSell_price());

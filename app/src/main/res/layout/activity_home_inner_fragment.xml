@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="5dp"
+    android:orientation="vertical"
     xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.Fragment_HomeInner">
-
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:id="@+id/one"
+        android:layout_marginTop="-5dp"
         android:padding="7dp">
 
         <ImageView
@@ -93,6 +94,10 @@
         </LinearLayout>
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/light_gray" />
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_view_container"
@@ -178,4 +183,4 @@
 
         android:layout_height="match_parent" />
 
-</RelativeLayout>
+</LinearLayout>

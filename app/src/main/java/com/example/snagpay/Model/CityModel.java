@@ -1,10 +1,13 @@
 package com.example.snagpay.Model;
 
+import java.util.ArrayList;
+
 public class CityModel {
 
     String Cityname;
     String CityId;
     boolean isChecked;
+    ArrayList<CityModelSub> cityModelSubArrayList;
 
     public boolean isChecked() {
         return isChecked;
@@ -28,5 +31,13 @@ public class CityModel {
 
     public void setCityId(String cityId) {
         CityId = cityId;
+    }
+
+    public ArrayList<CityModelSub> getCityModelSubArrayList() {
+        return cityModelSubArrayList;
+    }
+
+    public void setCityModelSubArrayList(ArrayList<CityModelSub> cityModelSubArrayList) {
+        this.cityModelSubArrayList = cityModelSubArrayList;
     }
 }

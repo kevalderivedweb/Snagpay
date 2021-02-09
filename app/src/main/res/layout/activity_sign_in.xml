@@ -53,12 +53,12 @@
             android:layout_marginTop="12dp">
 
             <EditText
+                android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:hint="Enter your password"
                 android:paddingLeft="55dp"
                 android:textSize="14dp"
-                android:id="@+id/password"
                 android:inputType="textPassword"
                 android:textCursorDrawable="@drawable/cursor_green_color"
                 android:background="@drawable/rounded_edittext" />
@@ -72,20 +72,23 @@
 
             <ImageView
                 android:id="@+id/icon_password_visible_login"
-                android:layout_width="35dp"
+                android:layout_width="25dp"
                 android:layout_height="15dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="12dp"
+                android:scaleType="fitXY"
                 android:layout_alignParentRight="true"
                 android:src="@drawable/icon_pass_visible"/>
 
             <ImageView
                 android:id="@+id/icon_password_invisible_login"
-                android:layout_width="35dp"
+                android:layout_width="25dp"
                 android:layout_height="15dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="16dp"
-                android:visibility="invisible"
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                android:scaleY="1.22"
                 android:layout_marginRight="12dp"
                 android:src="@drawable/icon_pass_invisible"/>
         </RelativeLayout>

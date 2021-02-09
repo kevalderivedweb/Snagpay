@@ -11,12 +11,16 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +46,8 @@ public class Activity_NewPassword extends AppCompatActivity {
     private EditText editNewPass, editConfirmPass;
     private UserSession session;
     private String mEmail;
+    private ImageView icon_password_visible_change_password, icon_password_invisible_change_password,
+            icon_confirm_password_visible_change_password, icon_confirm_password_invisible_change_password;
 
     private static final String LOG_TAG = "CheckNetworkStatus";
     private NetworkChangeReceiver receiver;
@@ -63,6 +69,67 @@ public class Activity_NewPassword extends AppCompatActivity {
 
         editNewPass = findViewById(R.id.editNewPass);
         editConfirmPass = findViewById(R.id.editConfirmPass);
+        icon_password_visible_change_password = findViewById(R.id.icon_password_visible_change_password);
+        icon_password_invisible_change_password = findViewById(R.id.icon_password_invisible_change_password);
+        icon_confirm_password_visible_change_password = findViewById(R.id.icon_confirm_password_visible_change_password);
+        icon_confirm_password_invisible_change_password = findViewById(R.id.icon_confirm_password_invisible_change_password);
+
+
+        icon_password_visible_change_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editNewPass.setInputType(InputType.TYPE_CLASS_TEXT);
+                editNewPass.setSelection(editNewPass.length());
+                icon_password_visible_change_password.setVisibility(View.GONE);
+                icon_password_invisible_change_password.setVisibility(View.VISIBLE);
+
+                editNewPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+
+            }
+        });
+
+        icon_password_invisible_change_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                editNewPass.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                editNewPass.setSelection(editNewPass.length());
+
+                editNewPass.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+
+                icon_password_invisible_change_password.setVisibility(View.GONE);
+                icon_password_visible_change_password.setVisibility(View.VISIBLE);
+            }
+        });
+
+        icon_confirm_password_visible_change_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editConfirmPass.setInputType(InputType.TYPE_CLASS_TEXT);
+                editConfirmPass.setSelection(editConfirmPass.length());
+                icon_confirm_password_visible_change_password.setVisibility(View.GONE);
+                icon_confirm_password_invisible_change_password.setVisibility(View.VISIBLE);
+
+                editConfirmPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+
+            }
+        });
+
+        icon_confirm_password_invisible_change_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                editConfirmPass.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                editConfirmPass.setSelection(editConfirmPass.length());
+
+                editConfirmPass.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+
+                icon_confirm_password_invisible_change_password.setVisibility(View.GONE);
+                icon_confirm_password_visible_change_password.setVisibility(View.VISIBLE);
+            }
+        });
 
         session = new UserSession(Activity_NewPassword.this);
         mEmail = getIntent().getStringExtra("emailPass");

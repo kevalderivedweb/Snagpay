@@ -6,6 +6,9 @@ import androidx.core.content.ContextCompat;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,8 +40,10 @@ import java.util.Map;
 public class Activity_ChangePassword extends AppCompatActivity {
 
     private EditText editOldPass, editNewPass, editConfirmPass;
-    private Button btnChangePassword;
+
     private UserSession session;
+    private ImageView icon_password_visible_old_password, icon_password_invisible_old_password, icon_password_visible_change_password,
+            icon_password_invisible_change_password, icon_confirm_password_visible_change_password, icon_confirm_password_invisible_change_password;
 
 
     @Override
@@ -54,7 +60,101 @@ public class Activity_ChangePassword extends AppCompatActivity {
         editOldPass = findViewById(R.id.editOldPass);
         editNewPass = findViewById(R.id.editNewPass);
         editConfirmPass = findViewById(R.id.editConfirmPass);
-        btnChangePassword = findViewById(R.id.btnChangePassword);
+        icon_password_visible_old_password = findViewById(R.id.icon_password_visible_old_password);
+        icon_password_invisible_old_password = findViewById(R.id.icon_password_invisible_old_password);
+        icon_password_visible_change_password = findViewById(R.id.icon_password_visible_change_password);
+        icon_password_invisible_change_password = findViewById(R.id.icon_password_invisible_change_password);
+        icon_confirm_password_visible_change_password = findViewById(R.id.icon_confirm_password_visible_change_password);
+        icon_confirm_password_invisible_change_password = findViewById(R.id.icon_confirm_password_invisible_change_password);
+
+        icon_password_visible_old_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editOldPass.setInputType(InputType.TYPE_CLASS_TEXT);
+                editOldPass.setSelection(editOldPass.length());
+                icon_password_visible_old_password.setVisibility(View.GONE);
+                icon_password_invisible_old_password.setVisibility(View.VISIBLE);
+
+                editOldPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+
+            }
+        });
+
+        icon_password_invisible_old_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                editOldPass.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                editOldPass.setSelection(editOldPass.length());
+
+                editOldPass.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+
+                icon_password_invisible_old_password.setVisibility(View.GONE);
+                icon_password_visible_old_password.setVisibility(View.VISIBLE);
+            }
+        });
+
+        icon_password_visible_change_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editNewPass.setInputType(InputType.TYPE_CLASS_TEXT);
+                editNewPass.setSelection(editNewPass.length());
+
+                icon_password_visible_change_password.setVisibility(View.GONE);
+                icon_password_invisible_change_password.setVisibility(View.VISIBLE);
+
+                editNewPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+
+            }
+        });
+
+        icon_password_invisible_change_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                editNewPass.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                editNewPass.setSelection(editNewPass.length());
+
+                editNewPass.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+
+                icon_password_invisible_change_password.setVisibility(View.GONE);
+                icon_password_visible_change_password.setVisibility(View.VISIBLE);
+            }
+        });
+
+        icon_confirm_password_visible_change_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editConfirmPass.setInputType(InputType.TYPE_CLASS_TEXT);
+                editConfirmPass.setSelection(editConfirmPass.length());
+
+                icon_confirm_password_visible_change_password.setVisibility(View.GONE);
+                icon_confirm_password_invisible_change_password.setVisibility(View.VISIBLE);
+
+                editConfirmPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+
+            }
+        });
+
+        icon_confirm_password_invisible_change_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                editConfirmPass.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                editConfirmPass.setSelection(editConfirmPass.length());
+
+                editConfirmPass.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+
+                icon_confirm_password_invisible_change_password.setVisibility(View.GONE);
+                icon_confirm_password_visible_change_password.setVisibility(View.VISIBLE);
+            }
+        });
+
+
+
 
         findViewById(R.id.btnChangePassword).setOnClickListener(new View.OnClickListener() {
             @Override

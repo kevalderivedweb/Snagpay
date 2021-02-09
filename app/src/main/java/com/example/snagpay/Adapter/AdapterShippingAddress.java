@@ -21,7 +21,7 @@ public class AdapterShippingAddress extends RecyclerView.Adapter<AdapterShipping
     private final OnItemClickListener mListener;
     private Context mContext;
     private ArrayList<ShippingAddressModel> shippingAddressModelArrayList;
-    private int lastSelectedPosition = -1;
+
 
     public AdapterShippingAddress(Context mContext, ArrayList<ShippingAddressModel> shippingAddressModelArrayList, OnItemClickListener listener) {
         this.mContext = mContext;
@@ -39,6 +39,10 @@ public class AdapterShippingAddress extends RecyclerView.Adapter<AdapterShipping
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
+
+
+
+        Log.e("radioCheck", shippingAddressModelArrayList.get(position).getIs_default() + "--");
 
         holder.shippingAddress.setText(shippingAddressModelArrayList.get(position).getAddress() + ", " + shippingAddressModelArrayList.get(position).getStreet()
         + ", " + shippingAddressModelArrayList.get(position).getCity_name() + ", " + shippingAddressModelArrayList.get(position).getState_name() +
@@ -60,8 +64,21 @@ public class AdapterShippingAddress extends RecyclerView.Adapter<AdapterShipping
             }
         });
 
-        holder.radioMyAddress.setChecked(lastSelectedPosition == position);
+        holder.radioMyAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onItemClickRadio(Integer.parseInt(shippingAddressModelArrayList.get(position).getShipping_address_id()));
 
+                notifyDataSetChanged();
+            }
+        });
+
+        if (shippingAddressModelArrayList.get(position).getIs_default().equals("1")){
+            holder.radioMyAddress.setChecked(true);
+        } else if (shippingAddressModelArrayList.get(position).getIs_default().equals("0")){
+            holder.radioMyAddress.setChecked(false);
+
+        }
     }
 
     @Override
@@ -82,16 +99,6 @@ public class AdapterShippingAddress extends RecyclerView.Adapter<AdapterShipping
             radioMyAddress = itemView.findViewById(R.id.radioMyAddress);
             removeShippingAddress = itemView.findViewById(R.id.removeShippingAddress);
             editShippingAddress = itemView.findViewById(R.id.editShippingAddress);
-
-            radioMyAddress.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    lastSelectedPosition = getAdapterPosition();
-                    mListener.onItemClickRadio(Integer.parseInt(shippingAddressModelArrayList.get(lastSelectedPosition).getShipping_address_id()));
-                    notifyDataSetChanged();
-
-                }
-            });
 
         }
     }

@@ -14,9 +14,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
+import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.LinkMovementMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
@@ -28,6 +31,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -80,7 +84,7 @@ import java.util.Map;
 
 import static com.example.snagpay.Fragments.Fragment_SignIn.googleApiClient;
 
-public class    Fragment_SignUp extends Fragment implements GoogleApiClient.OnConnectionFailedListener {
+public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConnectionFailedListener {
 
     private TextView txtPrivacySignUp, txtSellerPrivacySignUp;
     private UserSession session;
@@ -88,6 +92,8 @@ public class    Fragment_SignUp extends Fragment implements GoogleApiClient.OnCo
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     private EditText mEmail, mPassword, mName, nameSeller, emailSeller, phoneNoSeller, businessNameSeller, streetAddressSeller, zipCodeSeller,
                     costOfGoods, businessWebsite, avgSalesSeller;
+
+    private ImageView icon_password_visible_signup, icon_password_invisible_signup;
 
     private Spinner stateSpinner, citySpinner, typeBusinessSpinner, physicalLocationSpinner, howLongSpinner, creditReportSpinner;
 
@@ -159,6 +165,8 @@ public class    Fragment_SignUp extends Fragment implements GoogleApiClient.OnCo
         btnFacebookLoginSign = view.findViewById(R.id.btnFacebookLoginSign);
         linearSignUpUser = view.findViewById(R.id.linearSignUpUser);
         linearSellerSignUp = view.findViewById(R.id.linearSellerSignUp);
+        icon_password_visible_signup = view.findViewById(R.id.icon_password_visible_signup);
+        icon_password_invisible_signup = view.findViewById(R.id.icon_password_invisible_signup);
 
         nameSeller = view.findViewById(R.id.nameSeller);
         emailSeller = view.findViewById(R.id.emailSeller);
@@ -176,6 +184,34 @@ public class    Fragment_SignUp extends Fragment implements GoogleApiClient.OnCo
         physicalLocationSpinner = view.findViewById(R.id.physicalLocationSpinner);
         howLongSpinner = view.findViewById(R.id.howLongSpinner);
         creditReportSpinner = view.findViewById(R.id.creditReportSpinner);
+
+        icon_password_visible_signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+                mPassword.setSelection(mPassword.length());
+                icon_password_visible_signup.setVisibility(View.GONE);
+                icon_password_invisible_signup.setVisibility(View.VISIBLE);
+
+                mPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+
+            }
+        });
+
+        icon_password_invisible_signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                mPassword.setSelection(mPassword.length());
+
+                mPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+
+                icon_password_invisible_signup.setVisibility(View.GONE);
+                icon_password_visible_signup.setVisibility(View.VISIBLE);
+            }
+        });
 
 
         login_button2.setReadPermissions("public_profile", "email" );
@@ -204,6 +240,8 @@ public class    Fragment_SignUp extends Fragment implements GoogleApiClient.OnCo
             public void onSuccess(LoginResult loginResult) {
                 Log.e("fiele", "facebook:onSuccess:" + loginResult);
                 handleFacebookAccessToken(loginResult.getAccessToken());
+
+
                 Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
             }
 
@@ -1083,6 +1121,8 @@ public class    Fragment_SignUp extends Fragment implements GoogleApiClient.OnCo
 
                             if (jsonObject.getString("ResponseCode").equals("200")){
 
+                                session.stayLoggedIn(true);
+
                                 session.createLoginSession(object.getString("user_id"),
                                         object.getString("first_name"),
                                         object.getString("last_name"),
@@ -1185,6 +1225,7 @@ public class    Fragment_SignUp extends Fragment implements GoogleApiClient.OnCo
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
+                            Toast.makeText(context, "Facebook Sign Successfull", Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
                         } else {
                             // If sign in fails, display a message to the user.

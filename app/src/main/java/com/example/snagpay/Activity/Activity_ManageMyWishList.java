@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -30,6 +31,8 @@ import com.example.snagpay.Adapter.AdapterAddAnotherCity;
 import com.example.snagpay.Adapter.CategorySaveWishListAdapter;
 import com.example.snagpay.Adapter.CityNameListAdapter;
 import com.example.snagpay.Model.CityModel;
+import com.example.snagpay.Model.CityModelSub;
+import com.example.snagpay.Model.CityModelSubSub;
 import com.example.snagpay.R;
 import com.example.snagpay.Utils.UserSession;
 import com.kaopiz.kprogresshud.KProgressHUD;
@@ -62,6 +65,19 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
 
     private String citiesName;
     private String categoryName;
+
+    private ArrayList<CityModel> mainCategoryArrayList = new ArrayList<>();
+    private ArrayList<CityModelSub> subCategoryArrayList;
+    private ArrayList<CityModelSubSub> subSubCategoryArrayList;
+
+    private ArrayList<String> mainCategoryArrayListName = new ArrayList<>();
+    private ArrayList<String> subCategoryArrayListName = new ArrayList<>();
+    private ArrayList<String> subSubCategoryArrayListName = new ArrayList<>();
+
+    private int posCategory = 0;
+    private int posSubCategory = 0;
+    private ArrayAdapter<String> dataAdapterSubCat;
+    private ArrayAdapter<String> dataAdapterSubSubCat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,25 +187,96 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
                 Window window = dialogForCategories.getWindow();
                 window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
 
-                String[] Home = {"Home"};
-                String[] Service = {"Service"};
-                String[] Gardener = {"Gardener"};
+                mainCategoryArrayListName.clear();
 
-                Spinner spinnerService = dialogForCategories.findViewById(R.id.spinnerService);
-                Spinner spinnerHome = dialogForCategories.findViewById(R.id.spinnerHome);
-                Spinner spinnerGardener = dialogForCategories.findViewById(R.id.spinnerGardener);
+                Spinner spinnerCategory = dialogForCategories.findViewById(R.id.spinnerService);
+                Spinner spinnersubCategory = dialogForCategories.findViewById(R.id.spinnerHome);
+                Spinner spinnersubsubCategory= dialogForCategories.findViewById(R.id.spinnerGardener);
 
-                ArrayAdapter<String> dataAdapterService = new ArrayAdapter<String>(dialogForCategories.getContext(), android.R.layout.simple_spinner_item, Service);
-                dataAdapterService.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinnerService.setAdapter(dataAdapterService);
+                for (int i = 0; i < mainCategoryArrayList.size(); i++){
+                    mainCategoryArrayListName.add(mainCategoryArrayList.get(i).getCityname());
+                }
 
-                ArrayAdapter<String> dataAdapterHome = new ArrayAdapter<String>(dialogForCategories.getContext(), android.R.layout.simple_spinner_item, Home);
-                dataAdapterHome.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinnerHome.setAdapter(dataAdapterHome);
 
-                ArrayAdapter<String> dataAdapterGardener = new ArrayAdapter<String>(dialogForCategories.getContext(), android.R.layout.simple_spinner_item, Gardener);
-                dataAdapterGardener.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinnerGardener.setAdapter(dataAdapterGardener);
+
+
+                ArrayAdapter<String> dataAdapterCategory = new ArrayAdapter<String>(dialogForCategories.getContext(),
+                        android.R.layout.simple_spinner_item, mainCategoryArrayListName);
+                dataAdapterCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerCategory.setAdapter(dataAdapterCategory);
+
+                spinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                        posCategory = position;
+
+                        Toast.makeText(Activity_ManageMyWishList.this, "Category", Toast.LENGTH_SHORT).show();
+
+                        if(subCategoryArrayListName.size() > 0){
+                            subCategoryArrayListName.clear();
+                        }
+                        for (int i = 0; i < mainCategoryArrayList.get(position).getCityModelSubArrayList().size(); i++){
+                            subCategoryArrayListName.add(mainCategoryArrayList.get(position).getCityModelSubArrayList().get(i).getCategoryName());
+                        }
+
+                        Log.e("sizeMain", mainCategoryArrayList.get(position).getCityModelSubArrayList().size() + "--");
+
+                        dataAdapterSubCat.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
+                dataAdapterSubCat = new ArrayAdapter<String>(dialogForCategories.getContext(),
+                        android.R.layout.simple_spinner_item, subCategoryArrayListName);
+
+                Log.e("sizzz", subCategoryArrayListName.size() + "--");
+                dataAdapterSubCat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnersubCategory.setAdapter(dataAdapterSubCat);
+
+                spinnersubCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                        if (subSubCategoryArrayListName.size() > 0){
+                            subSubCategoryArrayListName.clear();
+                        }
+
+                        posSubCategory = position;
+
+                        Toast.makeText(Activity_ManageMyWishList.this, "subCategory", Toast.LENGTH_SHORT).show();
+
+                        Log.e("posCategory", posCategory + "--");
+
+                        for (int i = 0; i < mainCategoryArrayList.get(2).getCityModelSubArrayList().get(2).getCityModelSubSubArrayList().size(); i++){
+                            subSubCategoryArrayListName.add(mainCategoryArrayList.get(2)
+                            .getCityModelSubArrayList().get(2).getCityModelSubSubArrayList().get(i).getCategoryName());
+                        }
+
+                        dataAdapterSubSubCat.notifyDataSetChanged();
+
+                        Log.e("subCategory", subSubCategoryArrayListName.get(0) + "---");
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
+
+                dataAdapterSubSubCat = new ArrayAdapter<String>(dialogForCategories.getContext(), android.R.layout.simple_spinner_item, subSubCategoryArrayListName);
+                dataAdapterSubSubCat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnersubsubCategory.setAdapter(dataAdapterSubSubCat);
+
+
+
+
 
                 dialogForCategories.findViewById(R.id.dialogCategoryClose).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -336,6 +423,8 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
                             categoryArrayList.clear();
                             arrayCategoryId.clear();
 
+                            getAllCategories();
+
                             JSONObject jsonObject = new JSONObject(new String(response.data));
                             Log.e("Response",jsonObject.toString() + " --");
                             if (jsonObject.getString("ResponseCode").equals("200")){
@@ -403,6 +492,144 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
                                     Log.e("seperateCityId", arrayCityId.toString() + "--");
 
                                     citiesName = TextUtils.join("," , arrayCityId);
+
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(Activity_ManageMyWishList.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }else if(jsonObject.getString("ResponseCode").equals("401")){
+                                Toast.makeText(Activity_ManageMyWishList.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (Exception e) {
+                            Toast.makeText(Activity_ManageMyWishList.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+
+                        Toast.makeText(Activity_ManageMyWishList.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+
+            /*
+             * If you want to add more parameters with the image
+             * you can do it here
+             * here we have only one parameter with the image
+             * which is tags
+             * */
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                return params;
+            }
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/json");
+                params.put("Authorization", "Bearer " + session.getAPITOKEN());
+                return params;
+            }
+
+            /*
+             * Here we are passing image by renaming it with a unique name
+             * */
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+
+                return params;
+            }
+        };
+        //adding the request to volley
+        Volley.newRequestQueue(Activity_ManageMyWishList.this).add(volleyMultipartRequest);
+    }
+
+    private void getAllCategories(){
+        final KProgressHUD progressDialog = KProgressHUD.create(Activity_ManageMyWishList.this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel("Please wait")
+                .setCancellable(false)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f)
+                .show();
+        //getting the tag from the edittext
+
+        //our custom volley request
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "categories",
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+
+                        progressDialog.dismiss();
+
+                        try {
+
+                            JSONObject jsonObject = new JSONObject(new String(response.data));
+                            Log.e("Response",jsonObject.toString() + " --");
+                            if (jsonObject.getString("ResponseCode").equals("200")){
+
+                                try {
+
+                                    JSONObject object = jsonObject.getJSONObject("data");
+
+                                    JSONArray jsonArray = object.getJSONArray("all_categories");
+
+                                    for (int i = 0; i < 3; i++){
+                                        JSONObject object1 = jsonArray.getJSONObject(i);
+
+                                        CityModel cityModel = new CityModel();
+                                        cityModel.setCityId(object1.getString("category_id"));
+                                        cityModel.setCityname(object1.getString("category_name"));
+
+                                        mainCategoryArrayList.add(cityModel);
+
+                                        JSONArray jsonArray1 = object1.getJSONArray("sub_categories");
+
+                                        subCategoryArrayList = new ArrayList<>();
+
+                                        for (int j = 0; j < jsonArray1.length(); j++){
+                                            JSONObject object2 = jsonArray1.getJSONObject(j);
+
+                                            CityModelSub cityModelSub = new CityModelSub();
+                                            cityModelSub.setCategoryId(object2.getString("category_id"));
+                                            cityModelSub.setCategoryName(object2.getString("category_name"));
+
+                                            subCategoryArrayList.add(cityModelSub);
+                                            cityModel.setCityModelSubArrayList(subCategoryArrayList);
+
+                                            subSubCategoryArrayList = new ArrayList<>();
+
+                                            JSONArray jsonArray2 = object2.getJSONArray("sub_sub_categories");
+
+                                            for (int k = 0; k < jsonArray2.length(); k++){
+                                                JSONObject object3 = jsonArray2.getJSONObject(k);
+
+                                                CityModelSubSub cityModelSubSub = new CityModelSubSub();
+                                                cityModelSubSub.setCategoryId(object3.getString("category_id"));
+                                                cityModelSubSub.setCategoryName(object3.getString("category_name"));
+
+                                                subSubCategoryArrayList.add(cityModelSubSub);
+
+                                                cityModelSub.setCityModelSubSubArrayList(subSubCategoryArrayList);
+                                            }
+                                        }
+                                    }
+
+
+
+                                    Log.e("daaaaaaataaa", mainCategoryArrayList.get(1).getCityModelSubArrayList().get(0)
+                                            .getCityModelSubSubArrayList().get(1).getCategoryName() + "----" );
+
 
 
                                 } catch (JSONException e) {

@@ -47,6 +47,10 @@ public class Activity_ShippingAddress extends AppCompatActivity {
 
     private int newString = 0;
 
+    private int a = 0;
+    private KProgressHUD progressDialogForSelect;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +58,13 @@ public class Activity_ShippingAddress extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
         session = new UserSession(Activity_ShippingAddress.this);
         shippingAddressModelArrayList = new ArrayList<>();
+
+        progressDialogForSelect = KProgressHUD.create(Activity_ShippingAddress.this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel("Please wait")
+                .setCancellable(false)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f);
 
         resShippingAddress = findViewById(R.id.resShippingAddress);
         btnAddNewAddress = findViewById(R.id.btnAddNewAddress);
@@ -101,8 +112,7 @@ public class Activity_ShippingAddress extends AppCompatActivity {
             @Override
             public void onItemClickRadio(int item) {
 
-                Toast.makeText(Activity_ShippingAddress.this, String.valueOf(item), Toast.LENGTH_SHORT).show();
-
+                selectShippingAdress(item);
             }
         });
         adapterShippingAddress.notifyDataSetChanged();
@@ -130,6 +140,97 @@ public class Activity_ShippingAddress extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void selectShippingAdress(int id) {
+
+        progressDialogForSelect.show();
+
+        a = 1;
+        //getting the tag from the edittext
+
+        //our custom volley request
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, session.BASEURL + "set-default-shipping-address",
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+
+
+                        try {
+
+                            JSONObject jsonObject = new JSONObject(new String(response.data).toString());
+
+
+                            Log.e("Response",jsonObject.toString());
+                            if (jsonObject.getString("ResponseCode").equals("200")){
+
+                                try {
+                                    getShippingAddressList();
+                                    Toast.makeText(Activity_ShippingAddress.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
+
+                                } catch (JSONException e){
+                                    e.printStackTrace();
+                                    Toast.makeText(Activity_ShippingAddress.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+
+                            else if (jsonObject.getString("ResponseCode").equals("422")){
+                                Toast.makeText(Activity_ShippingAddress.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
+                            }
+
+                            Toast.makeText(Activity_ShippingAddress.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
+
+                        } catch (Exception e) {
+                            Toast.makeText(Activity_ShippingAddress.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialogForSelect.dismiss();
+
+                        Toast.makeText(Activity_ShippingAddress.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+
+            /*
+             * If you want to add more parameters with the image
+             * you can do it here
+             * here we have only one parameter with the image
+             * which is tags
+             * */
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("shipping_address_id", String.valueOf(id));
+
+                return params;
+            }
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/json");
+                params.put("Authorization", "Bearer " + session.getAPITOKEN());
+                return params;
+            }
+
+            /*
+             * Here we are passing image by renaming it with a unique name
+             * */
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+
+                return params;
+            }
+        };
+        //adding the request to volley
+        Volley.newRequestQueue(Activity_ShippingAddress.this).add(volleyMultipartRequest);
     }
 
     private void removeShippingAddress(int item) {
@@ -228,13 +329,17 @@ public class Activity_ShippingAddress extends AppCompatActivity {
     }
 
     private void getShippingAddressList() {
+
         final KProgressHUD progressDialog = KProgressHUD.create(Activity_ShippingAddress.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setLabel("Please wait")
                 .setCancellable(false)
                 .setAnimationSpeed(2)
-                .setDimAmount(0.5f)
-                .show();
+                .setDimAmount(0.5f);
+
+        if (a == 0) {
+            progressDialog.show();
+        }
         //getting the tag from the edittext
 
         //our custom volley request
@@ -243,7 +348,12 @@ public class Activity_ShippingAddress extends AppCompatActivity {
                     @Override
                     public void onResponse(NetworkResponse response) {
 
-                        progressDialog.dismiss();
+                        if (a == 1){
+                            progressDialogForSelect.dismiss();
+                        } else {
+                            progressDialog.dismiss();
+                        }
+
                         shippingAddressModelArrayList.clear();
                         try {
                             JSONObject jsonObject = new JSONObject(new String(response.data).toString());
@@ -271,6 +381,7 @@ public class Activity_ShippingAddress extends AppCompatActivity {
                                         shippingAddressModel.setCountry_name(jsonObject1.getString("country_name"));
                                         shippingAddressModel.setState_name(jsonObject1.getString("state_name"));
                                         shippingAddressModel.setCity_name(jsonObject1.getString("city_name"));
+                                        shippingAddressModel.setIs_default(jsonObject1.getString("is_default"));
 
                                         shippingAddressModelArrayList.add(shippingAddressModel);
                                     }
