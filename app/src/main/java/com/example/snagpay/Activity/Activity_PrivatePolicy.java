@@ -29,13 +29,6 @@ public class Activity_PrivatePolicy extends AppCompatActivity {
 
 
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
 
-        if (!session.isCheckIn()){
-            session.logout();
-        }
-    }
 
 }

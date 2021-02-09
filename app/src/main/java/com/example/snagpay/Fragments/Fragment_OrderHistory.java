@@ -105,12 +105,5 @@ public class Fragment_OrderHistory extends Fragment {
 
 
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
 
-        if (!session.isCheckIn()){
-            session.logout();
-        }
-    }
 }

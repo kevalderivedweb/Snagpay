@@ -226,13 +226,6 @@ public class Fragment_CategoriesActivity extends Fragment {
         Volley.newRequestQueue(getContext()).add(volleyMultipartRequest);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
 
-        if (!session.isCheckIn()){
-            session.logout();
-        }
-    }
 
 }

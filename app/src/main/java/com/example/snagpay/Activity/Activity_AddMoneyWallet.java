@@ -37,13 +37,6 @@ public class Activity_AddMoneyWallet extends AppCompatActivity {
     }
 
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
 
-        if (!session.isCheckIn()){
-            session.logout();
-        }
-    }
 
 }

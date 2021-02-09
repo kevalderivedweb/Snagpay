@@ -64,13 +64,5 @@ public class Activity_SnagpayGuideItems extends AppCompatActivity {
     }
 
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        if (!session.isCheckIn()){
-            session.logout();
-        }
-    }
 
 }

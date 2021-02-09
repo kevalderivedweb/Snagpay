@@ -216,12 +216,5 @@ public class Fragment_MyStuffActivity extends Fragment implements GoogleApiClien
     }
 
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
 
-        if (!session.isCheckIn()){
-            session.logout();
-        }
-    }
 }

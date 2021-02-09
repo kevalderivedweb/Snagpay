@@ -48,13 +48,6 @@ public class Activity_PaymentMethods extends AppCompatActivity {
 
 
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
 
-        if (!session.isCheckIn()){
-            session.logout();
-        }
-    }
 
 }

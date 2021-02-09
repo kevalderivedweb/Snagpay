@@ -297,12 +297,5 @@ public class Fragment_HomeInner extends Fragment {
 
 
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        if (!session.isCheckIn()){
-            session.logout();
-        }
-    }
+   
 }

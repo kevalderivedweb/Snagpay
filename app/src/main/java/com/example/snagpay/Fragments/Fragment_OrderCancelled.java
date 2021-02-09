@@ -34,12 +34,5 @@ public class Fragment_OrderCancelled extends Fragment {
 
 
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
 
-        if (!session.isCheckIn()){
-            session.logout();
-        }
-    }
 }

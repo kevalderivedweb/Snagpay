@@ -29,13 +29,6 @@ public class Activity_NotificationSettings extends AppCompatActivity {
 
 
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
 
-        if (!session.isCheckIn()){
-            session.logout();
-        }
-    }
 
 }

@@ -134,12 +134,5 @@ public class Fragment_Map extends Fragment implements  OnMapReadyCallback {
 
 
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
 
-        if (!session.isCheckIn()){
-            session.logout();
-        }
-    }
 }

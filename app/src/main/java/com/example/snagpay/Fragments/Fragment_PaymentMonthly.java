@@ -48,13 +48,6 @@ public class Fragment_PaymentMonthly extends Fragment {
 
 
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
 
-        if (!session.isCheckIn()){
-            session.logout();
-        }
-    }
 
 }

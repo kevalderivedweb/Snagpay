@@ -971,7 +971,6 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
                             Log.e("Response",jsonObject.toString());
                             if (jsonObject.getString("ResponseCode").equals("200")){
 
-                                session.stayLoggedIn(true);
 
                                 JSONObject object = jsonObject.getJSONObject("data");
 
@@ -1121,7 +1120,6 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
 
                             if (jsonObject.getString("ResponseCode").equals("200")){
 
-                                session.stayLoggedIn(true);
 
                                 session.createLoginSession(object.getString("user_id"),
                                         object.getString("first_name"),

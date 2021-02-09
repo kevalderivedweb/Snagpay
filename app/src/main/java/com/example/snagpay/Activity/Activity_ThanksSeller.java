@@ -81,13 +81,4 @@ public class Activity_ThanksSeller extends AppCompatActivity {
 
 
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        if (!session.isCheckIn()){
-            session.logout();
-        }
-    }
-
 }

@@ -78,13 +78,6 @@ public class Fragment_PaymentHistory extends Fragment {
 
 
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
 
-        if (!session.isCheckIn()){
-            session.logout();
-        }
-    }
 
 }

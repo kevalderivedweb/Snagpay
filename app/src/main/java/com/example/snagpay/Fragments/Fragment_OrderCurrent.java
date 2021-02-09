@@ -45,12 +45,5 @@ public class Fragment_OrderCurrent extends Fragment {
 
 
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
 
-        if (!session.isCheckIn()){
-            session.logout();
-        }
-    }
 }
