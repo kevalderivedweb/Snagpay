@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class Activity_ProductDetails extends AppCompatActivity {
 
     private Button btnBuyNowProduct;
     private RecyclerView resProductUserReview;
+    private RatingBar ratingBarProductDetailsMain;
 
     private AdapterReviewProductDetails adapterReviewProductDetails;
     private ImageView backToHomeInner;
@@ -63,6 +65,11 @@ public class Activity_ProductDetails extends AppCompatActivity {
         productFavourite = findViewById(R.id.productFavourite);
         addToWishlist = findViewById(R.id.addToWishlist);
         removeFromWishlist = findViewById(R.id.removeFromWishlist);
+        ratingBarProductDetailsMain = findViewById(R.id.ratingBarProductDetailsMain);
+
+        ratingBarProductDetailsMain.setStepSize(0.1f);
+      //  ratingBarProductDetailsMain.setRating(Float.parseFloat(categoryDetailsModelArrayList.get(position).getAvg_rating()));
+        ratingBarProductDetailsMain.setIsIndicator(true);
 
         Bundle bundle = getIntent().getExtras();
 
@@ -166,11 +173,24 @@ public class Activity_ProductDetails extends AppCompatActivity {
                             e.printStackTrace();
                             Toast.makeText(Activity_ProductDetails.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
+                    } else if(jsonObject.getString("ResponseCode").equals("401")){
+
+                        session.logout();
+                        Intent intent = new Intent(Activity_ProductDetails.this, Activity_SelectCity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
                     }
 
                 } catch (Exception e) {
                     //  Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     Toast.makeText(Activity_ProductDetails.this, "No Data", Toast.LENGTH_SHORT).show();
+
+                    /*session.logout();
+                    Intent intent = new Intent(Activity_ProductDetails.this, Activity_SelectCity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();*/
 
                 }
 
@@ -287,10 +307,25 @@ public class Activity_ProductDetails extends AppCompatActivity {
                         }
                     }
 
+                    else if(jsonObject.getString("ResponseCode").equals("401")){
+
+                        session.logout();
+                        Intent intent = new Intent(Activity_ProductDetails.this, Activity_SelectCity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+
                 } catch (Exception e) {
                     //  Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
 
                     Toast.makeText(Activity_ProductDetails.this, "No Data", Toast.LENGTH_SHORT).show();
+
+                   /* session.logout();
+                    Intent intent = new Intent(Activity_ProductDetails.this, Activity_SelectCity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();*/
 
                 }
 

@@ -112,7 +112,7 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
                 String deleteCity = TextUtils.join(",", arrayCityId);
                 Log.e("jussss", arrayCityId.toString() + " ");
 
-                manageMyWishlist(deleteCity); // when api of remove will come then applied here...
+                manageMyWishlist(deleteCity, categoryName);
 
             }
         });
@@ -124,9 +124,17 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
             @Override
             public void onItemClick(int item) {
 
+                arrayCategoryId.remove(item);
+
+                String removeCategory = TextUtils.join("," , arrayCategoryId);
+
+                manageMyWishlist(citiesName, removeCategory);
+
+                Log.e("checkkkk", removeCategory + "--");
             }
         });
         recListCategory.setAdapter(categoryWishListAdapter);
+
 
 
 
@@ -165,7 +173,7 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
                         Log.e("checkCityId", arrayCityId.toString() + "--");
                         Log.e("joined", citiesName + "--");
 
-                        manageMyWishlist(citiesName);
+                        manageMyWishlist(citiesName, categoryName);
 
                         dialogForCity.dismiss();
 
@@ -210,6 +218,8 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
 
                         posCategory = position;
 
+                        Log.e("ijij", mainCategoryArrayList.get(position).getCityId() + "--");
+
                         Toast.makeText(Activity_ManageMyWishList.this, "Category", Toast.LENGTH_SHORT).show();
 
                         if(subCategoryArrayListName.size() > 0){
@@ -246,6 +256,8 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
                         }
 
                         posSubCategory = position;
+
+                        Log.e("dsud", mainCategoryArrayList.get(posCategory).getCityModelSubArrayList().get(position).getCategoryId() + "--");
 
                         Toast.makeText(Activity_ManageMyWishList.this, "subCategory", Toast.LENGTH_SHORT).show();
 
@@ -298,7 +310,7 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
 
     }
 
-    private void manageMyWishlist(String citiesNameSave) {
+    private void manageMyWishlist(String citiesNameSave, String categoryName) {
         final KProgressHUD progressDialog = KProgressHUD.create(Activity_ManageMyWishList.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setLabel("Please wait")
@@ -339,13 +351,25 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
                                     Toast.makeText(Activity_ManageMyWishList.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
 
-                            }else if(jsonObject.getString("ResponseCode").equals("401")){
-                                Toast.makeText(Activity_ManageMyWishList.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
+                            }
+
+                            else if(jsonObject.getString("ResponseCode").equals("401")){
+
+                                session.logout();
+                                Intent intent = new Intent(Activity_ManageMyWishList.this, Activity_SelectCity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
                             }
 
                         } catch (Exception e) {
                             Toast.makeText(Activity_ManageMyWishList.this, e.getMessage(), Toast.LENGTH_SHORT).show();
 
+                           /* session.logout();
+                            Intent intent = new Intent(Activity_ManageMyWishList.this, Activity_SelectCity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();*/
                         }
 
                     }
@@ -461,6 +485,7 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
                                     }
 
                                     categoryName = TextUtils.join("," , arrayCategoryId);
+                                    Log.e("idCat", categoryName.toString() + "--");
 
 
 
@@ -499,10 +524,22 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
                                 }
                             }else if(jsonObject.getString("ResponseCode").equals("401")){
                                 Toast.makeText(Activity_ManageMyWishList.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
+
+                                session.logout();
+                                Intent intent = new Intent(Activity_ManageMyWishList.this, Activity_SelectCity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
                             }
 
                         } catch (Exception e) {
                             Toast.makeText(Activity_ManageMyWishList.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                           /* session.logout();
+                            Intent intent = new Intent(Activity_ManageMyWishList.this, Activity_SelectCity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();*/
 
                         }
 
@@ -637,10 +674,22 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
                                 }
                             }else if(jsonObject.getString("ResponseCode").equals("401")){
                                 Toast.makeText(Activity_ManageMyWishList.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
+
+                                session.logout();
+                                Intent intent = new Intent(Activity_ManageMyWishList.this, Activity_SelectCity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
                             }
 
                         } catch (Exception e) {
                             Toast.makeText(Activity_ManageMyWishList.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                           /* session.logout();
+                            Intent intent = new Intent(Activity_ManageMyWishList.this, Activity_SelectCity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();*/
 
                         }
 
@@ -745,6 +794,12 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
 
                         } catch (Exception e) {
                             Toast.makeText(Activity_ManageMyWishList.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                           /* session.logout();
+                            Intent intent = new Intent(Activity_ManageMyWishList.this, Activity_SelectCity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();*/
 
                         }
                     }

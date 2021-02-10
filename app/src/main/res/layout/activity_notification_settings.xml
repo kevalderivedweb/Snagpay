@@ -69,14 +69,15 @@
             android:textColor="#CC000000"/>
 
         <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/accountNotify"
             android:layout_width="50dp"
             android:layout_height="20dp"
-            android:layout_marginEnd="10dp"
             android:layout_below="@+id/notiTextAccount"
-            android:layout_marginTop="5dp"
             android:layout_alignParentEnd="true"
-            app:track="@drawable/custom_track"
-            android:thumb="@drawable/custom_thumb" />
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:thumb="@drawable/custom_thumb"
+            app:track="@drawable/custom_track" />
     </RelativeLayout>
 
     <View
@@ -115,6 +116,7 @@
             android:textColor="#CC000000"/>
 
         <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/shipmentsNotify"
             android:layout_width="50dp"
             android:layout_height="20dp"
             android:layout_marginEnd="10dp"
@@ -161,6 +163,7 @@
             android:textColor="#CC000000"/>
 
         <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/recommendNotify"
             android:layout_width="50dp"
             android:layout_height="20dp"
             android:layout_marginEnd="10dp"
@@ -207,6 +210,7 @@
             android:textColor="#CC000000"/>
 
         <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/wishlistNotify"
             android:layout_width="50dp"
             android:layout_height="20dp"
             android:layout_marginEnd="10dp"

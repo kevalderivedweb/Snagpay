@@ -77,13 +77,13 @@
                     android:textColor="@color/blue"/>
 
                 <androidx.appcompat.widget.AppCompatRatingBar
-                    android:id="@+id/ratingBarProductDetails"
+                    android:id="@+id/ratingBarProductDetailsMain"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:numStars="5"
-                    android:layout_toRightOf="@id/tr"
+                    android:layout_toEndOf="@id/tr"
                     android:layout_below="@+id/dd"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:isIndicator="false"
                     android:stepSize="1"
                     android:layout_marginTop="5dp"
@@ -94,7 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/dd"
-                    android:layout_toRightOf="@id/ratingBarProductDetails"
+                    android:layout_toRightOf="@id/ratingBarProductDetailsMain"
                     android:layout_marginLeft="5dp"
                     android:textColor="@color/blue"
                     android:layout_marginTop="5dp"

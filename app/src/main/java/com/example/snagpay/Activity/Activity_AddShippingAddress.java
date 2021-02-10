@@ -186,10 +186,25 @@ public class Activity_AddShippingAddress extends AppCompatActivity {
                                 Toast.makeText(Activity_AddShippingAddress.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
                             }
 
+                            else if(jsonObject.getString("ResponseCode").equals("401")){
+
+                                session.logout();
+                                Intent intent = new Intent(Activity_AddShippingAddress.this, Activity_SelectCity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+                            }
+
                             Toast.makeText(Activity_AddShippingAddress.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
 
                         } catch (Exception e) {
                             Toast.makeText(Activity_AddShippingAddress.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                            /*session.logout();
+                            Intent intent = new Intent(Activity_AddShippingAddress.this, Activity_SelectCity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();*/
 
                         }
                     }
@@ -303,13 +318,23 @@ public class Activity_AddShippingAddress extends AppCompatActivity {
                                 }
                             }else if(jsonObject.getString("ResponseCode").equals("401")){
 
-
+                                session.logout();
+                                Intent intent = new Intent(Activity_AddShippingAddress.this, Activity_SelectCity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
                             }
 
                             Toast.makeText(Activity_AddShippingAddress.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
 
                         } catch (Exception e) {
                             Toast.makeText(Activity_AddShippingAddress.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                           /* session.logout();
+                            Intent intent = new Intent(Activity_AddShippingAddress.this, Activity_SelectCity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();*/
 
                         }
                     }
@@ -413,17 +438,23 @@ public class Activity_AddShippingAddress extends AppCompatActivity {
                                 }
                             }else if(jsonObject.getString("ResponseCode").equals("401")){
 
-                               /* session.logout();
-                                Intent intent = new Intent(Activity_SelectCity.this, Activity_SelectCity.class);
+                                session.logout();
+                                Intent intent = new Intent(Activity_AddShippingAddress.this, Activity_SelectCity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
-                                finish();*/
+                                finish();
                             }
 
                             Toast.makeText(Activity_AddShippingAddress.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
 
                         } catch (Exception e) {
                             Toast.makeText(Activity_AddShippingAddress.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                           /* session.logout();
+                            Intent intent = new Intent(Activity_AddShippingAddress.this, Activity_SelectCity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();*/
 
                         }
                     }

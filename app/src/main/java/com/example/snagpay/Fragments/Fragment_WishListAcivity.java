@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.snagpay.API.VolleyMultipartRequest;
 import com.example.snagpay.Activity.Activity_ProductDetails;
+import com.example.snagpay.Activity.Activity_SelectCity;
 import com.example.snagpay.Adapter.AdapterWishlist;
 import com.example.snagpay.Adapter.AdapterWishlistRecent;
 import com.example.snagpay.Model.CategoryDetailsModel;
@@ -222,9 +224,24 @@ public class Fragment_WishListAcivity extends Fragment {
                                 getWishlist("1");
                             }
 
+                            else if(jsonObject.getString("ResponseCode").equals("401")){
+
+                                session.logout();
+                                Intent intent = new Intent(getActivity(), Activity_SelectCity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                getActivity().finish();
+                            }
+
                         } catch (Exception e) {
 
                             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                            /*session.logout();
+                            Intent intent = new Intent(getActivity(), Activity_SelectCity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            getActivity().finish();*/
 
                         }
 
@@ -290,6 +307,7 @@ public class Fragment_WishListAcivity extends Fragment {
         //our custom volley request
         VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "get-wishlist?page=" + page,
                 new Response.Listener<NetworkResponse>() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void onResponse(NetworkResponse response) {
 
@@ -364,9 +382,24 @@ public class Fragment_WishListAcivity extends Fragment {
                                 }
                             }
 
+                            else if(jsonObject.getString("ResponseCode").equals("401")){
+
+                                session.logout();
+                                Intent intent = new Intent(getActivity(), Activity_SelectCity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                getActivity().finish();
+                            }
+
                         } catch (Exception e) {
 
                             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                            /*session.logout();
+                            Intent intent = new Intent(getActivity(), Activity_SelectCity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            getActivity().finish();*/
 
                         }
 

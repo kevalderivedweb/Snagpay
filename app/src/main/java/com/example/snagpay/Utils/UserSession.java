@@ -55,6 +55,11 @@ public class UserSession {
     private final String ISAPPROVE = "is_approved";
     private final String APITOKEN = "api_token";
 
+    private final String IMPORTANTNOTIFY = "importat_message_alert";
+    private final String SHIPMENTSNOTIFY = "shipments_notifications";
+    private final String PERSONALISEDNOTIFY = "personalised_notifications";
+    private final String WISHLISTNOTIFY = "wishlist_notifications";
+
 
     public UserSession(Context context) {
         this.context = context;
@@ -139,6 +144,42 @@ public class UserSession {
 
     public String getLatitude() {
         return sharedPreferences.getString(LATITUDE, "");
+    }
+
+    public void setIMPORTANTNOTIFY(String importantnotify) {
+        editor.putString(IMPORTANTNOTIFY, importantnotify);
+        editor.commit();
+    }
+
+    public String getIMPORTANTNOTIFY() {
+        return sharedPreferences.getString(IMPORTANTNOTIFY, "");
+    }
+
+    public void setSHIPMENTSNOTIFY(String shipmentsnotify) {
+        editor.putString(SHIPMENTSNOTIFY, shipmentsnotify);
+        editor.commit();
+    }
+
+    public String getSHIPMENTSNOTIFY() {
+        return sharedPreferences.getString(SHIPMENTSNOTIFY, "");
+    }
+
+    public void setPERSONALISEDNOTIFY(String personalisednotify) {
+        editor.putString(PERSONALISEDNOTIFY, personalisednotify);
+        editor.commit();
+    }
+
+    public String getPERSONALISEDNOTIFY() {
+        return sharedPreferences.getString(PERSONALISEDNOTIFY, "");
+    }
+
+    public void setWISHLISTNOTIFY(String wishlistnotify) {
+        editor.putString(WISHLISTNOTIFY, wishlistnotify);
+        editor.commit();
+    }
+
+    public String getWISHLISTNOTIFY() {
+        return sharedPreferences.getString(WISHLISTNOTIFY, "");
     }
 
     public void setLongitude(String longitude) {

@@ -2,6 +2,7 @@ package com.example.snagpay.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -207,10 +208,25 @@ public class Activity_EditShippingAddress extends AppCompatActivity {
                                 Toast.makeText(Activity_EditShippingAddress.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
                             }
 
+                            else if(jsonObject.getString("ResponseCode").equals("401")){
+
+                                session.logout();
+                                Intent intent = new Intent(Activity_EditShippingAddress.this, Activity_SelectCity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+                            }
+
                             Toast.makeText(Activity_EditShippingAddress.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
 
                         } catch (Exception e) {
                             Toast.makeText(Activity_EditShippingAddress.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                           /* session.logout();
+                            Intent intent = new Intent(Activity_EditShippingAddress.this, Activity_SelectCity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();*/
 
                         }
                     }
@@ -320,6 +336,15 @@ public class Activity_EditShippingAddress extends AppCompatActivity {
 
                             }
 
+                            else if(jsonObject.getString("ResponseCode").equals("401")){
+                                session.logout();
+                                Intent intent = new Intent(Activity_EditShippingAddress.this, Activity_SelectCity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+
+                            }
+
                             else if (jsonObject.getString("ResponseCode").equals("422")){
                                 Toast.makeText(Activity_EditShippingAddress.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
                             }
@@ -328,6 +353,12 @@ public class Activity_EditShippingAddress extends AppCompatActivity {
 
                         } catch (Exception e) {
                             Toast.makeText(Activity_EditShippingAddress.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                           /* session.logout();
+                            Intent intent = new Intent(Activity_EditShippingAddress.this, Activity_SelectCity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();*/
 
                         }
                     }
@@ -431,7 +462,11 @@ public class Activity_EditShippingAddress extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
                             }else if(jsonObject.getString("ResponseCode").equals("401")){
-
+                                session.logout();
+                                Intent intent = new Intent(Activity_EditShippingAddress.this, Activity_SelectCity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
 
                             }
 
@@ -439,6 +474,12 @@ public class Activity_EditShippingAddress extends AppCompatActivity {
 
                         } catch (Exception e) {
                             Toast.makeText(Activity_EditShippingAddress.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                           /* session.logout();
+                            Intent intent = new Intent(Activity_EditShippingAddress.this, Activity_SelectCity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();*/
 
                         }
                     }
@@ -544,13 +585,23 @@ public class Activity_EditShippingAddress extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
                             }else if(jsonObject.getString("ResponseCode").equals("401")){
-
+                                session.logout();
+                                Intent intent = new Intent(Activity_EditShippingAddress.this, Activity_SelectCity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
                             }
 
                             Toast.makeText(Activity_EditShippingAddress.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
 
                         } catch (Exception e) {
                             Toast.makeText(Activity_EditShippingAddress.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                           /* session.logout();
+                            Intent intent = new Intent(Activity_EditShippingAddress.this, Activity_SelectCity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();*/
 
                         }
                     }
@@ -653,7 +704,11 @@ public class Activity_EditShippingAddress extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
                             }else if(jsonObject.getString("ResponseCode").equals("401")){
-
+                                session.logout();
+                                Intent intent = new Intent(Activity_EditShippingAddress.this, Activity_SelectCity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
                             }
 
                             Toast.makeText(Activity_EditShippingAddress.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
@@ -661,6 +716,12 @@ public class Activity_EditShippingAddress extends AppCompatActivity {
                         } catch (Exception e) {
                             Toast.makeText(Activity_EditShippingAddress.this, e.getMessage(), Toast.LENGTH_SHORT).show();
 
+                           /* session.logout();
+                            Intent intent = new Intent(Activity_EditShippingAddress.this, Activity_SelectCity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();
+*/
                         }
                     }
                 },

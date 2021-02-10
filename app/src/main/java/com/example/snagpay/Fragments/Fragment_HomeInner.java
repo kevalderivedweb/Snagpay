@@ -22,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.snagpay.API.VolleyMultipartRequest;
 import com.example.snagpay.Activity.Activity_FilterSortBy;
+import com.example.snagpay.Activity.Activity_SelectCity;
 import com.example.snagpay.Adapter.AdapterHomeInner;
 import com.example.snagpay.Activity.Activity_ProductDetails;
 import com.example.snagpay.Model.CategoryDetailsModel;
@@ -227,11 +228,26 @@ public class Fragment_HomeInner extends Fragment {
                                 }
                             }
 
+                            else if(jsonObject.getString("ResponseCode").equals("401")){
+
+                                session.logout();
+                                Intent intent = new Intent(getActivity(), Activity_SelectCity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                getActivity().finish();
+                            }
+
                         } catch (Exception e) {
                           //  Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                             mShimmerViewContainer.stopShimmerAnimation();
                             mShimmerViewContainer.setVisibility(View.GONE);
                             Toast.makeText(getContext(), "No Data", Toast.LENGTH_SHORT).show();
+
+                            /*session.logout();
+                            Intent intent = new Intent(getActivity(), Activity_SelectCity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            getActivity().finish();*/
 
                         }
 
@@ -241,6 +257,8 @@ public class Fragment_HomeInner extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
+
+                        Log.e("dssdsd", error.getMessage() + "--");
 
                         Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
