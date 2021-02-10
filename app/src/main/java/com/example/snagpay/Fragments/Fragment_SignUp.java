@@ -188,14 +188,15 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
         icon_password_visible_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPassword.setInputType(InputType.TYPE_CLASS_TEXT);
-                mPassword.setSelection(mPassword.length());
+
                 icon_password_visible_signup.setVisibility(View.GONE);
                 icon_password_invisible_signup.setVisibility(View.VISIBLE);
 
-                mPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
+                mPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                mPassword.setSelection(mPassword.length());
 
+                mPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
             }
         });
 
@@ -203,10 +204,9 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
             @Override
             public void onClick(View v) {
 
-                mPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                mPassword.setInputType(InputType.TYPE_CLASS_TEXT);
                 mPassword.setSelection(mPassword.length());
-
-                mPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                mPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
                 icon_password_invisible_signup.setVisibility(View.GONE);
                 icon_password_visible_signup.setVisibility(View.VISIBLE);

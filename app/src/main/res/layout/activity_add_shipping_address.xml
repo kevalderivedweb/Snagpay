@@ -299,7 +299,7 @@
                 android:textSize="14dp"
                 android:maxLength="10"
                 android:textColor="@color/black"
-                android:inputType="phone"
+                android:inputType="number"
                 android:textCursorDrawable="@drawable/cursor_blue_color"
                 android:fontFamily="@font/roboto_regular" />
 

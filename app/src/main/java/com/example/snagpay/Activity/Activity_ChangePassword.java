@@ -70,14 +70,17 @@ public class Activity_ChangePassword extends AppCompatActivity {
         icon_password_visible_old_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editOldPass.setInputType(InputType.TYPE_CLASS_TEXT);
+
+
+                editOldPass.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                 editOldPass.setSelection(editOldPass.length());
+
+                editOldPass.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+
+
+
                 icon_password_visible_old_password.setVisibility(View.GONE);
                 icon_password_invisible_old_password.setVisibility(View.VISIBLE);
-
-                editOldPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
-
-
             }
         });
 
@@ -85,26 +88,29 @@ public class Activity_ChangePassword extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                editOldPass.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                editOldPass.setInputType(InputType.TYPE_CLASS_TEXT);
                 editOldPass.setSelection(editOldPass.length());
-
-                editOldPass.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
 
                 icon_password_invisible_old_password.setVisibility(View.GONE);
                 icon_password_visible_old_password.setVisibility(View.VISIBLE);
+
+                editOldPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+
             }
         });
 
         icon_password_visible_change_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editNewPass.setInputType(InputType.TYPE_CLASS_TEXT);
+                editNewPass.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                 editNewPass.setSelection(editNewPass.length());
+
+                editNewPass.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
 
                 icon_password_visible_change_password.setVisibility(View.GONE);
                 icon_password_invisible_change_password.setVisibility(View.VISIBLE);
 
-                editNewPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
 
             }
@@ -114,10 +120,11 @@ public class Activity_ChangePassword extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                editNewPass.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                editNewPass.setInputType(InputType.TYPE_CLASS_TEXT);
                 editNewPass.setSelection(editNewPass.length());
+                editNewPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
-                editNewPass.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+
 
                 icon_password_invisible_change_password.setVisibility(View.GONE);
                 icon_password_visible_change_password.setVisibility(View.VISIBLE);
@@ -127,14 +134,15 @@ public class Activity_ChangePassword extends AppCompatActivity {
         icon_confirm_password_visible_change_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editConfirmPass.setInputType(InputType.TYPE_CLASS_TEXT);
-                editConfirmPass.setSelection(editConfirmPass.length());
+
 
                 icon_confirm_password_visible_change_password.setVisibility(View.GONE);
                 icon_confirm_password_invisible_change_password.setVisibility(View.VISIBLE);
 
-                editConfirmPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                editConfirmPass.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                editConfirmPass.setSelection(editConfirmPass.length());
 
+                editConfirmPass.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
 
             }
         });
@@ -143,10 +151,11 @@ public class Activity_ChangePassword extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                editConfirmPass.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                editConfirmPass.setInputType(InputType.TYPE_CLASS_TEXT);
                 editConfirmPass.setSelection(editConfirmPass.length());
+                editConfirmPass.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
-                editConfirmPass.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+
 
                 icon_confirm_password_invisible_change_password.setVisibility(View.GONE);
                 icon_confirm_password_visible_change_password.setVisibility(View.VISIBLE);
