@@ -104,18 +104,44 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
             public void onItemClick(int item) {
 
                 String removeCity = addCityList.get(item).getCityId();
+                arrayCityId.remove(removeCity);
+
 
                 mDataCity.get(item).setChecked(false);
 
-                arrayCityId.remove(removeCity);
 
                 String deleteCity = TextUtils.join(",", arrayCityId);
                 Log.e("jussss", arrayCityId.toString() + " ");
 
                 manageMyWishlist(deleteCity, categoryName);
 
+                adapterAddAnotherCity1.notifyDataSetChanged();
+
             }
         });
+
+
+        adapterAddAnotherCity1 = new AdapterAddAnotherCity(Activity_ManageMyWishList.this, mDataCity, arrayCityId, new AdapterAddAnotherCity.OnItemClickListener() {
+            @Override
+            public void onItemClick(int item) {
+
+                if (mDataCity.get(item).isChecked()){
+                    mDataCity.get(item).setChecked(false);
+                    arrayCityId.remove(mDataCity.get(item).getCityId());
+
+                } else {
+                    mDataCity.get(item).setChecked(true);
+                    arrayCityId.add(mDataCity.get(item).getCityId());
+
+                }
+                cityNameListAdapter.notifyDataSetChanged();
+
+                Log.e("dyvdsds", arrayCityId.toString() + "--");
+
+            }
+        });
+
+        adapterAddAnotherCity1.notifyDataSetChanged();
 
         recAddAnotherCity.setAdapter(cityNameListAdapter);
 
@@ -159,6 +185,8 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
                 dialogForCity.findViewById(R.id.dialogCityClose).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
+
                         dialogForCity.dismiss();
                     }
                 });
@@ -192,7 +220,7 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
                 dialogForCategories.setCanceledOnTouchOutside(true);
                 dialogForCategories.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 Window window = dialogForCategories.getWindow();
-                window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+                window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.FIRST_SUB_WINDOW);
 
                 mainCategoryArrayListName.clear();
 
@@ -493,25 +521,6 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
                                         arrayCityId.add(addCityList.get(i).getCityId());
                                     }
 
-                                    adapterAddAnotherCity1 = new AdapterAddAnotherCity(Activity_ManageMyWishList.this, mDataCity, arrayCityId, new AdapterAddAnotherCity.OnItemClickListener() {
-                                        @Override
-                                        public void onItemClick(int item) {
-
-                                            if (mDataCity.get(item).isChecked()){
-                                                mDataCity.get(item).setChecked(false);
-                                                arrayCityId.remove(mDataCity.get(item).getCityId());
-
-                                            } else {
-                                                mDataCity.get(item).setChecked(true);
-                                                arrayCityId.add(mDataCity.get(item).getCityId());
-
-                                            }
-                                            cityNameListAdapter.notifyDataSetChanged();
-
-                                        }
-                                    });
-
-                                    adapterAddAnotherCity1.notifyDataSetChanged();
 
                                     Log.e("seperateCityId", arrayCityId.toString() + "--");
 

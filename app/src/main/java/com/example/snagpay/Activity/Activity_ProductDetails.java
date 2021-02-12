@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -31,6 +33,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,8 +45,8 @@ public class Activity_ProductDetails extends AppCompatActivity {
     private RatingBar ratingBarProductDetailsMain;
 
     private AdapterReviewProductDetails adapterReviewProductDetails;
-    private ImageView backToHomeInner;
-    private ImageView productFavourite;
+    private ImageView backToHomeInner, productFavourite;
+    private TextView detailsProductTxt;
 
     private boolean firstClick = true;
     private UserSession session;
@@ -51,6 +55,10 @@ public class Activity_ProductDetails extends AppCompatActivity {
     private String dealId;
 
     private RelativeLayout addToWishlist, removeFromWishlist;
+
+    private ImageView arrowDetailsExpand;
+    boolean isTextViewClicked = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +74,8 @@ public class Activity_ProductDetails extends AppCompatActivity {
         addToWishlist = findViewById(R.id.addToWishlist);
         removeFromWishlist = findViewById(R.id.removeFromWishlist);
         ratingBarProductDetailsMain = findViewById(R.id.ratingBarProductDetailsMain);
+        detailsProductTxt = findViewById(R.id.detailsProductTxt);
+        arrowDetailsExpand = findViewById(R.id.arrowDetailsExpand);
 
         ratingBarProductDetailsMain.setStepSize(0.1f);
       //  ratingBarProductDetailsMain.setRating(Float.parseFloat(categoryDetailsModelArrayList.get(position).getAvg_rating()));
@@ -80,6 +90,49 @@ public class Activity_ProductDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        findViewById(R.id.shrImg).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                Uri screenshotUri = Uri.parse("android.resource://com.android.test/*");
+                try {
+                    InputStream stream = getContentResolver().openInputStream(screenshotUri);
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                sharingIntent.setType("image/jpeg");
+                sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+                startActivity(Intent.createChooser(sharingIntent, "Share image using"));
+
+
+            }
+        });
+
+        detailsProductTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isTextViewClicked){
+                    //This will shrink textview to 2 lines if it is expanded.
+                    detailsProductTxt.setMaxLines(Integer.MAX_VALUE);
+                    isTextViewClicked = false;
+                    arrowDetailsExpand.setImageResource(R.drawable.top);
+                } else {
+                    //This will expand the textview if it is of 2 lines
+                    detailsProductTxt.setMaxLines(2);
+                    isTextViewClicked = true;
+                    arrowDetailsExpand.setImageResource(R.drawable.dropdown);
+                }
+            }
+        });
+
+        arrowDetailsExpand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                detailsProductTxt.performClick();
             }
         });
 
