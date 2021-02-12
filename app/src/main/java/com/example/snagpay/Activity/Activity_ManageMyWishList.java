@@ -52,6 +52,7 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
     private Dialog dialogForCity;
 
     private ArrayList<CityModel> mDataCity = new ArrayList<>();
+
     private ArrayList<CityModel> addCityList = new ArrayList<>();
     private ArrayList<CityModel> categoryArrayList = new ArrayList<>();
 
@@ -60,7 +61,7 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
     private UserSession session;
 
     private CityNameListAdapter cityNameListAdapter;
-    private AdapterAddAnotherCity adapterAddAnotherCity1;
+    private AdapterAddAnotherCity adapterAddAnotherCity;
     private CategorySaveWishListAdapter categoryWishListAdapter;
 
     private String citiesName;
@@ -115,13 +116,13 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
 
                 manageMyWishlist(deleteCity, categoryName);
 
-                adapterAddAnotherCity1.notifyDataSetChanged();
+
 
             }
         });
 
 
-        adapterAddAnotherCity1 = new AdapterAddAnotherCity(Activity_ManageMyWishList.this, mDataCity, arrayCityId, new AdapterAddAnotherCity.OnItemClickListener() {
+        adapterAddAnotherCity = new AdapterAddAnotherCity(Activity_ManageMyWishList.this, mDataCity, arrayCityId, new AdapterAddAnotherCity.OnItemClickListener() {
             @Override
             public void onItemClick(int item) {
 
@@ -141,7 +142,7 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
             }
         });
 
-        adapterAddAnotherCity1.notifyDataSetChanged();
+        adapterAddAnotherCity.notifyDataSetChanged();
 
         recAddAnotherCity.setAdapter(cityNameListAdapter);
 
@@ -178,9 +179,9 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
                 Log.e("seperateCityId", arrayCityId.toString() + "--");
                 RecyclerView recyclerViewCity = dialogForCity.findViewById(R.id.dialogCityList);
                 recyclerViewCity.setLayoutManager(new LinearLayoutManager(dialogForCity.getContext()));
-                recyclerViewCity.setAdapter(adapterAddAnotherCity1);
+                recyclerViewCity.setAdapter(adapterAddAnotherCity);
 
-                adapterAddAnotherCity1.notifyDataSetChanged();
+                adapterAddAnotherCity.notifyDataSetChanged();
 
                 dialogForCity.findViewById(R.id.dialogCityClose).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -188,6 +189,10 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
 
 
                         dialogForCity.dismiss();
+
+                        adapterAddAnotherCity.notifyDataSetChanged();
+
+
                     }
                 });
 
@@ -493,7 +498,7 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
 
                                         addCityList.add(cityModel);
                                     }
-                                    cityNameListAdapter.notifyDataSetChanged();
+
 
                                     JSONArray jsonArrayCategory = jsonObject.getJSONArray("category");
 
@@ -506,7 +511,7 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
 
                                         categoryArrayList.add(cityModel);
                                     }
-                                    categoryWishListAdapter.notifyDataSetChanged();
+
 
                                     for (int i = 0; i< categoryArrayList.size(); i++){
                                         arrayCategoryId.add(categoryArrayList.get(i).getCityId());
@@ -525,6 +530,10 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
                                     Log.e("seperateCityId", arrayCityId.toString() + "--");
 
                                     citiesName = TextUtils.join("," , arrayCityId);
+
+                                    cityNameListAdapter.notifyDataSetChanged();
+                                    categoryWishListAdapter.notifyDataSetChanged();
+                                    adapterAddAnotherCity.notifyDataSetChanged();
 
 
                                 } catch (JSONException e) {
