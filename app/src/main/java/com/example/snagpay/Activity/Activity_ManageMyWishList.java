@@ -133,7 +133,6 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
                 } else {
                     mDataCity.get(item).setChecked(true);
                     arrayCityId.add(mDataCity.get(item).getCityId());
-
                 }
                 cityNameListAdapter.notifyDataSetChanged();
 
