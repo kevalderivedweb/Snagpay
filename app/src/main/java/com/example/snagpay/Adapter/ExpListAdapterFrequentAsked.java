@@ -50,6 +50,15 @@ public class ExpListAdapterFrequentAsked extends BaseExpandableListAdapter {
 
         TextView askedFrequentListExp = (TextView) convertView.findViewById(R.id.askedFrequentListExp);
 
+
+
+        askedFrequentListExp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                askedFrequentListExp.setClickable(false);
+            }
+        });
+
         askedFrequentListExp.setText(frequentAskedModelArrayList.get(groupPosition).getDetailFrequentAskedModels().get(childPosition).getAnswer());
 
         Log.e("expList", frequentAskedModelArrayList.get(0).getDetailFrequentAskedModels().get(0).getAnswer() + " 111");

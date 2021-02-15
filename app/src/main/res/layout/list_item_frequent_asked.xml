@@ -7,12 +7,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="15dp"
+        android:clickable="false"
         android:layout_marginTop="10dp">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textSize="14dp"
+            android:clickable="false"
+            android:enabled="false"
             android:letterSpacing="0.02"
             android:id="@+id/askedFrequentListExp"/>
 

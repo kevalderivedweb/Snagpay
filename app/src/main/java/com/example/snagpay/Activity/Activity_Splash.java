@@ -17,7 +17,9 @@ public class Activity_Splash extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+/*
         getWindow().setNavigationBarColor(getResources().getColor(R.color.white));  // for navigation color
+*/
 
         session = new UserSession(Activity_Splash.this);
 

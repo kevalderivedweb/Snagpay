@@ -22,32 +22,33 @@
         android:layout_height="wrap_content">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp">
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="match_parent"
                 android:hint="Enter your email"
                 android:paddingLeft="55dp"
                 android:textSize="14dp"
                 android:id="@+id/email"
+                android:layout_centerVertical="true"
                 android:textCursorDrawable="@drawable/cursor_green_color"
                 android:background="@drawable/rounded_edittext" />
 
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginTop="13dp"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:src="@drawable/icon_email"/>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="12dp">
@@ -55,9 +56,10 @@
             <EditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="match_parent"
                 android:hint="Enter your password"
                 android:paddingLeft="55dp"
+                android:layout_centerVertical="true"
                 android:textSize="14dp"
                 android:inputType="textPassword"
                 android:textCursorDrawable="@drawable/cursor_green_color"
@@ -66,7 +68,7 @@
             <ImageView
                 android:layout_width="17dp"
                 android:layout_height="20dp"
-                android:layout_marginTop="12dp"
+                android:layout_centerVertical="true"
                 android:layout_marginStart="21dp"
                 android:src="@drawable/icon_password"/>
 
@@ -74,7 +76,7 @@
                 android:id="@+id/icon_password_visible_login"
                 android:layout_width="25dp"
                 android:layout_height="15dp"
-                android:layout_marginTop="16dp"
+                android:layout_centerVertical="true"
                 android:layout_marginRight="12dp"
                 android:scaleType="fitXY"
                 android:layout_alignParentRight="true"
