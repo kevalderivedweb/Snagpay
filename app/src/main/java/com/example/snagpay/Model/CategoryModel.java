@@ -11,7 +11,7 @@ public class CategoryModel {
     String category_image;
     String parent_id;
     String parent_level;
-    ArrayList<SubCategoriesModel> subCategoriesModelArrayList;
+    public  ArrayList<SubCategoriesModel> subCategoriesModelArrayList;
 
     public ArrayList<SubCategoriesModel> getSubCategoriesModelArrayList() {
         return subCategoriesModelArrayList;

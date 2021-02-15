@@ -16,9 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.snagpay.Model.CategoryDetailsModel;
 import com.example.snagpay.R;
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
+
 
 import java.util.ArrayList;
 
@@ -91,7 +90,6 @@ public class AdapterHomeInner extends RecyclerView.Adapter<AdapterHomeInner.View
         ImageView imgCatHomeInner;
         TextView titleHome, cityName, totalRating, priceRegular, itemsBought;
         RatingBar ratingBarInnerHome;
-
         public Viewholder(@NonNull View itemView) {
             super(itemView);
 
@@ -102,6 +100,7 @@ public class AdapterHomeInner extends RecyclerView.Adapter<AdapterHomeInner.View
             priceRegular = itemView.findViewById(R.id.priceRegular);
             itemsBought = itemView.findViewById(R.id.itemsBought);
             ratingBarInnerHome = itemView.findViewById(R.id.ratingBarInnerHome);
+
         }
     }
 

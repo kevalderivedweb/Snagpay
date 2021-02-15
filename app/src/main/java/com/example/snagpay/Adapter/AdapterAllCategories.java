@@ -45,8 +45,6 @@ public class AdapterAllCategories extends RecyclerView.Adapter<AdapterAllCategor
                 allCategoryArrayList.get(position).getCategory_id());
 
         holder.resSubAllCategories.setAdapter(adapterSubCategory);
-
-        Log.e("sizee", allCategoryArrayList.get(position).getSubCategoriesModelArrayList().size() + " ");
     }
 
     @Override

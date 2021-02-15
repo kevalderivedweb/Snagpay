@@ -79,6 +79,7 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
     private int posSubCategory = 0;
     private ArrayAdapter<String> dataAdapterSubCat;
     private ArrayAdapter<String> dataAdapterSubSubCat;
+    private AdapterAddAnotherCity adapterAddAnotherCity1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,9 +162,6 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
         });
         recListCategory.setAdapter(categoryWishListAdapter);
 
-
-
-
         btnAddAnotherCity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -177,6 +175,23 @@ public class Activity_ManageMyWishList extends AppCompatActivity {
 
                 Log.e("seperateCityId", arrayCityId.toString() + "--");
                 RecyclerView recyclerViewCity = dialogForCity.findViewById(R.id.dialogCityList);
+                adapterAddAnotherCity1 = new AdapterAddAnotherCity(Activity_ManageMyWishList.this, mDataCity, arrayCityId, new AdapterAddAnotherCity.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int item) {
+
+                        if (mDataCity.get(item).isChecked()){
+                            mDataCity.get(item).setChecked(false);
+                            arrayCityId.remove(mDataCity.get(item).getCityId());
+
+                        } else {
+                            mDataCity.get(item).setChecked(true);
+                            arrayCityId.add(mDataCity.get(item).getCityId());
+
+                        }
+                        cityNameListAdapter.notifyDataSetChanged();
+
+                    }
+                });
                 recyclerViewCity.setLayoutManager(new LinearLayoutManager(dialogForCity.getContext()));
                 recyclerViewCity.setAdapter(adapterAddAnotherCity);
 

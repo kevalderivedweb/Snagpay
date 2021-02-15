@@ -51,6 +51,8 @@ public class AdapterAddAnotherCity extends RecyclerView.Adapter<AdapterAddAnothe
 
             if (city.equals(mDataCity.get(position).getCityId())){
                 mDataCity.get(position).setChecked(true);
+            }else {
+                mDataCity.get(position).setChecked(false);
             }
 
         }

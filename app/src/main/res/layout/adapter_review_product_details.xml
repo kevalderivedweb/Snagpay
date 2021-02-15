@@ -26,11 +26,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="K"
+                android:id="@+id/first_letter"
                 android:textColor="@color/black"/>
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/katrinatxt"
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Katrina"
@@ -45,29 +46,34 @@
             android:layout_height="wrap_content"
             android:text="Oct 23, 2020"
             android:textSize="12dp"
-            android:layout_below="@+id/katrinatxt"
+            android:id="@+id/date"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/black"
+            android:layout_below="@+id/name"
             android:layout_toRightOf="@+id/imagevieww"
             android:layout_marginTop="2dp"
             android:layout_marginLeft="10dp"/>
 
+
         <androidx.appcompat.widget.AppCompatRatingBar
-            android:id="@+id/ratingAgainProduct111"
+            android:id="@+id/rating"
             android:layout_width="wrap_content"
             android:layout_height="15dp"
             android:numStars="5"
+            android:isIndicator="false"
             android:layout_below="@+id/imagevieww"
             android:layout_marginLeft="10dp"
-            android:isIndicator="false"
-            android:stepSize="1"
             android:layout_marginTop="5dp"
+            android:stepSize="1"
             style="?android:attr/ratingBarStyleSmall"
             android:theme="@style/RatingBar"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/desc"
             android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-            android:layout_below="@+id/ratingAgainProduct111"
+            android:layout_below="@+id/rating"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="3dp"
             android:textSize="14dp"/>

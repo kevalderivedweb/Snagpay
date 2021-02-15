@@ -26,6 +26,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.snagpay.API.VolleyMultipartRequest;
 import com.example.snagpay.Adapter.AdapterReviewProductDetails;
 import com.example.snagpay.Model.CategoryDetailsModel;
+import com.example.snagpay.Model.ReviewModel;
 import com.example.snagpay.R;
 import com.example.snagpay.Utils.UserSession;
 import com.kaopiz.kprogresshud.KProgressHUD;
@@ -36,6 +37,7 @@ import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,6 +61,7 @@ public class Activity_ProductDetails extends AppCompatActivity {
 
     private ImageView arrowDetailsExpand;
     boolean isTextViewClicked = true;
+    ArrayList<ReviewModel> reviewModelArrayList = new ArrayList<>();
 
 
     @Override
@@ -153,7 +156,7 @@ public class Activity_ProductDetails extends AppCompatActivity {
         });
 
         resProductUserReview.setLayoutManager(new LinearLayoutManager(this));
-        adapterReviewProductDetails = new AdapterReviewProductDetails(Activity_ProductDetails.this);
+        adapterReviewProductDetails = new AdapterReviewProductDetails(Activity_ProductDetails.this,reviewModelArrayList);
         resProductUserReview.setAdapter(adapterReviewProductDetails);
 
         btnBuyNowProduct.setOnClickListener(new View.OnClickListener() {
@@ -180,7 +183,7 @@ public class Activity_ProductDetails extends AppCompatActivity {
         getCategoriesDetails(category_id, "", subCategoryId, "", "", "1");
 
 
-
+        getReviewDetails("1");
     }
 
     private void editWishList(String dealId, String wishStatus) {
@@ -355,6 +358,130 @@ public class Activity_ProductDetails extends AppCompatActivity {
                                 addToWishlist.setVisibility(View.GONE);
                             }
 
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(Activity_ProductDetails.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    else if(jsonObject.getString("ResponseCode").equals("401")){
+
+                        session.logout();
+                        Intent intent = new Intent(Activity_ProductDetails.this, Activity_SelectCity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                } catch (Exception e) {
+                    //  Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    Toast.makeText(Activity_ProductDetails.this, "No Data", Toast.LENGTH_SHORT).show();
+
+                   /* session.logout();
+                    Intent intent = new Intent(Activity_ProductDetails.this, Activity_SelectCity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();*/
+
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+
+                        Toast.makeText(Activity_ProductDetails.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+
+            /*
+             * If you want to add more parameters with the image
+             * you can do it here
+             * here we have only one parameter with the image
+             * which is tags
+             * */
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                return params;
+            }
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/json");
+                params.put("Authorization", "Bearer " + session.getAPITOKEN());
+                return params;
+            }
+
+            /*
+             * Here we are passing image by renaming it with a unique name
+             * */
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+
+                return params;
+            }
+        };
+        //adding the request to volley
+        Volley.newRequestQueue(Activity_ProductDetails.this).add(volleyMultipartRequest);
+    }
+
+
+
+    public void getReviewDetails(String page){
+        final KProgressHUD progressDialog = KProgressHUD.create(Activity_ProductDetails.this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel("Please wait")
+                .setCancellable(false)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f);
+        //.show();
+        //getting the tag from the edittext
+
+        //our custom volley request
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "get-all-deal-reviews?deal_id=10&sort_by_rating=HighestRated?page=" + page, new Response.Listener<NetworkResponse>() {
+            @Override
+            public void onResponse(NetworkResponse response) {
+
+
+                progressDialog.dismiss();
+
+                try {
+
+                    JSONObject jsonObject = new JSONObject(new String(response.data));
+                    Log.e("Response",jsonObject.toString());
+                    if (jsonObject.getString("ResponseCode").equals("200")){
+
+                        try {
+
+                            JSONObject data = jsonObject.getJSONObject("data");
+                            JSONArray jsonArray = data.getJSONArray("data");
+
+                            for (int i = 0 ; i<jsonArray.length() ; i++){
+                                JSONObject object = jsonArray.getJSONObject(i);
+
+                                ReviewModel reviewModel = new ReviewModel();
+                                reviewModel.setDeal_rating_id( object.getString("deal_rating_id"));;
+                                reviewModel.setFirst_name( object.getString("first_name"));;
+                                reviewModel.setLast_name( object.getString("last_name"));;
+                                reviewModel.setDeal_id( object.getString("deal_id"));;
+                                reviewModel.setUser_id( object.getString("user_id"));;
+                                reviewModel.setRating( object.getString("rating"));;
+                                reviewModel.setReview( object.getString("review"));;
+                                reviewModel.setDate( object.getString("date"));;
+                                reviewModelArrayList.add(reviewModel);
+
+
+                            }
+
+                            adapterReviewProductDetails.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Toast.makeText(Activity_ProductDetails.this, e.getMessage(), Toast.LENGTH_SHORT).show();

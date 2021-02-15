@@ -9,7 +9,7 @@ import android.view.View;
 import com.example.snagpay.R;
 import com.example.snagpay.Utils.UserSession;
 
-public class Activity_WorkwithSnagpay extends AppCompatActivity {
+public class                    Activity_WorkwithSnagpay extends AppCompatActivity {
 
     private UserSession session;
 
