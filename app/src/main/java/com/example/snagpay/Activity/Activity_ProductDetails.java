@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import com.example.snagpay.Model.ReviewModel;
 import com.example.snagpay.R;
 import com.example.snagpay.Utils.UserSession;
 import com.kaopiz.kprogresshud.KProgressHUD;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,11 +47,11 @@ public class Activity_ProductDetails extends AppCompatActivity {
 
     private Button btnBuyNowProduct;
     private RecyclerView resProductUserReview;
-    private RatingBar ratingBarProductDetailsMain;
 
     private AdapterReviewProductDetails adapterReviewProductDetails;
-    private ImageView backToHomeInner, productFavourite;
-    private TextView detailsProductTxt;
+    private ImageView backToHomeInner, productFavourite, dealImage;
+    private TextView detailsProductTxt, dealTitle, rating, totalRating, highLights, customeR, countRtng;
+    private RatingBar ratingBarProductDetailsMain, ratingAgainProduct;
 
     private boolean firstClick = true;
     private UserSession session;
@@ -60,8 +62,8 @@ public class Activity_ProductDetails extends AppCompatActivity {
     private RelativeLayout addToWishlist, removeFromWishlist;
 
     private ImageView arrowDetailsExpand;
-    boolean isTextViewClicked = true;
-    ArrayList<ReviewModel> reviewModelArrayList = new ArrayList<>();
+    private boolean isTextViewClicked = true;
+    private ArrayList<ReviewModel> reviewModelArrayList = new ArrayList<>();
 
 
     @Override
@@ -81,14 +83,22 @@ public class Activity_ProductDetails extends AppCompatActivity {
         detailsProductTxt = findViewById(R.id.detailsProductTxt);
         arrowDetailsExpand = findViewById(R.id.arrowDetailsExpand);
 
-        ratingBarProductDetailsMain.setStepSize(0.1f);
-      //  ratingBarProductDetailsMain.setRating(Float.parseFloat(categoryDetailsModelArrayList.get(position).getAvg_rating()));
-        ratingBarProductDetailsMain.setIsIndicator(true);
+        dealImage = findViewById(R.id.dealImage);
+        dealTitle = findViewById(R.id.dealTitle);
+        rating = findViewById(R.id.rating);
+        totalRating = findViewById(R.id.totalRating);
+        highLights = findViewById(R.id.highLights);
+
+        customeR = findViewById(R.id.customeR);
+        countRtng = findViewById(R.id.countRtng);
+        ratingAgainProduct = findViewById(R.id.ratingAgainProduct);
+
 
         Bundle bundle = getIntent().getExtras();
 
         String category_id = bundle.getString("category_id");
         String subCategoryId = bundle.getString("subCategoryId");
+        String dealId = bundle.getString("dealId");
 
         backToHomeInner.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,8 +193,157 @@ public class Activity_ProductDetails extends AppCompatActivity {
         getCategoriesDetails(category_id, "", subCategoryId, "", "", "1");
 
 
-        getReviewDetails("1");
+        getDealDetials(dealId);
+       // getReviewDetails("1");
     }
+
+    public void getDealDetials(String dealId){
+        final KProgressHUD progressDialog = KProgressHUD.create(Activity_ProductDetails.this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel("Please wait")
+                .setCancellable(false)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f)
+                .show();
+        //getting the tag from the edittext
+
+        //our custom volley request
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "deal-details?deal_id=" + dealId + "&sort_by_rating=HighestRated", new Response.Listener<NetworkResponse>() {
+            @SuppressLint("UseCompatLoadingForDrawables")
+            @Override
+            public void onResponse(NetworkResponse response) {
+
+
+                progressDialog.dismiss();
+
+                try {
+
+                    JSONObject jsonObject = new JSONObject(new String(response.data));
+                    Log.e("Response",jsonObject.toString());
+                    if (jsonObject.getString("ResponseCode").equals("200")){
+
+                        try {
+
+                            JSONObject data = jsonObject.getJSONObject("data");
+
+                            JSONArray jsonArray = data.getJSONArray("customer_reviews");
+                            JSONObject jsonObject1 = data.getJSONObject("deal_details");
+
+                            for (int i = 0 ; i<jsonArray.length() ; i++){
+                                JSONObject object = jsonArray.getJSONObject(i);
+
+                                ReviewModel reviewModel = new ReviewModel();
+                                reviewModel.setDeal_rating_id( object.getString("deal_rating_id"));;
+                                reviewModel.setFirst_name( object.getString("first_name"));;
+                                reviewModel.setLast_name( object.getString("last_name"));;
+                                reviewModel.setDeal_id( object.getString("deal_id"));;
+                                reviewModel.setUser_id( object.getString("user_id"));;
+                                reviewModel.setRating( object.getString("rating"));;
+                                reviewModel.setReview( object.getString("review"));;
+                                reviewModel.setDate( object.getString("date"));;
+                                reviewModelArrayList.add(reviewModel);
+
+                            }
+                            adapterReviewProductDetails.notifyDataSetChanged();
+
+                            ratingBarProductDetailsMain.setStepSize(0.1f);
+                            ratingBarProductDetailsMain.setRating(Float.parseFloat(jsonObject1.getString("avg_rating")));
+                            ratingBarProductDetailsMain.setIsIndicator(true);
+
+                            Picasso.get().load(jsonObject1.getString("deal_image")).
+                                    placeholder(Activity_ProductDetails.this.getResources().getDrawable(R.drawable.appicon_1024x1024))
+                                    .error(Activity_ProductDetails.this.getResources().getDrawable(R.drawable.appicon_1024x1024)).into(dealImage);
+
+                            dealTitle.setText(jsonObject1.getString("title"));
+                            totalRating.setText(jsonObject1.getString("total_rating") + " ratings");
+                            rating.setText(jsonObject1.getString("avg_rating"));
+                            highLights.setText(jsonObject1.getString("description"));
+
+                            customeR.setText(jsonObject1.getString("avg_rating"));
+                            ratingAgainProduct.setStepSize(0.1f);
+                            ratingAgainProduct.setRating(Float.parseFloat(jsonObject1.getString("avg_rating")));
+                            ratingAgainProduct.setIsIndicator(true);
+                            countRtng.setText(jsonObject1.getString("total_rating") + " ratings");
+
+                            RelativeLayout black_gradient_topbottom = findViewById(R.id.dfdf);
+                            black_gradient_topbottom.setBackgroundResource(R.drawable.black_gradient_topbottom);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(Activity_ProductDetails.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    else if(jsonObject.getString("ResponseCode").equals("401")){
+
+                        session.logout();
+                        Intent intent = new Intent(Activity_ProductDetails.this, Activity_SelectCity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                } catch (Exception e) {
+                    //  Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    Toast.makeText(Activity_ProductDetails.this, "No Data", Toast.LENGTH_SHORT).show();
+
+                   /* session.logout();
+                    Intent intent = new Intent(Activity_ProductDetails.this, Activity_SelectCity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();*/
+
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+
+                        Toast.makeText(Activity_ProductDetails.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+
+            /*
+             * If you want to add more parameters with the image
+             * you can do it here
+             * here we have only one parameter with the image
+             * which is tags
+             * */
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                return params;
+            }
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/json");
+                params.put("Authorization", "Bearer " + session.getAPITOKEN());
+                return params;
+            }
+
+            /*
+             * Here we are passing image by renaming it with a unique name
+             * */
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+
+                return params;
+            }
+        };
+        //adding the request to volley
+        Volley.newRequestQueue(Activity_ProductDetails.this).add(volleyMultipartRequest);
+    }
+
+
 
     private void editWishList(String dealId, String wishStatus) {
         final KProgressHUD progressDialog = KProgressHUD.create(Activity_ProductDetails.this)
@@ -432,7 +591,6 @@ public class Activity_ProductDetails extends AppCompatActivity {
         //adding the request to volley
         Volley.newRequestQueue(Activity_ProductDetails.this).add(volleyMultipartRequest);
     }
-
 
 
     public void getReviewDetails(String page){

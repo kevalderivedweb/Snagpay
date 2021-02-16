@@ -54,14 +54,6 @@ public class AdapterHomeInner extends RecyclerView.Adapter<AdapterHomeInner.View
                 .load(categoryDetailsModelArrayList.get(position).getDeal_image())
                 .into(holder.imgCatHomeInner);
 
-       /* Picasso.get().load(categoryDetailsModelArrayList.get(position).getDeal_image())
-                .memoryPolicy(MemoryPolicy.NO_CACHE)
-                .into(imgCatHomeInner);*/
-
-       /* */
-
-       // Log.e("imagee", categoryDetailsModelArrayList.get(position).getDeal_image() + " ");
-
         holder.titleHome.setText(categoryDetailsModelArrayList.get(position).getTitle());
         holder.titleHome.setEllipsize(TextUtils.TruncateAt.END);
 
