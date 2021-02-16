@@ -51,7 +51,7 @@ public class Activity_ProductDetails extends AppCompatActivity {
     private RecyclerView resProductUserReview, dealsPriceList;
 
     private ImageView backToHomeInner, productFavourite, dealImage, arrowDetailsExpand, listArrow;
-    private TextView detailsProductTxt, dealTitle, rating, totalRating, highLights, customeR, countRtng, selectDealsName, selectDealsPrice;
+    private TextView detailsProductTxt, dealTitle, rating, totalRating, highLights, customeR, countRtng, selectDealsName, selectDealsPrice, noReviewsText;
     private RatingBar ratingBarProductDetailsMain, ratingAgainProduct;
 
     private AdapterReviewProductDetails adapterReviewProductDetails;
@@ -104,6 +104,7 @@ public class Activity_ProductDetails extends AppCompatActivity {
         selectDealsName = findViewById(R.id.selectDealsName);
         selectDealsPrice = findViewById(R.id.selectDealsPrice);
         listArrow = findViewById(R.id.listArrow);
+        noReviewsText = findViewById(R.id.noReviewsText);
 
         listOfDealsRelative.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -298,6 +299,10 @@ public class Activity_ProductDetails extends AppCompatActivity {
                                 reviewModel.setDate( object.getString("date"));;
                                 reviewModelArrayList.add(reviewModel);
 
+                            }
+
+                            if (reviewModelArrayList.isEmpty()){
+                                noReviewsText.setVisibility(View.VISIBLE);
                             }
 
 
