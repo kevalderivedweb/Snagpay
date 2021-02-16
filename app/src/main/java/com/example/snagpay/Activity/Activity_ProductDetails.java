@@ -25,8 +25,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.snagpay.API.VolleyMultipartRequest;
+import com.example.snagpay.Adapter.AdapterDealsPriceList;
 import com.example.snagpay.Adapter.AdapterReviewProductDetails;
 import com.example.snagpay.Model.CategoryDetailsModel;
+import com.example.snagpay.Model.DealOptionsListModel;
 import com.example.snagpay.Model.ReviewModel;
 import com.example.snagpay.R;
 import com.example.snagpay.Utils.UserSession;
@@ -46,24 +48,27 @@ import java.util.Map;
 public class Activity_ProductDetails extends AppCompatActivity {
 
     private Button btnBuyNowProduct;
-    private RecyclerView resProductUserReview;
+    private RecyclerView resProductUserReview, dealsPriceList;
 
-    private AdapterReviewProductDetails adapterReviewProductDetails;
-    private ImageView backToHomeInner, productFavourite, dealImage;
-    private TextView detailsProductTxt, dealTitle, rating, totalRating, highLights, customeR, countRtng;
+    private ImageView backToHomeInner, productFavourite, dealImage, arrowDetailsExpand, listArrow;
+    private TextView detailsProductTxt, dealTitle, rating, totalRating, highLights, customeR, countRtng, selectDealsName, selectDealsPrice;
     private RatingBar ratingBarProductDetailsMain, ratingAgainProduct;
 
-    private boolean firstClick = true;
+    private AdapterReviewProductDetails adapterReviewProductDetails;
+    private AdapterDealsPriceList adapterDealsPriceList;
+
     private UserSession session;
 
     private String isWishlist;
     private String dealId;
 
-    private RelativeLayout addToWishlist, removeFromWishlist;
+    private RelativeLayout addToWishlist, removeFromWishlist, listOfDealsRelative;
 
-    private ImageView arrowDetailsExpand;
-    private boolean isTextViewClicked = true;
     private ArrayList<ReviewModel> reviewModelArrayList = new ArrayList<>();
+    private ArrayList<DealOptionsListModel> dealOptionsListModelArrayList = new ArrayList<>();
+
+    private boolean isTextViewClicked = true;
+    private boolean islistClicked = true;
 
 
     @Override
@@ -93,9 +98,31 @@ public class Activity_ProductDetails extends AppCompatActivity {
         countRtng = findViewById(R.id.countRtng);
         ratingAgainProduct = findViewById(R.id.ratingAgainProduct);
 
+        dealsPriceList = findViewById(R.id.dealsPriceList);
+        listOfDealsRelative = findViewById(R.id.listOfDealsRelative);
+
+        selectDealsName = findViewById(R.id.selectDealsName);
+        selectDealsPrice = findViewById(R.id.selectDealsPrice);
+        listArrow = findViewById(R.id.listArrow);
+
+        listOfDealsRelative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (islistClicked){
+                    dealsPriceList.setVisibility(View.VISIBLE);
+                    islistClicked = false;
+                    listArrow.setImageResource(R.drawable.top);
+                }
+                else {
+                    dealsPriceList.setVisibility(View.GONE);
+                    islistClicked = true;
+                    listArrow.setImageResource(R.drawable.dropdown);
+                }
+            }
+        });
+
 
         Bundle bundle = getIntent().getExtras();
-
         String category_id = bundle.getString("category_id");
         String subCategoryId = bundle.getString("subCategoryId");
         String dealId = bundle.getString("dealId");
@@ -190,8 +217,19 @@ public class Activity_ProductDetails extends AppCompatActivity {
             }
         });
 
-        getCategoriesDetails(category_id, "", subCategoryId, "", "", "1");
+        dealsPriceList.setLayoutManager(new LinearLayoutManager(this));
+        adapterDealsPriceList = new AdapterDealsPriceList(this, dealOptionsListModelArrayList, new AdapterDealsPriceList.OnItemClickListener() {
+            @Override
+            public void onItemClick(int item) {
+                selectDealsName.setText(dealOptionsListModelArrayList.get(item).getDeal_option_name());
+                selectDealsPrice.setText("$ " + dealOptionsListModelArrayList.get(item).getSell_price());
+            }
+        });
+        dealsPriceList.setAdapter(adapterDealsPriceList);
 
+
+
+        getCategoriesDetails(category_id, "", subCategoryId, "", "", "1");
 
         getDealDetials(dealId);
        // getReviewDetails("1");
@@ -228,6 +266,23 @@ public class Activity_ProductDetails extends AppCompatActivity {
 
                             JSONArray jsonArray = data.getJSONArray("customer_reviews");
                             JSONObject jsonObject1 = data.getJSONObject("deal_details");
+                            JSONArray jsonArray1 = data.getJSONArray("deal_options");
+
+                            for (int i = 0; i < jsonArray1.length(); i++){
+                                JSONObject object = jsonArray1.getJSONObject(i);
+
+                                DealOptionsListModel dealOptionsListModel = new DealOptionsListModel();
+                                dealOptionsListModel.setDeal_id(object.getString("deal_id"));
+                                dealOptionsListModel.setDeal_option_id(object.getString("deal_option_id"));
+                                dealOptionsListModel.setDeal_option_name(object.getString("deal_option_name"));
+                                dealOptionsListModel.setSell_price(object.getString("sell_price"));
+                                dealOptionsListModel.setDeal_option_description(object.getString("deal_option_description"));
+
+                                dealOptionsListModelArrayList.add(dealOptionsListModel);
+                            }
+
+                            selectDealsName.setText(dealOptionsListModelArrayList.get(0).getDeal_option_name());
+                            selectDealsPrice.setText("$ " + dealOptionsListModelArrayList.get(0).getSell_price());
 
                             for (int i = 0 ; i<jsonArray.length() ; i++){
                                 JSONObject object = jsonArray.getJSONObject(i);
@@ -244,7 +299,7 @@ public class Activity_ProductDetails extends AppCompatActivity {
                                 reviewModelArrayList.add(reviewModel);
 
                             }
-                            adapterReviewProductDetails.notifyDataSetChanged();
+
 
                             ratingBarProductDetailsMain.setStepSize(0.1f);
                             ratingBarProductDetailsMain.setRating(Float.parseFloat(jsonObject1.getString("avg_rating")));
@@ -267,6 +322,9 @@ public class Activity_ProductDetails extends AppCompatActivity {
 
                             RelativeLayout black_gradient_topbottom = findViewById(R.id.dfdf);
                             black_gradient_topbottom.setBackgroundResource(R.drawable.black_gradient_topbottom);
+
+                            adapterReviewProductDetails.notifyDataSetChanged();
+                            adapterDealsPriceList.notifyDataSetChanged();
 
                         } catch (JSONException e) {
                             e.printStackTrace();

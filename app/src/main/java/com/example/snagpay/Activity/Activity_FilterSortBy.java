@@ -27,10 +27,10 @@ import java.util.List;
 
 public class Activity_FilterSortBy extends AppCompatActivity {
 
-    ExpListAdapterFilterSort listAdapter;
-    ExpandableListView expListView;
-    List<String> listDataHeader;
-    HashMap<String, List<String>> listDataChild;
+    private ExpListAdapterFilterSort listAdapter;
+    private ExpandableListView expListView;
+    private List<String> listDataHeader;
+    private HashMap<String, List<String>> listDataChild;
     private ArrayList<String> listDataSubHeader;
     private String newString;
 

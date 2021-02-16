@@ -79,7 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
                     android:gravity="center_vertical"
-                    android:layout_marginTop="-10dp"
+                    android:layout_marginTop="-5dp"
                     android:layout_marginLeft="10dp"
                     android:orientation="horizontal">
 
@@ -119,38 +119,45 @@
                 android:background="@color/light_gray" />
 
             <RelativeLayout
+                android:id="@+id/listOfDealsRelative"
                 android:layout_width="match_parent"
                 android:layout_height="50dp">
                 <TextView
+                    android:id="@+id/selectDealsName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Boat Tour for One"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="15dp"
                     android:textColor="@color/black"
                     android:textSize="14dp"
                     android:layout_centerVertical="true"
                     android:letterSpacing="0.02"/>
 
                 <TextView
+                    android:id="@+id/selectDealsPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$150"
                     android:fontFamily="@font/roboto_bold"
                     android:textColor="@color/green"
-                    android:layout_toLeftOf="@+id/nb"
+                    android:layout_toLeftOf="@+id/listArrow"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
                     android:textSize="14dp"/>
 
                 <ImageView
-                    android:id="@+id/nb"
+                    android:id="@+id/listArrow"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:src="@drawable/black_dropdown"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="15dp"/>
+                    android:layout_marginRight="20dp"/>
             </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/dealsPriceList"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="wrap_content"/>
 
             <View
                 android:layout_width="match_parent"
