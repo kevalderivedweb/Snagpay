@@ -43,6 +43,10 @@ public class AdapterReviewProductDetails extends RecyclerView.Adapter<AdapterRev
         holder.date.setText(reviewModelArrayList.get(position).getDate());
         holder.desc.setText(reviewModelArrayList.get(position).getReview());
 
+        if (reviewModelArrayList.get(position).getReview().equals("")){
+            holder.desc.setVisibility(View.GONE);
+        }
+
         holder.rating.setStepSize(0.1f);
         holder.rating.setRating(Float.parseFloat(reviewModelArrayList.get(position).getRating()));
         holder.rating.setIsIndicator(true);

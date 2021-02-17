@@ -2,11 +2,18 @@ package com.example.snagpay.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.snagpay.R;
@@ -16,9 +23,12 @@ public class Activity_ReviewOrder extends AppCompatActivity {
 
     private Button btnCompletePurchase;
     private ImageView backToProductDetail;
+    private RelativeLayout lyoutForPromo;
+    private View viewPromo;
 
+    private EditText editPromo;
     private ImageView orderMinus, orderPlus;
-    private TextView txtOrderCount;
+    private TextView txtOrderCount, checkPromoCode, promoCode;
     private UserSession session;
 
     @Override
@@ -34,12 +44,37 @@ public class Activity_ReviewOrder extends AppCompatActivity {
         orderMinus = findViewById(R.id.orderMinus);
         orderPlus = findViewById(R.id.orderPlus);
 
+        lyoutForPromo = findViewById(R.id.lyoutForPromo);
+        viewPromo = findViewById(R.id.viewPromo);
+        editPromo = findViewById(R.id.editPromo);
+        checkPromoCode = findViewById(R.id.checkPromoCode);
+        promoCode = findViewById(R.id.promoCode);
+
         backToProductDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+
+        promoCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                promoCode.setVisibility(View.GONE);
+                viewPromo.setVisibility(View.GONE);
+                lyoutForPromo.setVisibility(View.VISIBLE);
+            }
+        });
+
+        checkPromoCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                editPromo.setText("");
+            }
+        });
+
 
         btnCompletePurchase.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,10 +102,12 @@ public class Activity_ReviewOrder extends AppCompatActivity {
                 txtOrderCount.setText(String.valueOf(order + 1));
             }
         });
+
+
     }
 
+    public void getReviewOrderDetail(){
 
-
-
+    }
 
 }

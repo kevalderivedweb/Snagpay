@@ -5,16 +5,24 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -233,7 +241,15 @@ public class Activity_ProductDetails extends AppCompatActivity {
         getCategoriesDetails(category_id, "", subCategoryId, "", "", "1");
 
         getDealDetials(dealId);
-       // getReviewDetails("1");
+
+        findViewById(R.id.seeAllReviews).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getReviewDetails(dealId, "1");
+            }
+        });
+
+
     }
 
     public void getDealDetials(String dealId){
@@ -289,20 +305,21 @@ public class Activity_ProductDetails extends AppCompatActivity {
                                 JSONObject object = jsonArray.getJSONObject(i);
 
                                 ReviewModel reviewModel = new ReviewModel();
-                                reviewModel.setDeal_rating_id( object.getString("deal_rating_id"));;
-                                reviewModel.setFirst_name( object.getString("first_name"));;
-                                reviewModel.setLast_name( object.getString("last_name"));;
-                                reviewModel.setDeal_id( object.getString("deal_id"));;
-                                reviewModel.setUser_id( object.getString("user_id"));;
-                                reviewModel.setRating( object.getString("rating"));;
-                                reviewModel.setReview( object.getString("review"));;
-                                reviewModel.setDate( object.getString("date"));;
+                                reviewModel.setDeal_rating_id( object.getString("deal_rating_id"));
+                                reviewModel.setFirst_name( object.getString("first_name"));
+                                reviewModel.setLast_name( object.getString("last_name"));
+                                reviewModel.setDeal_id( object.getString("deal_id"));
+                                reviewModel.setUser_id( object.getString("user_id"));
+                                reviewModel.setRating( object.getString("rating"));
+                                reviewModel.setReview( object.getString("review"));
+                                reviewModel.setDate( object.getString("date"));
                                 reviewModelArrayList.add(reviewModel);
 
                             }
 
                             if (reviewModelArrayList.isEmpty()){
                                 noReviewsText.setVisibility(View.VISIBLE);
+                                findViewById(R.id.seeAllReviews).setVisibility(View.INVISIBLE);
                             }
 
 
@@ -325,8 +342,6 @@ public class Activity_ProductDetails extends AppCompatActivity {
                             ratingAgainProduct.setIsIndicator(true);
                             countRtng.setText(jsonObject1.getString("total_rating") + " ratings");
 
-                            RelativeLayout black_gradient_topbottom = findViewById(R.id.dfdf);
-                            black_gradient_topbottom.setBackgroundResource(R.drawable.black_gradient_topbottom);
 
                             adapterReviewProductDetails.notifyDataSetChanged();
                             adapterDealsPriceList.notifyDataSetChanged();
@@ -656,23 +671,24 @@ public class Activity_ProductDetails extends AppCompatActivity {
     }
 
 
-    public void getReviewDetails(String page){
+    public void getReviewDetails(String dealId, String page){
         final KProgressHUD progressDialog = KProgressHUD.create(Activity_ProductDetails.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setLabel("Please wait")
                 .setCancellable(false)
                 .setAnimationSpeed(2)
-                .setDimAmount(0.5f);
-        //.show();
+                .setDimAmount(0.5f)
+                .show();
         //getting the tag from the edittext
 
         //our custom volley request
-        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "get-all-deal-reviews?deal_id=10&sort_by_rating=HighestRated?page=" + page, new Response.Listener<NetworkResponse>() {
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "get-all-deal-reviews?deal_id=" + dealId + "&sort_by_rating=HighestRated?page=" + page, new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
 
 
                 progressDialog.dismiss();
+                findViewById(R.id.seeAllReviews).setVisibility(View.GONE);
 
                 try {
 
@@ -689,14 +705,14 @@ public class Activity_ProductDetails extends AppCompatActivity {
                                 JSONObject object = jsonArray.getJSONObject(i);
 
                                 ReviewModel reviewModel = new ReviewModel();
-                                reviewModel.setDeal_rating_id( object.getString("deal_rating_id"));;
-                                reviewModel.setFirst_name( object.getString("first_name"));;
-                                reviewModel.setLast_name( object.getString("last_name"));;
-                                reviewModel.setDeal_id( object.getString("deal_id"));;
-                                reviewModel.setUser_id( object.getString("user_id"));;
-                                reviewModel.setRating( object.getString("rating"));;
-                                reviewModel.setReview( object.getString("review"));;
-                                reviewModel.setDate( object.getString("date"));;
+                                reviewModel.setDeal_rating_id( object.getString("deal_rating_id"));
+                                reviewModel.setFirst_name( object.getString("first_name"));
+                                reviewModel.setLast_name( object.getString("last_name"));
+                                reviewModel.setDeal_id( object.getString("deal_id"));
+                                reviewModel.setUser_id( object.getString("user_id"));
+                                reviewModel.setRating( object.getString("rating"));
+                                reviewModel.setReview( object.getString("review"));
+                                reviewModel.setDate( object.getString("date"));
                                 reviewModelArrayList.add(reviewModel);
 
 

@@ -70,10 +70,10 @@
                     android:layout_height="wrap_content"
                     android:text="90-Minute Chicago Architecture Boat Tour One, Two or Three (Up to 40% Off)"
                     android:fontFamily="@font/roboto_bold"
-                    android:lineSpacingExtra="4dp"
+                    android:lineSpacingExtra="2dp"
                     android:letterSpacing="0.02"
                     android:textColor="@color/black"
-                    android:textSize="15dp"/>
+                    android:textSize="18dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -88,6 +88,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="4.0"
+                        android:fontFamily="@font/roboto_medium"
                         android:textSize="14dp"
                         android:textColor="@color/blue"/>
 
@@ -107,6 +108,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
+                        android:fontFamily="@font/roboto_medium"
                         android:textColor="@color/blue"
                         android:textSize="14dp"
                         android:text="200 ratings"/>
@@ -127,6 +129,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
+                    android:text="Option 1"
                     android:textColor="@color/black"
                     android:textSize="14dp"
                     android:layout_centerVertical="true"
@@ -138,6 +141,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_bold"
                     android:textColor="@color/green"
+                    android:text="$ 100"
                     android:layout_toLeftOf="@+id/listArrow"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
@@ -196,7 +200,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="18dp"
                     android:letterSpacing="0.04"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/roboto_bold"
                     android:textColor="@color/blue"
                     android:text="Add to cart"/>
             </RelativeLayout>
@@ -237,7 +241,7 @@
                     android:textSize="18dp"
                     android:letterSpacing="0.04"
                     android:fontFamily="@font/roboto_medium"
-                    android:textColor="@color/black"
+                    android:textColor="@color/light_black"
                     android:text="Add to Wishlist"/>
             </RelativeLayout>
 
@@ -349,6 +353,7 @@
                     android:textSize="16dp"
                     android:layout_marginTop="5dp" />
                 <TextView
+                    android:id="@+id/seeAllReviews"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -377,7 +382,7 @@
                     android:numStars="5"
                     android:layout_toRightOf="@id/customeR"
                     android:layout_below="@+id/customerText"
-                    android:layout_marginLeft="7dp"
+                    android:layout_marginLeft="8dp"
                     android:isIndicator="false"
                     android:stepSize="1"
                     android:layout_marginTop="12dp"
@@ -392,9 +397,10 @@
                     android:textColor="#548fc3"
                     android:textSize="14dp"
                     android:letterSpacing="0.04"
+                    android:fontFamily="@font/roboto_medium"
                     android:layout_toRightOf="@+id/customeR"
                     android:layout_below="@+id/ratingAgainProduct"
-                    android:layout_marginLeft="7dp"/>
+                    android:layout_marginLeft="8dp"/>
 
                 <TextView
                     android:id="@+id/sortBytxt"
@@ -407,7 +413,7 @@
                     android:layout_marginTop="2dp"
                     android:layout_toRightOf="@+id/customeR"
                     android:layout_below="@+id/countRtng"
-                    android:layout_marginLeft="7dp"/>
+                    android:layout_marginLeft="8dp"/>
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -422,7 +428,7 @@
                         android:layout_height="wrap_content"
                         android:text="Most Recent"
                         android:textSize="14dp"
-                        android:textColor="#393939"/>
+                        android:textColor="@color/black"/>
 
                     <ImageView
                         android:id="@+id/nbb"

@@ -186,19 +186,50 @@
                     android:text="Promo Code"/>
 
                 <TextView
+                    android:id="@+id/promoCode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Add"
-                    android:letterSpacing="0.02"
-                    android:textSize="14dp"
+                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:fontFamily="@font/roboto_medium"
                     android:layout_marginRight="10dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:letterSpacing="0.02"
+                    android:text="Add"
                     android:textColor="@color/green"
-                    android:layout_alignParentRight="true"/>
+                    android:textSize="14dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/lyoutForPromo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginHorizontal="25dp">
+
+                <EditText
+                    android:id="@+id/editPromo"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:textSize="16dp"
+                    android:textCursorDrawable="@drawable/cursor_black"
+                    android:paddingLeft="10dp"
+                    android:background="@drawable/edittext_border_gray"/>
+
+                <TextView
+                    android:id="@+id/checkPromoCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CHECK"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:textColor="@color/black"
+                    android:layout_centerVertical="true"
+                    android:fontFamily="@font/roboto_medium"/>
+
             </RelativeLayout>
 
             <View
+                android:id="@+id/viewPromo"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="@color/light_gray"/>
