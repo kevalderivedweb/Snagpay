@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,17 +16,17 @@ import com.example.snagpay.R;
 
 import java.util.ArrayList;
 
-public class AdapterDealsPriceList extends RecyclerView.Adapter<AdapterDealsPriceList.Viewholder> {
+public class AdapterDealsOptionList extends RecyclerView.Adapter<AdapterDealsOptionList.Viewholder> {
 
     private final OnItemClickListener listener;
     private Context context;
     private CompoundButton lastCheckedRB = null;
-    private ArrayList<DealOptionsListModel> dealOptionsListModelArrayLi;
+    private ArrayList<DealOptionsListModel> dealOptionsListModelArrayList;
 
-    public AdapterDealsPriceList(Context context, ArrayList<DealOptionsListModel> dealOptionsListModelArrayLi, OnItemClickListener onItemClickListener) {
+    public AdapterDealsOptionList(Context context, ArrayList<DealOptionsListModel> dealOptionsListModelArrayList, OnItemClickListener onItemClickListener) {
         this.context = context;
         this.listener = onItemClickListener;
-        this.dealOptionsListModelArrayLi = dealOptionsListModelArrayLi;
+        this.dealOptionsListModelArrayList = dealOptionsListModelArrayList;
     }
 
     @NonNull
@@ -43,8 +42,8 @@ public class AdapterDealsPriceList extends RecyclerView.Adapter<AdapterDealsPric
         holder.radioListPrice.setOnCheckedChangeListener(ls);
         holder.radioListPrice.setTag(position);
 
-        holder.dealsTitle.setText(dealOptionsListModelArrayLi.get(position).getDeal_option_name());
-        holder.dealsOptionPrice.setText("$ " + dealOptionsListModelArrayLi.get(position).getSell_price());
+        holder.dealsTitle.setText(dealOptionsListModelArrayList.get(position).getDeal_option_name());
+        holder.dealsOptionPrice.setText("$ " + dealOptionsListModelArrayList.get(position).getSell_price());
 
         holder.radioListPrice.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +60,7 @@ public class AdapterDealsPriceList extends RecyclerView.Adapter<AdapterDealsPric
 
     @Override
     public int getItemCount() {
-        return dealOptionsListModelArrayLi.size();
+        return dealOptionsListModelArrayList.size();
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {

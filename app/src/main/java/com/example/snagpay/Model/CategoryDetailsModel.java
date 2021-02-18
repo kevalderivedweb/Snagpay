@@ -40,6 +40,7 @@ public class CategoryDetailsModel {
     String is_wishlist;
 
     boolean isSelected;
+    private String quantity;
 
     public boolean isSelected() {
         return isSelected;
@@ -335,5 +336,13 @@ public class CategoryDetailsModel {
 
     public void setIs_wishlist(String is_wishlist) {
         this.is_wishlist = is_wishlist;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getQuantity() {
+        return quantity;
     }
 }

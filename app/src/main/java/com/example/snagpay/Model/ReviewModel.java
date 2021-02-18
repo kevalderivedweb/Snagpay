@@ -11,8 +11,6 @@ public class ReviewModel {
     public String rating;
 
 
-
-
     public String getDeal_rating_id() {
         return deal_rating_id;
     }

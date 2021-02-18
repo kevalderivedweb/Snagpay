@@ -5,24 +5,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,12 +24,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.snagpay.API.VolleyMultipartRequest;
-import com.example.snagpay.Adapter.AdapterDealsPriceList;
+import com.example.snagpay.Adapter.AdapterDealsOptionList;
 import com.example.snagpay.Adapter.AdapterReviewProductDetails;
 import com.example.snagpay.Model.CategoryDetailsModel;
 import com.example.snagpay.Model.DealOptionsListModel;
 import com.example.snagpay.Model.ReviewModel;
 import com.example.snagpay.R;
+import com.example.snagpay.Utils.Database;
 import com.example.snagpay.Utils.UserSession;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.squareup.picasso.Picasso;
@@ -56,21 +48,23 @@ import java.util.Map;
 public class Activity_ProductDetails extends AppCompatActivity {
 
     private Button btnBuyNowProduct;
-    private RecyclerView resProductUserReview, dealsPriceList;
+    private RecyclerView resProductUserReview, dealsOptionList;
 
     private ImageView backToHomeInner, productFavourite, dealImage, arrowDetailsExpand, listArrow;
-    private TextView detailsProductTxt, dealTitle, rating, totalRating, highLights, customeR, countRtng, selectDealsName, selectDealsPrice, noReviewsText;
+    private TextView detailsProductTxt, dealTitle, rating, totalRating, highLights, customeR,
+            countRtng, selectDealsName, selectDealsPrice, noReviewsText, txtAddRemoveCart;
+
     private RatingBar ratingBarProductDetailsMain, ratingAgainProduct;
 
     private AdapterReviewProductDetails adapterReviewProductDetails;
-    private AdapterDealsPriceList adapterDealsPriceList;
+    private AdapterDealsOptionList adapterDealsOptionList;
 
     private UserSession session;
 
     private String isWishlist;
     private String dealId;
 
-    private RelativeLayout addToWishlist, removeFromWishlist, listOfDealsRelative;
+    private RelativeLayout addToWishlist, removeFromWishlist, listOfDealsRelative, addToCart;
 
     private ArrayList<ReviewModel> reviewModelArrayList = new ArrayList<>();
     private ArrayList<DealOptionsListModel> dealOptionsListModelArrayList = new ArrayList<>();
@@ -78,13 +72,26 @@ public class Activity_ProductDetails extends AppCompatActivity {
     private boolean isTextViewClicked = true;
     private boolean islistClicked = true;
 
+    private String imageCart;
+    private String titleCart;
+    private String priceCart;
+    private String boughtCart;
+    private String dealOptionIdCart;
 
+    private Database dbHelper;
+
+    private ArrayList<CategoryDetailsModel> detailsModelArrayList = new ArrayList<>();
+
+
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
         session = new UserSession(Activity_ProductDetails.this);
+
+        dbHelper = new Database(Activity_ProductDetails.this);
 
         btnBuyNowProduct = findViewById(R.id.btnBuyNowProduct);
         resProductUserReview = findViewById(R.id.resProductUserReview);
@@ -96,6 +103,8 @@ public class Activity_ProductDetails extends AppCompatActivity {
         detailsProductTxt = findViewById(R.id.detailsProductTxt);
         arrowDetailsExpand = findViewById(R.id.arrowDetailsExpand);
 
+        txtAddRemoveCart = findViewById(R.id.txtAddRemoveCart);
+
         dealImage = findViewById(R.id.dealImage);
         dealTitle = findViewById(R.id.dealTitle);
         rating = findViewById(R.id.rating);
@@ -106,7 +115,7 @@ public class Activity_ProductDetails extends AppCompatActivity {
         countRtng = findViewById(R.id.countRtng);
         ratingAgainProduct = findViewById(R.id.ratingAgainProduct);
 
-        dealsPriceList = findViewById(R.id.dealsPriceList);
+        dealsOptionList = findViewById(R.id.dealsPriceList);
         listOfDealsRelative = findViewById(R.id.listOfDealsRelative);
 
         selectDealsName = findViewById(R.id.selectDealsName);
@@ -114,27 +123,55 @@ public class Activity_ProductDetails extends AppCompatActivity {
         listArrow = findViewById(R.id.listArrow);
         noReviewsText = findViewById(R.id.noReviewsText);
 
+        addToCart = findViewById(R.id.addToCart);
+
+        Bundle bundle = getIntent().getExtras();
+        String category_id = bundle.getString("category_id");
+        String subCategoryId = bundle.getString("subCategoryId");
+        String dealId = bundle.getString("dealId");
+
+        detailsModelArrayList = dbHelper.getAllUser();
+
+
+
+
+        addToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Log.e("cdfdefedf", dealOptionIdCart + "--");
+
+
+                if (!txtAddRemoveCart.getText().toString().equals("Remove from Cart")){
+                    dbHelper.InsertDetails(imageCart, titleCart, dealId, dealOptionIdCart, priceCart, boughtCart, "1");
+                    txtAddRemoveCart.setText("Remove from Cart");
+                }
+                else {
+                    dbHelper.removeCart(dealId);
+                    txtAddRemoveCart.setText("Add to Cart");
+                }
+
+            }
+        });
+
+
         listOfDealsRelative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (islistClicked){
-                    dealsPriceList.setVisibility(View.VISIBLE);
+                    dealsOptionList.setVisibility(View.VISIBLE);
                     islistClicked = false;
                     listArrow.setImageResource(R.drawable.top);
                 }
                 else {
-                    dealsPriceList.setVisibility(View.GONE);
+                    dealsOptionList.setVisibility(View.GONE);
                     islistClicked = true;
                     listArrow.setImageResource(R.drawable.dropdown);
                 }
             }
         });
 
-
-        Bundle bundle = getIntent().getExtras();
-        String category_id = bundle.getString("category_id");
-        String subCategoryId = bundle.getString("subCategoryId");
-        String dealId = bundle.getString("dealId");
 
         backToHomeInner.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,7 +234,7 @@ public class Activity_ProductDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                editWishList(dealId, isWishlist);
+                addWishList(dealId, isWishlist);
             }
         });
 
@@ -215,26 +252,30 @@ public class Activity_ProductDetails extends AppCompatActivity {
         addToWishlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editWishList(dealId, isWishlist);
+                addWishList(dealId, isWishlist);
             }
         });
 
         removeFromWishlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editWishList(dealId, isWishlist);
+                addWishList(dealId, isWishlist);
             }
         });
 
-        dealsPriceList.setLayoutManager(new LinearLayoutManager(this));
-        adapterDealsPriceList = new AdapterDealsPriceList(this, dealOptionsListModelArrayList, new AdapterDealsPriceList.OnItemClickListener() {
+        dealsOptionList.setLayoutManager(new LinearLayoutManager(this));
+        adapterDealsOptionList = new AdapterDealsOptionList(this, dealOptionsListModelArrayList, new AdapterDealsOptionList.OnItemClickListener() {
             @Override
             public void onItemClick(int item) {
                 selectDealsName.setText(dealOptionsListModelArrayList.get(item).getDeal_option_name());
                 selectDealsPrice.setText("$ " + dealOptionsListModelArrayList.get(item).getSell_price());
+
+                dealOptionIdCart = dealOptionsListModelArrayList.get(item).getDeal_option_id();
+
+                Log.e("cdfdefedf", dealOptionIdCart + "--");
             }
         });
-        dealsPriceList.setAdapter(adapterDealsPriceList);
+        dealsOptionList.setAdapter(adapterDealsOptionList);
 
 
 
@@ -249,6 +290,14 @@ public class Activity_ProductDetails extends AppCompatActivity {
             }
         });
 
+        for (int t = 0; t < detailsModelArrayList.size(); t++){
+            if (detailsModelArrayList.get(t).getDeal_id().equals(dealId)){
+                txtAddRemoveCart.setText("Remove from Cart");
+            }
+
+            Log.e("sfsfsdf", detailsModelArrayList.get(t).getDeal_id() +"--" + dealId);
+
+        }
 
     }
 
@@ -298,6 +347,8 @@ public class Activity_ProductDetails extends AppCompatActivity {
                                 dealOptionsListModelArrayList.add(dealOptionsListModel);
                             }
 
+                            dealOptionIdCart = dealOptionsListModelArrayList.get(0).getDeal_option_id();
+
                             selectDealsName.setText(dealOptionsListModelArrayList.get(0).getDeal_option_name());
                             selectDealsPrice.setText("$ " + dealOptionsListModelArrayList.get(0).getSell_price());
 
@@ -342,9 +393,13 @@ public class Activity_ProductDetails extends AppCompatActivity {
                             ratingAgainProduct.setIsIndicator(true);
                             countRtng.setText(jsonObject1.getString("total_rating") + " ratings");
 
+                            imageCart = jsonObject1.getString("deal_image");
+                            titleCart = jsonObject1.getString("title");
+                            boughtCart = jsonObject1.getString("bought");
+                            priceCart = jsonObject1.getString("sell_price");
 
                             adapterReviewProductDetails.notifyDataSetChanged();
-                            adapterDealsPriceList.notifyDataSetChanged();
+                            adapterDealsOptionList.notifyDataSetChanged();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -423,7 +478,7 @@ public class Activity_ProductDetails extends AppCompatActivity {
 
 
 
-    private void editWishList(String dealId, String wishStatus) {
+    private void addWishList(String dealId, String wishStatus) {
         final KProgressHUD progressDialog = KProgressHUD.create(Activity_ProductDetails.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setLabel("Please wait")
