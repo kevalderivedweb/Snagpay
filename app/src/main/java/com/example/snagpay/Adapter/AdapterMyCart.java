@@ -24,6 +24,7 @@ public class AdapterMyCart extends RecyclerView.Adapter<AdapterMyCart.Viewholder
     private Context mContext;
     private ArrayList<CategoryDetailsModel> categoryDetailsModels;
     private int items = 0;
+    private int quantity = 1;
 
     public AdapterMyCart( Context mContext, ArrayList<CategoryDetailsModel> categoryDetailsModels, OnItemClickListener listener) {
         this.mContext = mContext;
@@ -42,6 +43,10 @@ public class AdapterMyCart extends RecyclerView.Adapter<AdapterMyCart.Viewholder
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
 
+        holder.txtCountProducts.setText(categoryDetailsModels.get(position).getQuantity());
+
+        quantity = Integer.parseInt(categoryDetailsModels.get(position).getQuantity());
+
         items = Integer.parseInt(holder.txtCountProducts.getText().toString());
 
         Log.e("ssfdff", categoryDetailsModels.get(position).getShow_deal_option_id() + "--");
@@ -50,11 +55,8 @@ public class AdapterMyCart extends RecyclerView.Adapter<AdapterMyCart.Viewholder
             @Override
             public void onClick(View v) {
 
-                if (items >= 2) {
-                    holder.txtCountProducts.setText(String.valueOf(items - 1));
-                    items = Integer.parseInt(holder.txtCountProducts.getText().toString());
-                    mListener.onItemClickMinus(position, holder.txtCountProducts.getText().toString());
-                }
+                decrement(holder);
+                mListener.onItemClickMinus(position, holder.txtCountProducts.getText().toString());
 
             }
         });
@@ -63,11 +65,13 @@ public class AdapterMyCart extends RecyclerView.Adapter<AdapterMyCart.Viewholder
             @Override
             public void onClick(View v) {
 
-                holder.txtCountProducts.setText(String.valueOf(items + 1));
-                items = Integer.parseInt(holder.txtCountProducts.getText().toString());
+                increment(holder);
                 mListener.onItemClickPlus(position, holder.txtCountProducts.getText().toString());
+
             }
         });
+
+
 
         holder.cartTitle.setText(categoryDetailsModels.get(position).getTitle());
         holder.cartPrice.setText("$" + categoryDetailsModels.get(position).getSell_price());
@@ -123,9 +127,25 @@ public class AdapterMyCart extends RecyclerView.Adapter<AdapterMyCart.Viewholder
     }
 
     public interface OnItemClickListener {
-        void onItemClickPlus(int item, String s);
-        void onItemClickMinus(int item, String s);
+        void onItemClickPlus(int position, String quantity);
+        void onItemClickMinus(int position, String quantity);
         void onItemDelete(String s, int pos);
         void onItemClickSaveLater(String dealId);
+    }
+
+    public void increment(Viewholder myViewHolder) {
+        quantity = Integer.parseInt(myViewHolder.txtCountProducts.getText().toString());
+        quantity++;
+        myViewHolder.txtCountProducts.setText(String.valueOf(quantity));
+
+    }
+
+    public void decrement(Viewholder myViewHolder) {
+        if(!myViewHolder.txtCountProducts.getText().toString().equals("1")){
+            quantity = Integer.parseInt(myViewHolder.txtCountProducts.getText().toString());
+            quantity--;
+            myViewHolder.txtCountProducts.setText(String.valueOf(quantity));
+        }
+
     }
 }

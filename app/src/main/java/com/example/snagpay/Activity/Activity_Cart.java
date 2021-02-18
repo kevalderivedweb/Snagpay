@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.snagpay.Adapter.AdapterMyCart;
 import com.example.snagpay.Model.CategoryDetailsModel;
@@ -23,7 +25,7 @@ public class Activity_Cart extends AppCompatActivity {
     private RecyclerView recMyCart;
     private AdapterMyCart adapterMyCart;
     private UserSession session;
-    private ArrayList<CategoryDetailsModel> categoryDetailsModels = new ArrayList<>();
+    private ArrayList<CategoryDetailsModel> detailsModelArrayList = new ArrayList<>();
     private Database dbHelper;
     private RelativeLayout cartEmpty;
     private Button proceedCheck;
@@ -37,17 +39,13 @@ public class Activity_Cart extends AppCompatActivity {
 
         dbHelper = new Database(Activity_Cart.this);
 
-        categoryDetailsModels = dbHelper.getAllUser();
+        detailsModelArrayList = dbHelper.getAllUser();
 
-        ArrayList<String> countList = new ArrayList<>();
 
-        for (int h = 0; h < categoryDetailsModels.size(); h++) {
-            Log.e("dataArrayCart", categoryDetailsModels.get(h).getShow_deal_option_id() + "--");
-
-            countList.add("1");
+        for (int h = 0; h < detailsModelArrayList.size(); h++) {
+            Log.e("dataArrayCart", detailsModelArrayList.get(h).getShow_deal_option_id() + "--");
 
         }
-
 
         recMyCart = findViewById(R.id.recMyCart);
         cartEmpty = findViewById(R.id.cartEmpty);
@@ -61,24 +59,24 @@ public class Activity_Cart extends AppCompatActivity {
         });
 
         recMyCart.setLayoutManager(new LinearLayoutManager(Activity_Cart.this));
-        adapterMyCart = new AdapterMyCart(Activity_Cart.this, categoryDetailsModels, new AdapterMyCart.OnItemClickListener() {
+        adapterMyCart = new AdapterMyCart(Activity_Cart.this, detailsModelArrayList, new AdapterMyCart.OnItemClickListener() {
             @Override
-            public void onItemClickPlus(int item, String s) {
-
+            public void onItemClickPlus(int position, String quantity) {
+                dbHelper.Update(detailsModelArrayList.get(position).getShow_deal_option_id(), quantity);
             }
 
             @Override
-            public void onItemClickMinus(int item, String s) {
-
+            public void onItemClickMinus(int position, String quantity) {
+                dbHelper.Update(detailsModelArrayList.get(position).getShow_deal_option_id(), quantity);
             }
 
             @Override
             public void onItemDelete(String s, int pos) {
                 dbHelper.removeCart(s);
-                categoryDetailsModels.remove(pos);
+                detailsModelArrayList.remove(pos);
                 adapterMyCart.notifyDataSetChanged();
 
-                if (categoryDetailsModels.isEmpty()){
+                if (detailsModelArrayList.isEmpty()){
                     cartEmpty.setVisibility(View.VISIBLE);
                     proceedCheck.setVisibility(View.GONE);
                 }
@@ -95,12 +93,19 @@ public class Activity_Cart extends AppCompatActivity {
         recMyCart.setAdapter(adapterMyCart);
 
 
-        if (categoryDetailsModels.isEmpty()){
+        if (detailsModelArrayList.isEmpty()){
             cartEmpty.setVisibility(View.VISIBLE);
             proceedCheck.setVisibility(View.GONE);
         }
 
+        findViewById(R.id.proceedCheck).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                startActivity(new Intent(Activity_Cart.this, Activity_ReviewOrder.class));
+
+            }
+        });
 
     }
 
