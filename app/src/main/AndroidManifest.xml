@@ -93,6 +93,7 @@
         <activity android:name=".Activity.Activity_ForgotPassword" />
         <activity android:name=".Activity.Activity_SignInSignUp" />
         <activity android:name=".Activity.Activity_SelectCity" />
+        <activity android:name=".Activity.Activity_ReviewOrder" />
         <activity android:name=".Activity.Activity_Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
