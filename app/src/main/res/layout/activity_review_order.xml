@@ -285,6 +285,10 @@
                 android:letterSpacing="0.03"
                 android:text="Snagpay Bucks"/>
 
+
+
+
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
@@ -300,8 +304,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/edittext_border_gray"
+                        android:id="@+id/ed_txt"
+                        android:paddingStart="20dp"
                         android:hint="Enter amount"
-                        android:paddingStart="22dp"
                         android:textSize="16dp"
                         android:maxLength="6"
                         android:textColor="@color/black"
@@ -318,6 +323,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="7"
                         android:text="ADD"
+                        android:id="@+id/add_amount"
                         android:fontFamily="@font/roboto_regular"
                         android:textSize="16dp"
                         android:textColor="@color/white"
@@ -334,6 +340,22 @@
                     android:layout_centerVertical="true"/>
             </RelativeLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add"
+                android:letterSpacing="0.02"
+                android:textSize="14dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:visibility="gone"
+                android:id="@+id/credit"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/roboto_medium"
+                android:layout_marginRight="10dp"
+                android:textColor="@color/green"
+                android:layout_alignParentRight="true"/>
+
             <androidx.appcompat.widget.AppCompatButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -341,6 +363,7 @@
                 android:textColor="@color/white"
                 android:textAllCaps="false"
                 android:textSize="14dp"
+                android:id="@+id/check"
                 android:layout_marginTop="10dp"
                 android:layout_marginHorizontal="10dp"
                 android:letterSpacing="0.02"
