@@ -90,6 +90,7 @@ public class Fragment_HomeInner extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("category_id", category_id);
                 bundle.putString("subCategoryId", categoryDetailsModelArrayList.get(item).getCategory_id());
+                bundle.putString("dealId", categoryDetailsModelArrayList.get(item).getDeal_id());
 
                 Intent intent = new Intent(getContext(), Activity_ProductDetails.class);
                 intent.putExtras(bundle);

@@ -86,7 +86,6 @@
         <activity android:name=".Activity.Activity_AddShippingAddress" />
         <activity android:name=".Activity.Activity_ShippingAddress" />
         <activity android:name=".Activity.Activity_AddCards" />
-        <activity android:name=".Activity.Activity_ReviewOrder" />
         <activity android:name=".Activity.Activity_ProductDetails" />
         <activity android:name=".Activity.Activity_HomeInner" />
         <activity android:name=".Activity.Activity_ChangePassword" />

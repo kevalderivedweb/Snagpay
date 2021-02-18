@@ -21,125 +21,148 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:id="@+id/dealImage"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/img"
+                    android:layout_height="225dp"
                     android:scaleType="fitXY"/>
-                <ImageView
-                    android:id="@+id/backToHomeInner"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="10dp"
-                    android:src="@drawable/back_white"/>
-                <ImageView
-                    android:id="@+id/shrImg"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="8dp"
-                    android:src="@drawable/share"/>
-                <ImageView
-                    android:id="@+id/productFavourite"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_toLeftOf="@+id/shrImg"
-                    android:src="@drawable/heart"/>
+
+                <RelativeLayout
+                    android:id="@+id/dfdf"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/black_gradient_topbottom">
+
+                    <ImageView
+                        android:id="@+id/backToHomeInner"
+                        android:layout_width="17dp"
+                        android:layout_height="18dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="11dp"
+                        android:src="@drawable/back_white" />
+
+                    <ImageView
+                        android:id="@+id/shrImg"
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="11dp"
+                        android:layout_marginRight="18dp"
+                        android:src="@drawable/share" />
+
+                    <ImageView
+                        android:id="@+id/productFavourite"
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:layout_marginTop="11dp"
+                        android:layout_marginRight="12dp"
+                        android:layout_toLeftOf="@+id/shrImg"
+                        android:src="@drawable/heart" />
+                </RelativeLayout>
+
+
             </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="10dp"
-                android:orientation="vertical">
+
                 <TextView
-                    android:id="@+id/dd"
+                    android:id="@+id/dealTitle"
+                    android:padding="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="90-Minute Chicago Architecture Boat Tour One, Two or Three (Up to 40% Off)"
                     android:fontFamily="@font/roboto_bold"
-                    android:lineSpacingExtra="4dp"
+                    android:lineSpacingExtra="2dp"
                     android:letterSpacing="0.02"
                     android:textColor="@color/black"
-                    android:textSize="15dp"/>
+                    android:textSize="18dp"/>
 
-                <TextView
-                    android:id="@+id/tr"
-                    android:layout_below="@id/dd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="4.0"
-                    android:layout_marginTop="5dp"
-                    android:textSize="14dp"
-                    android:textColor="@color/blue"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="-5dp"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="horizontal">
 
-                <androidx.appcompat.widget.AppCompatRatingBar
-                    android:id="@+id/ratingBarProductDetailsMain"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:numStars="5"
-                    android:layout_toEndOf="@id/tr"
-                    android:layout_below="@+id/dd"
-                    android:layout_marginStart="5dp"
-                    android:isIndicator="false"
-                    android:stepSize="1"
-                    android:layout_marginTop="5dp"
-                    style="?android:attr/ratingBarStyleSmall"
-                    android:theme="@style/RatingBar"/>
+                    <TextView
+                        android:id="@+id/rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="4.0"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textSize="14dp"
+                        android:textColor="@color/blue"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/dd"
-                    android:layout_toRightOf="@id/ratingBarProductDetailsMain"
-                    android:layout_marginLeft="5dp"
-                    android:textColor="@color/blue"
-                    android:layout_marginTop="5dp"
-                    android:textSize="14dp"
-                    android:text="200 ratings"/>
-            </RelativeLayout>
+                    <androidx.appcompat.widget.AppCompatRatingBar
+                        android:id="@+id/ratingBarProductDetailsMain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:numStars="5"
+                        android:layout_marginStart="5dp"
+                        android:isIndicator="false"
+                        android:stepSize="1"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:theme="@style/RatingBar"/>
+
+                    <TextView
+                        android:id="@+id/totalRating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textColor="@color/blue"
+                        android:textSize="14dp"
+                        android:text="200 ratings"/>
+                </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
+                android:layout_marginTop="5dp"
                 android:background="@color/light_gray" />
 
             <RelativeLayout
+                android:id="@+id/listOfDealsRelative"
                 android:layout_width="match_parent"
-                android:layout_height="45dp">
+                android:layout_height="50dp">
                 <TextView
+                    android:id="@+id/selectDealsName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Boat Tour for One"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="15dp"
+                    android:text="Option 1"
                     android:textColor="@color/black"
                     android:textSize="14dp"
                     android:layout_centerVertical="true"
                     android:letterSpacing="0.02"/>
 
                 <TextView
+                    android:id="@+id/selectDealsPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$150"
                     android:fontFamily="@font/roboto_bold"
                     android:textColor="@color/green"
-                    android:layout_toLeftOf="@+id/nb"
+                    android:text="$ 100"
+                    android:layout_toLeftOf="@+id/listArrow"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
                     android:textSize="14dp"/>
 
                 <ImageView
-                    android:id="@+id/nb"
+                    android:id="@+id/listArrow"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:src="@drawable/black_dropdown"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="15dp"/>
+                    android:layout_marginRight="20dp"/>
             </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/dealsPriceList"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="wrap_content"/>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
@@ -169,15 +192,17 @@
                 android:background="@color/light_gray" />
 
             <RelativeLayout
+                android:id="@+id/addToCart"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center">
                 <TextView
+                    android:id="@+id/txtAddRemoveCart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18dp"
                     android:letterSpacing="0.04"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/roboto_bold"
                     android:textColor="@color/blue"
                     android:text="Add to cart"/>
             </RelativeLayout>
@@ -218,7 +243,7 @@
                     android:textSize="18dp"
                     android:letterSpacing="0.04"
                     android:fontFamily="@font/roboto_medium"
-                    android:textColor="#6f6f6f"
+                    android:textColor="@color/light_black"
                     android:text="Add to Wishlist"/>
             </RelativeLayout>
 
@@ -255,11 +280,12 @@
                 android:layout_marginLeft="9dp"/>
 
             <TextView
+                android:id="@+id/highLights"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Chicago river tour paired with architecture and history lessons about the city's most popular landmarks"
                 android:textSize="14dp"
                 android:layout_marginTop="3dp"
+                android:textColor="@color/black"
                 android:letterSpacing="0.04"
                 android:layout_marginHorizontal="7dp"
                 android:lineSpacingExtra="2dp"/>
@@ -302,6 +328,7 @@
                 android:textSize="14dp"
                 android:letterSpacing="0.04"
                 android:ellipsize="end"
+                android:textColor="@color/black"
                 android:layout_marginTop="3dp"
                 android:maxLines="2"
                 android:layout_marginHorizontal="7dp"
@@ -328,6 +355,7 @@
                     android:textSize="16dp"
                     android:layout_marginTop="5dp" />
                 <TextView
+                    android:id="@+id/seeAllReviews"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -343,7 +371,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/customerText"
                     android:layout_marginLeft="7dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:fontFamily="@font/roboto_bold"
                     android:text="4.0"
                     android:textColor="@color/black"
@@ -356,7 +384,7 @@
                     android:numStars="5"
                     android:layout_toRightOf="@id/customeR"
                     android:layout_below="@+id/customerText"
-                    android:layout_marginLeft="7dp"
+                    android:layout_marginLeft="8dp"
                     android:isIndicator="false"
                     android:stepSize="1"
                     android:layout_marginTop="12dp"
@@ -371,9 +399,10 @@
                     android:textColor="#548fc3"
                     android:textSize="14dp"
                     android:letterSpacing="0.04"
+                    android:fontFamily="@font/roboto_medium"
                     android:layout_toRightOf="@+id/customeR"
                     android:layout_below="@+id/ratingAgainProduct"
-                    android:layout_marginLeft="7dp"/>
+                    android:layout_marginLeft="8dp"/>
 
                 <TextView
                     android:id="@+id/sortBytxt"
@@ -386,7 +415,7 @@
                     android:layout_marginTop="2dp"
                     android:layout_toRightOf="@+id/customeR"
                     android:layout_below="@+id/countRtng"
-                    android:layout_marginLeft="7dp"/>
+                    android:layout_marginLeft="8dp"/>
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -401,7 +430,7 @@
                         android:layout_height="wrap_content"
                         android:text="Most Recent"
                         android:textSize="14dp"
-                        android:textColor="#393939"/>
+                        android:textColor="@color/black"/>
 
                     <ImageView
                         android:id="@+id/nbb"
@@ -432,6 +461,15 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="10dp"/>
 
+            <TextView
+                android:id="@+id/noReviewsText"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:text="No Reviews"
+                android:gravity="center"
+                android:visibility="gone"
+                android:textColor="@color/black"
+                android:textSize="18dp"/>
 
         </LinearLayout>
     </ScrollView>

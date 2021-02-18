@@ -39,9 +39,13 @@ public class AdapterReviewProductDetails extends RecyclerView.Adapter<AdapterRev
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
 
         holder.first_letter.setText(reviewModelArrayList.get(position).getFirst_name().substring(0,1).toUpperCase());
-        holder.name.setText(reviewModelArrayList.get(position).getFirst_name() + "  " +reviewModelArrayList.get(position).getLast_name());
+        holder.name.setText(reviewModelArrayList.get(position).getFirst_name() + " " +reviewModelArrayList.get(position).getLast_name());
         holder.date.setText(reviewModelArrayList.get(position).getDate());
         holder.desc.setText(reviewModelArrayList.get(position).getReview());
+
+        if (reviewModelArrayList.get(position).getReview().equals("")){
+            holder.desc.setVisibility(View.GONE);
+        }
 
         holder.rating.setStepSize(0.1f);
         holder.rating.setRating(Float.parseFloat(reviewModelArrayList.get(position).getRating()));
@@ -60,6 +64,7 @@ public class AdapterReviewProductDetails extends RecyclerView.Adapter<AdapterRev
         TextView date;
         RatingBar rating;
         TextView desc;
+
         public Viewholder(@NonNull View itemView) {
             super(itemView);
 

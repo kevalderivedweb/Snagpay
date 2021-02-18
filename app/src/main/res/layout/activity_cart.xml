@@ -1,46 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Activity.Activity_Cart">
 
     <RelativeLayout
-        android:id="@+id/vb"
+        android:id="@+id/cartEmpty"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
-
-        <ImageView
-            android:id="@+id/backToPaymentInfo1"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/back_black"/>
-
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:gravity="center">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="My Cart"
-            android:layout_toRightOf="@id/backToPaymentInfo1"
-            android:layout_centerVertical="true"
             android:fontFamily="@font/roboto_bold"
+            android:layout_marginTop="20dp"
             android:textColor="@color/black"
-            android:textSize="18dp"
-            android:letterSpacing="0.02"
-            android:layout_marginLeft="10dp"/>
+            android:textSize="20dp"
+            android:text="Cart is Empty"/>
     </RelativeLayout>
 
-    <View
+    <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/light_gray"/>
+        android:layout_height="match_parent"
+        android:layout_above="@+id/proceedCheck"
+        android:layout_marginBottom="3dp"
+        android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recMyCart"
+        <RelativeLayout
+            android:id="@+id/vb"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <ImageView
+                android:id="@+id/backToPaymentInfo1"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/back_black"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="My Cart"
+                android:layout_toRightOf="@id/backToPaymentInfo1"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/roboto_bold"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:letterSpacing="0.02"
+                android:layout_marginLeft="10dp"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/light_gray"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recMyCart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/proceedCheck"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:text="Proceed to checkout"
+        android:textColor="@color/white"
+        android:textSize="14dp"
+        android:letterSpacing="0.02"
+        android:background="@color/green"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="5dp"
+        android:textAllCaps="false"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>

@@ -1,26 +1,34 @@
 package com.example.snagpay.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.snagpay.Model.CategoryDetailsModel;
 import com.example.snagpay.R;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class AdapterMyCart extends RecyclerView.Adapter<AdapterMyCart.Viewholder> {
 
     private final OnItemClickListener mListener;
     private Context mContext;
+    private ArrayList<CategoryDetailsModel> categoryDetailsModels;
     private int items = 0;
 
-    public AdapterMyCart( Context mContext, OnItemClickListener listener) {
+    public AdapterMyCart( Context mContext, ArrayList<CategoryDetailsModel> categoryDetailsModels, OnItemClickListener listener) {
         this.mContext = mContext;
         this.mListener = listener;
+        this.categoryDetailsModels = categoryDetailsModels;
     }
 
     @NonNull
@@ -34,16 +42,18 @@ public class AdapterMyCart extends RecyclerView.Adapter<AdapterMyCart.Viewholder
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
 
-        items = Integer.parseInt(holder.txtItemProducts.getText().toString());
+        items = Integer.parseInt(holder.txtCountProducts.getText().toString());
+
+        Log.e("ssfdff", categoryDetailsModels.get(position).getShow_deal_option_id() + "--");
 
         holder.btnMinusProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (items >= 1) {
-                    holder.txtItemProducts.setText(String.valueOf(items - 1));
-                    items = Integer.parseInt(holder.txtItemProducts.getText().toString());
-                    mListener.onItemClickMinus(position, holder.txtItemProducts.getText().toString());
+                if (items >= 2) {
+                    holder.txtCountProducts.setText(String.valueOf(items - 1));
+                    items = Integer.parseInt(holder.txtCountProducts.getText().toString());
+                    mListener.onItemClickMinus(position, holder.txtCountProducts.getText().toString());
                 }
 
             }
@@ -53,34 +63,69 @@ public class AdapterMyCart extends RecyclerView.Adapter<AdapterMyCart.Viewholder
             @Override
             public void onClick(View v) {
 
-                holder.txtItemProducts.setText(String.valueOf(items + 1));
-                items = Integer.parseInt(holder.txtItemProducts.getText().toString());
-                mListener.onItemClickPlus(position, holder.txtItemProducts.getText().toString());
+                holder.txtCountProducts.setText(String.valueOf(items + 1));
+                items = Integer.parseInt(holder.txtCountProducts.getText().toString());
+                mListener.onItemClickPlus(position, holder.txtCountProducts.getText().toString());
             }
         });
+
+        holder.cartTitle.setText(categoryDetailsModels.get(position).getTitle());
+        holder.cartPrice.setText("$" + categoryDetailsModels.get(position).getSell_price());
+        holder.cartBought.setText(categoryDetailsModels.get(position).getBought() + "+ bought");
+        holder.txtCountProducts.setText(categoryDetailsModels.get(position).getQuantity());
+
+        Picasso.get().load(categoryDetailsModels.get(position).getDeal_image()).into(holder.cartImage);
+
+        holder.deleteCartItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onItemDelete(categoryDetailsModels.get(position).getDeal_id(), position);
+
+            }
+        });
+
+        holder.saveFromLater.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onItemClickSaveLater(categoryDetailsModels.get(position).getDeal_id());
+            }
+        });
+
+
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return categoryDetailsModels.size();
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
 
-        TextView txtItemProducts;
-        ImageView btnMinusProduct, btnPlusProduct;
+        TextView txtCountProducts, cartTitle, cartBought, cartPrice;
+        ImageView btnMinusProduct, btnPlusProduct, cartImage;
+        Button deleteCartItem, saveFromLater;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
 
-            txtItemProducts = itemView.findViewById(R.id.txtItemProducts);
+            txtCountProducts = itemView.findViewById(R.id.txtCountProducts);
             btnMinusProduct = itemView.findViewById(R.id.btnMinusProduct);
             btnPlusProduct = itemView.findViewById(R.id.btnPlusProduct);
+
+            cartTitle = itemView.findViewById(R.id.cartTitle);
+            cartBought = itemView.findViewById(R.id.cartBought);
+            cartPrice = itemView.findViewById(R.id.cartPrice);
+            cartImage = itemView.findViewById(R.id.cartImage);
+            deleteCartItem = itemView.findViewById(R.id.deleteCartItem);
+            saveFromLater = itemView.findViewById(R.id.saveFromLater);
+
         }
     }
 
     public interface OnItemClickListener {
         void onItemClickPlus(int item, String s);
         void onItemClickMinus(int item, String s);
+        void onItemDelete(String s, int pos);
+        void onItemClickSaveLater(String dealId);
     }
 }

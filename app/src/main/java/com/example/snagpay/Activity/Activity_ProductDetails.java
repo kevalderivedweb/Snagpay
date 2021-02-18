@@ -4,10 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,12 +24,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.snagpay.API.VolleyMultipartRequest;
+import com.example.snagpay.Adapter.AdapterDealsOptionList;
 import com.example.snagpay.Adapter.AdapterReviewProductDetails;
 import com.example.snagpay.Model.CategoryDetailsModel;
+import com.example.snagpay.Model.DealOptionsListModel;
 import com.example.snagpay.Model.ReviewModel;
 import com.example.snagpay.R;
+import com.example.snagpay.Utils.Database;
 import com.example.snagpay.Utils.UserSession;
 import com.kaopiz.kprogresshud.KProgressHUD;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,32 +48,50 @@ import java.util.Map;
 public class Activity_ProductDetails extends AppCompatActivity {
 
     private Button btnBuyNowProduct;
-    private RecyclerView resProductUserReview;
-    private RatingBar ratingBarProductDetailsMain;
+    private RecyclerView resProductUserReview, dealsOptionList;
+
+    private ImageView backToHomeInner, productFavourite, dealImage, arrowDetailsExpand, listArrow;
+    private TextView detailsProductTxt, dealTitle, rating, totalRating, highLights, customeR,
+            countRtng, selectDealsName, selectDealsPrice, noReviewsText, txtAddRemoveCart;
+
+    private RatingBar ratingBarProductDetailsMain, ratingAgainProduct;
 
     private AdapterReviewProductDetails adapterReviewProductDetails;
-    private ImageView backToHomeInner, productFavourite;
-    private TextView detailsProductTxt;
+    private AdapterDealsOptionList adapterDealsOptionList;
 
-    private boolean firstClick = true;
     private UserSession session;
 
     private String isWishlist;
     private String dealId;
 
-    private RelativeLayout addToWishlist, removeFromWishlist;
+    private RelativeLayout addToWishlist, removeFromWishlist, listOfDealsRelative, addToCart;
 
-    private ImageView arrowDetailsExpand;
-    boolean isTextViewClicked = true;
-    ArrayList<ReviewModel> reviewModelArrayList = new ArrayList<>();
+    private ArrayList<ReviewModel> reviewModelArrayList = new ArrayList<>();
+    private ArrayList<DealOptionsListModel> dealOptionsListModelArrayList = new ArrayList<>();
+
+    private boolean isTextViewClicked = true;
+    private boolean islistClicked = true;
+
+    private String imageCart;
+    private String titleCart;
+    private String priceCart;
+    private String boughtCart;
+    private String dealOptionIdCart;
+
+    private Database dbHelper;
+
+    private ArrayList<CategoryDetailsModel> detailsModelArrayList = new ArrayList<>();
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_details);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
         session = new UserSession(Activity_ProductDetails.this);
+
+        dbHelper = new Database(Activity_ProductDetails.this);
 
         btnBuyNowProduct = findViewById(R.id.btnBuyNowProduct);
         resProductUserReview = findViewById(R.id.resProductUserReview);
@@ -81,14 +103,75 @@ public class Activity_ProductDetails extends AppCompatActivity {
         detailsProductTxt = findViewById(R.id.detailsProductTxt);
         arrowDetailsExpand = findViewById(R.id.arrowDetailsExpand);
 
-        ratingBarProductDetailsMain.setStepSize(0.1f);
-      //  ratingBarProductDetailsMain.setRating(Float.parseFloat(categoryDetailsModelArrayList.get(position).getAvg_rating()));
-        ratingBarProductDetailsMain.setIsIndicator(true);
+        txtAddRemoveCart = findViewById(R.id.txtAddRemoveCart);
+
+        dealImage = findViewById(R.id.dealImage);
+        dealTitle = findViewById(R.id.dealTitle);
+        rating = findViewById(R.id.rating);
+        totalRating = findViewById(R.id.totalRating);
+        highLights = findViewById(R.id.highLights);
+
+        customeR = findViewById(R.id.customeR);
+        countRtng = findViewById(R.id.countRtng);
+        ratingAgainProduct = findViewById(R.id.ratingAgainProduct);
+
+        dealsOptionList = findViewById(R.id.dealsPriceList);
+        listOfDealsRelative = findViewById(R.id.listOfDealsRelative);
+
+        selectDealsName = findViewById(R.id.selectDealsName);
+        selectDealsPrice = findViewById(R.id.selectDealsPrice);
+        listArrow = findViewById(R.id.listArrow);
+        noReviewsText = findViewById(R.id.noReviewsText);
+
+        addToCart = findViewById(R.id.addToCart);
 
         Bundle bundle = getIntent().getExtras();
-
         String category_id = bundle.getString("category_id");
         String subCategoryId = bundle.getString("subCategoryId");
+        String dealId = bundle.getString("dealId");
+
+        detailsModelArrayList = dbHelper.getAllUser();
+
+
+
+
+        addToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Log.e("cdfdefedf", dealOptionIdCart + "--");
+
+
+                if (!txtAddRemoveCart.getText().toString().equals("Remove from Cart")){
+                    dbHelper.InsertDetails(imageCart, titleCart, dealId, dealOptionIdCart, priceCart, boughtCart, "1");
+                    txtAddRemoveCart.setText("Remove from Cart");
+                }
+                else {
+                    dbHelper.removeCart(dealId);
+                    txtAddRemoveCart.setText("Add to Cart");
+                }
+
+            }
+        });
+
+
+        listOfDealsRelative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (islistClicked){
+                    dealsOptionList.setVisibility(View.VISIBLE);
+                    islistClicked = false;
+                    listArrow.setImageResource(R.drawable.top);
+                }
+                else {
+                    dealsOptionList.setVisibility(View.GONE);
+                    islistClicked = true;
+                    listArrow.setImageResource(R.drawable.dropdown);
+                }
+            }
+        });
+
 
         backToHomeInner.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,7 +234,7 @@ public class Activity_ProductDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                editWishList(dealId, isWishlist);
+                addWishList(dealId, isWishlist);
             }
         });
 
@@ -169,24 +252,233 @@ public class Activity_ProductDetails extends AppCompatActivity {
         addToWishlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editWishList(dealId, isWishlist);
+                addWishList(dealId, isWishlist);
             }
         });
 
         removeFromWishlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editWishList(dealId, isWishlist);
+                addWishList(dealId, isWishlist);
             }
         });
 
+        dealsOptionList.setLayoutManager(new LinearLayoutManager(this));
+        adapterDealsOptionList = new AdapterDealsOptionList(this, dealOptionsListModelArrayList, new AdapterDealsOptionList.OnItemClickListener() {
+            @Override
+            public void onItemClick(int item) {
+                selectDealsName.setText(dealOptionsListModelArrayList.get(item).getDeal_option_name());
+                selectDealsPrice.setText("$ " + dealOptionsListModelArrayList.get(item).getSell_price());
+
+                dealOptionIdCart = dealOptionsListModelArrayList.get(item).getDeal_option_id();
+
+                Log.e("cdfdefedf", dealOptionIdCart + "--");
+            }
+        });
+        dealsOptionList.setAdapter(adapterDealsOptionList);
+
+
+
         getCategoriesDetails(category_id, "", subCategoryId, "", "", "1");
 
+        getDealDetials(dealId);
 
-        getReviewDetails("1");
+        findViewById(R.id.seeAllReviews).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getReviewDetails(dealId, "1");
+            }
+        });
+
+        for (int t = 0; t < detailsModelArrayList.size(); t++){
+            if (detailsModelArrayList.get(t).getDeal_id().equals(dealId)){
+                txtAddRemoveCart.setText("Remove from Cart");
+            }
+
+            Log.e("sfsfsdf", detailsModelArrayList.get(t).getDeal_id() +"--" + dealId);
+
+        }
+
     }
 
-    private void editWishList(String dealId, String wishStatus) {
+    public void getDealDetials(String dealId){
+        final KProgressHUD progressDialog = KProgressHUD.create(Activity_ProductDetails.this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel("Please wait")
+                .setCancellable(false)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f)
+                .show();
+        //getting the tag from the edittext
+
+        //our custom volley request
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "deal-details?deal_id=" + dealId + "&sort_by_rating=HighestRated", new Response.Listener<NetworkResponse>() {
+            @SuppressLint("UseCompatLoadingForDrawables")
+            @Override
+            public void onResponse(NetworkResponse response) {
+
+
+                progressDialog.dismiss();
+
+                try {
+
+                    JSONObject jsonObject = new JSONObject(new String(response.data));
+                    Log.e("Response",jsonObject.toString());
+                    if (jsonObject.getString("ResponseCode").equals("200")){
+
+                        try {
+
+                            JSONObject data = jsonObject.getJSONObject("data");
+
+                            JSONArray jsonArray = data.getJSONArray("customer_reviews");
+                            JSONObject jsonObject1 = data.getJSONObject("deal_details");
+                            JSONArray jsonArray1 = data.getJSONArray("deal_options");
+
+                            for (int i = 0; i < jsonArray1.length(); i++){
+                                JSONObject object = jsonArray1.getJSONObject(i);
+
+                                DealOptionsListModel dealOptionsListModel = new DealOptionsListModel();
+                                dealOptionsListModel.setDeal_id(object.getString("deal_id"));
+                                dealOptionsListModel.setDeal_option_id(object.getString("deal_option_id"));
+                                dealOptionsListModel.setDeal_option_name(object.getString("deal_option_name"));
+                                dealOptionsListModel.setSell_price(object.getString("sell_price"));
+                                dealOptionsListModel.setDeal_option_description(object.getString("deal_option_description"));
+
+                                dealOptionsListModelArrayList.add(dealOptionsListModel);
+                            }
+
+                            dealOptionIdCart = dealOptionsListModelArrayList.get(0).getDeal_option_id();
+
+                            selectDealsName.setText(dealOptionsListModelArrayList.get(0).getDeal_option_name());
+                            selectDealsPrice.setText("$ " + dealOptionsListModelArrayList.get(0).getSell_price());
+
+                            for (int i = 0 ; i<jsonArray.length() ; i++){
+                                JSONObject object = jsonArray.getJSONObject(i);
+
+                                ReviewModel reviewModel = new ReviewModel();
+                                reviewModel.setDeal_rating_id( object.getString("deal_rating_id"));
+                                reviewModel.setFirst_name( object.getString("first_name"));
+                                reviewModel.setLast_name( object.getString("last_name"));
+                                reviewModel.setDeal_id( object.getString("deal_id"));
+                                reviewModel.setUser_id( object.getString("user_id"));
+                                reviewModel.setRating( object.getString("rating"));
+                                reviewModel.setReview( object.getString("review"));
+                                reviewModel.setDate( object.getString("date"));
+                                reviewModelArrayList.add(reviewModel);
+
+                            }
+
+                            if (reviewModelArrayList.isEmpty()){
+                                noReviewsText.setVisibility(View.VISIBLE);
+                                findViewById(R.id.seeAllReviews).setVisibility(View.INVISIBLE);
+                            }
+
+
+                            ratingBarProductDetailsMain.setStepSize(0.1f);
+                            ratingBarProductDetailsMain.setRating(Float.parseFloat(jsonObject1.getString("avg_rating")));
+                            ratingBarProductDetailsMain.setIsIndicator(true);
+
+                            Picasso.get().load(jsonObject1.getString("deal_image")).
+                                    placeholder(Activity_ProductDetails.this.getResources().getDrawable(R.drawable.appicon_1024x1024))
+                                    .error(Activity_ProductDetails.this.getResources().getDrawable(R.drawable.appicon_1024x1024)).into(dealImage);
+
+                            dealTitle.setText(jsonObject1.getString("title"));
+                            totalRating.setText(jsonObject1.getString("total_rating") + " ratings");
+                            rating.setText(jsonObject1.getString("avg_rating"));
+                            highLights.setText(jsonObject1.getString("description"));
+
+                            customeR.setText(jsonObject1.getString("avg_rating"));
+                            ratingAgainProduct.setStepSize(0.1f);
+                            ratingAgainProduct.setRating(Float.parseFloat(jsonObject1.getString("avg_rating")));
+                            ratingAgainProduct.setIsIndicator(true);
+                            countRtng.setText(jsonObject1.getString("total_rating") + " ratings");
+
+                            imageCart = jsonObject1.getString("deal_image");
+                            titleCart = jsonObject1.getString("title");
+                            boughtCart = jsonObject1.getString("bought");
+                            priceCart = jsonObject1.getString("sell_price");
+
+                            adapterReviewProductDetails.notifyDataSetChanged();
+                            adapterDealsOptionList.notifyDataSetChanged();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(Activity_ProductDetails.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    else if(jsonObject.getString("ResponseCode").equals("401")){
+
+                        session.logout();
+                        Intent intent = new Intent(Activity_ProductDetails.this, Activity_SelectCity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                } catch (Exception e) {
+                    //  Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    Toast.makeText(Activity_ProductDetails.this, "No Data", Toast.LENGTH_SHORT).show();
+
+                   /* session.logout();
+                    Intent intent = new Intent(Activity_ProductDetails.this, Activity_SelectCity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();*/
+
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+
+                        Toast.makeText(Activity_ProductDetails.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+
+            /*
+             * If you want to add more parameters with the image
+             * you can do it here
+             * here we have only one parameter with the image
+             * which is tags
+             * */
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                return params;
+            }
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/json");
+                params.put("Authorization", "Bearer " + session.getAPITOKEN());
+                return params;
+            }
+
+            /*
+             * Here we are passing image by renaming it with a unique name
+             * */
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+
+                return params;
+            }
+        };
+        //adding the request to volley
+        Volley.newRequestQueue(Activity_ProductDetails.this).add(volleyMultipartRequest);
+    }
+
+
+
+    private void addWishList(String dealId, String wishStatus) {
         final KProgressHUD progressDialog = KProgressHUD.create(Activity_ProductDetails.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setLabel("Please wait")
@@ -434,24 +726,24 @@ public class Activity_ProductDetails extends AppCompatActivity {
     }
 
 
-
-    public void getReviewDetails(String page){
+    public void getReviewDetails(String dealId, String page){
         final KProgressHUD progressDialog = KProgressHUD.create(Activity_ProductDetails.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setLabel("Please wait")
                 .setCancellable(false)
                 .setAnimationSpeed(2)
-                .setDimAmount(0.5f);
-        //.show();
+                .setDimAmount(0.5f)
+                .show();
         //getting the tag from the edittext
 
         //our custom volley request
-        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "get-all-deal-reviews?deal_id=10&sort_by_rating=HighestRated?page=" + page, new Response.Listener<NetworkResponse>() {
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "get-all-deal-reviews?deal_id=" + dealId + "&sort_by_rating=HighestRated?page=" + page, new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
 
 
                 progressDialog.dismiss();
+                findViewById(R.id.seeAllReviews).setVisibility(View.GONE);
 
                 try {
 
@@ -468,14 +760,14 @@ public class Activity_ProductDetails extends AppCompatActivity {
                                 JSONObject object = jsonArray.getJSONObject(i);
 
                                 ReviewModel reviewModel = new ReviewModel();
-                                reviewModel.setDeal_rating_id( object.getString("deal_rating_id"));;
-                                reviewModel.setFirst_name( object.getString("first_name"));;
-                                reviewModel.setLast_name( object.getString("last_name"));;
-                                reviewModel.setDeal_id( object.getString("deal_id"));;
-                                reviewModel.setUser_id( object.getString("user_id"));;
-                                reviewModel.setRating( object.getString("rating"));;
-                                reviewModel.setReview( object.getString("review"));;
-                                reviewModel.setDate( object.getString("date"));;
+                                reviewModel.setDeal_rating_id( object.getString("deal_rating_id"));
+                                reviewModel.setFirst_name( object.getString("first_name"));
+                                reviewModel.setLast_name( object.getString("last_name"));
+                                reviewModel.setDeal_id( object.getString("deal_id"));
+                                reviewModel.setUser_id( object.getString("user_id"));
+                                reviewModel.setRating( object.getString("rating"));
+                                reviewModel.setReview( object.getString("review"));
+                                reviewModel.setDate( object.getString("date"));
                                 reviewModelArrayList.add(reviewModel);
 
 
