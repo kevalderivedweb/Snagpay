@@ -93,6 +93,18 @@ public class Database extends SQLiteOpenHelper {
         return detailsModelArrayList;
     }
 
+    public Boolean Update(String id, String quantity) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_QUANTITY, quantity);
+        db.update(TABLE_CART, values,KEY_DEAL_OPTION_ID+"=" +id,null);
+        db.close();
+        return null;
+
+    }
+
     public void removeCart(String contact) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_CART, KEY_DEAL_ID + " = ?",
