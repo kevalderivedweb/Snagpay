@@ -245,7 +245,11 @@ public class Activity_ProductDetails extends AppCompatActivity {
         btnBuyNowProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Activity_ProductDetails.this, Activity_ReviewOrder.class));
+
+                Intent intent = new Intent(Activity_ProductDetails.this, Activity_ReviewOrder.class);
+                intent.putExtra("valueForOrder", "fromProductDetails");
+                intent.putExtra("dealOptionId", dealOptionIdCart);
+                startActivity(intent);
             }
         });
 

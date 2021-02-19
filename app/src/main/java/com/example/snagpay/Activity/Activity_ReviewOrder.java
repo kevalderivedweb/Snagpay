@@ -6,15 +6,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -31,9 +26,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.snagpay.API.VolleyMultipartRequest;
 import com.example.snagpay.Adapter.AdapterDealsOrder;
 import com.example.snagpay.Model.CategoryDetailsModel;
-import com.example.snagpay.Model.DealOptionsListModel;
 import com.example.snagpay.Model.DealsOrderModel;
-import com.example.snagpay.Model.ReviewModel;
 import com.example.snagpay.R;
 import com.example.snagpay.Utils.Database;
 import com.example.snagpay.Utils.UserSession;
@@ -52,8 +45,11 @@ public class Activity_ReviewOrder extends AppCompatActivity {
 
     private Button btnCompletePurchase;
     private ImageView backToProductDetail;
-    private RelativeLayout lyoutForPromo;
+    private RelativeLayout lyoutForPromo, singleItems;
     private View viewPromo;
+
+    private ImageView imageDeal, orderMinus, orderPlus;
+    private TextView titleDeal, priceOrder, txtOrderCount;
 
     private EditText editPromo;
     private TextView checkPromoCode, promoCode, totalPrice, bucksSnagpay, taxAmount, shippingAmount, payableAmount;
@@ -71,6 +67,12 @@ public class Activity_ReviewOrder extends AppCompatActivity {
     private AppCompatButton check;
     private AppCompatButton add_amount;
     private EditText ed_txt;
+
+    private String stringPromo = "";
+
+    private String strValue;
+    private String dealOptionId;
+    private int quantity = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,13 +92,9 @@ public class Activity_ReviewOrder extends AppCompatActivity {
             }
         });
 
-        detailsModelArrayList = dbHelper.getAllUser();
-
 
         btnCompletePurchase = findViewById(R.id.btnCompletePurchase);
-
         recReviewOrder = findViewById(R.id.recReviewOrder);
-
         lyoutForPromo = findViewById(R.id.lyoutForPromo);
         viewPromo = findViewById(R.id.viewPromo);
         editPromo = findViewById(R.id.editPromo);
@@ -111,6 +109,68 @@ public class Activity_ReviewOrder extends AppCompatActivity {
         check = findViewById(R.id.check);
         add_amount = findViewById(R.id.add_amount);
         ed_txt = findViewById(R.id.ed_txt);
+        singleItems = findViewById(R.id.singleItems);
+        imageDeal = findViewById(R.id.imageDeal);
+        titleDeal = findViewById(R.id.titleDeal);
+        priceOrder = findViewById(R.id.priceOrder);
+        orderMinus = findViewById(R.id.orderMinus);
+        orderPlus = findViewById(R.id.orderPlus);
+        txtOrderCount = findViewById(R.id.txtOrderCount);
+
+        orderMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (1 < Integer.parseInt(txtOrderCount.getText().toString())){
+                    quantity--;
+                    txtOrderCount.setText(String.valueOf(quantity));
+                    getReviewOrderDetail(detailsModelArrayList);
+                }
+
+            }
+        });
+
+        orderPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                quantity++;
+                txtOrderCount.setText(String.valueOf(quantity));
+                getReviewOrderDetail(detailsModelArrayList);
+            }
+        });
+
+
+        strValue = getIntent().getStringExtra("valueForOrder");
+        dealOptionId = getIntent().getStringExtra("dealOptionId");
+
+        if (strValue.equals("fromProductDetails")){
+            recReviewOrder.setVisibility(View.GONE);
+
+
+        }
+        else if (strValue.equals("fromCart")){
+            singleItems.setVisibility(View.GONE);
+            detailsModelArrayList = dbHelper.getAllUser();
+        }
+
+
+
+        checkPromoCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!editPromo.getText().toString().isEmpty()){
+                    stringPromo = editPromo.getText().toString();
+                    getReviewOrderDetail(detailsModelArrayList);
+                } else if (editPromo.getText().toString().isEmpty()){
+                    stringPromo = "";
+                    getReviewOrderDetail(detailsModelArrayList);
+                }
+
+
+
+            }
+        });
+
 
         recReviewOrder.setLayoutManager(new LinearLayoutManager(Activity_ReviewOrder.this));
         adapterDealsOrder = new AdapterDealsOrder(Activity_ReviewOrder.this, orderModelArrayList);
@@ -126,12 +186,6 @@ public class Activity_ReviewOrder extends AppCompatActivity {
             }
         });
 
-        checkPromoCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editPromo.setText("");
-            }
-        });
 
         add_amount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,6 +205,8 @@ public class Activity_ReviewOrder extends AppCompatActivity {
                 getCreditDetails();
             }
         });
+
+        getCreditDetails();
 
 
         btnCompletePurchase.setOnClickListener(new View.OnClickListener() {
@@ -192,7 +248,11 @@ public class Activity_ReviewOrder extends AppCompatActivity {
                     Log.e("Response",jsonObject.toString());
                     if (jsonObject.getString("ResponseCode").equals("200")){
 
+                        ed_txt.setText("");
+
                         Toast.makeText(Activity_ReviewOrder.this,jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
+
+                        getCreditDetails();
 
 
 
@@ -286,8 +346,13 @@ public class Activity_ReviewOrder extends AppCompatActivity {
                     Log.e("Response",jsonObject.toString());
                     if (jsonObject.getString("ResponseCode").equals("200")){
 
-                        credit.setVisibility(View.VISIBLE);
-                        credit.setText("Available Credit in your wallet $ "+jsonObject.getJSONObject("data").getString("trade_credit"));
+                      /*  credit.setVisibility(View.VISIBLE);
+                        credit.setText("Available Credit in your wallet $ " + jsonObject.getJSONObject("data").getString("trade_credit"));*/
+
+                        bucksSnagpay.setText("$" + jsonObject.getJSONObject("data").getString("trade_credit"));
+
+
+
                         Toast.makeText(Activity_ReviewOrder.this,jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
 
                     }
@@ -407,11 +472,20 @@ public class Activity_ReviewOrder extends AppCompatActivity {
                                 orderModelArrayList.add(dealsOrderModel);
                             }
 
+                            Picasso.get().load(orderModelArrayList.get(0).getDeal_image()).into(imageDeal);
+
+                            titleDeal.setText(orderModelArrayList.get(0).getTitle());
+                            priceOrder.setText("$" + orderModelArrayList.get(0).getSell_price());
+
+
                             totalPrice.setText("$" + data.getString("total_price"));
-                            bucksSnagpay.setText(data.getString("snagpay_trade_credit"));
                             taxAmount.setText("$" + data.getString("tax"));
                             shippingAmount.setText("$" + data.getString("shipping_cost"));
                             payableAmount.setText("$" + data.getString("total_amount_payable"));
+
+                            if (!data.getString("required_snagpay_trade_credit").equals("0")) {
+                                ed_txt.setText(data.getString("required_snagpay_trade_credit"));
+                            }
 
                             adapterDealsOrder.notifyDataSetChanged();
 
@@ -421,6 +495,11 @@ public class Activity_ReviewOrder extends AppCompatActivity {
                             e.printStackTrace();
                             Toast.makeText(Activity_ReviewOrder.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
+                    }
+
+                    else if(jsonObject.getString("ResponseCode").equals("422")){
+
+                        Toast.makeText(Activity_ReviewOrder.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
                     }
 
                     else if(jsonObject.getString("ResponseCode").equals("401")){
@@ -466,9 +545,18 @@ public class Activity_ReviewOrder extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
 
-                for (int i = 0; i < detailsModelArrayList.size(); i++){
-                    params.put("deal_option_ids[" + detailsModelArrayList.get(i).getShow_deal_option_id() + "]", detailsModelArrayList.get(i).getQuantity());
+                if (strValue.equals("fromCart")) {
+                    for (int i = 0; i < detailsModelArrayList.size(); i++) {
+                        params.put("deal_option_ids[" + detailsModelArrayList.get(i).getShow_deal_option_id() + "]", detailsModelArrayList.get(i).getQuantity());
+                    }
+                    params.put("promo_code", stringPromo);
                 }
+                else if (strValue.equals("fromProductDetails")){
+                    params.put("deal_option_ids[" + dealOptionId + "]", String.valueOf(quantity));
+                    params.put("promo_code", stringPromo);
+                }
+
+                Log.e("sdsd", dealOptionId + "--" + quantity);
 
                 return params;
             }

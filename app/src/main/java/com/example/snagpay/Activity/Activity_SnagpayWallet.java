@@ -170,9 +170,8 @@ public class Activity_SnagpayWallet extends AppCompatActivity {
                             JSONObject data = jsonObject.getJSONObject("data");
 
                             String Wallet_txt = data.getString("trade_credit");
-                            dollerWallet.setText("$ " +Wallet_txt);
+                            dollerWallet.setText(Wallet_txt);
                             JSONArray sub_transaction = data.getJSONArray("recent_transactions");
-
 
 
                             for (int i = 0 ; i<sub_transaction.length() ; i++){

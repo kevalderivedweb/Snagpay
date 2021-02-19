@@ -47,80 +47,91 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-<!--
             <RelativeLayout
+                android:id="@+id/singleItems"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp">
+                android:layout_marginHorizontal="5dp"
+                android:padding="7dp">
 
-                <ImageView
-                    android:id="@+id/shipp"
-                    android:layout_width="100dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/img"/>
-
-                <TextView
-                    android:id="@+id/ko"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/scss"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:letterSpacing="0.04"
-                    android:text="90-Minute Chicago Architecture Boat Tour for One"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/roboto_medium"
-                    android:layout_toRightOf="@id/shipp"/>
+                    app:cardCornerRadius="5dp">
+                    <ImageView
+                        android:id="@+id/imageDeal"
+                        android:layout_width="100dp"
+                        android:layout_centerVertical="true"
+                        android:scaleType="fitXY"
+                        android:layout_height="80dp"/>
+                </androidx.cardview.widget.CardView>
 
-                <TextView
-                    android:id="@+id/pri"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/ko"
-                    android:text="$150"
-                    android:letterSpacing="0.02"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="16dp"
-                    android:fontFamily="@font/roboto_bold"
-                    android:textColor="@color/green"
-                    android:layout_toRightOf="@+id/shipp"/>
+                    android:layout_toRightOf="@+id/scss"
+                    android:layout_marginLeft="7dp"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/orderMinus"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_below="@+id/pri"
-                    android:layout_toRightOf="@id/shipp"
-                    android:layout_marginTop="8dp"
-                    android:src="@drawable/minus"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/circle_plus_minus"/>
+                    <TextView
+                        android:id="@+id/titleDeal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                        android:letterSpacing="0.04"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/roboto_medium"/>
 
-                <TextView
-                    android:id="@+id/txtOrderCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1"
-                    android:textColor="@color/black"
-                    android:textSize="16dp"
-                    android:layout_below="@+id/pri"
-                    android:layout_toRightOf="@+id/orderMinus"
-                    android:layout_marginTop="6dp"
-                    android:layout_marginLeft="10dp"/>
+                    <TextView
+                        android:id="@+id/priceOrder"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="0.02"
+                        android:layout_marginTop="5dp"
+                        android:textSize="16dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:textColor="@color/green"/>
 
-                <ImageView
-                    android:id="@+id/orderPlus"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_below="@+id/pri"
-                    android:layout_toRightOf="@id/txtOrderCount"
-                    android:layout_marginTop="7dp"
-                    android:src="@drawable/plus"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/circle_plus_minus"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/orderMinus"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginTop="8dp"
+                            android:src="@drawable/minus"
+                            android:background="@drawable/circle_plus_minus"/>
+
+                        <TextView
+                            android:id="@+id/txtOrderCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1"
+                            android:textColor="@color/black"
+                            android:textSize="16dp"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginLeft="10dp"/>
+
+                        <ImageView
+                            android:id="@+id/orderPlus"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginTop="7dp"
+                            android:src="@drawable/plus"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/circle_plus_minus"/>
+                    </LinearLayout>
+                </LinearLayout>
             </RelativeLayout>
--->
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recReviewOrder"
@@ -213,6 +224,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
+                android:background="@drawable/edittext_border_gray"
                 android:layout_marginHorizontal="25dp">
 
                 <EditText
@@ -220,9 +232,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:textSize="16dp"
+                    android:layout_marginRight="15dp"
+                    android:background="#00000000"
+                    android:layout_toLeftOf="@+id/checkPromoCode"
                     android:textCursorDrawable="@drawable/cursor_black"
-                    android:paddingLeft="10dp"
-                    android:background="@drawable/edittext_border_gray"/>
+                    android:paddingLeft="10dp" />
 
                 <TextView
                     android:id="@+id/checkPromoCode"
@@ -286,9 +300,6 @@
                 android:text="Snagpay Bucks"/>
 
 
-
-
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
@@ -301,10 +312,10 @@
                     android:weightSum="10">
 
                     <EditText
+                        android:id="@+id/ed_txt"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/edittext_border_gray"
-                        android:id="@+id/ed_txt"
                         android:paddingStart="20dp"
                         android:hint="Enter amount"
                         android:textSize="16dp"
@@ -319,11 +330,11 @@
                         android:layout_width="10dp"
                         android:layout_height="match_parent"/>
                     <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/add_amount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="7"
                         android:text="ADD"
-                        android:id="@+id/add_amount"
                         android:fontFamily="@font/roboto_regular"
                         android:textSize="16dp"
                         android:textColor="@color/white"

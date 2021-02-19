@@ -102,7 +102,9 @@ public class Activity_Cart extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(Activity_Cart.this, Activity_ReviewOrder.class));
+                Intent intent = new Intent(Activity_Cart.this, Activity_ReviewOrder.class);
+                intent.putExtra("valueForOrder", "fromCart");
+                startActivity(intent);
 
             }
         });
