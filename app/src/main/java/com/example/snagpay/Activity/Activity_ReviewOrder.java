@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -73,6 +74,11 @@ public class Activity_ReviewOrder extends AppCompatActivity {
     private String strValue;
     private String dealOptionId;
     private int quantity = 1;
+    private String requiredAmount;
+    private String availBucks;
+
+    private String disCount = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,9 +218,21 @@ public class Activity_ReviewOrder extends AppCompatActivity {
         btnCompletePurchase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Activity_ReviewOrder.this, Activity_AddCards.class);
-                intent.putExtra("let", 11);
-                startActivity(intent);
+
+
+                if (disCount.equals("")){
+                    disCount = "0";
+                }
+
+                if (Integer.parseInt(totalPrice.getText().toString().substring(1)) <= (Integer.parseInt(disCount) + Integer.parseInt(availBucks))) {
+
+                    Intent intent = new Intent(Activity_ReviewOrder.this, Activity_AddCards.class);
+                    intent.putExtra("let", 11);
+                    startActivity(intent);
+
+                } else if (Integer.parseInt(totalPrice.getText().toString().substring(1)) > (Integer.parseInt(disCount) + Integer.parseInt(availBucks))){
+                    Toast.makeText(Activity_ReviewOrder.this, "Required $" + requiredAmount + " bucks", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -230,8 +248,8 @@ public class Activity_ReviewOrder extends AppCompatActivity {
                 .setLabel("Please wait")
                 .setCancellable(false)
                 .setAnimationSpeed(2)
-                .setDimAmount(0.5f)
-                .show();
+                .setDimAmount(0.5f);
+            //    .show();
         //getting the tag from the edittext
 
         //our custom volley request
@@ -240,7 +258,7 @@ public class Activity_ReviewOrder extends AppCompatActivity {
             public void onResponse(NetworkResponse response) {
 
 
-                progressDialog.dismiss();
+              //  progressDialog.dismiss();
 
                 try {
 
@@ -253,8 +271,6 @@ public class Activity_ReviewOrder extends AppCompatActivity {
                         Toast.makeText(Activity_ReviewOrder.this,jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
 
                         getCreditDetails();
-
-
 
                     }
 
@@ -351,6 +367,9 @@ public class Activity_ReviewOrder extends AppCompatActivity {
 
                         bucksSnagpay.setText("$" + jsonObject.getJSONObject("data").getString("trade_credit"));
 
+                        Log.e("sdsdsd", "$" + jsonObject.getJSONObject("data").getString("trade_credit"));
+
+                        getReviewOrderDetail(detailsModelArrayList);
 
 
                         Toast.makeText(Activity_ReviewOrder.this,jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
@@ -484,8 +503,32 @@ public class Activity_ReviewOrder extends AppCompatActivity {
                             payableAmount.setText("$" + data.getString("total_amount_payable"));
 
                             if (!data.getString("required_snagpay_trade_credit").equals("0")) {
-                                ed_txt.setText(data.getString("required_snagpay_trade_credit"));
+                                requiredAmount = data.getString("required_snagpay_trade_credit");
+                                ed_txt.setText(requiredAmount);
                             }
+
+                            availBucks = data.getString("snagpay_trade_credit").substring(1);
+
+                            Log.e("sdfsfsd", Integer.parseInt(data.getString("total_price")) + "---" +
+                                    availBucks);
+
+
+                            if (Integer.parseInt(data.getString("total_price")) > Integer.parseInt(data.getString("snagpay_trade_credit").substring(1))){
+                                bucksSnagpay.setTextColor(getResources().getColor(R.color.red));
+
+                                Toast.makeText(Activity_ReviewOrder.this, "red", Toast.LENGTH_SHORT).show();
+                            } else {
+                                bucksSnagpay.setTextColor(getResources().getColor(R.color.green));
+                                Toast.makeText(Activity_ReviewOrder.this, "green", Toast.LENGTH_SHORT).show();
+                            }
+
+                            if (!stringPromo.equals("")){
+                                disCount = data.getString("discount");
+                            } else {
+                                disCount = "";
+                            }
+
+
 
                             adapterDealsOrder.notifyDataSetChanged();
 

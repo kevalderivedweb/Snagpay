@@ -5,9 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +55,7 @@ public class Activity_SnagpayWallet extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
         session = new UserSession(Activity_SnagpayWallet.this);
 
+
         findViewById(R.id.backToPaymentInfo1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,12 +84,16 @@ public class Activity_SnagpayWallet extends AppCompatActivity {
         expListViewPayment = findViewById(R.id.lvExpWallet);
         expListViewPayment.setChildDivider(getResources().getDrawable(R.color.white));
 
+
         // preparing list data
 
 
         listAdapterPayment = new ExpListAdapterPaymentRecent(Activity_SnagpayWallet.this, paymentModelArrayList);
         // setting list adapter
         expListViewPayment.setAdapter(listAdapterPayment);
+
+
+
         // Listview Group click listener
         expListViewPayment.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
 
@@ -94,9 +103,14 @@ public class Activity_SnagpayWallet extends AppCompatActivity {
                 // Toast.makeText(getApplicationContext(),
                 // "Group Clicked " + listDataHeader.get(groupPosition),
                 // Toast.LENGTH_SHORT).show();
+
+              //  setListViewHeight(parent, groupPosition);
+
                 return false;
             }
         });
+
+
 
       //  prepareListData();
 
@@ -115,6 +129,7 @@ public class Activity_SnagpayWallet extends AppCompatActivity {
     //    getWalletDetails();
 
     }
+
 
     private void prepareListData() {
 
@@ -138,7 +153,41 @@ public class Activity_SnagpayWallet extends AppCompatActivity {
         }
     }
 
+    private void setListViewHeight(ExpandableListView listView,
+                                   int group) {
+        ExpandableListAdapter listAdapter = (ExpandableListAdapter) listView.getExpandableListAdapter();
+        int totalHeight = 0;
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(),
+                View.MeasureSpec.EXACTLY);
+        for (int i = 0; i < listAdapter.getGroupCount(); i++) {
+            View groupItem = listAdapter.getGroupView(i, false, null, listView);
+            groupItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
 
+            totalHeight += groupItem.getMeasuredHeight();
+
+            if (((listView.isGroupExpanded(i)) && (i != group))
+                    || ((!listView.isGroupExpanded(i)) && (i == group))) {
+                for (int j = 0; j < listAdapter.getChildrenCount(i); j++) {
+                    View listItem = listAdapter.getChildView(i, j, false, null,
+                            listView);
+                    listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+
+                    totalHeight += listItem.getMeasuredHeight();
+
+                }
+            }
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        int height = totalHeight
+                + (listView.getDividerHeight() * (listAdapter.getGroupCount() - 1));
+        if (height < 10)
+            height = 200;
+        params.height = height;
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+
+    }
 
 
     public void getWalletDetails(){
@@ -147,8 +196,8 @@ public class Activity_SnagpayWallet extends AppCompatActivity {
                 .setLabel("Please wait")
                 .setCancellable(false)
                 .setAnimationSpeed(2)
-                .setDimAmount(0.5f);
-        //.show();
+                .setDimAmount(0.5f)
+                .show();
         //getting the tag from the edittext
 
         //our custom volley request

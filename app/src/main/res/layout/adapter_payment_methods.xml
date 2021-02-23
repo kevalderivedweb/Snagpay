@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -53,19 +53,21 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/pymtradio1"
+            android:layout_toLeftOf="@+id/radioPayment"
             android:text="Edit"
             android:textColor="@color/green"
-            android:textSize="16dp"
-            android:layout_marginRight="10dp"/>
+            android:textSize="16dp"/>
 
-        <ImageView
-            android:id="@+id/pymtradio1"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="1dp"
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/radioPayment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-12dp"
+            android:layout_marginRight="-10dp"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
             android:layout_alignParentRight="true"
-            android:src="@drawable/selected" />
+            android:button="@drawable/radio_button_custom" />
     </RelativeLayout>
 
     <View

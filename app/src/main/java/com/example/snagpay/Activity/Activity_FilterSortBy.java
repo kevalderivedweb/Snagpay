@@ -57,12 +57,12 @@ public class Activity_FilterSortBy extends AppCompatActivity {
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
-                newString= null;
+                newString = null;
             } else {
-                newString= extras.getString("category");
+                newString = extras.getString("category");
             }
         } else {
-            newString= (String) savedInstanceState.getSerializable("category");
+            newString = (String) savedInstanceState.getSerializable("category");
         }
 
 
@@ -80,13 +80,9 @@ public class Activity_FilterSortBy extends AppCompatActivity {
         listAdapter = new ExpListAdapterFilterSort(this, listDataHeader,listDataSubHeader, listDataChild, new ExpListAdapterFilterSort.OnItemClickListener() {
             @Override
             public void onItemClick(int groupPosition, int childPosition) {
-                Toast.makeText(
-                        getApplicationContext(),
-                        listDataHeader.get(groupPosition)
-                                + " : "
-                                + listDataChild.get(
-                                listDataHeader.get(groupPosition)).get(
-                                childPosition), Toast.LENGTH_SHORT)
+
+                Toast.makeText(getApplicationContext(), listDataHeader.get(groupPosition) + " : " + listDataChild.get(listDataHeader.get(groupPosition))
+                        .get(childPosition), Toast.LENGTH_SHORT)
                         .show();
 
                 if (groupPosition == 1){
@@ -94,6 +90,7 @@ public class Activity_FilterSortBy extends AppCompatActivity {
 
                 }
                 listAdapter.filterList(groupPosition,childPosition);
+
             }
         });
 
@@ -105,13 +102,13 @@ public class Activity_FilterSortBy extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                for (int i = 0 ; i<listDataSubHeader.size() ; i++){
+                for (int i = 0 ; i < listDataSubHeader.size() ; i++){
 
                     Log.e("listDataSubHeader",listDataSubHeader.get(i));
 
                 }
 
-                Intent intent=new Intent();
+                Intent intent = new Intent();
                 intent.putExtra("listShort", listDataSubHeader.get(0));
                 intent.putExtra("listCategory", idCategory);
                 intent.putExtra("listPrice", listDataSubHeader.get(2));

@@ -35,7 +35,12 @@ public class Activity_PaymentMethods extends AppCompatActivity {
         resPaymentCardList = findViewById(R.id.resPaymentCardList);
 
         resPaymentCardList.setLayoutManager(new LinearLayoutManager(Activity_PaymentMethods.this));
-        adapterPaymentMethods = new AdapterPaymentMethods(Activity_PaymentMethods.this);
+        adapterPaymentMethods = new AdapterPaymentMethods(Activity_PaymentMethods.this, new AdapterPaymentMethods.OnItemClickListener() {
+            @Override
+            public void onItemClickRadio(int item) {
+
+            }
+        });
         resPaymentCardList.setAdapter(adapterPaymentMethods);
 
         findViewById(R.id.btnAddNewCard).setOnClickListener(new View.OnClickListener() {

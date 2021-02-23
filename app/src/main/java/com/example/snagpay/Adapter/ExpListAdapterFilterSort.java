@@ -71,9 +71,9 @@ public class ExpListAdapterFilterSort extends BaseExpandableListAdapter {
 			}
 		});
 
-		if(mGroupPosition==groupPosition){
+		if(mGroupPosition == groupPosition){
 
-			if(mChildPosition==childPosition){
+			if(mChildPosition == childPosition){
 				_listDataSubHeader.set(mGroupPosition,childText);
 				radioButton.setChecked(true);
 			}else {

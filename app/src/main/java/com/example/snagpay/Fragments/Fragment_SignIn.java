@@ -585,7 +585,7 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode==RC_SIGN_IN){
+        if(requestCode == RC_SIGN_IN){
 
             googleDialog.dismiss();
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);

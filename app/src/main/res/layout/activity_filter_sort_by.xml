@@ -48,7 +48,7 @@
     <View
         android:id="@+id/cvcv"
         android:layout_width="match_parent"
-        android:layout_height="4dp"
+        android:layout_height="3dp"
         android:background="@color/light_gray"
         android:layout_below="@id/vbm"/>
 
@@ -56,7 +56,6 @@
         android:id="@+id/lvExp"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
         android:groupIndicator="@null"
         android:layout_above="@+id/hyy"
         android:layout_below="@id/vbm"/>

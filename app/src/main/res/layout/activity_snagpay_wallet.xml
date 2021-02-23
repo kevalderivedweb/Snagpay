@@ -47,10 +47,10 @@
             <LinearLayout
                 android:background="@drawable/custom_textview_border"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="5dp"
-                android:orientation="vertical"
-                android:layout_height="175dp">
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -67,6 +67,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="-3dp"
+                    android:layout_marginBottom="15dp"
                     android:gravity="center">
 
                     <ImageView
@@ -85,8 +86,7 @@
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/logoDoller"
                         android:fontFamily="@font/roboto_bold"
-                        android:textColor="@color/green"
-                        android:text="1,235"/>
+                        android:textColor="@color/green"/>
                 </RelativeLayout>
             </LinearLayout>
 
@@ -122,7 +122,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/gray"/>
+                android:background="@color/light_gray"/>
 
             <RelativeLayout
                 android:id="@+id/rltvAddMoney"
@@ -152,11 +152,6 @@
                     android:layout_alignParentRight="true"/>
             </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -174,17 +169,18 @@
                     android:text="Recent Transactions"/>
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray"/>
 
-            <ExpandableListView
-                android:id="@+id/lvExpWallet"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:layout_marginTop="10dp"
-                android:groupIndicator="@null"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ExpandableListView
+                        android:id="@+id/lvExpWallet"
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:groupIndicator="@null"/>
+
+                </LinearLayout>
 
         </LinearLayout>
 
