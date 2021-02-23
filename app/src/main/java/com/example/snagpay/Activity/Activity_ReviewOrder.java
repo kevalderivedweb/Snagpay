@@ -123,6 +123,7 @@ public class Activity_ReviewOrder extends AppCompatActivity {
         orderPlus = findViewById(R.id.orderPlus);
         txtOrderCount = findViewById(R.id.txtOrderCount);
 
+
         orderMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -171,9 +172,6 @@ public class Activity_ReviewOrder extends AppCompatActivity {
                     stringPromo = "";
                     getReviewOrderDetail(detailsModelArrayList);
                 }
-
-
-
             }
         });
 

@@ -107,7 +107,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="@color/light_gray"/>
 
     <LinearLayout
@@ -133,12 +133,6 @@
             android:letterSpacing="0.02"
             android:text="My Purchases"/>
     </LinearLayout>
-
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/light_gray"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -185,7 +179,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="@color/light_gray"/>
 
     <LinearLayout
@@ -214,7 +208,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="@color/light_gray"/>
 
     <LinearLayout
@@ -244,7 +238,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="@color/light_gray"/>
 
     <LinearLayout
@@ -273,7 +267,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="@color/light_gray"/>
 
     <LinearLayout
@@ -303,7 +297,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="@color/light_gray"/>
 
     <LinearLayout
@@ -332,7 +326,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="@color/light_gray"/>
 
         <LinearLayout
@@ -361,7 +355,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:background="@color/light_gray"/>
 
         <LinearLayout
@@ -390,7 +384,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:background="@color/light_gray"/>
 
         <LinearLayout
@@ -419,7 +413,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:background="@color/light_gray"/>
 
         <LinearLayout
@@ -448,7 +442,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:background="@color/light_gray"/>
 
         <LinearLayout

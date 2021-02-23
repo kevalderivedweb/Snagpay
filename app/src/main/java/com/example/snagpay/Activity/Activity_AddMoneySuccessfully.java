@@ -37,6 +37,8 @@ public class Activity_AddMoneySuccessfully extends AppCompatActivity {
 
 
         amount.setText("$ "+newString);
+
+
         findViewById(R.id.btnDoneAddMoney).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

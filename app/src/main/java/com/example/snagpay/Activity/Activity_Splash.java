@@ -33,7 +33,7 @@ public class Activity_Splash extends AppCompatActivity {
                     startActivity(new Intent(Activity_Splash.this, MainActivity.class));
                     finish();
                 }
-            }, secondsDelayed * 2000);
+            }, secondsDelayed * 500);
 
         }
         else {
@@ -43,7 +43,7 @@ public class Activity_Splash extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(), Activity_SelectCity.class));
                     finish();
                 }
-            }, secondsDelayed * 2000);
+            }, secondsDelayed * 500);
         }
     }
 }

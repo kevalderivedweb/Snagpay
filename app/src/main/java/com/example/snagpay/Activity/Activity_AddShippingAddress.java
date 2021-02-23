@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -94,7 +95,18 @@ public class Activity_AddShippingAddress extends AppCompatActivity {
             }
         });
 
+
+
+           /*     SelectCitySpinner adapter = new SelectCitySpinner(Activity_AddShippingAddress.this,
+                android.R.layout.simple_spinner_item,
+                mDataCity);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        citySpinner.setAdapter(adapter);
+        citySpinner.setSelection(adapter.getCount());
+                */
+
         getState();
+
 
         SelectCitySpinner adapterState = new SelectCitySpinner(Activity_AddShippingAddress.this,
                 android.R.layout.simple_spinner_item,
@@ -133,6 +145,7 @@ public class Activity_AddShippingAddress extends AppCompatActivity {
         citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
                 if(position != mDataCity.size()-1){
                     try {
                         city_id = mDataCity.get(position).getCityId();
@@ -149,6 +162,15 @@ public class Activity_AddShippingAddress extends AppCompatActivity {
 
             }
         });
+
+        ArrayList<String> cityModels = new ArrayList<>();
+        cityModels.add("Please select City");
+
+        ArrayAdapter<String> adapter12 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, cityModels);
+        adapter12.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        citySpinner.setAdapter(adapter12);
+
+
 
     }
 

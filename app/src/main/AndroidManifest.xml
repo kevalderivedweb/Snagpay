@@ -18,7 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SnagPay">
-        <activity android:name=".Activity.Activity_EditShippingAddress"></activity>
+
+
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -43,6 +44,9 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+
+
+        <activity android:name=".Activity.Activity_EditShippingAddress"/>
         <activity android:name=".Activity.Activity_About_App" />
         <activity android:name=".Activity.Activity_Report_Infringement" />
         <activity android:name=".Activity.Activity_Gifting" />
