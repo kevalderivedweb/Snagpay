@@ -143,9 +143,7 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
     private RequestQueue requestQueue;
     private String avgSalesString;
 
-    private ArrayList<CategoryModel> typeOfBusiness = new ArrayList<>();
-    private ArrayAdapter<String> dataAdapter;
-
+    private ArrayList<CityModel> typeOfBusiness = new ArrayList<>();
 
     public Fragment_SignUp(Context context) {
         this.context = context;
@@ -968,50 +966,39 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
 
                                     for (int i = 0 ; i<jsonArray.length() ; i++){
                                         JSONObject object = jsonArray.getJSONObject(i);
-                                        CategoryModel categoryModel = new CategoryModel();
-                                        categoryModel.setCategory_id(object.getString("category_id"));
-                                        categoryModel.setCategory_name(object.getString("category_name"));
-                                        categoryModel.setSlug(object.getString("slug"));
-                                        categoryModel.setBackround_color(object.getString("backround_color"));
-                                        categoryModel.setCategory_image(object.getString("category_image"));
-                                        categoryModel.setParent_id(object.getString("parent_id"));
-                                        categoryModel.setParent_level(object.getString("parent_level"));
 
-                                        typeOfBusiness.add(categoryModel);
+                                        CityModel cityModel = new CityModel();
+                                        cityModel.setCityId(object.getString("category_id"));
+                                        cityModel.setCityname(object.getString("category_name"));
+
+                                        typeOfBusiness.add(cityModel);
                                     }
 
-                                    CategoryModel categoryModel = new CategoryModel();
-                                    categoryModel.setCategory_id("");
-                                    categoryModel.setCategory_name("Select one...");
+                                    CityModel cityModel = new CityModel();
+                                    cityModel.setCityId("");
+                                    cityModel.setCityname("Select one...");
+                                    typeOfBusiness.add(cityModel);
 
-                                    typeOfBusiness.add(categoryModel);
+                                    SelectCitySpinner adapter = new SelectCitySpinner(getContext(),
+                                            android.R.layout.simple_spinner_item,
+                                            typeOfBusiness);
+                                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                    typeBusinessSpinner.setAdapter(adapter);
+                                    typeBusinessSpinner.setSelection(adapter.getCount());
 
-                                    Toast.makeText(context, typeOfBusiness.size() + "--", Toast.LENGTH_SHORT).show();
 
-                                    ArrayList<String> categoryName = new ArrayList<>();
-
-                                    for (int i = 0; i < typeOfBusiness.size(); i++){
-                                        categoryName.add(typeOfBusiness.get(i).getCategory_name());
-                                    }
-
-                                    final int listsize = categoryName.size() - 1;
-                                    dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, categoryName) {
-                                        @Override
-                                        public int getCount() {
-                                            return(listsize); // Truncate the list
-                                        }
-                                    };
-                                    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                                    typeBusinessSpinner.setAdapter(dataAdapter);
-                                    typeBusinessSpinner.setSelection(listsize); // Hidden item to appear in the spinner
                                     typeBusinessSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                         @Override
                                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                            if(position != typeOfBusiness.size()-1){
+                                                try {
 
-                                            if (position != (categoryName.size() + 1)) {
-                                                type_of_business = String.valueOf(position + 1);
+                                                    type_of_business = typeOfBusiness.get(position).getCityId();
 
-                                         //       Toast.makeText(context, position + "---", Toast.LENGTH_SHORT).show();
+                                                }catch (Exception e){
+                                                    //	GetStudnet("0","0");
+
+                                                }
                                             }
                                         }
 
@@ -1020,8 +1007,6 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
 
                                         }
                                     });
-
-                                    dataAdapter.notifyDataSetChanged();
 
 
                                 } catch (JSONException e) {
