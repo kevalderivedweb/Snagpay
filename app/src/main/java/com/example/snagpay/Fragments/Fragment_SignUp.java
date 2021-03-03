@@ -986,7 +986,6 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
                                     typeBusinessSpinner.setAdapter(adapter);
                                     typeBusinessSpinner.setSelection(adapter.getCount());
 
-                                    Toast.makeText(context, typeOfBusiness.size() + "--", Toast.LENGTH_SHORT).show();
 
                                     typeBusinessSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                         @Override
