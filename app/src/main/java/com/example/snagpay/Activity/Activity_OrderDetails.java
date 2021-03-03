@@ -99,7 +99,7 @@ public class Activity_OrderDetails extends AppCompatActivity {
                         nameOrder.setText(jsonObject1.getString("first_name") + " " + jsonObject1.getString("last_name"));
                         addressPin.setText(jsonObject1.getString("address") + " - " + jsonObject1.getString("postcode"));
                         phoneNo.setText(jsonObject1.getString("phone_no"));
-                        priceOrderDet.setText(jsonObject1.getString("sub_total_amount"));
+                        priceOrderDet.setText("$" + jsonObject1.getString("sub_total_amount"));
                         bucks.setText("$" + jsonObject1.getString("paid_trade_credit"));
                         taxAmount.setText("$" + jsonObject1.getString("taxes_and_fees"));
                         amountShipping.setText("$" + jsonObject1.getString("estimated_shipping"));
