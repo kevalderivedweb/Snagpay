@@ -133,7 +133,6 @@ public class Fragment_OrderCurrent extends Fragment {
                     }
 
                 } catch (Exception e) {
-                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     // Toast.makeText(Activity_ReviewOrder.this, "No Data", Toast.LENGTH_SHORT).show();
 
                             /*session.logout();
