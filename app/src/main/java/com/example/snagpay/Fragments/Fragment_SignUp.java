@@ -144,7 +144,7 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
     private String avgSalesString;
 
     private ArrayList<CategoryModel> typeOfBusiness = new ArrayList<>();
-    private ArrayAdapter<CategoryModel> dataAdapter;
+    private ArrayAdapter<String> dataAdapter;
 
 
     public Fragment_SignUp(Context context) {
@@ -549,41 +549,6 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
             }
         });*/
 
-        getCategories();
-
-        /*typeOfBusiness.add("Goods");
-        typeOfBusiness.add("Services");
-        typeOfBusiness.add("Event Tickets");
-        typeOfBusiness.add("Travel");
-        typeOfBusiness.add("Food");
-        typeOfBusiness.add("Advertising");
-        typeOfBusiness.add("Select one...");*/
-        final int listsize = typeOfBusiness.size() - 1;
-        dataAdapter = new ArrayAdapter<CategoryModel>(getContext(), android.R.layout.simple_spinner_item, typeOfBusiness) {
-            @Override
-            public int getCount() {
-                return(listsize); // Truncate the list
-            }
-        };
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        typeBusinessSpinner.setAdapter(dataAdapter);
-        typeBusinessSpinner.setSelection(listsize); // Hidden item to appear in the spinner
-        typeBusinessSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                if (position != 6) {
-                    type_of_business = String.valueOf(position + 1);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-
 
         ArrayList<String> typeOfGoodsCostArray = new ArrayList<String>();
 
@@ -710,6 +675,8 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
 
             }
         });
+
+        getCategories();
 
 
         return view;
@@ -1018,6 +985,41 @@ public class Fragment_SignUp extends Fragment implements GoogleApiClient.OnConne
                                     categoryModel.setCategory_name("Select one...");
 
                                     typeOfBusiness.add(categoryModel);
+
+                                    Toast.makeText(context, typeOfBusiness.size() + "--", Toast.LENGTH_SHORT).show();
+
+                                    ArrayList<String> categoryName = new ArrayList<>();
+
+                                    for (int i = 0; i < typeOfBusiness.size(); i++){
+                                        categoryName.add(typeOfBusiness.get(i).getCategory_name());
+                                    }
+
+                                    final int listsize = categoryName.size() - 1;
+                                    dataAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, categoryName) {
+                                        @Override
+                                        public int getCount() {
+                                            return(listsize); // Truncate the list
+                                        }
+                                    };
+                                    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                    typeBusinessSpinner.setAdapter(dataAdapter);
+                                    typeBusinessSpinner.setSelection(listsize); // Hidden item to appear in the spinner
+                                    typeBusinessSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                                            if (position != (categoryName.size() + 1)) {
+                                                type_of_business = String.valueOf(position + 1);
+
+                                         //       Toast.makeText(context, position + "---", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> parent) {
+
+                                        }
+                                    });
 
                                     dataAdapter.notifyDataSetChanged();
 
