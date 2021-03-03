@@ -80,6 +80,18 @@ public class Activity_ReviewOrder extends AppCompatActivity {
     private String disCount = "";
 
 
+    //API calling Data
+
+    private String mDealPromoId = "";
+    private String mTotalPrice = "";
+    private String mDiscount = "0";
+    private String mSnagpayBucks = "";
+    private String mTaxs = "";
+    private String mShipping = "";
+    private String mTotalAmountPay = "";
+    private String mShippingAddressId = "";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -224,9 +236,13 @@ public class Activity_ReviewOrder extends AppCompatActivity {
 
                 if (Integer.parseInt(totalPrice.getText().toString().substring(1)) <= (Integer.parseInt(disCount) + Integer.parseInt(availBucks))) {
 
-                    Intent intent = new Intent(Activity_ReviewOrder.this, Activity_AddCards.class);
-                    intent.putExtra("let", 11);
-                    startActivity(intent);
+
+                        Intent intent=new Intent(Activity_ReviewOrder.this,Activity_ShippingAddress.class);
+                        intent.putExtra("value", 2);
+                        startActivityForResult(intent, 2);// Activity is started with requestCode 2
+
+
+
 
                 } else if (Integer.parseInt(totalPrice.getText().toString().substring(1)) > (Integer.parseInt(disCount) + Integer.parseInt(availBucks))){
                     Toast.makeText(Activity_ReviewOrder.this, "Required $" + requiredAmount + " bucks", Toast.LENGTH_SHORT).show();
@@ -238,6 +254,18 @@ public class Activity_ReviewOrder extends AppCompatActivity {
         getReviewOrderDetail(detailsModelArrayList);
 
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        // check if the request code is same as what is passed  here it is 2
+        if(requestCode==2)
+        {
+            mShippingAddressId =data.getStringExtra("MESSAGE");
+            CreateOrder();
+        }
     }
 
     public void AddWalletDetails(String amount){
@@ -489,6 +517,18 @@ public class Activity_ReviewOrder extends AppCompatActivity {
                                 orderModelArrayList.add(dealsOrderModel);
                             }
 
+                            if(data.has("deal_promo_code_id")){
+                                mDealPromoId = data.getString("deal_promo_code_id");
+                            }
+
+                             mTotalPrice = data.getString("total_price");
+                             mSnagpayBucks = data.getString("snagpay_trade_credit").substring(1);
+                             mTaxs = data.getString("tax");
+                             mShipping = data.getString("shipping_cost");
+                             mTotalAmountPay = data.getString("total_amount_payable");
+
+
+
                             Picasso.get().load(orderModelArrayList.get(0).getDeal_image()).into(imageDeal);
 
                             titleDeal.setText(orderModelArrayList.get(0).getTitle());
@@ -520,10 +560,15 @@ public class Activity_ReviewOrder extends AppCompatActivity {
                                 Toast.makeText(Activity_ReviewOrder.this, "green", Toast.LENGTH_SHORT).show();
                             }
 
+                            mDiscount = data.getString("discount");
                             if (!stringPromo.equals("")){
+                                mDiscount = data.getString("discount");
                                 disCount = data.getString("discount");
+
                             } else {
                                 disCount = "";
+                                mDiscount = "";
+
                             }
 
 
@@ -599,6 +644,126 @@ public class Activity_ReviewOrder extends AppCompatActivity {
 
                 Log.e("sdsd", dealOptionId + "--" + quantity);
 
+                return params;
+            }
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/json");
+                params.put("Authorization", "Bearer " + session.getAPITOKEN());
+                return params;
+            }
+
+            /*
+             * Here we are passing image by renaming it with a unique name
+             * */
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+
+                return params;
+            }
+        };
+        //adding the request to volley
+        Volley.newRequestQueue(Activity_ReviewOrder.this).add(volleyMultipartRequest);
+    }
+
+
+
+    public void CreateOrder(){
+
+        Log.e("mDiscound" , "--"+mDiscount+"--"+disCount);
+        final KProgressHUD progressDialog = KProgressHUD.create(Activity_ReviewOrder.this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel("Please wait")
+                .setCancellable(false)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f)
+                .show();
+        //getting the tag from the edittext
+
+        //our custom volley request
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, session.BASEURL + "create-order",
+                new Response.Listener<NetworkResponse>() {
+                    @SuppressLint("UseCompatLoadingForDrawables")
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+
+
+                        progressDialog.dismiss();
+
+                        try {
+
+                            orderModelArrayList.clear();
+                            JSONObject jsonObject = new JSONObject(new String(response.data));
+                            Log.e("Response",jsonObject.toString());
+                            if (jsonObject.getString("ResponseCode").equals("200")){
+                                Intent intent = new Intent(Activity_ReviewOrder.this, Activity_ThankYou.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                            }
+
+                            else if(jsonObject.getString("ResponseCode").equals("422")){
+
+                                Toast.makeText(Activity_ReviewOrder.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
+                            }
+
+                            else if(jsonObject.getString("ResponseCode").equals("401")){
+
+                                session.logout();
+                                Intent intent = new Intent(Activity_ReviewOrder.this, Activity_SelectCity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+                            }
+
+                        } catch (Exception e) {
+                            //  Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                            Toast.makeText(Activity_ReviewOrder.this, "No Data", Toast.LENGTH_SHORT).show();
+
+                   /* session.logout();
+                    Intent intent = new Intent(Activity_ProductDetails.this, Activity_SelectCity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();*/
+
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+
+                        Toast.makeText(Activity_ReviewOrder.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+
+            /*
+             * If you want to add more parameters with the image
+             * you can do it here
+             * here we have only one parameter with the image
+             * which is tags
+             * */
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                for (int d = 0; d < orderModelArrayList.size(); d++){
+                    params.put("deal_option_ids["+orderModelArrayList.get(d).getDeal_id()+"]", orderModelArrayList.get(d).getQty());
+                }
+                params.put("deal_promo_code_id", mDealPromoId);
+                params.put("total_price", mTotalPrice);
+                params.put("discount", mDiscount);
+                params.put("snagpay_trade_credit", mSnagpayBucks);
+                params.put("taxes_and_fees", mTaxs);
+                params.put("estimated_shipping", mShipping);
+                params.put("total_amount_payable", mTotalAmountPay);
+                params.put("shipping_address_id", mShippingAddressId);
                 return params;
             }
 

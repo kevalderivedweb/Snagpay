@@ -49,6 +49,7 @@ public class Activity_ShippingAddress extends AppCompatActivity {
 
     private int a = 0;
     private KProgressHUD progressDialogForSelect;
+    private String mShippingAddressId;
 
 
     @Override
@@ -112,6 +113,7 @@ public class Activity_ShippingAddress extends AppCompatActivity {
             @Override
             public void onItemClickRadio(int item) {
 
+                mShippingAddressId = String.valueOf(item);
                 selectShippingAdress(item);
             }
         });
@@ -134,9 +136,16 @@ public class Activity_ShippingAddress extends AppCompatActivity {
                     finish();
                 }
                 if (newString == 2) {
-                    Intent intent = new Intent(Activity_ShippingAddress.this, Activity_ThankYou.class);
+
+                    Intent intent=new Intent();
+                    intent.putExtra("MESSAGE",mShippingAddressId);
+                    setResult(2,intent);
+                    finish();//finishing activity
+
+
+                   /* Intent intent = new Intent(Activity_ShippingAddress.this, Activity_ThankYou.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
+                    startActivity(intent);*/
                 }
             }
         });
@@ -413,6 +422,9 @@ public class Activity_ShippingAddress extends AppCompatActivity {
                                         shippingAddressModel.setCity_name(jsonObject1.getString("city_name"));
                                         shippingAddressModel.setIs_default(jsonObject1.getString("is_default"));
 
+                                        if(jsonObject1.getString("is_default").equals("1")){
+                                            mShippingAddressId = jsonObject1.getString("shipping_address_id");
+                                        }
                                         shippingAddressModelArrayList.add(shippingAddressModel);
                                     }
 
