@@ -229,12 +229,17 @@ public class Activity_ReviewOrder extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                Intent intent=new Intent(Activity_ReviewOrder.this,Activity_ShippingAddress.class);
+                intent.putExtra("value", 2);
+                startActivityForResult(intent, 2);// Activity is started with requestCode 2
+
+
 
                 if (disCount.equals("")){
                     disCount = "0";
                 }
 
-                if (Integer.parseInt(totalPrice.getText().toString().substring(1)) <= (Integer.parseInt(disCount) + Integer.parseInt(availBucks))) {
+               /* if (Integer.parseInt(totalPrice.getText().toString().substring(1)) <= (Integer.parseInt(disCount) + Integer.parseInt(availBucks))) {
 
 
                         Intent intent=new Intent(Activity_ReviewOrder.this,Activity_ShippingAddress.class);
@@ -246,7 +251,7 @@ public class Activity_ReviewOrder extends AppCompatActivity {
 
                 } else if (Integer.parseInt(totalPrice.getText().toString().substring(1)) > (Integer.parseInt(disCount) + Integer.parseInt(availBucks))){
                     Toast.makeText(Activity_ReviewOrder.this, "Required $" + requiredAmount + " bucks", Toast.LENGTH_SHORT).show();
-                }
+                }*/
             }
         });
 
@@ -758,7 +763,7 @@ public class Activity_ReviewOrder extends AppCompatActivity {
                 }
                 params.put("deal_promo_code_id", mDealPromoId);
                 params.put("total_price", mTotalPrice);
-                params.put("discount", mDiscount);
+                params.put("discount", "100");
                 params.put("snagpay_trade_credit", mSnagpayBucks);
                 params.put("taxes_and_fees", mTaxs);
                 params.put("estimated_shipping", mShipping);

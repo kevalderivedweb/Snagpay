@@ -5,20 +5,30 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.snagpay.Activity.Activity_OrderDetails;
+import com.example.snagpay.Model.OrderModel;
 import com.example.snagpay.R;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class AdapterOrderCurrent extends RecyclerView.Adapter<AdapterOrderCurrent.Viewholder> {
 
     private Context mContext;
+    private ArrayList<OrderModel> orderModelArrayList;
+    private final OnItemClickListener mListener;
 
-    public AdapterOrderCurrent(Context mContext) {
+    public AdapterOrderCurrent(Context mContext, ArrayList<OrderModel> orderModelArrayList, OnItemClickListener mListener) {
         this.mContext = mContext;
+        this.orderModelArrayList = orderModelArrayList;
+        this.mListener = mListener;
     }
 
     @NonNull
@@ -32,27 +42,45 @@ public class AdapterOrderCurrent extends RecyclerView.Adapter<AdapterOrderCurren
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
 
-        holder.clickAdapterCurrentOrder.setOnClickListener(new View.OnClickListener() {
+        holder.priceCurrent.setText("$" + orderModelArrayList.get(position).getSell_price());
+        holder.boughtCurrent.setText(orderModelArrayList.get(position).getBought() + "+ bought");
+        holder.titleCurrent.setText(orderModelArrayList.get(position).getTitle());
+
+        Picasso.get().load(orderModelArrayList.get(position).getDeal_image()).into(holder.imagCurrentOrder);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivity(new Intent(mContext, Activity_OrderDetails.class));
+                mListener.onItemClickDetails(orderModelArrayList.get(position).getOrder_id());
             }
         });
+
     }
 
     @Override
     public int getItemCount() {
-        return 8;
+        return orderModelArrayList.size();
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
 
-        LinearLayout clickAdapterCurrentOrder;
+        TextView priceCurrent, boughtCurrent, titleCurrent;
+        ImageView imagCurrentOrder;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
 
-            clickAdapterCurrentOrder = itemView.findViewById(R.id.clickAdapterCurrentOrder);
+            imagCurrentOrder = itemView.findViewById(R.id.imagCurrentOrder);
+            priceCurrent = itemView.findViewById(R.id.priceCurrent);
+            boughtCurrent = itemView.findViewById(R.id.boughtCurrent);
+            titleCurrent = itemView.findViewById(R.id.titleCurrent);
+
         }
     }
+
+    public interface OnItemClickListener {
+        void onItemClickDetails(String orderId);
+    }
+
+
 }
