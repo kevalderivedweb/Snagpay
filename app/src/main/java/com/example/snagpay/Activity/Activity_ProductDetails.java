@@ -62,7 +62,6 @@ public class Activity_ProductDetails extends AppCompatActivity {
     private UserSession session;
 
     private String isWishlist;
-    private String dealId;
 
     private RelativeLayout addToWishlist, removeFromWishlist, listOfDealsRelative, addToCart;
 
@@ -285,6 +284,7 @@ public class Activity_ProductDetails extends AppCompatActivity {
 
 
         getDealDetials(dealId);
+
 
         findViewById(R.id.seeAllReviews).setOnClickListener(new View.OnClickListener() {
             @Override

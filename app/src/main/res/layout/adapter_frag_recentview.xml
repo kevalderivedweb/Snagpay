@@ -26,7 +26,7 @@
                 android:layout_height="match_parent"
                 app:cardCornerRadius="15dp">
             <ImageView
-                android:id="@+id/imgWishlist"
+                android:id="@+id/imgRecentlist"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"/>
@@ -42,7 +42,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/titleWishlist"
+                android:id="@+id/titleRecentlist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="2dp"
@@ -52,7 +52,7 @@
                 android:fontFamily="@font/roboto_medium"/>
 
             <TextView
-                android:id="@+id/boughtWishlist"
+                android:id="@+id/boughtRecentlist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/dark_gray"
@@ -62,7 +62,7 @@
                 android:fontFamily="@font/roboto_medium"/>
 
             <TextView
-                android:id="@+id/priceWishlist"
+                android:id="@+id/priceRecentlist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/green"

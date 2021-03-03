@@ -31,6 +31,9 @@ import com.example.snagpay.R;
 import com.example.snagpay.Utils.UserSession;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
 
     private LinearLayout navLinear1, navLinear2, navLinear3, navLinear4, navLinear5;
@@ -47,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
 
         session = new UserSession(MainActivity.this);
+
 
         navLinear1 = findViewById(R.id.navLinear1);
         navLinear2 = findViewById(R.id.navLinear2);

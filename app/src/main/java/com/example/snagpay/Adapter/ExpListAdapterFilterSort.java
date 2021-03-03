@@ -2,6 +2,7 @@ package com.example.snagpay.Adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -140,6 +141,8 @@ public class ExpListAdapterFilterSort extends BaseExpandableListAdapter {
 		mGroupPosition = groupPosition;
 		mChildPosition = childPosition;
 		notifyDataSetChanged();
+
+		Log.e("pos", groupPosition + "---" + childPosition);
 	}
 
 	public interface OnItemClickListener {

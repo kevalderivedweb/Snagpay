@@ -89,7 +89,10 @@ public class Activity_FilterSortBy extends AppCompatActivity {
                     idCategory = CategoryId.get(childPosition);
 
                 }
-                listAdapter.filterList(groupPosition,childPosition);
+                listAdapter.filterList(groupPosition, childPosition);
+
+                Log.e("position", groupPosition + "---" + childPosition);
+
 
             }
         });
@@ -166,9 +169,6 @@ public class Activity_FilterSortBy extends AppCompatActivity {
         listDataChild.put(listDataHeader.get(1), Category);
         listDataChild.put(listDataHeader.get(2), Price);
     }
-
-
-
 
 
 }

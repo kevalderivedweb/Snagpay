@@ -46,7 +46,6 @@ public class UserSession {
     private final String LONG = "longitude";
     private final String BUSS_NAME = "business_name";
     private final String BUSS_TYPE = "type_of_business";
-    private final String CREDIT_REPORT = "can_we_run_credit_report";
     private final String AVG_SALES = "avg_sales_per_month";
     private final String HOW_LONG = "how_long_have_you";
     private final String PHYSICAL_LOCATION = "no_of_physical_locations";
@@ -87,7 +86,6 @@ public class UserSession {
                                    String longitude,
                                    String business_name,
                                    String type_of_business,
-                                   String can_we_run_credit_report,
                                    String avg_sales_per_month,
                                    String how_long_have_you,
                                    String no_of_physical_locations,
@@ -116,7 +114,6 @@ public class UserSession {
         editor.putString(LONG, longitude);
         editor.putString(BUSS_NAME, business_name);
         editor.putString(BUSS_TYPE, type_of_business);
-        editor.putString(CREDIT_REPORT, can_we_run_credit_report);
         editor.putString(AVG_SALES, avg_sales_per_month);
         editor.putString(HOW_LONG, how_long_have_you);
         editor.putString(PHYSICAL_LOCATION, no_of_physical_locations);
@@ -401,15 +398,6 @@ public class UserSession {
 
     public void setBUSS_TYPE(String buss_type) {
         editor.putString(BUSS_TYPE, buss_type);
-        editor.commit();
-    }
-
-    public String getCREDIT_REPORT() {
-        return sharedPreferences.getString(CREDIT_REPORT, "");
-    }
-
-    public void setCREDIT_REPORT(String credit_report) {
-        editor.putString(CREDIT_REPORT, credit_report);
         editor.commit();
     }
 

@@ -168,17 +168,6 @@
                     android:textColor="@color/dark_gray"
                     android:layout_marginTop="10dp"/>
 
-                <!--<EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#00000000"
-                    android:letterSpacing="0.01"
-                    android:layout_marginTop="5dp"
-                    android:textSize="14dp"
-                    android:paddingLeft="4dp"
-                    android:textCursorDrawable="@drawable/cursor_blue_color"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/roboto_regular" />-->
 
                 <RelativeLayout
                     android:layout_width="fill_parent"
@@ -235,17 +224,6 @@
                         android:src="@drawable/down_arrow2" />
                 </RelativeLayout>
 
-                <!--<EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#00000000"
-                    android:letterSpacing="0.01"
-                    android:layout_marginTop="5dp"
-                    android:paddingLeft="4dp"
-                    android:textSize="14dp"
-                    android:textColor="@color/black"
-                    android:textCursorDrawable="@drawable/cursor_blue_color"
-                    android:fontFamily="@font/roboto_regular" />-->
 
                 <TextView
                     android:layout_width="match_parent"

@@ -28,6 +28,8 @@ import com.example.snagpay.Activity.Activity_SelectCity;
 import com.example.snagpay.Adapter.AdapterWishlist;
 import com.example.snagpay.Adapter.AdapterWishlistRecent;
 import com.example.snagpay.Model.CategoryDetailsModel;
+import com.example.snagpay.Model.RecentViewModel;
+import com.example.snagpay.Model.TitleModel;
 import com.example.snagpay.R;
 import com.example.snagpay.Utils.EndlessRecyclerViewScrollListener;
 import com.example.snagpay.Utils.UserSession;
@@ -43,24 +45,24 @@ import java.util.Map;
 
 public class Fragment_WishListAcivity extends Fragment {
 
-    private RecyclerView resFragWishList, resFragRecentlyViewed;
+    private RecyclerView resFragWishList;
     private AdapterWishlist adapterWishlist;
-    private AdapterWishlistRecent adapterWishlistRecent;
 
     private RelativeLayout rltvWishListTopBar, rltvWishListTopBarDeleteCancel;
     private TextView txtEditWishlistTopBar;
     private ImageView imgCancelWishlishTopBar;
     private TextView countWishlist;
 
-    public ArrayList<CategoryDetailsModel> categoryDetailsModelArrayList = new ArrayList<>();
-    private ArrayList<CategoryDetailsModel> categoryDetailsModelArrayRecent = new ArrayList<>();
+    private boolean textInWish = true;
+
+    public ArrayList<Object> categoryDetailsModelArrayList = new ArrayList<>();
 
     private int editClick = 0;
 
     private UserSession session;
-    private int last_size;
+    /*private int last_size;
     private String Mpage = "1";
-    private LinearLayoutManager linearlayout;
+    private LinearLayoutManager linearlayout;*/
 
     private ArrayList<String> dealID = new ArrayList<>();
 
@@ -72,7 +74,7 @@ public class Fragment_WishListAcivity extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.activity_fragment_wish_list_acivity, container, false);
+        View view = inflater.inflate(R.layout.activity_fragment_wish_list, container, false);
 
         session = new UserSession(getContext());
 
@@ -83,33 +85,33 @@ public class Fragment_WishListAcivity extends Fragment {
         countWishlist = view.findViewById(R.id.countWishlist);
 
         resFragWishList = view.findViewById(R.id.resFragWishList);
-        resFragRecentlyViewed = view.findViewById(R.id.resFragRecentlyViewed);
+
+        getWishlist();
 
 
-        getWishlist("1");
-
-        linearlayout = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        resFragWishList.setLayoutManager(linearlayout);
+        resFragWishList.setLayoutManager(new LinearLayoutManager(getContext()));
 
         adapterWishlist = new AdapterWishlist(getActivity(), categoryDetailsModelArrayList, new AdapterWishlist.OnItemClickListener() {
             @Override
             public void onItemClick(int item) {
 
+                CategoryDetailsModel bean = (CategoryDetailsModel) categoryDetailsModelArrayList.get(item);
+
                 if (editClick == 1) {
 
-                    if (categoryDetailsModelArrayList.get(item).isSelected()) {
-                        categoryDetailsModelArrayList.get(item).setSelected(false);
-                        dealID.remove(categoryDetailsModelArrayList.get(item).getDeal_id());
+                    if (bean.isSelected()) {
+                        bean.setSelected(false);
+                        dealID.remove(bean.getDeal_id());
                     } else {
-                        dealID.add(categoryDetailsModelArrayList.get(item).getDeal_id());
-                        categoryDetailsModelArrayList.get(item).setSelected(true);
+                        dealID.add(bean.getDeal_id());
+                        bean.setSelected(true);
                     }
                     adapterWishlist.notifyDataSetChanged();
 
                 } else {
                     Bundle bundle = new Bundle();
-                    bundle.putString("category_id", categoryDetailsModelArrayList.get(item).getMain_category_id());
-                    bundle.putString("subCategoryId", categoryDetailsModelArrayList.get(item).getCategory_id());
+                    bundle.putString("category_id", bean.getMain_category_id());
+                    bundle.putString("subCategoryId", bean.getCategory_id());
 
                     Intent intent = new Intent(getContext(), Activity_ProductDetails.class);
                     intent.putExtras(bundle);
@@ -123,7 +125,7 @@ public class Fragment_WishListAcivity extends Fragment {
 
         resFragWishList.setAdapter(adapterWishlist);
 
-        resFragWishList.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearlayout) {
+       /* resFragWishList.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearlayout) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
                 Log.e("PageStatus",page + "  " + last_size);
@@ -134,11 +136,9 @@ public class Fragment_WishListAcivity extends Fragment {
 
                 }
             }
-        });
+        });*/
 
-        resFragRecentlyViewed.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapterWishlistRecent = new AdapterWishlistRecent(getActivity(), categoryDetailsModelArrayRecent);
-        resFragRecentlyViewed.setAdapter(adapterWishlistRecent);
+
 
         view.findViewById(R.id.deleteWishlistItems).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -221,7 +221,7 @@ public class Fragment_WishListAcivity extends Fragment {
                             if (jsonObject.getString("ResponseCode").equals("200")){
                                 categoryDetailsModelArrayList.clear();
                                 adapterWishlist.notifyDataSetChanged();
-                                getWishlist("1");
+                                getWishlist();
                             }
 
                             else if(jsonObject.getString("ResponseCode").equals("401")){
@@ -294,7 +294,7 @@ public class Fragment_WishListAcivity extends Fragment {
         Volley.newRequestQueue(getContext()).add(volleyMultipartRequest);
     }
 
-    private void getWishlist(String page) {
+    private void getWishlist() {
         final KProgressHUD progressDialog = KProgressHUD.create(getContext())
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setLabel("Please wait")
@@ -305,7 +305,7 @@ public class Fragment_WishListAcivity extends Fragment {
         //getting the tag from the edittext
 
         //our custom volley request
-        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "get-wishlist?page=" + page,
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "get-wishlist",
                 new Response.Listener<NetworkResponse>() {
                     @SuppressLint("SetTextI18n")
                     @Override
@@ -325,11 +325,11 @@ public class Fragment_WishListAcivity extends Fragment {
 
                                     JSONObject jsonObject1 = data.getJSONObject("wishlist");
                                     JSONArray jsonArray = jsonObject1.getJSONArray("data");
-                                    last_size = jsonObject1.getInt("last_page");
+                               //     last_size = jsonObject1.getInt("last_page");
 
                                     int totalItems = jsonObject1.getInt("total");
-
                                     countWishlist.setText("Wishlist (" + totalItems + ")");
+
 
                                     JSONObject recentViews = data.getJSONObject("recently_viewed");
                                     JSONArray jsonArrayRecent = recentViews.getJSONArray("data");
@@ -352,17 +352,21 @@ public class Fragment_WishListAcivity extends Fragment {
                                         categoryDetailsModelArrayList.add(categoryDetailsModel);
                                     }
 
-                                    Log.e("ree", categoryDetailsModelArrayList.get(0).getTitle() + "--" + categoryDetailsModelArrayList.get(0).getSell_price()
-                                            + categoryDetailsModelArrayList.get(0).getBought());
+
 
                                     Log.e("daaaaata", jsonObject1.toString() + "  --");
 
-                                    adapterWishlist.notifyDataSetChanged();
+
+                                    TitleModel titleModel = new TitleModel();
+                                    titleModel.setTitleWishlist("Recently Viewed");
+
+                                    categoryDetailsModelArrayList.add(titleModel);
+
 
                                     for (int i = 0; i < jsonArrayRecent.length(); i++) {
                                         JSONObject object = jsonArrayRecent.getJSONObject(i);
 
-                                        CategoryDetailsModel categoryDetailsModelRecent = new CategoryDetailsModel();
+                                        RecentViewModel categoryDetailsModelRecent = new RecentViewModel();
                                         categoryDetailsModelRecent.setDeal_image(object.getString("deal_image"));
                                         categoryDetailsModelRecent.setTitle(object.getString("title"));
                                         categoryDetailsModelRecent.setSell_price(object.getString("sell_price"));
@@ -370,11 +374,12 @@ public class Fragment_WishListAcivity extends Fragment {
                                         categoryDetailsModelRecent.setMain_category_id(object.getString("main_category_id"));
                                         categoryDetailsModelRecent.setCategory_id(object.getString("category_id"));
 
-                                        categoryDetailsModelArrayRecent.add(categoryDetailsModelRecent);
+                                        categoryDetailsModelArrayList.add(categoryDetailsModelRecent);
                                     }
 
-                                    Log.e("recentt", categoryDetailsModelArrayRecent.get(0).getTitle() + " -- ");
-                                    adapterWishlistRecent.notifyDataSetChanged();
+
+                                    adapterWishlist.notifyDataSetChanged();
+
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();

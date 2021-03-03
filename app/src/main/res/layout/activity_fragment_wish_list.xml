@@ -85,9 +85,7 @@
     </RelativeLayout>
 
 
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -106,45 +104,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"/>
 
-            <View
-                android:id="@+id/fffgfg"
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/light_gray"
-                app:layout_constraintBottom_toTopOf="@+id/ttxxt"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/resFragWishList"/>
 
-            <TextView
-                android:id="@+id/ttxxt"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:text="Recently Viewed"
-                android:gravity="center_vertical"
-                android:fontFamily="@font/roboto_bold"
-                android:textColor="@color/black"
-                android:textSize="18dp"
-                android:lineSpacingExtra="0.02dp"
-                android:layout_marginStart="10dp"
-                app:layout_constraintBottom_toTopOf="@+id/resFragRecentlyViewed"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fffgfg"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/resFragRecentlyViewed"
-                android:layout_width="match_parent"
-                android:layout_marginBottom="-1dp"
-                android:layout_marginTop="-3dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ttxxt"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-</ScrollView>
 </LinearLayout>
