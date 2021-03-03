@@ -229,29 +229,20 @@ public class Activity_ReviewOrder extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent=new Intent(Activity_ReviewOrder.this,Activity_ShippingAddress.class);
-                intent.putExtra("value", 2);
-                startActivityForResult(intent, 2);// Activity is started with requestCode 2
-
-
 
                 if (disCount.equals("")){
                     disCount = "0";
                 }
 
-               /* if (Integer.parseInt(totalPrice.getText().toString().substring(1)) <= (Integer.parseInt(disCount) + Integer.parseInt(availBucks))) {
+                if (Integer.parseInt(totalPrice.getText().toString().substring(1)) <= (Integer.parseInt(disCount) + Integer.parseInt(availBucks))) {
 
-
-                        Intent intent=new Intent(Activity_ReviewOrder.this,Activity_ShippingAddress.class);
+                    Intent intent=new Intent(Activity_ReviewOrder.this,Activity_ShippingAddress.class);
                         intent.putExtra("value", 2);
                         startActivityForResult(intent, 2);// Activity is started with requestCode 2
 
-
-
-
                 } else if (Integer.parseInt(totalPrice.getText().toString().substring(1)) > (Integer.parseInt(disCount) + Integer.parseInt(availBucks))){
                     Toast.makeText(Activity_ReviewOrder.this, "Required $" + requiredAmount + " bucks", Toast.LENGTH_SHORT).show();
-                }*/
+                }
             }
         });
 
@@ -705,6 +696,8 @@ public class Activity_ReviewOrder extends AppCompatActivity {
                             JSONObject jsonObject = new JSONObject(new String(response.data));
                             Log.e("Response",jsonObject.toString());
                             if (jsonObject.getString("ResponseCode").equals("200")){
+
+
                                 Intent intent = new Intent(Activity_ReviewOrder.this, Activity_ThankYou.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
@@ -763,7 +756,7 @@ public class Activity_ReviewOrder extends AppCompatActivity {
                 }
                 params.put("deal_promo_code_id", mDealPromoId);
                 params.put("total_price", mTotalPrice);
-                params.put("discount", "100");
+                params.put("discount", "0");
                 params.put("snagpay_trade_credit", mSnagpayBucks);
                 params.put("taxes_and_fees", mTaxs);
                 params.put("estimated_shipping", mShipping);
