@@ -87,10 +87,7 @@ public class Fragment_OrderCancelled extends Fragment {
         VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "canceled-order-history", new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
-
-
                 progressDialog.dismiss();
-
                 try {
 
                     JSONObject jsonObject = new JSONObject(new String(response.data));
@@ -119,10 +116,7 @@ public class Fragment_OrderCancelled extends Fragment {
 
                         Toast.makeText(getContext(),jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
 
-                    }
-
-                    else if(jsonObject.getString("ResponseCode").equals("401")){
-
+                    } else if(jsonObject.getString("ResponseCode").equals("401")){
                         session.logout();
                         Intent intent = new Intent(getContext(), Activity_SelectCity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -143,8 +137,7 @@ public class Fragment_OrderCancelled extends Fragment {
                 }
 
             }
-        },
-                new Response.ErrorListener() {
+        }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();

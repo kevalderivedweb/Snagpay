@@ -28,7 +28,6 @@ public class AdapterWishlist extends  RecyclerView.Adapter<RecyclerView.ViewHold
     private Context mContext;
     private ArrayList<Object> categoryDetailsModelArrayList;
 
-    private CategoryDetailsModel bean;
 
     public static final int TITLE = 0;
     public static final int RECENT = 1;
@@ -89,7 +88,7 @@ public class AdapterWishlist extends  RecyclerView.Adapter<RecyclerView.ViewHold
 
             WishlistVIewHolder viewholder = (WishlistVIewHolder) holder;
 
-            bean = (CategoryDetailsModel) categoryDetailsModelArrayList.get(position);
+            CategoryDetailsModel  bean = (CategoryDetailsModel) categoryDetailsModelArrayList.get(position);
 
             Picasso.get().load(bean.getDeal_image()).into(viewholder.imgWishlist);
 
@@ -142,7 +141,6 @@ public class AdapterWishlist extends  RecyclerView.Adapter<RecyclerView.ViewHold
 
     private class TitleViewHolder extends RecyclerView.ViewHolder {
         TextView ttxxt;
-
         TitleViewHolder(View itemView) {
             super(itemView);
 
@@ -172,12 +170,21 @@ public class AdapterWishlist extends  RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public void seleceAll(int i){
-        bean.setSelected(true);
-        notifyDataSetChanged();
+        Object item = categoryDetailsModelArrayList.get(i);
+        if (item instanceof CategoryDetailsModel) {
+            CategoryDetailsModel bean = (CategoryDetailsModel) categoryDetailsModelArrayList.get(i);
+            bean.setSelected(true);
+            notifyDataSetChanged();
+        }
+
     }
     public void deSelectAll(int i){
-        bean.setSelected(false);
-        notifyDataSetChanged();
+        Object item = categoryDetailsModelArrayList.get(i);
+        if (item instanceof CategoryDetailsModel) {
+            CategoryDetailsModel bean = (CategoryDetailsModel) categoryDetailsModelArrayList.get(i);
+            bean.setSelected(false);
+            notifyDataSetChanged();
+        }
     }
 
 

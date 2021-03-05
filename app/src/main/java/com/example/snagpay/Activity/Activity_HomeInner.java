@@ -49,7 +49,7 @@ public class Activity_HomeInner extends AppCompatActivity {
 
                 findViewById(R.id.openMap).setBackgroundResource(R.drawable.list_view);
 
-                Fragment_Map mapFragment = new Fragment_Map();
+                Fragment_Map mapFragment = new Fragment_Map(category_id);
                 replaceFragment(R.id.fragHomeMap, mapFragment, "MapFrag");
 
             }

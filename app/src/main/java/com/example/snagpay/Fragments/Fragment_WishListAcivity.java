@@ -109,6 +109,7 @@ public class Fragment_WishListAcivity extends Fragment {
                     adapterWishlist.notifyDataSetChanged();
 
                 } else {
+                    
                     Bundle bundle = new Bundle();
                     bundle.putString("category_id", bean.getMain_category_id());
                     bundle.putString("subCategoryId", bean.getCategory_id());
