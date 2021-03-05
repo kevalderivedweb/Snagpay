@@ -237,7 +237,7 @@ public class Activity_SnagpayWallet extends AppCompatActivity {
 
                                 DetailPaymentModel detailPaymentModel = new DetailPaymentModel();
                                 detailPaymentModel.setCardType("Credit Card");
-                                detailPaymentModel.setOrderId("123-12345645-4565");
+                                detailPaymentModel.setOrderId(object.getString("trade_credit_transaction_code"));
 
                                 detailPaymentModels.add(detailPaymentModel);
 

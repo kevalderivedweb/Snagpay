@@ -236,7 +236,7 @@ public class Activity_ReviewOrder extends AppCompatActivity {
 
                 if (Integer.parseInt(totalPrice.getText().toString().substring(1)) <= (Integer.parseInt(disCount) + Integer.parseInt(availBucks))) {
 
-                    Intent intent=new Intent(Activity_ReviewOrder.this,Activity_ShippingAddress.class);
+                    Intent intent = new Intent(Activity_ReviewOrder.this, Activity_ShippingAddress.class);
                         intent.putExtra("value", 2);
                         startActivityForResult(intent, 2);// Activity is started with requestCode 2
 
