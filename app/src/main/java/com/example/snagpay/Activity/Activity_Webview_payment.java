@@ -48,7 +48,7 @@ public class Activity_Webview_payment extends AppCompatActivity {
 
         webview.getSettings().setJavaScriptEnabled(true);
         webview.getSettings().setLoadWithOverviewMode(true);
-   //     webview.getSettings().setUseWideViewPort(true);
+
         webview.getSettings().setBuiltInZoomControls(true);
         webview.getSettings().setPluginState(WebSettings.PluginState.ON);
         webview.setWebViewClient(new HelloWebViewClient());
@@ -60,12 +60,8 @@ public class Activity_Webview_payment extends AppCompatActivity {
 
         Log.e("textxttx", urlPdf + "--");
 
-      /*  webview_payment.getSettings().setJavaScriptEnabled(true);
-
-        webview_payment.loadUrl(urlPdf);*/
 
     }
-
 
 
 

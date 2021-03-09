@@ -257,9 +257,9 @@ public class Activity_ReviewOrder extends AppCompatActivity {
     {
         super.onActivityResult(requestCode, resultCode, data);
         // check if the request code is same as what is passed  here it is 2
-        if(requestCode==2)
+        if(requestCode == 2)
         {
-            mShippingAddressId =data.getStringExtra("MESSAGE");
+            mShippingAddressId = data.getStringExtra("MESSAGE");
             CreateOrder();
         }
     }
