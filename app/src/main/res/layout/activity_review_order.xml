@@ -508,6 +508,11 @@
                     android:layout_alignParentRight="true"/>
             </RelativeLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="vertical">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -593,11 +598,8 @@
                     android:layout_marginTop="15dp"
                     android:text="Paypal"/>
             </RelativeLayout>
+        </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/light_gray"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"

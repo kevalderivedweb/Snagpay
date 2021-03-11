@@ -43,6 +43,7 @@ public class AdapterWishlist extends  RecyclerView.Adapter<RecyclerView.ViewHold
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         LayoutInflater inflater = LayoutInflater.from(mContext);
 
         if (viewType == TITLE){
@@ -59,11 +60,11 @@ public class AdapterWishlist extends  RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
         int itemType = getItemViewType(position);
-
 
 
         if(itemType == TITLE){
