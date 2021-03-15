@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
@@ -53,6 +54,7 @@ public class Activity_GiveAsGift extends AppCompatActivity {
 
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     private String lastChar = " ";
+    private RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,9 @@ public class Activity_GiveAsGift extends AppCompatActivity {
         setContentView(R.layout.activity_give_as_gift);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
         session = new UserSession(Activity_GiveAsGift.this);
+
+        requestQueue = Volley.newRequestQueue(this);//Creating the RequestQueue
+
 
         radioGroupGift = findViewById(R.id.radioGroupGift);
         lnrGiftEmail = findViewById(R.id.lnrGiftEmail);
@@ -203,7 +208,6 @@ public class Activity_GiveAsGift extends AppCompatActivity {
 
     }
 
-
     public void CreateOrder(){
         final KProgressHUD progressDialog = KProgressHUD.create(Activity_GiveAsGift.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
@@ -285,11 +289,11 @@ public class Activity_GiveAsGift extends AppCompatActivity {
                 Map<String, String> params = new HashMap<>();
 
 
-                params.put("deal_option_ids", dealOptionIdCart);
+                params.put("deal_option_ids[" + dealOptionIdCart + "]", "1");
                 params.put("shipping_address_id", shipping_address_id);
                 params.put("total_price", priceCart);
                 params.put("discount", "0");
-                params.put("snagpay_bucks", "0");
+                params.put("snagpay_bucks", priceCart);
                 params.put("give_as_a_gift", "1");
                 params.put("gift_type", giftType);
 
