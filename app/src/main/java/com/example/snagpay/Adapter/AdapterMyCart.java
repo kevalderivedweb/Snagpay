@@ -65,7 +65,7 @@ public class AdapterMyCart extends RecyclerView.Adapter<AdapterMyCart.Viewholder
             @Override
             public void onClick(View v) {
 
-                increment(holder);
+                increment(holder, position);
                 mListener.onItemClickPlus(position, holder.txtCountProducts.getText().toString());
 
             }
@@ -133,9 +133,12 @@ public class AdapterMyCart extends RecyclerView.Adapter<AdapterMyCart.Viewholder
         void onItemClickSaveLater(String dealId);
     }
 
-    public void increment(Viewholder myViewHolder) {
+    public void increment(Viewholder myViewHolder, int position) {
         quantity = Integer.parseInt(myViewHolder.txtCountProducts.getText().toString());
-        quantity++;
+
+        if (Integer.parseInt(myViewHolder.txtCountProducts.getText().toString()) < Integer.parseInt(categoryDetailsModels.get(position).getAvailable_stock_qty())) {
+            quantity++;
+        }
         myViewHolder.txtCountProducts.setText(String.valueOf(quantity));
 
     }

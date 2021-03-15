@@ -100,7 +100,7 @@ public class Fragment_OrderCompleted extends Fragment {
 
                     if (jsonObject.getString("ResponseCode").equals("200")){
 
-                        JSONObject jsonObject1 = jsonObject.getJSONObject("orders");
+                        JSONObject jsonObject1 = jsonObject.getJSONObject("data");
 
                         JSONArray jsonArray = jsonObject1.getJSONArray("data");
 

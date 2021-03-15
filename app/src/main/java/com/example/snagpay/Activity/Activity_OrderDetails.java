@@ -145,7 +145,7 @@ public class Activity_OrderDetails extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("order_id", orderId);
+                params.put("e_gift_card_id", orderId);
 
                 return params;
             }
@@ -185,7 +185,7 @@ public class Activity_OrderDetails extends AppCompatActivity {
         //getting the tag from the edittext
 
         //our custom volley request
-        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "order-details?order_id=" + orderId, new Response.Listener<NetworkResponse>() {
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "order-details?e_gift_card_id=" + orderId, new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
 
@@ -199,18 +199,18 @@ public class Activity_OrderDetails extends AppCompatActivity {
 
                     if (jsonObject.getString("ResponseCode").equals("200")){
 
-                        JSONObject jsonObject1 = jsonObject.getJSONObject("orders");
+                        JSONObject jsonObject1 = jsonObject.getJSONObject("data");
 
                         txtOrderName.setText(jsonObject1.getString("title"));
-                        priceOrder.setText("$" + jsonObject1.getString("sub_total_amount"));
+                        priceOrder.setText("$" + jsonObject1.getString("amount"));
                         nameOrder.setText(jsonObject1.getString("first_name") + " " + jsonObject1.getString("last_name"));
                         addressPin.setText(jsonObject1.getString("address") + " - " + jsonObject1.getString("postcode"));
                         phoneNo.setText(jsonObject1.getString("phone_no"));
-                        priceOrderDet.setText("$" + jsonObject1.getString("sub_total_amount"));
-                        bucks.setText("$" + jsonObject1.getString("paid_trade_credit"));
-                        taxAmount.setText("$" + jsonObject1.getString("taxes_and_fees"));
+                        priceOrderDet.setText("$" + jsonObject1.getString("amount"));
+                        bucks.setText("$" + jsonObject1.getString("amount"));
+                      /*  taxAmount.setText("$" + jsonObject1.getString("taxes_and_fees"));
                         amountShipping.setText("$" + jsonObject1.getString("estimated_shipping"));
-                        totalPaidAmount.setText("$" + jsonObject1.getString("paid_amount"));
+                        totalPaidAmount.setText("$" + jsonObject1.getString("paid_amount"));*/
 
                         Picasso.get().load(jsonObject1.getString("deal_image")).into(imgOrderDetails);
 

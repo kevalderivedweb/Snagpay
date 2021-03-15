@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Activity.Activity_ReviewOrder"
+    android:layout_width="match_parent">
+
+<LinearLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_above="@+id/okk"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activity.Activity_ReviewOrder"
     android:focusableInTouchMode="true">
     
     <RelativeLayout
@@ -40,12 +46,43 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:padding="7dp">
+
+                <ImageView
+                    android:id="@+id/as"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/dollar_logo"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"/>
+
+                <TextView
+                    android:id="@+id/availBucksInWallet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@+id/as"
+                    android:layout_marginLeft="5dp"
+                    android:paddingHorizontal="12dp"
+                    android:textSize="18dp"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:background="@drawable/txt_5dp_round_shape" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/light_gray"/>
 
             <RelativeLayout
                 android:id="@+id/singleItems"
@@ -293,6 +330,7 @@
                 android:textColor="@color/black"
                 android:layout_marginLeft="10dp"
                 android:fontFamily="@font/roboto_medium"
+                android:visibility="gone"
                 android:textSize="14dp"
                 android:layout_marginTop="10dp"
                 android:letterSpacing="0.03"
@@ -302,6 +340,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
+                android:visibility="gone"
                 android:layout_marginTop="10dp"
                 android:layout_marginHorizontal="10dp">
 
@@ -372,6 +411,7 @@
                 android:text="Check Available Bucks"
                 android:textColor="@color/white"
                 android:textAllCaps="false"
+                android:visibility="gone"
                 android:textSize="14dp"
                 android:id="@+id/check"
                 android:layout_marginTop="10dp"
@@ -379,11 +419,6 @@
                 android:letterSpacing="0.02"
                 android:background="@drawable/button_5dp_rounded"/>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginTop="15dp"
-                android:background="@color/light_gray"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -396,7 +431,7 @@
                     android:layout_marginLeft="10dp"
                     android:textSize="14dp"
                     android:letterSpacing="0.03"
-                    android:text="Snagpay Bucks"/>
+                    android:text="Snagpay Bucks Use"/>
 
                 <TextView
                     android:id="@+id/bucksSnagpay"
@@ -411,13 +446,11 @@
                     android:layout_alignParentRight="true"/>
             </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/light_gray"/>
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="50dp">
                 <TextView
                     android:layout_width="wrap_content"
@@ -433,7 +466,6 @@
                     android:id="@+id/taxAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$20"
                     android:letterSpacing="0.02"
                     android:textSize="14dp"
                     android:layout_centerVertical="true"
@@ -443,13 +475,11 @@
                     android:layout_alignParentRight="true"/>
             </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/light_gray"/>
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="50dp">
                 <TextView
                     android:layout_width="wrap_content"
@@ -465,7 +495,6 @@
                     android:id="@+id/shippingAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$30"
                     android:letterSpacing="0.02"
                     android:textSize="14dp"
                     android:layout_centerVertical="true"
@@ -475,13 +504,10 @@
                     android:layout_alignParentRight="true"/>
             </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/light_gray"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="50dp">
                 <TextView
                     android:layout_width="wrap_content"
@@ -498,7 +524,6 @@
                     android:id="@+id/payableAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$50"
                     android:letterSpacing="0.02"
                     android:textSize="14dp"
                     android:layout_centerVertical="true"
@@ -600,29 +625,63 @@
             </RelativeLayout>
         </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray"/>
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:padding="10dp"
-                android:layout_marginBottom="5dp">
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="10dp"
+                android:orientation="horizontal">
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnCompletePurchase"
+                <CheckBox
+                    android:id="@+id/commitToPay"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="-5dp"
+                    android:layout_width="wrap_content"
+                    android:buttonTint="@color/green"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Complete Purcahse"
-                    android:textColor="@color/white"
-                    android:textAllCaps="false"
-                    android:textSize="16dp"
-                    android:background="@color/blue"
+                    android:textColor="@color/black"
+                    android:textSize="14dp"
+                    android:layout_marginLeft="-8dp"
+                    android:text="I paid sales tax, tip and shipping costs to the selling merchant."
                     android:layout_gravity="center"/>
+
             </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
 </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/okk"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:padding="10dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnCompletePurchase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Complete Purcahse"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:textSize="16dp"
+                android:background="@color/blue"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</RelativeLayout>

@@ -26,6 +26,7 @@ import com.example.snagpay.Adapter.ExpListAdapterPaymentRecent;
 import com.example.snagpay.Model.CategoryDetailsModel;
 import com.example.snagpay.Model.DetailPaymentModel;
 import com.example.snagpay.Model.PaymentModel;
+import com.example.snagpay.Model.PaymentRecent;
 import com.example.snagpay.R;
 import com.example.snagpay.Utils.UserSession;
 import com.kaopiz.kprogresshud.KProgressHUD;
@@ -42,7 +43,7 @@ public class Activity_SnagpayWallet extends AppCompatActivity {
 
     private ExpListAdapterPaymentRecent listAdapterPayment;
     private ExpandableListView expListViewPayment;
-    private ArrayList<PaymentModel> paymentModelArrayList = new ArrayList<>();
+    private ArrayList<PaymentRecent> paymentModelArrayList = new ArrayList<>();
 
     private RelativeLayout rltvRequestStatement;
     private UserSession session;
@@ -111,10 +112,6 @@ public class Activity_SnagpayWallet extends AppCompatActivity {
         });
 
 
-
-      //  prepareListData();
-
-        // Listview on child click listener
         expListViewPayment.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
             @Override
@@ -126,66 +123,6 @@ public class Activity_SnagpayWallet extends AppCompatActivity {
             }
         });
 
-    //    getWalletDetails();
-
-    }
-
-
-    private void prepareListData() {
-
-        for (int i=0; i<8; i++){
-            PaymentModel paymentModel = new PaymentModel();
-            paymentModel.setStatusPayment("Paid on SNAGpay");
-            paymentModel.setDate("18 Sept 2020, 10:04 AM");
-            paymentModel.setPrice("$120");
-            paymentModel.setCard("Visa card");
-
-            ArrayList<DetailPaymentModel> detailPaymentModels = new ArrayList<>();
-
-            DetailPaymentModel detailPaymentModel = new DetailPaymentModel();
-            detailPaymentModel.setCardType("Credit Card");
-            detailPaymentModel.setOrderId("123-12345645-4565");
-
-            detailPaymentModels.add(detailPaymentModel);
-
-            paymentModel.setDetailPaymentModels(detailPaymentModels);
-            paymentModelArrayList.add(paymentModel);
-        }
-    }
-
-    private void setListViewHeight(ExpandableListView listView,
-                                   int group) {
-        ExpandableListAdapter listAdapter = (ExpandableListAdapter) listView.getExpandableListAdapter();
-        int totalHeight = 0;
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(),
-                View.MeasureSpec.EXACTLY);
-        for (int i = 0; i < listAdapter.getGroupCount(); i++) {
-            View groupItem = listAdapter.getGroupView(i, false, null, listView);
-            groupItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-
-            totalHeight += groupItem.getMeasuredHeight();
-
-            if (((listView.isGroupExpanded(i)) && (i != group))
-                    || ((!listView.isGroupExpanded(i)) && (i == group))) {
-                for (int j = 0; j < listAdapter.getChildrenCount(i); j++) {
-                    View listItem = listAdapter.getChildView(i, j, false, null,
-                            listView);
-                    listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-
-                    totalHeight += listItem.getMeasuredHeight();
-
-                }
-            }
-        }
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        int height = totalHeight
-                + (listView.getDividerHeight() * (listAdapter.getGroupCount() - 1));
-        if (height < 10)
-            height = 200;
-        params.height = height;
-        listView.setLayoutParams(params);
-        listView.requestLayout();
 
     }
 
@@ -226,23 +163,23 @@ public class Activity_SnagpayWallet extends AppCompatActivity {
                             for (int i = 0 ; i<sub_transaction.length() ; i++){
                                 JSONObject object = sub_transaction.getJSONObject(i);
 
-                                PaymentModel paymentModel = new PaymentModel();
-                                paymentModel.setStatusPayment(object.getString("transaction_title"));
-                                paymentModel.setDate(object.getString("created_at"));
-                                paymentModel.setPrice("$ "+object.getString("trade_credit"));
-                                paymentModel.setCard(object.getString("transaction_type"));
+                                PaymentRecent paymentRecent = new PaymentRecent();
+                                paymentRecent.setTransaction_title(object.getString("transaction_title"));
+                                paymentRecent.setTransaction_type(object.getString("transaction_type"));
+                                paymentRecent.setDatetime(object.getString("datetime"));
+                                paymentRecent.setWallet_credit("$"+ object.getString("wallet_credit"));
 
 
                                 ArrayList<DetailPaymentModel> detailPaymentModels = new ArrayList<>();
 
                                 DetailPaymentModel detailPaymentModel = new DetailPaymentModel();
                                 detailPaymentModel.setCardType("Credit Card");
-                                detailPaymentModel.setOrderId(object.getString("trade_credit_transaction_code"));
+                                detailPaymentModel.setE_wallet_tran_code(object.getString("e_wallet_tran_code"));
 
                                 detailPaymentModels.add(detailPaymentModel);
 
-                                paymentModel.setDetailPaymentModels(detailPaymentModels);
-                                paymentModelArrayList.add(paymentModel);
+                                paymentRecent.setDetailPaymentModels(detailPaymentModels);
+                                paymentModelArrayList.add(paymentRecent);
 
                             }
 
