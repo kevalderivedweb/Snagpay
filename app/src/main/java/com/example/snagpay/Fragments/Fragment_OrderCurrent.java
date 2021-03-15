@@ -100,7 +100,7 @@ public class Fragment_OrderCurrent extends Fragment {
 
                     if (jsonObject.getString("ResponseCode").equals("200")){
 
-                        JSONObject jsonObject1 = jsonObject.getJSONObject("orders");
+                        JSONObject jsonObject1 = jsonObject.getJSONObject("data");
 
                         JSONArray jsonArray = jsonObject1.getJSONArray("data");
 
@@ -109,7 +109,7 @@ public class Fragment_OrderCurrent extends Fragment {
 
                             OrderModel orderModel = new OrderModel();
                             orderModel.setDeal_image(jsonObject11.getString("deal_image"));
-                            orderModel.setOrder_id(jsonObject11.getString("order_id"));
+                            orderModel.setOrder_id(jsonObject11.getString("e_gift_card_id"));
                             orderModel.setBought(jsonObject11.getString("bought"));
                             orderModel.setSell_price(jsonObject11.getString("sell_price"));
                             orderModel.setTitle(jsonObject11.getString("title"));
@@ -133,7 +133,6 @@ public class Fragment_OrderCurrent extends Fragment {
                     }
 
                 } catch (Exception e) {
-                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     // Toast.makeText(Activity_ReviewOrder.this, "No Data", Toast.LENGTH_SHORT).show();
 
                             /*session.logout();

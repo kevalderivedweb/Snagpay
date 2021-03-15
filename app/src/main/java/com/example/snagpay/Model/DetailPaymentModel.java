@@ -3,7 +3,7 @@ package com.example.snagpay.Model;
 public class DetailPaymentModel {
 
     private String cardType;
-    private  String orderId;
+    private String e_wallet_tran_code;;
 
     public String getCardType() {
         return cardType;
@@ -13,11 +13,11 @@ public class DetailPaymentModel {
         this.cardType = cardType;
     }
 
-    public String getOrderId() {
-        return orderId;
+    public String getE_wallet_tran_code() {
+        return e_wallet_tran_code;
     }
 
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
+    public void setE_wallet_tran_code(String e_wallet_tran_code) {
+        this.e_wallet_tran_code = e_wallet_tran_code;
     }
 }

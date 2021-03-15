@@ -8,6 +8,15 @@ public class DealOptionsListModel {
     String sell_price;
     String deal_option_description;
     String deal_option_code;
+    String available_stock_qty;
+
+    public String getAvailable_stock_qty() {
+        return available_stock_qty;
+    }
+
+    public void setAvailable_stock_qty(String available_stock_qty) {
+        this.available_stock_qty = available_stock_qty;
+    }
 
     public String getDeal_option_code() {
         return deal_option_code;

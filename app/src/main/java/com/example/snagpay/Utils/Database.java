@@ -21,6 +21,7 @@ public class Database extends SQLiteOpenHelper {
     private static final String KEY_SELL_PRICE = "sell_price";
     private static final String KEY_BOUGHT = "bought";
     private static final String KEY_QUANTITY = "quantity";
+    private static final String KEY_AVAILABLE_STOCKS = "available_stock_qty";
     private static final String KEY_DEAL_OPTION_ID = "optionid";
     private final Context mContext;
 
@@ -38,6 +39,7 @@ public class Database extends SQLiteOpenHelper {
                 + KEY_DEAL_OPTION_ID + " TEXT ,"
                 + KEY_SELL_PRICE + " TEXT ,"
                 + KEY_BOUGHT + " TEXT ,"
+                + KEY_AVAILABLE_STOCKS + " TEXT ,"
                 + KEY_QUANTITY + " TEXT"+ ")";
         db.execSQL(CREATE_TABLE);
     }
@@ -49,7 +51,7 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public boolean InsertDetails(String deal_image, String title, String deal_id, String dealOptionId,
-                                 String sell_price, String bought, String quantity) {
+                                 String sell_price, String bought, String availStocks, String quantity) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -60,6 +62,7 @@ public class Database extends SQLiteOpenHelper {
             values.put(KEY_DEAL_OPTION_ID, dealOptionId);
             values.put(KEY_SELL_PRICE, sell_price);
             values.put(KEY_BOUGHT, bought);
+            values.put(KEY_AVAILABLE_STOCKS, availStocks);
             values.put(KEY_QUANTITY, quantity);
             db.insert(TABLE_CART, null, values);
             db.close();
@@ -85,7 +88,8 @@ public class Database extends SQLiteOpenHelper {
                 model.setShow_deal_option_id(cursor.getString(3));
                 model.setSell_price(cursor.getString(4));
                 model.setBought(cursor.getString(5));
-                model.setQuantity(cursor.getString(6));
+                model.setAvailable_stock_qty(cursor.getString(6));
+                model.setQuantity(cursor.getString(7));
                 detailsModelArrayList.add(model);
 
             }while (cursor.moveToNext());

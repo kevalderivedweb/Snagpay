@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -38,6 +39,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,6 +53,7 @@ public class Activity_ReviewOrder extends AppCompatActivity {
 
     private ImageView imageDeal, orderMinus, orderPlus;
     private TextView titleDeal, priceOrder, txtOrderCount;
+    private CheckBox commitToPay;
 
     private EditText editPromo;
     private TextView checkPromoCode, promoCode, totalPrice, bucksSnagpay, taxAmount, shippingAmount, payableAmount;
@@ -75,7 +78,7 @@ public class Activity_ReviewOrder extends AppCompatActivity {
     private String dealOptionId;
     private int quantity = 1;
     private String requiredAmount;
-    private String availBucks;
+
 
     private String disCount = "";
 
@@ -90,6 +93,9 @@ public class Activity_ReviewOrder extends AppCompatActivity {
     private String mShipping = "";
     private String mTotalAmountPay = "";
     private String mShippingAddressId = "";
+
+    private TextView availBucksInWallet;
+    private String bucksAvail;
 
 
     @Override
@@ -134,6 +140,8 @@ public class Activity_ReviewOrder extends AppCompatActivity {
         orderMinus = findViewById(R.id.orderMinus);
         orderPlus = findViewById(R.id.orderPlus);
         txtOrderCount = findViewById(R.id.txtOrderCount);
+        commitToPay = findViewById(R.id.commitToPay);
+        availBucksInWallet = findViewById(R.id.availBucksInWallet);
 
 
         orderMinus.setOnClickListener(new View.OnClickListener() {
@@ -234,13 +242,20 @@ public class Activity_ReviewOrder extends AppCompatActivity {
                     disCount = "0";
                 }
 
-                if (Integer.parseInt(totalPrice.getText().toString().substring(1)) <= (Integer.parseInt(disCount) + Integer.parseInt(availBucks))) {
+                if (Integer.parseInt(totalPrice.getText().toString().substring(1)) <= (Integer.parseInt(disCount) +
+                        Integer.parseInt(bucksAvail))) {
+                    
+                    if (commitToPay.isChecked()) {
 
-                    Intent intent=new Intent(Activity_ReviewOrder.this,Activity_ShippingAddress.class);
+                        Intent intent = new Intent(Activity_ReviewOrder.this, Activity_ShippingAddress.class);
                         intent.putExtra("value", 2);
                         startActivityForResult(intent, 2);// Activity is started with requestCode 2
+                    } else {
+                        Toast.makeText(Activity_ReviewOrder.this, "Please tick the box", Toast.LENGTH_SHORT).show();
+                    }
 
-                } else if (Integer.parseInt(totalPrice.getText().toString().substring(1)) > (Integer.parseInt(disCount) + Integer.parseInt(availBucks))){
+                } else if (Integer.parseInt(totalPrice.getText().toString().substring(1)) > (Integer.parseInt(disCount) +
+                        Integer.parseInt(availBucksInWallet.getText().toString()))){
                     Toast.makeText(Activity_ReviewOrder.this, "Required $" + requiredAmount + " bucks", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -257,11 +272,14 @@ public class Activity_ReviewOrder extends AppCompatActivity {
     {
         super.onActivityResult(requestCode, resultCode, data);
         // check if the request code is same as what is passed  here it is 2
-        if(requestCode==2)
-        {
-            mShippingAddressId =data.getStringExtra("MESSAGE");
-            CreateOrder();
+        if (data != null) {
+            if (requestCode == 2) {
+                mShippingAddressId = data.getStringExtra("MESSAGE");
+                CreateOrder();
+            }
         }
+
+
     }
 
     public void AddWalletDetails(String amount){
@@ -384,10 +402,15 @@ public class Activity_ReviewOrder extends AppCompatActivity {
                     Log.e("Response",jsonObject.toString());
                     if (jsonObject.getString("ResponseCode").equals("200")){
 
-                      /*  credit.setVisibility(View.VISIBLE);
-                        credit.setText("Available Credit in your wallet $ " + jsonObject.getJSONObject("data").getString("trade_credit"));*/
 
-                        bucksSnagpay.setText("$" + jsonObject.getJSONObject("data").getString("trade_credit"));
+                        String number = jsonObject.getJSONObject("data").getString("trade_credit");
+                        double amount = Double.parseDouble(number);
+                        DecimalFormat formatter = new DecimalFormat("#,###,###");
+                        String formatted = formatter.format(amount);
+                        availBucksInWallet.setText(formatted);
+
+                        bucksAvail = jsonObject.getJSONObject("data").getString("trade_credit");
+
 
                         Log.e("sdsdsd", "$" + jsonObject.getJSONObject("data").getString("trade_credit"));
 
@@ -489,7 +512,7 @@ public class Activity_ReviewOrder extends AppCompatActivity {
                     orderModelArrayList.clear();
 
                     JSONObject jsonObject = new JSONObject(new String(response.data));
-                    Log.e("Response",jsonObject.toString());
+                    Log.e("ResponseDetails",jsonObject.toString());
                     if (jsonObject.getString("ResponseCode").equals("200")){
 
                         try {
@@ -518,10 +541,11 @@ public class Activity_ReviewOrder extends AppCompatActivity {
                             }
 
                              mTotalPrice = data.getString("total_price");
-                             mSnagpayBucks = data.getString("snagpay_trade_credit").substring(1);
-                             mTaxs = data.getString("tax");
-                             mShipping = data.getString("shipping_cost");
-                             mTotalAmountPay = data.getString("total_amount_payable");
+                          //   mSnagpayBucks = data.getString("snagpay_trade_credit").substring(1);
+                             bucksSnagpay.setText("$" + data.getString("snagpay_bucks"));
+                        //     mTaxs = data.getString("tax");
+                         //    mShipping = data.getString("shipping_cost");
+                         //    mTotalAmountPay = data.getString("total_amount_payable");
 
 
 
@@ -532,29 +556,29 @@ public class Activity_ReviewOrder extends AppCompatActivity {
 
 
                             totalPrice.setText("$" + data.getString("total_price"));
-                            taxAmount.setText("$" + data.getString("tax"));
-                            shippingAmount.setText("$" + data.getString("shipping_cost"));
-                            payableAmount.setText("$" + data.getString("total_amount_payable"));
+                         //   taxAmount.setText("$" + data.getString("tax"));
+                         //   shippingAmount.setText("$" + data.getString("shipping_cost"));
+                        //    payableAmount.setText("$" + data.getString("total_amount_payable"));
 
-                            if (!data.getString("required_snagpay_trade_credit").equals("0")) {
-                                requiredAmount = data.getString("required_snagpay_trade_credit");
+                            if (!data.getString("required_snagpay_bucks").equals("0")) {
+                                requiredAmount = data.getString("required_snagpay_bucks");
                                 ed_txt.setText(requiredAmount);
                             }
 
-                            availBucks = data.getString("snagpay_trade_credit").substring(1);
+                          /*  availBucks = data.getString("snagpay_trade_credit").substring(1);
 
                             Log.e("sdfsfsd", Integer.parseInt(data.getString("total_price")) + "---" +
-                                    availBucks);
+                                    availBucks);*/
 
 
-                            if (Integer.parseInt(data.getString("total_price")) > Integer.parseInt(data.getString("snagpay_trade_credit").substring(1))){
+                           /* if (Integer.parseInt(data.getString("total_price")) > Integer.parseInt(data.getString("snagpay_trade_credit").substring(1))){
                                 bucksSnagpay.setTextColor(getResources().getColor(R.color.red));
 
                                 Toast.makeText(Activity_ReviewOrder.this, "red", Toast.LENGTH_SHORT).show();
                             } else {
                                 bucksSnagpay.setTextColor(getResources().getColor(R.color.green));
                                 Toast.makeText(Activity_ReviewOrder.this, "green", Toast.LENGTH_SHORT).show();
-                            }
+                            }*/
 
                             mDiscount = data.getString("discount");
                             if (!stringPromo.equals("")){
@@ -757,10 +781,10 @@ public class Activity_ReviewOrder extends AppCompatActivity {
                 params.put("deal_promo_code_id", mDealPromoId);
                 params.put("total_price", mTotalPrice);
                 params.put("discount", "0");
-                params.put("snagpay_trade_credit", mSnagpayBucks);
-                params.put("taxes_and_fees", mTaxs);
-                params.put("estimated_shipping", mShipping);
-                params.put("total_amount_payable", mTotalAmountPay);
+                params.put("snagpay_bucks", bucksSnagpay.getText().toString());
+             //   params.put("taxes_and_fees", mTaxs);
+             //   params.put("estimated_shipping", mShipping);
+              //  params.put("total_amount_payable", mTotalAmountPay);
                 params.put("shipping_address_id", mShippingAddressId);
                 return params;
             }

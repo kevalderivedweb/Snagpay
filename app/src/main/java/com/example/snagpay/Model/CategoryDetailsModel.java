@@ -38,9 +38,18 @@ public class CategoryDetailsModel {
     String bought;
     String total_rating;
     String is_wishlist;
+    String available_stock_qty;
 
     boolean isSelected;
     private String quantity;
+
+    public String getAvailable_stock_qty() {
+        return available_stock_qty;
+    }
+
+    public void setAvailable_stock_qty(String available_stock_qty) {
+        this.available_stock_qty = available_stock_qty;
+    }
 
     public boolean isSelected() {
         return isSelected;

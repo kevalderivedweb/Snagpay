@@ -7,41 +7,48 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
-    <ImageView
-        android:id="@+id/imgNotificationAdapter"
-        android:layout_width="70dp"
-        android:layout_centerVertical="true"
-        android:layout_height="70dp"
-        android:src="@drawable/deal_day"/>
+        <ImageView
+            android:id="@+id/imgNotifiy"
+            android:layout_width="70dp"
+            android:layout_centerVertical="true"
+            android:layout_height="70dp"
+            android:src="@drawable/deal_day"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/imgNotificationAdapter"
-        android:layout_marginTop="3dp"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/imgNotifiy"
         android:layout_marginStart="10dp"
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/titleNotify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Deal of the Day"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:letterSpacing="0.02"
             android:textColor="@color/black"
             android:fontFamily="@font/roboto_medium"
             android:textSize="15dp"/>
 
         <TextView
+            android:id="@+id/descripNotify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="24-Hours to save BIG on this hot deal."
             android:textColor="@color/black"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:layout_marginTop="3dp"
             android:letterSpacing="0.02"
             android:fontFamily="@font/roboto_regular"
             android:textSize="13dp"/>
 
         <TextView
+            android:id="@+id/dateNotify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="3 hour ago"

@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
             <Spinner
-                android:id="@+id/spinnerSelectYearHistory"
+                android:id="@+id/spinnerYearHistory"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@drawable/spinner_list_city" />
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
             <Spinner
-                android:id="@+id/spinnerSelectMonthHistory"
+                android:id="@+id/spinnerMonthHistory"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@drawable/spinner_list_city" />
@@ -83,7 +83,7 @@
                 android:layout_height="80dp" >
 
                 <androidx.appcompat.widget.AppCompatRadioButton
-                    android:id="@+id/radio0"
+                    android:id="@+id/radioView"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:scaleX="0.5"
@@ -92,7 +92,7 @@
                     android:checked="true" />
 
                 <androidx.appcompat.widget.AppCompatRadioButton
-                    android:id="@+id/radio1"
+                    android:id="@+id/radioDownLoad"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:scaleX="0.5"

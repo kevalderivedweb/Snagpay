@@ -76,6 +76,10 @@ public class Activity_ProductDetails extends AppCompatActivity {
     private String priceCart;
     private String boughtCart;
     private String dealOptionIdCart;
+    private String availableStocks;
+
+    private String shippingAddressId;
+    private String bucksInWallet;
 
     private Database dbHelper;
 
@@ -144,7 +148,7 @@ public class Activity_ProductDetails extends AppCompatActivity {
 
 
                 if (!txtAddRemoveCart.getText().toString().equals("Remove from Cart")){
-                    dbHelper.InsertDetails(imageCart, titleCart, dealId, dealOptionIdCart, priceCart, boughtCart, "1");
+                    dbHelper.InsertDetails(imageCart, titleCart, dealId, dealOptionIdCart, priceCart, boughtCart, availableStocks, "1");
                     txtAddRemoveCart.setText("Remove from Cart");
                 }
                 else {
@@ -224,10 +228,19 @@ public class Activity_ProductDetails extends AppCompatActivity {
             }
         });
 
+
         findViewById(R.id.giveAsAGift).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Activity_ProductDetails.this, Activity_GiveAsGift.class));
+
+
+                Intent intent = new Intent(Activity_ProductDetails.this, Activity_GiveAsGift.class);
+                intent.putExtra("shipping_address_id", shippingAddressId);
+                intent.putExtra("dealOptionIdCart", dealOptionIdCart);
+                intent.putExtra("priceCart", priceCart);
+                intent.putExtra("bucksInWallet", bucksInWallet);
+
+                startActivity(intent);
             }
         });
 
@@ -268,6 +281,7 @@ public class Activity_ProductDetails extends AppCompatActivity {
             }
         });
 
+
         dealsOptionList.setLayoutManager(new LinearLayoutManager(this));
         adapterDealsOptionList = new AdapterDealsOptionList(this, dealOptionsListModelArrayList, new AdapterDealsOptionList.OnItemClickListener() {
             @Override
@@ -277,10 +291,15 @@ public class Activity_ProductDetails extends AppCompatActivity {
 
                 dealOptionIdCart = dealOptionsListModelArrayList.get(item).getDeal_option_id();
 
+                availableStocks = dealOptionsListModelArrayList.get(item).getAvailable_stock_qty();
+
+                Toast.makeText(Activity_ProductDetails.this, availableStocks, Toast.LENGTH_SHORT).show();
+
                 Log.e("cdfdefedf", dealOptionIdCart + "--");
             }
         });
         dealsOptionList.setAdapter(adapterDealsOptionList);
+
 
 
         getDealDetials(dealId);
@@ -337,6 +356,9 @@ public class Activity_ProductDetails extends AppCompatActivity {
                             JSONObject jsonObject1 = data.getJSONObject("deal_details");
                             JSONArray jsonArray1 = data.getJSONArray("deal_options");
 
+                            shippingAddressId = data.getString("shipping_address_id");
+
+
                             for (int i = 0; i < jsonArray1.length(); i++){
                                 JSONObject object = jsonArray1.getJSONObject(i);
 
@@ -346,6 +368,8 @@ public class Activity_ProductDetails extends AppCompatActivity {
                                 dealOptionsListModel.setDeal_option_name(object.getString("deal_option_name"));
                                 dealOptionsListModel.setSell_price(object.getString("sell_price"));
                                 dealOptionsListModel.setDeal_option_description(object.getString("deal_option_description"));
+                                dealOptionsListModel.setAvailable_stock_qty(object.getString("available_stock_qty"));
+
 
                                 dealOptionsListModelArrayList.add(dealOptionsListModel);
                             }
@@ -400,8 +424,13 @@ public class Activity_ProductDetails extends AppCompatActivity {
                             titleCart = jsonObject1.getString("title");
                             boughtCart = jsonObject1.getString("bought");
                             priceCart = jsonObject1.getString("sell_price");
+                            availableStocks = dealOptionsListModelArrayList.get(0).getAvailable_stock_qty();
 
                             isWishlist = jsonObject1.getString("is_wishlist");
+
+
+                            getSnagpauBucks();
+
 
                             adapterReviewProductDetails.notifyDataSetChanged();
                             adapterDealsOptionList.notifyDataSetChanged();
@@ -690,6 +719,115 @@ public class Activity_ProductDetails extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
+
+                        Toast.makeText(Activity_ProductDetails.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+
+            /*
+             * If you want to add more parameters with the image
+             * you can do it here
+             * here we have only one parameter with the image
+             * which is tags
+             * */
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                return params;
+            }
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/json");
+                params.put("Authorization", "Bearer " + session.getAPITOKEN());
+                return params;
+            }
+
+            /*
+             * Here we are passing image by renaming it with a unique name
+             * */
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+
+                return params;
+            }
+        };
+        //adding the request to volley
+        Volley.newRequestQueue(Activity_ProductDetails.this).add(volleyMultipartRequest);
+    }
+
+    public void getSnagpauBucks(){
+        final KProgressHUD progressDialog = KProgressHUD.create(Activity_ProductDetails.this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel("Please wait")
+                .setCancellable(false)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f);
+             //   .show();
+        //getting the tag from the edittext
+
+        //our custom volley request
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "credit-available-in-wallet"
+                , new Response.Listener<NetworkResponse>() {
+            @Override
+            public void onResponse(NetworkResponse response) {
+
+
+            //    progressDialog.dismiss();
+                findViewById(R.id.seeAllReviews).setVisibility(View.GONE);
+
+                try {
+
+                    JSONObject jsonObject = new JSONObject(new String(response.data));
+                    Log.e("Response",jsonObject.toString());
+                    if (jsonObject.getString("ResponseCode").equals("200")){
+
+                        try {
+
+                            JSONObject data = jsonObject.getJSONObject("data");
+
+
+                            bucksInWallet = data.getString("trade_credit");
+
+                            adapterReviewProductDetails.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(Activity_ProductDetails.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    else if(jsonObject.getString("ResponseCode").equals("401")){
+
+                        session.logout();
+                        Intent intent = new Intent(Activity_ProductDetails.this, Activity_SelectCity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                } catch (Exception e) {
+                    //  Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    Toast.makeText(Activity_ProductDetails.this, "No Data", Toast.LENGTH_SHORT).show();
+
+                   /* session.logout();
+                    Intent intent = new Intent(Activity_ProductDetails.this, Activity_SelectCity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();*/
+
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+               //         progressDialog.dismiss();
 
                         Toast.makeText(Activity_ProductDetails.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                     }

@@ -7,7 +7,11 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
+
+import com.example.snagpay.Model.PaymentRecent;
 import com.example.snagpay.R;
 
 import java.util.ArrayList;
@@ -18,9 +22,9 @@ public class ExpListAdapterPaymentRecent extends BaseExpandableListAdapter {
 
     private Context _context;
 
-    ArrayList<PaymentModel> paymentModelArrayListl;
+    private ArrayList<PaymentRecent> paymentModelArrayListl;
 
-    public ExpListAdapterPaymentRecent(Context context, ArrayList<PaymentModel> listDataHeader) {
+    public ExpListAdapterPaymentRecent(Context context, ArrayList<PaymentRecent> listDataHeader) {
         this._context = context;
         this.paymentModelArrayListl = listDataHeader;
 
@@ -51,7 +55,7 @@ public class ExpListAdapterPaymentRecent extends BaseExpandableListAdapter {
         TextView txtOrderIdPayment = (TextView) convertView.findViewById(R.id.txtOrderIdPayment);
 
         txtPaidPayment.setText(paymentModelArrayListl.get(groupPosition).getDetailPaymentModels().get(childPosition).getCardType());
-        txtOrderIdPayment.setText(paymentModelArrayListl.get(groupPosition).getDetailPaymentModels().get(childPosition).getOrderId());
+        txtOrderIdPayment.setText(paymentModelArrayListl.get(groupPosition).getDetailPaymentModels().get(childPosition).getE_wallet_tran_code());
         return convertView;
     }
 
@@ -90,10 +94,18 @@ public class ExpListAdapterPaymentRecent extends BaseExpandableListAdapter {
         TextView datePayment = (TextView) convertView.findViewById(R.id.datePayment);
         TextView pricePayment = (TextView) convertView.findViewById(R.id.pricePayment);
 
-        paidPayment.setText( paymentModelArrayListl.get(groupPosition).getStatusPayment());
-        card.setText(paymentModelArrayListl.get(groupPosition).getCard());
-        datePayment.setText(paymentModelArrayListl.get(groupPosition).getDate());
-        pricePayment.setText(paymentModelArrayListl.get(groupPosition).getPrice());
+        paidPayment.setText( paymentModelArrayListl.get(groupPosition).getTransaction_title());
+        card.setText(paymentModelArrayListl.get(groupPosition).getTransaction_type());
+        datePayment.setText(paymentModelArrayListl.get(groupPosition).getDatetime());
+
+        String first = paymentModelArrayListl.get(groupPosition).getWallet_credit().substring(1,2);
+
+        if (first.equals("-")){
+            pricePayment.setTextColor(ContextCompat.getColor(_context, R.color.red));
+        } else {
+            pricePayment.setTextColor(ContextCompat.getColor(_context, R.color.green));
+        }
+        pricePayment.setText(paymentModelArrayListl.get(groupPosition).getWallet_credit());
 
         ivGroupIndicator.setSelected(isExpanded);
 

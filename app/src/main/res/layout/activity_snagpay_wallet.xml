@@ -126,6 +126,7 @@
 
             <RelativeLayout
                 android:id="@+id/rltvAddMoney"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:padding="10dp">
