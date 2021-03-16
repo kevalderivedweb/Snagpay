@@ -91,6 +91,7 @@ public class Fragment_OrderCurrent extends Fragment {
             public void onResponse(NetworkResponse response) {
 
 
+                orderModelArrayList.clear();
                 progressDialog.dismiss();
 
                 try {
@@ -187,5 +188,9 @@ public class Fragment_OrderCurrent extends Fragment {
 
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        getCurrentOrder();
+    }
 }

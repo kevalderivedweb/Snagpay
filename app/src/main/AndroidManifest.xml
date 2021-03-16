@@ -21,10 +21,10 @@
         android:networkSecurityConfig="@xml/network_config"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SnagPay">
-
+        android:theme="@style/Theme.SnagPay"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".Activity.Activity_GiftFromOrder"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

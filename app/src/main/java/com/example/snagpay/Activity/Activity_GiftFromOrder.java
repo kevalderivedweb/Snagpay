@@ -33,11 +33,13 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Activity_GiveAsGift extends AppCompatActivity {
+public class Activity_GiftFromOrder extends AppCompatActivity {
+
 
     private RadioGroup radioGroupGift;
     private LinearLayout lnrGiftEmail, lnrGiftText;
@@ -47,26 +49,31 @@ public class Activity_GiveAsGift extends AppCompatActivity {
     private EditText emailRecipient, nameRecipient, fromEmailGift, messageEmail;
     private EditText phoneGift, messageText;
 
-    private String dealOptionIdCart, shipping_address_id, priceCart, bucksInWallet;
+    private String dealOptionId, shipping_address_id, priceCart, disCount, snagpay_bucks, strValue, quantity;
 
     private String giftType = "email";
 
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     private String lastChar = " ";
 
+    private ArrayList<String> dealOptionsId;
+    private ArrayList<String> dealsQuantity;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_give_as_gift);
+        setContentView(R.layout.activity_gift_from_order);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);//  set status text dark
-        session = new UserSession(Activity_GiveAsGift.this);
+        session = new UserSession(Activity_GiftFromOrder.this);
+
 
 
         radioGroupGift = findViewById(R.id.radioGroupGift);
         lnrGiftEmail = findViewById(R.id.lnrGiftEmail);
         lnrGiftText = findViewById(R.id.lnrGiftText);
-        dateEmail = findViewById(R.id.dateEmail);
-        dateText = findViewById(R.id.dateText);
+        dateEmail = findViewById(R.id.dateEmailOrder);
+        dateText = findViewById(R.id.dateTextOrder);
         emailRecipient = findViewById(R.id.emailRecipient);
         nameRecipient = findViewById(R.id.nameRecipient);
         fromEmailGift = findViewById(R.id.fromEmailGift);
@@ -87,29 +94,29 @@ public class Activity_GiveAsGift extends AppCompatActivity {
 
                 if (giftType.equals("email")){
                     if (emailRecipient.getText().toString().isEmpty()){
-                        Toast.makeText(Activity_GiveAsGift.this, "Enter email", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_GiftFromOrder.this, "Enter email", Toast.LENGTH_SHORT).show();
                     } else if (!emailRecipient.getText().toString().trim().matches(emailPattern)){
-                        Toast.makeText(Activity_GiveAsGift.this, "Invalid email address", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_GiftFromOrder.this, "Invalid email address", Toast.LENGTH_SHORT).show();
                     } else if (nameRecipient.getText().toString().isEmpty()){
-                        Toast.makeText(Activity_GiveAsGift.this, "Enter name", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_GiftFromOrder.this, "Enter name", Toast.LENGTH_SHORT).show();
                     } else if (fromEmailGift.getText().toString().isEmpty()){
-                        Toast.makeText(Activity_GiveAsGift.this, "Enter From field", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_GiftFromOrder.this, "Enter From field", Toast.LENGTH_SHORT).show();
                     } else if (messageEmail.getText().toString().isEmpty()){
-                        Toast.makeText(Activity_GiveAsGift.this, "Enter message", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_GiftFromOrder.this, "Enter message", Toast.LENGTH_SHORT).show();
                     } else if (dateEmail.getText().toString().isEmpty()){
-                        Toast.makeText(Activity_GiveAsGift.this, "Select Date", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_GiftFromOrder.this, "Select Date", Toast.LENGTH_SHORT).show();
                     } else {
                         CreateOrder();
                     }
 
                 } else if (giftType.equals("text")) {
                     if (phoneGift.getText().toString().isEmpty()){
-                        Toast.makeText(Activity_GiveAsGift.this, "Enter Phone", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_GiftFromOrder.this, "Enter Phone", Toast.LENGTH_SHORT).show();
                     } else if (messageText.getText().toString().isEmpty()){
-                        Toast.makeText(Activity_GiveAsGift.this, "Enter message", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_GiftFromOrder.this, "Enter message", Toast.LENGTH_SHORT).show();
                     } else if (dateText.getText().toString().isEmpty()){
-                        Toast.makeText(Activity_GiveAsGift.this, "Select Date", Toast.LENGTH_SHORT).show();}
-                     else {
+                        Toast.makeText(Activity_GiftFromOrder.this, "Select Date", Toast.LENGTH_SHORT).show();}
+                    else {
                         CreateOrder();
                     }
 
@@ -195,17 +202,31 @@ public class Activity_GiveAsGift extends AppCompatActivity {
             }
         });
 
-        dealOptionIdCart = getIntent().getStringExtra("dealOptionIdCart");
+        strValue = getIntent().getStringExtra("strValue");
+
+        if (strValue.equals("fromProductDetails")){
+            dealOptionId = getIntent().getStringExtra("dealOptionId");
+            quantity = getIntent().getStringExtra("quantity");
+
+        } else if (strValue.equals("fromCart")){
+            dealOptionsId = getIntent().getExtras().getStringArrayList("arrayOfDealIds");
+            dealsQuantity = getIntent().getExtras().getStringArrayList("arrayOfDealsQuantity");
+        }
+
         shipping_address_id = getIntent().getStringExtra("shipping_address_id");
         priceCart = getIntent().getStringExtra("priceCart");
-        bucksInWallet = getIntent().getStringExtra("bucksInWallet");
+        disCount = getIntent().getStringExtra("disCount");
+        snagpay_bucks = getIntent().getStringExtra("snagpay_bucks");
 
+
+        Log.e("datatallGift", strValue + "--" + dealOptionId + "--" + quantity + "--" + shipping_address_id + "--" +
+                priceCart + "--" + disCount + "--" + snagpay_bucks);
 
 
     }
 
     public void CreateOrder(){
-        final KProgressHUD progressDialog = KProgressHUD.create(Activity_GiveAsGift.this)
+        final KProgressHUD progressDialog = KProgressHUD.create(Activity_GiftFromOrder.this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setLabel("Please wait")
                 .setCancellable(false)
@@ -231,20 +252,20 @@ public class Activity_GiveAsGift extends AppCompatActivity {
 
                             if (jsonObject.getString("ResponseCode").equals("200")){
 
-                                Intent intent = new Intent(Activity_GiveAsGift.this, Activity_ThankYou.class);
+                                Intent intent = new Intent(Activity_GiftFromOrder.this, Activity_ThankYou.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                             }
 
                             else if(jsonObject.getString("ResponseCode").equals("422")){
 
-                                Toast.makeText(Activity_GiveAsGift.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Activity_GiftFromOrder.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
                             }
 
                             else if(jsonObject.getString("ResponseCode").equals("401")){
 
                                 session.logout();
-                                Intent intent = new Intent(Activity_GiveAsGift.this, Activity_SelectCity.class);
+                                Intent intent = new Intent(Activity_GiftFromOrder.this, Activity_SelectCity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                                 finish();
@@ -253,7 +274,7 @@ public class Activity_GiveAsGift extends AppCompatActivity {
                         } catch (Exception e) {
                             //  Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
 
-                            Toast.makeText(Activity_GiveAsGift.this, "No Data", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Activity_GiftFromOrder.this, "No Data", Toast.LENGTH_SHORT).show();
 
                    /* session.logout();
                     Intent intent = new Intent(Activity_ProductDetails.this, Activity_SelectCity.class);
@@ -284,12 +305,18 @@ public class Activity_GiveAsGift extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
 
+                if (strValue.equals("fromProductDetails")){
+                    params.put("deal_option_ids[" + dealOptionId + "]", quantity);
+                } else if (strValue.equals("fromCart")){
+                    for (int i = 0; i < dealOptionsId.size(); i++){
+                        params.put("deal_option_ids[" + dealOptionsId.get(i) + "]", dealsQuantity.get(i));
+                    }
+                }
 
-                params.put("deal_option_ids[" + dealOptionIdCart + "]", "1");
                 params.put("shipping_address_id", shipping_address_id);
                 params.put("total_price", priceCart);
-                params.put("discount", "0");
-                params.put("snagpay_bucks", priceCart);
+                params.put("discount", disCount);
+                params.put("snagpay_bucks", snagpay_bucks);
                 params.put("give_as_a_gift", "1");
                 params.put("gift_type", giftType);
 
@@ -307,10 +334,11 @@ public class Activity_GiveAsGift extends AppCompatActivity {
                     params.put("send_gift_date", dateText.getText().toString());
                 }
 
-                Log.e("allDataCreate", dealOptionIdCart + "---" + shipping_address_id + "---" + priceCart + bucksInWallet + "---" + giftType + "---" +
+                Log.e("allDataCreate", dealOptionId + "---" + shipping_address_id + "---" + priceCart + "---" + snagpay_bucks + "---" + giftType + "---" +
                         emailRecipient.getText().toString() + "---" + nameRecipient.getText().toString() + "---" + fromEmailGift.getText().toString() + "---" +
                         messageEmail.getText().toString() + "---" + dateEmail.getText().toString() +"---" +
                         phoneGift.getText().toString() + "---" + messageText.getText().toString() + "---" + dateText.getText().toString());
+
                 return params;
             }
 
@@ -334,7 +362,7 @@ public class Activity_GiveAsGift extends AppCompatActivity {
             }
         };
         //adding the request to volley
-        Volley.newRequestQueue(Activity_GiveAsGift.this).add(volleyMultipartRequest);
+        Volley.newRequestQueue(Activity_GiftFromOrder.this).add(volleyMultipartRequest);
     }
 
 
@@ -439,7 +467,5 @@ public class Activity_GiveAsGift extends AppCompatActivity {
 
         }
     }
-
-
 
 }

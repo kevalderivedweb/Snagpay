@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -96,6 +97,9 @@ public class Activity_ReviewOrder extends AppCompatActivity {
 
     private TextView availBucksInWallet;
     private String bucksAvail;
+    private String bucksForGiftActivity;
+
+    private CheckBox giveAsGiftReview;
 
 
     @Override
@@ -142,7 +146,43 @@ public class Activity_ReviewOrder extends AppCompatActivity {
         txtOrderCount = findViewById(R.id.txtOrderCount);
         commitToPay = findViewById(R.id.commitToPay);
         availBucksInWallet = findViewById(R.id.availBucksInWallet);
+        giveAsGiftReview = findViewById(R.id.giveAsGiftReview);
 
+
+        giveAsGiftReview.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                ArrayList<String> dealOptionsId = new ArrayList<>();
+                ArrayList<String> dealsQuantity = new ArrayList<>();
+
+                for (int i = 0; i < orderModelArrayList.size(); i++){
+                    dealOptionsId.add(orderModelArrayList.get(i).getDeal_option_id());
+                    dealsQuantity.add(orderModelArrayList.get(i).getQty());
+                }
+
+                Intent intent = new Intent(Activity_ReviewOrder.this, Activity_GiftFromOrder.class);
+                intent.putExtra("strValue", strValue);
+
+                if (strValue.equals("fromProductDetails")) {
+                    intent.putExtra("dealOptionId", dealOptionId);
+                    intent.putExtra("quantity", String.valueOf(quantity));
+
+                } else if (strValue.equals("fromCart")){
+                    intent.putStringArrayListExtra("arrayOfDealIds", dealOptionsId);
+                    intent.putStringArrayListExtra("arrayOfDealsQuantity", dealsQuantity);
+                }
+
+                intent.putExtra("shipping_address_id", "2");
+                intent.putExtra("priceCart", mTotalPrice);
+                intent.putExtra("disCount", disCount);
+                intent.putExtra("snagpay_bucks", bucksForGiftActivity);
+                startActivity(intent);
+
+
+                giveAsGiftReview.setChecked(false);
+            }
+        });
 
         orderMinus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -255,7 +295,7 @@ public class Activity_ReviewOrder extends AppCompatActivity {
                     }
 
                 } else if (Integer.parseInt(totalPrice.getText().toString().substring(1)) > (Integer.parseInt(disCount) +
-                        Integer.parseInt(availBucksInWallet.getText().toString()))){
+                        Integer.parseInt(bucksAvail))){
                     Toast.makeText(Activity_ReviewOrder.this, "Required $" + requiredAmount + " bucks", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -543,6 +583,7 @@ public class Activity_ReviewOrder extends AppCompatActivity {
                              mTotalPrice = data.getString("total_price");
                           //   mSnagpayBucks = data.getString("snagpay_trade_credit").substring(1);
                              bucksSnagpay.setText("$" + data.getString("snagpay_bucks"));
+                            bucksForGiftActivity = data.getString("snagpay_bucks");
                         //     mTaxs = data.getString("tax");
                          //    mShipping = data.getString("shipping_cost");
                          //    mTotalAmountPay = data.getString("total_amount_payable");
@@ -581,7 +622,7 @@ public class Activity_ReviewOrder extends AppCompatActivity {
                             }*/
 
                             mDiscount = data.getString("discount");
-                            if (!stringPromo.equals("")){
+                            if (stringPromo.equals("")){
                                 mDiscount = data.getString("discount");
                                 disCount = data.getString("discount");
 
@@ -591,7 +632,7 @@ public class Activity_ReviewOrder extends AppCompatActivity {
 
                             }
 
-
+                            Log.e("disCounttt", disCount + "--" + mDiscount);
 
                             adapterDealsOrder.notifyDataSetChanged();
 
@@ -717,6 +758,17 @@ public class Activity_ReviewOrder extends AppCompatActivity {
                         try {
 
                             orderModelArrayList.clear();
+
+                            if (strValue.equals("fromProductDetails")) {
+
+
+                            } else if (strValue.equals("fromCart")){
+                                for (int j = 0; j < detailsModelArrayList.size(); j++){
+                                    dbHelper.removeCart(detailsModelArrayList.get(j).getDeal_id());
+                                }
+                            }
+
+
                             JSONObject jsonObject = new JSONObject(new String(response.data));
                             Log.e("Response",jsonObject.toString());
                             if (jsonObject.getString("ResponseCode").equals("200")){
