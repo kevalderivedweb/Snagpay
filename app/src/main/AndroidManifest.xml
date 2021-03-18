@@ -49,7 +49,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.Activity_Webview_payment" />
         <activity android:name=".Activity.Activity_EditShippingAddress" />
         <activity android:name=".Activity.Activity_About_App" />
         <activity android:name=".Activity.Activity_Report_Infringement" />

@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +45,7 @@ public class Fragment_PaymentRecent extends Fragment {
     private ArrayList<PaymentRecent> paymentModelArrayList = new ArrayList<>();
     private UserSession session;
 
+
     public Fragment_PaymentRecent() {
 
     }
@@ -65,6 +67,9 @@ public class Fragment_PaymentRecent extends Fragment {
         // setting list adapter
         expListViewPayment.setAdapter(listAdapterPayment);
         // Listview Group click listener
+
+
+
         expListViewPayment.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
 
             @Override
@@ -92,6 +97,7 @@ public class Fragment_PaymentRecent extends Fragment {
 
         getRecentDetails();
 
+
         return view;
 
     }
@@ -106,12 +112,15 @@ public class Fragment_PaymentRecent extends Fragment {
                 .show();
         //getting the tag from the edittext
 
+
+
+
         //our custom volley request
         VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "recent-payment-history", new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
 
-                paymentModelArrayList.clear();
+
                 progressDialog.dismiss();
 
                 try {
@@ -123,6 +132,8 @@ public class Fragment_PaymentRecent extends Fragment {
                         try {
 
                             JSONObject data = jsonObject.getJSONObject("data");
+
+                         //   last_page = data.getString("last_page");
 
                             JSONArray jsonArray = data.getJSONArray("data");
 
@@ -150,7 +161,10 @@ public class Fragment_PaymentRecent extends Fragment {
 
                             }
 
+
+
                             listAdapterPayment.notifyDataSetChanged();
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();

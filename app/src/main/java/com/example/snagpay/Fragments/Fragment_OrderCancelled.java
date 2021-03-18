@@ -93,6 +93,8 @@ public class Fragment_OrderCancelled extends Fragment {
 
         return view;
     }
+
+
     public void getCurrentOrder(String Mpage){
         final KProgressHUD progressDialog = KProgressHUD.create(getContext())
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
