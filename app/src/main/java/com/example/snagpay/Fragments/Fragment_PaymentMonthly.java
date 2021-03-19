@@ -2,6 +2,7 @@ package com.example.snagpay.Fragments;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
@@ -84,6 +86,8 @@ public class Fragment_PaymentMonthly extends Fragment {
 
     private TextView noDataPayment;
 
+    private NestedScrollView nestedScroll;
+
 
     public Fragment_PaymentMonthly() {
 
@@ -102,6 +106,32 @@ public class Fragment_PaymentMonthly extends Fragment {
         radioGroup = view.findViewById(R.id.radioGroup1);
         recMonthlyView = view.findViewById(R.id.recMonthlyView);
         noDataPayment = view.findViewById(R.id.noDataPayment);
+        nestedScroll = view.findViewById(R.id.nestedScroll);
+
+        recMonthlyView.setNestedScrollingEnabled(false);
+
+        nestedScroll.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged()
+            {
+                View view = (View)nestedScroll.getChildAt(nestedScroll.getChildCount() - 1);
+
+                int diff = (view.getBottom() - (nestedScroll.getHeight() + nestedScroll
+                        .getScrollY()));
+
+                if (diff == 0) {
+                    // your pagination code
+                    if (diff!=last_size){
+                        Mpage = String.valueOf(diff+1);
+
+                        getMonthlyView(Mpage, selectMonth, selectYear);
+
+                    }
+                }
+            }
+        });
+
+
 
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         yearList.add(String.valueOf(currentYear));
@@ -183,19 +213,14 @@ public class Fragment_PaymentMonthly extends Fragment {
         adapterMonthlyViewPayment = new AdapterMonthlyViewPayment(getContext(), monthlyViewArrayList);
         recMonthlyView.setAdapter(adapterMonthlyViewPayment);
 
-
+/*
         recMonthlyView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearlayout) {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
                 Log.e("PageStatus",page + "  " + last_size);
-                if (page!=last_size){
-                    Mpage = String.valueOf(page+1);
 
-                    getMonthlyView(Mpage, selectMonth, selectYear);
-
-                }
             }
-        });
+        });*/
 
 
       //  getPdf(selectMonth, selectYear);

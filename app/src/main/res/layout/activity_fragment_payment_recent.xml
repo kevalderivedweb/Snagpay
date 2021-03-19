@@ -6,11 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.Fragment_PaymentRecent">
 
-    <ExpandableListView
+    <!--<ExpandableListView
         android:id="@+id/lvExpPayment"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:groupIndicator="@null"/>
+        android:groupIndicator="@null"/>-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recRecent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

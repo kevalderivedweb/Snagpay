@@ -38,8 +38,8 @@ public class AdapterMonthlyViewPayment extends RecyclerView.Adapter<AdapterMonth
 
         holder.transaction_title.setText(monthlyViewArrayList.get(position).getTransaction_title());
         holder.transaction_type.setText(monthlyViewArrayList.get(position).getTransaction_type());
-        holder.balance.setText("Balance :- $" + monthlyViewArrayList.get(position).getBalance());
-        holder.e_wallet_tran_code.setText("Order Id :- " + monthlyViewArrayList.get(position).getE_wallet_tran_code());
+        holder.dateTime.setText(monthlyViewArrayList.get(position).getDatetime());
+        holder.e_wallet_tran_code.setText("Order Id:- " + monthlyViewArrayList.get(position).getE_wallet_tran_code());
         holder.wallet_credit.setText("$" + monthlyViewArrayList.get(position).getWallet_credit());
 
         String first = monthlyViewArrayList.get(position).getWallet_credit().substring(0,1);
@@ -59,14 +59,14 @@ public class AdapterMonthlyViewPayment extends RecyclerView.Adapter<AdapterMonth
 
     public class Viewholder extends RecyclerView.ViewHolder {
 
-        TextView transaction_title, transaction_type, balance, e_wallet_tran_code, wallet_credit;
+        TextView transaction_title, transaction_type, dateTime, e_wallet_tran_code, wallet_credit;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
 
             transaction_title = itemView.findViewById(R.id.transaction_title);
             transaction_type = itemView.findViewById(R.id.transaction_type);
-            balance = itemView.findViewById(R.id.balance);
+            dateTime = itemView.findViewById(R.id.dateTime);
             e_wallet_tran_code = itemView.findViewById(R.id.e_wallet_tran_code);
             wallet_credit = itemView.findViewById(R.id.wallet_credit);
 

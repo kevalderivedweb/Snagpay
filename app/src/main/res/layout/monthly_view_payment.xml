@@ -36,14 +36,14 @@
             android:textSize="12dp" />
 
         <TextView
-            android:id="@+id/balance"
+            android:id="@+id/e_wallet_tran_code"
             android:layout_width="wrap_content"
             android:textColor="@color/dark_gray"
             android:layout_height="wrap_content"
             android:textSize="12dp" />
 
         <TextView
-            android:id="@+id/e_wallet_tran_code"
+            android:id="@+id/dateTime"
             android:layout_width="wrap_content"
             android:textColor="@color/dark_gray"
             android:layout_height="wrap_content"
