@@ -23,6 +23,14 @@
             android:fontFamily="@font/roboto_bold"
             android:textColor="@color/black"/>
 
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/btnCart"
+            android:src="@drawable/scan"/>
+
         <LinearLayout
             android:id="@+id/btnCart"
             android:layout_width="85dp"
