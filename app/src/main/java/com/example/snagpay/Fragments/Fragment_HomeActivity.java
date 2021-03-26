@@ -260,7 +260,7 @@ public class Fragment_HomeActivity extends Fragment {
                     }
 
                 } catch (Exception e) {
-                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     // Toast.makeText(Activity_ReviewOrder.this, "No Data", Toast.LENGTH_SHORT).show();
 
                             /*session.logout();
@@ -278,9 +278,6 @@ public class Fragment_HomeActivity extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         //     progressDialog.dismiss();
 
-                        Log.e("dssdsd", error.getMessage() + "--");
-
-                        Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }) {
 

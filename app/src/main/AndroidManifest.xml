@@ -24,7 +24,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SnagPay"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.Activity_GiftFromOrder"></activity>
+        <activity android:name=".Activity.Activity_GiftCardDetails"></activity>
+        <activity android:name=".Activity.Activity_VoucherDetails" />
+        <activity android:name=".Activity.Activity_BarcodeScanner" />
+        <activity android:name=".Activity.Activity_GiftFromOrder" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

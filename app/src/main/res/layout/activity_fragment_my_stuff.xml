@@ -24,6 +24,7 @@
             android:textColor="@color/black"/>
 
         <ImageView
+            android:id="@+id/scane"
             android:layout_width="25dp"
             android:layout_height="match_parent"
             android:layout_marginRight="15dp"

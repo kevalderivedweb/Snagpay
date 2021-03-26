@@ -309,6 +309,7 @@ public class Activity_ProductDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getReviewDetails(dealId, "1");
+                findViewById(R.id.seeAllReviews).setVisibility(View.GONE);
             }
         });
 
@@ -654,7 +655,6 @@ public class Activity_ProductDetails extends AppCompatActivity {
 
 
                 progressDialog.dismiss();
-                findViewById(R.id.seeAllReviews).setVisibility(View.GONE);
 
                 try {
 
@@ -778,7 +778,6 @@ public class Activity_ProductDetails extends AppCompatActivity {
 
 
             //    progressDialog.dismiss();
-                findViewById(R.id.seeAllReviews).setVisibility(View.GONE);
 
                 try {
 

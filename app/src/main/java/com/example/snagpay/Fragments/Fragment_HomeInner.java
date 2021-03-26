@@ -266,9 +266,7 @@ public class Fragment_HomeInner extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
 
-                        Log.e("dssdsd", error.getMessage() + "--");
 
-                        Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }) {
 
