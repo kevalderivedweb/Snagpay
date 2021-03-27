@@ -128,16 +128,12 @@ public class Activity_ProductDetails extends AppCompatActivity {
 
         addToCart = findViewById(R.id.addToCart);
 
-        Bundle bundle = getIntent().getExtras();
-        String category_id = bundle.getString("category_id");
-        String subCategoryId = bundle.getString("subCategoryId");
-        String dealId = bundle.getString("dealId");
 
-        Log.e("osddf", category_id + "---" + subCategoryId + "---" + dealId);
+
+        String dealId = getIntent().getStringExtra("dealId");
+
 
         detailsModelArrayList = dbHelper.getAllUser();
-
-
 
 
         addToCart.setOnClickListener(new View.OnClickListener() {
@@ -233,7 +229,6 @@ public class Activity_ProductDetails extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
                 Intent intent = new Intent(Activity_ProductDetails.this, Activity_GiveAsGift.class);
                 intent.putExtra("shipping_address_id", shippingAddressId);
                 intent.putExtra("dealOptionIdCart", dealOptionIdCart);
@@ -316,6 +311,8 @@ public class Activity_ProductDetails extends AppCompatActivity {
         for (int t = 0; t < detailsModelArrayList.size(); t++){
             if (detailsModelArrayList.get(t).getDeal_id().equals(dealId)){
                 txtAddRemoveCart.setText("Remove from Cart");
+            } else if (detailsModelArrayList.isEmpty()){
+
             }
 
             Log.e("sfsfsdf", detailsModelArrayList.get(t).getDeal_id() +"--" + dealId);

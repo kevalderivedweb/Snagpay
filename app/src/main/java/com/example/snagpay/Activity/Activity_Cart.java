@@ -11,14 +11,27 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+import com.example.snagpay.API.VolleyMultipartRequest;
 import com.example.snagpay.Adapter.AdapterMyCart;
 import com.example.snagpay.Model.CategoryDetailsModel;
 import com.example.snagpay.R;
 import com.example.snagpay.Utils.Database;
 import com.example.snagpay.Utils.UserSession;
+import com.kaopiz.kprogresshud.KProgressHUD;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Activity_Cart extends AppCompatActivity {
 
@@ -71,8 +84,8 @@ public class Activity_Cart extends AppCompatActivity {
             }
 
             @Override
-            public void onItemDelete(String s, int pos) {
-                dbHelper.removeCart(s);
+            public void onItemDelete(String dealId, int pos) {
+                dbHelper.removeCart(dealId);
                 detailsModelArrayList.remove(pos);
                 adapterMyCart.notifyDataSetChanged();
 
@@ -83,9 +96,17 @@ public class Activity_Cart extends AppCompatActivity {
             }
 
             @Override
-            public void onItemClickSaveLater(String dealId) {
+            public void onItemClickSaveLater(String dealId, int pos) {
 
-                Log.e("dealIdCart", dealId + "--");
+                addWishList(dealId);
+                dbHelper.removeCart(dealId);
+                detailsModelArrayList.remove(pos);
+                adapterMyCart.notifyDataSetChanged();
+
+                if (detailsModelArrayList.isEmpty()){
+                    cartEmpty.setVisibility(View.VISIBLE);
+                    proceedCheck.setVisibility(View.GONE);
+                }
             }
 
 
@@ -109,6 +130,106 @@ public class Activity_Cart extends AppCompatActivity {
             }
         });
 
+
+    }
+
+
+    private void addWishList(String dealId) {
+        final KProgressHUD progressDialog = KProgressHUD.create(Activity_Cart.this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel("Please wait")
+                .setCancellable(false)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f);
+        //.show();
+        //getting the tag from the edittext
+
+        //our custom volley request
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, session.BASEURL + "add-to-wishlist",
+                new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+
+                        progressDialog.dismiss();
+
+                        try {
+
+                            JSONObject jsonObject = new JSONObject(new String(response.data));
+                            Log.e("Response",jsonObject.toString());
+
+                            if (jsonObject.getString("ResponseCode").equals("200")){
+
+                                Toast.makeText(Activity_Cart.this, jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
+
+
+                            } else if(jsonObject.getString("ResponseCode").equals("401")){
+
+                                session.logout();
+                                Intent intent = new Intent(Activity_Cart.this, Activity_SelectCity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+                            }
+
+
+                        } catch (Exception e) {
+                            //  Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Activity_Cart.this, "No Data", Toast.LENGTH_SHORT).show();
+
+                    /*session.logout();
+                    Intent intent = new Intent(Activity_ProductDetails.this, Activity_SelectCity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();*/
+
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+
+                        Toast.makeText(Activity_Cart.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+
+            /*
+             * If you want to add more parameters with the image
+             * you can do it here
+             * here we have only one parameter with the image
+             * which is tags
+             * */
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("deal_id", dealId);
+
+                return params;
+            }
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Accept", "application/json");
+                params.put("Authorization", "Bearer " + session.getAPITOKEN());
+                return params;
+            }
+
+            /*
+             * Here we are passing image by renaming it with a unique name
+             * */
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+
+                return params;
+            }
+        };
+        //adding the request to volley
+        Volley.newRequestQueue(Activity_Cart.this).add(volleyMultipartRequest);
     }
 
 

@@ -156,7 +156,7 @@
                 android:textColor="@color/light_black"
                 android:letterSpacing="0.02"
                 android:textSize="14dp"
-                android:text="Save for later"/>
+                android:text="Move to Wishlist"/>
         </LinearLayout>
 
     </LinearLayout>

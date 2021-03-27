@@ -91,7 +91,7 @@ public class AdapterMyCart extends RecyclerView.Adapter<AdapterMyCart.Viewholder
         holder.saveFromLater.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.onItemClickSaveLater(categoryDetailsModels.get(position).getDeal_id());
+                mListener.onItemClickSaveLater(categoryDetailsModels.get(position).getDeal_id(), position);
             }
         });
 
@@ -129,8 +129,8 @@ public class AdapterMyCart extends RecyclerView.Adapter<AdapterMyCart.Viewholder
     public interface OnItemClickListener {
         void onItemClickPlus(int position, String quantity);
         void onItemClickMinus(int position, String quantity);
-        void onItemDelete(String s, int pos);
-        void onItemClickSaveLater(String dealId);
+        void onItemDelete(String dealId, int pos);
+        void onItemClickSaveLater(String dealId, int pos);
     }
 
     public void increment(Viewholder myViewHolder, int position) {

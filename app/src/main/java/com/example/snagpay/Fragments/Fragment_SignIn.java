@@ -197,6 +197,8 @@ public class Fragment_SignIn extends Fragment implements GoogleApiClient.OnConne
             }
         });
 
+        Log.e("latlongg", session.getLatitude() + "--" + session.getLongitude());
+
         login_button.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
