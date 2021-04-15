@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,6 +40,8 @@ public class Activity_HomeInner extends AppCompatActivity {
 
         category_id = getIntent().getStringExtra("category_id");
         subCategoryId = getIntent().getStringExtra("subCategoryId");
+
+        Log.e("dsfs", category_id + "--" + subCategoryId);
 
         Fragment_HomeInner homeInnerFragment = new Fragment_HomeInner(category_id, subCategoryId);
         replaceFragment(R.id.fragHomeMap, homeInnerFragment, "Inner");

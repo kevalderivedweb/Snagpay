@@ -2,18 +2,16 @@ package com.example.snagpay.Fragments;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.DownloadManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.pdf.PdfDocument;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,11 +20,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -36,26 +35,26 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.example.snagpay.API.VolleyMultipartRequest;
-import com.example.snagpay.Activity.Activity_ReviewOrder;
 import com.example.snagpay.Activity.Activity_SelectCity;
-import com.example.snagpay.Activity.Activity_Webview_payment;
+import com.example.snagpay.Adapter.AdapterMonthlyViewPayment;
+import com.example.snagpay.Model.MonthlyView;
+import com.example.snagpay.Model.OrderModel;
 import com.example.snagpay.R;
+import com.example.snagpay.Utils.EndlessRecyclerViewScrollListener;
 import com.example.snagpay.Utils.FileDownloader;
 import com.example.snagpay.Utils.UserSession;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static android.content.Context.DOWNLOAD_SERVICE;
 
 public class Fragment_PaymentMonthly extends Fragment {
 
@@ -66,15 +65,28 @@ public class Fragment_PaymentMonthly extends Fragment {
     private UserSession session;
     private RadioGroup radioGroup;
 
+    private AdapterMonthlyViewPayment adapterMonthlyViewPayment;
+
     private String selectMonth;
     private String selectYear;
     private int option = 1;
 
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 7;
 
+    private RecyclerView recMonthlyView;
 
     private String urlPdf;
-    private String selectMonthInWord;
+
+
+    private int last_size;
+    private String Mpage = "1";
+    private LinearLayoutManager linearlayout;
+
+    private ArrayList<MonthlyView> monthlyViewArrayList = new ArrayList<>();
+
+    private TextView noDataPayment;
+
+    private NestedScrollView nestedScroll;
 
 
     public Fragment_PaymentMonthly() {
@@ -92,6 +104,34 @@ public class Fragment_PaymentMonthly extends Fragment {
         spinnerYearHistory = view.findViewById(R.id.spinnerYearHistory);
         spinnerMonthHistory = view.findViewById(R.id.spinnerMonthHistory);
         radioGroup = view.findViewById(R.id.radioGroup1);
+        recMonthlyView = view.findViewById(R.id.recMonthlyView);
+        noDataPayment = view.findViewById(R.id.noDataPayment);
+        nestedScroll = view.findViewById(R.id.nestedScroll);
+
+        recMonthlyView.setNestedScrollingEnabled(false);
+
+        nestedScroll.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged()
+            {
+                View view = (View)nestedScroll.getChildAt(nestedScroll.getChildCount() - 1);
+
+                int diff = (view.getBottom() - (nestedScroll.getHeight() + nestedScroll
+                        .getScrollY()));
+
+                if (diff == 0) {
+                    // your pagination code
+                    if (diff!=last_size){
+                        Mpage = String.valueOf(diff+1);
+
+                        getMonthlyView(Mpage, selectMonth, selectYear);
+
+                    }
+                }
+            }
+        });
+
+
 
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         yearList.add(String.valueOf(currentYear));
@@ -123,7 +163,7 @@ public class Fragment_PaymentMonthly extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 selectMonth = monthDigit[position];
-                selectMonthInWord = monthList[position];
+
             }
 
             @Override
@@ -136,13 +176,12 @@ public class Fragment_PaymentMonthly extends Fragment {
             @Override
             public void onClick(View v) {
 
+                monthlyViewArrayList.clear();
+                adapterMonthlyViewPayment.notifyDataSetChanged();
+
                 if (option == 1){
 
-                    Intent intent = new Intent(getContext(), Activity_Webview_payment.class);
-                    intent.putExtra("urlPdf", urlPdf);
-                    intent.putExtra("monthWord", selectMonthInWord);
-                    intent.putExtra("yearTrans", selectYear);
-                    startActivity(intent);
+                    getMonthlyView("1", selectMonth, selectYear);
 
                 } else if (option == 2){
                     getPdf(selectMonth, selectYear);
@@ -153,12 +192,13 @@ public class Fragment_PaymentMonthly extends Fragment {
             }
         });
 
+
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.radioView){
                     option = 1;
-                    getPdf(selectMonth, selectYear);
+
                 } else if (checkedId == R.id.radioDownLoad){
                     option = 2;
                     getPdf(selectMonth, selectYear);
@@ -168,13 +208,156 @@ public class Fragment_PaymentMonthly extends Fragment {
             }
         });
 
+        linearlayout = new LinearLayoutManager(getContext());
+        recMonthlyView.setLayoutManager(linearlayout);
+        adapterMonthlyViewPayment = new AdapterMonthlyViewPayment(getContext(), monthlyViewArrayList);
+        recMonthlyView.setAdapter(adapterMonthlyViewPayment);
 
-        getPdf(selectMonth, selectYear);
+/*
+        recMonthlyView.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearlayout) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                Log.e("PageStatus",page + "  " + last_size);
+
+            }
+        });*/
+
+
+      //  getPdf(selectMonth, selectYear);
 
         checkAndroidVersion();
 
+
         return view;
     }
+
+    public void getMonthlyView(String Mpage, String selectMonth, String selectYear){
+        final KProgressHUD progressDialog = KProgressHUD.create(getContext())
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel("Please wait")
+                .setCancellable(false)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f)
+                .show();
+        //getting the tag from the edittext
+
+        //our custom volley request
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "monthly-payment-history?month=" + selectMonth +
+                "&year=" + selectYear + "&page=" + Mpage, new Response.Listener<NetworkResponse>() {
+            @Override
+            public void onResponse(NetworkResponse response) {
+
+
+                progressDialog.dismiss();
+                recMonthlyView.setVisibility(View.VISIBLE);
+
+                try {
+
+                    JSONObject jsonObject = new JSONObject(new String(response.data));
+                    Log.e("Response",jsonObject.toString());
+
+                    if (jsonObject.getString("ResponseCode").equals("200")){
+
+                        JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                        last_size = jsonObject1.getInt("last_page");
+
+
+                        JSONArray jsonArray = jsonObject1.getJSONArray("data");
+
+                        for (int i = 0; i < jsonArray.length(); i++){
+                            JSONObject jsonObject11 = jsonArray.getJSONObject(i);
+
+                            MonthlyView monthlyView = new MonthlyView();
+                            monthlyView.setE_wallet_id(jsonObject11.getString("e_wallet_id"));
+                            monthlyView.setE_wallet_tran_code(jsonObject11.getString("e_wallet_tran_code"));
+                            monthlyView.setWallet_credit(jsonObject11.getString("wallet_credit"));
+                            monthlyView.setBalance(jsonObject11.getString("balance"));
+                            monthlyView.setTransaction_title(jsonObject11.getString("transaction_title"));
+                            monthlyView.setDatetime(jsonObject11.getString("datetime"));
+                            monthlyView.setTransaction_type(jsonObject11.getString("transaction_type"));
+
+                            monthlyViewArrayList.add(monthlyView);
+                        }
+
+
+                        if (monthlyViewArrayList.isEmpty()){
+                            recMonthlyView.setVisibility(View.GONE);
+                            noDataPayment.setVisibility(View.VISIBLE);
+                        } else {
+                            noDataPayment.setVisibility(View.GONE);
+                        }
+
+                        adapterMonthlyViewPayment.notifyDataSetChanged();
+
+                        Toast.makeText(getContext(),jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    else if(jsonObject.getString("ResponseCode").equals("401")){
+
+                        session.logout();
+                        Intent intent = new Intent(getContext(), Activity_SelectCity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+
+                } catch (Exception e) {
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(Activity_ReviewOrder.this, "No Data", Toast.LENGTH_SHORT).show();
+
+                            /*session.logout();
+                            Intent intent = new Intent(getActivity(), Activity_SelectCity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            getActivity().finish();*/
+
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+
+                        Log.e("dssdsd", error.getMessage() + "--");
+
+                        Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                return params;
+            }
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("Accept", "application/json");
+                params.put("Authorization", "Bearer " + session.getAPITOKEN());
+                return params;
+            }
+
+
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+
+                return params;
+            }
+        };
+        //adding the request to volley
+        Volley.newRequestQueue(getContext()).add(volleyMultipartRequest);
+
+    }
+
 
     private class DownloadFile extends AsyncTask<String, Void, Void> {
 
@@ -230,9 +413,9 @@ public class Fragment_PaymentMonthly extends Fragment {
 
                         urlPdf = jsonObject1.getString("pdf_url");
 
-                        new DownloadFile().execute(urlPdf, "snagpay transaction.pdf");
 
                         if (option == 2){
+                            new DownloadFile().execute(urlPdf, "snagpay transaction.pdf");
                             Toast.makeText(getContext(), "Check Android > data > com.example.snagpay", Toast.LENGTH_SHORT).show();
                         }
 
@@ -303,6 +486,8 @@ public class Fragment_PaymentMonthly extends Fragment {
         //adding the request to volley
         Volley.newRequestQueue(getContext()).add(volleyMultipartRequest);
     }
+
+
 
     private void checkAndroidVersion() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

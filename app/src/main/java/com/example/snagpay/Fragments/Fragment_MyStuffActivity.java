@@ -1,17 +1,24 @@
 package com.example.snagpay.Fragments;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.Manifest;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.snagpay.Activity.Activity_BarcodeScanner;
 import com.example.snagpay.Utils.UserSession;
 import com.example.snagpay.Activity.Activity_Cart;
 import com.example.snagpay.Activity.Activity_ChangePassword;
@@ -36,11 +43,16 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Fragment_MyStuffActivity extends Fragment implements GoogleApiClient.OnConnectionFailedListener {
 
     private UserSession session;
     private GoogleApiClient googleApiClient;
     private GoogleSignInOptions gso;
+    private ImageView scane;
+    public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 7;
     
     public Fragment_MyStuffActivity() {
 
@@ -55,6 +67,21 @@ public class Fragment_MyStuffActivity extends Fragment implements GoogleApiClien
         View view = inflater.inflate(R.layout.activity_fragment_my_stuff, container, false);
 
         session = new UserSession(getContext());
+
+        scane = view.findViewById(R.id.scane);
+
+        scane.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
+                        == PackageManager.PERMISSION_DENIED){
+                    checkAndroidVersion();
+                } else {
+                    startActivity(new Intent(getContext(), Activity_BarcodeScanner.class));
+                }
+            }
+        });
 
         try {
 
@@ -213,6 +240,39 @@ public class Fragment_MyStuffActivity extends Fragment implements GoogleApiClien
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast.makeText(getContext(), "Sign out Falied", Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void checkAndroidVersion() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            checkAndRequestPermissions();
+
+        } else {
+            // code for lollipop and pre-lollipop devices
+        }
+
+    }
+
+    private boolean checkAndRequestPermissions() {
+        int camera = ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.CAMERA);
+        int wtite = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int read = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        if (wtite != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if (camera != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.CAMERA);
+        }
+        if (read != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(getActivity(), listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), REQUEST_ID_MULTIPLE_PERMISSIONS);
+            return false;
+        }
+        return true;
     }
 
 

@@ -3,7 +3,8 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/pl">
@@ -74,7 +75,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_height="80dp">
 
             <RadioGroup
@@ -123,8 +124,25 @@
                 android:text="Download in PDF format"/>
         </RelativeLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recMonthlyView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/noDataPayment"
+            android:layout_width="match_parent"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:layout_marginTop="18dp"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:text="You haven't any transaction"/>
+
     </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <View
         android:layout_width="match_parent"

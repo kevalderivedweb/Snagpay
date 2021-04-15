@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -23,6 +24,7 @@ import com.example.snagpay.Activity.Activity_AddShippingAddress;
 import com.example.snagpay.Activity.Activity_CheckOtp;
 import com.example.snagpay.Activity.Activity_HomeInner;
 import com.example.snagpay.Activity.Activity_SelectCity;
+import com.example.snagpay.Activity.Activity_SnagpayDeals;
 import com.example.snagpay.Adapter.AdapterHomeGrid;
 import com.example.snagpay.Adapter.SelectCitySpinner;
 import com.example.snagpay.Model.CategoryModel;
@@ -36,6 +38,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,6 +51,8 @@ public class Fragment_HomeActivity extends Fragment {
     private ArrayList<CategoryModel> categoryModelArrayList;
 
     private ShimmerFrameLayout mShimmerViewContainer;
+
+    private TextView availBucksHome;
 
     public Fragment_HomeActivity() {
 
@@ -64,6 +69,7 @@ public class Fragment_HomeActivity extends Fragment {
         categoryModelArrayList = new ArrayList<>();
 
         recHomeInGrid = view.findViewById(R.id.recHomeInGrid);
+        availBucksHome = view.findViewById(R.id.availBucksHome);
         mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
 
         Log.e("tokennn", session.getAPITOKEN() + "");
@@ -80,6 +86,8 @@ public class Fragment_HomeActivity extends Fragment {
             }
         });
         recHomeInGrid.setAdapter(resHomeGridAdapter);
+
+        getCreditDetails();
 
         return view;
     }
@@ -202,6 +210,108 @@ public class Fragment_HomeActivity extends Fragment {
         //adding the request to volley
         Volley.newRequestQueue(getContext()).add(volleyMultipartRequest);
     }
+
+    public void getCreditDetails(){
+        final KProgressHUD progressDialog = KProgressHUD.create(getContext())
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel("Please wait")
+                .setCancellable(false)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f);
+        // .show();
+        //getting the tag from the edittext
+
+        //our custom volley request
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "credit-available-in-wallet", new Response.Listener<NetworkResponse>() {
+            @Override
+            public void onResponse(NetworkResponse response) {
+
+
+                //  progressDialog.dismiss();
+
+                try {
+
+                    JSONObject jsonObject = new JSONObject(new String(response.data));
+                    Log.e("Response",jsonObject.toString());
+                    if (jsonObject.getString("ResponseCode").equals("200")){
+
+
+                        String number = jsonObject.getJSONObject("data").getString("trade_credit");
+                        double amount = Double.parseDouble(number);
+                        DecimalFormat formatter = new DecimalFormat("#,###,###");
+                        String formatted = formatter.format(amount);
+                        availBucksHome.setText(formatted);
+
+
+                        Log.e("sdsdsd", "$" + jsonObject.getJSONObject("data").getString("trade_credit"));
+
+
+                        Toast.makeText(getContext(),jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    else if(jsonObject.getString("ResponseCode").equals("401")){
+
+                        session.logout();
+                        Intent intent = new Intent(getContext(), Activity_SelectCity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+
+                } catch (Exception e) {
+//                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(Activity_ReviewOrder.this, "No Data", Toast.LENGTH_SHORT).show();
+
+                            /*session.logout();
+                            Intent intent = new Intent(getActivity(), Activity_SelectCity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            getActivity().finish();*/
+
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //     progressDialog.dismiss();
+
+                    }
+                }) {
+
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                return params;
+            }
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("Accept", "application/json");
+                params.put("Authorization", "Bearer " + session.getAPITOKEN());
+                return params;
+            }
+
+
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+
+                return params;
+            }
+        };
+        //adding the request to volley
+        Volley.newRequestQueue(getContext()).add(volleyMultipartRequest);
+
+    }
+
 
     @Override
     public void onResume() {

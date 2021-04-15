@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -36,6 +37,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,6 +58,8 @@ public class Fragment_HomeInner extends Fragment {
     private int last_size;
     private String Mpage = "1";
     private LinearLayoutManager linearlayout;
+
+    private TextView availBucksHomeInner;
 
     public Fragment_HomeInner(String category_id, String subCategoryId) {
         this.category_id = category_id;
@@ -79,6 +83,7 @@ public class Fragment_HomeInner extends Fragment {
 
 
         recHomeInner = view.findViewById(R.id.recHomeInner);
+        availBucksHomeInner = view.findViewById(R.id.availBucksHomeInner);
         mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
 
         linearlayout = new GridLayoutManager(getActivity(), 2);
@@ -87,13 +92,8 @@ public class Fragment_HomeInner extends Fragment {
             @Override
             public void onItemClick(int item) {
 
-                Bundle bundle = new Bundle();
-                bundle.putString("category_id", category_id);
-                bundle.putString("subCategoryId", categoryDetailsModelArrayList.get(item).getCategory_id());
-                bundle.putString("dealId", categoryDetailsModelArrayList.get(item).getDeal_id());
-
                 Intent intent = new Intent(getContext(), Activity_ProductDetails.class);
-                intent.putExtras(bundle);
+                intent.putExtra("dealId", categoryDetailsModelArrayList.get(item).getDeal_id());
                 startActivity(intent);
 
             }
@@ -124,6 +124,8 @@ public class Fragment_HomeInner extends Fragment {
                 startActivityForResult(intent, 2);// Activity is started with requestCode 2
             }
         });
+
+        getCreditDetails();
 
         return view;
     }
@@ -259,9 +261,7 @@ public class Fragment_HomeInner extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
 
-                        Log.e("dssdsd", error.getMessage() + "--");
 
-                        Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }) {
 
@@ -300,6 +300,111 @@ public class Fragment_HomeInner extends Fragment {
         //adding the request to volley
         Volley.newRequestQueue(getContext()).add(volleyMultipartRequest);
     }
+
+    public void getCreditDetails(){
+        final KProgressHUD progressDialog = KProgressHUD.create(getContext())
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel("Please wait")
+                .setCancellable(false)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f);
+        // .show();
+        //getting the tag from the edittext
+
+        //our custom volley request
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "credit-available-in-wallet", new Response.Listener<NetworkResponse>() {
+            @Override
+            public void onResponse(NetworkResponse response) {
+
+
+                //  progressDialog.dismiss();
+
+                try {
+
+                    JSONObject jsonObject = new JSONObject(new String(response.data));
+                    Log.e("Response",jsonObject.toString());
+                    if (jsonObject.getString("ResponseCode").equals("200")){
+
+
+                        String number = jsonObject.getJSONObject("data").getString("trade_credit");
+                        double amount = Double.parseDouble(number);
+                        DecimalFormat formatter = new DecimalFormat("#,###,###");
+                        String formatted = formatter.format(amount);
+                        availBucksHomeInner.setText(formatted);
+
+
+                        Log.e("sdsdsd", "$" + jsonObject.getJSONObject("data").getString("trade_credit"));
+
+
+                        Toast.makeText(getContext(),jsonObject.getString("ResponseMsg"), Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    else if(jsonObject.getString("ResponseCode").equals("401")){
+
+                        session.logout();
+                        Intent intent = new Intent(getContext(), Activity_SelectCity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+
+                } catch (Exception e) {
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(Activity_ReviewOrder.this, "No Data", Toast.LENGTH_SHORT).show();
+
+                            /*session.logout();
+                            Intent intent = new Intent(getActivity(), Activity_SelectCity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            getActivity().finish();*/
+
+                }
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //     progressDialog.dismiss();
+
+                        Log.e("dssdsd", error.getMessage() + "--");
+
+                        Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                return params;
+            }
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+
+                params.put("Accept", "application/json");
+                params.put("Authorization", "Bearer " + session.getAPITOKEN());
+                return params;
+            }
+
+
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+
+                return params;
+            }
+        };
+        //adding the request to volley
+        Volley.newRequestQueue(getContext()).add(volleyMultipartRequest);
+
+    }
+
 
     @Override
     public void onResume() {

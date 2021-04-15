@@ -1,9 +1,12 @@
 package com.example.snagpay.Fragments;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +23,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.snagpay.API.VolleyMultipartRequest;
 import com.example.snagpay.Activity.Activity_SelectCity;
 import com.example.snagpay.Activity.Activity_SnagpayWallet;
+import com.example.snagpay.Adapter.AdapterMonthlyViewPayment;
 import com.example.snagpay.Adapter.ExpListAdapterPaymentRecent;
 
 import java.util.ArrayList;
@@ -27,9 +31,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.example.snagpay.Model.DetailPaymentModel;
+import com.example.snagpay.Model.MonthlyView;
 import com.example.snagpay.Model.PaymentModel;
 import com.example.snagpay.Model.PaymentRecent;
 import com.example.snagpay.R;
+import com.example.snagpay.Utils.EndlessRecyclerViewScrollListener;
 import com.example.snagpay.Utils.UserSession;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
@@ -39,10 +45,19 @@ import org.json.JSONObject;
 
 public class Fragment_PaymentRecent extends Fragment {
 
-    private ExpListAdapterPaymentRecent listAdapterPayment;
-    private ExpandableListView expListViewPayment;
-    private ArrayList<PaymentRecent> paymentModelArrayList = new ArrayList<>();
+  //  private ExpListAdapterPaymentRecent listAdapterPayment;
+  //  private ExpandableListView expListViewPayment;
+    private ArrayList<MonthlyView> paymentModelArrayList = new ArrayList<>();
     private UserSession session;
+
+    private AdapterMonthlyViewPayment adapterMonthlyViewPayment;
+
+    private RecyclerView recRecent;
+
+    private int last_size;
+    private String Mpage = "1";
+    private LinearLayoutManager linearlayout;
+
 
     public Fragment_PaymentRecent() {
 
@@ -55,7 +70,28 @@ public class Fragment_PaymentRecent extends Fragment {
         View view = inflater.inflate(R.layout.activity_fragment_payment_recent, container, false);
         session = new UserSession(getContext());
 
-        expListViewPayment = (ExpandableListView) view.findViewById(R.id.lvExpPayment);
+        recRecent = view.findViewById(R.id.recRecent);
+
+        linearlayout = new LinearLayoutManager(getContext());
+        recRecent.setLayoutManager(linearlayout);
+        adapterMonthlyViewPayment = new AdapterMonthlyViewPayment(getContext(), paymentModelArrayList);
+        recRecent.setAdapter(adapterMonthlyViewPayment);
+
+        recRecent.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearlayout) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                Log.e("PageStatus",page + "  " + last_size);
+
+                if (page!=last_size){
+                    Mpage = String.valueOf(page+1);
+
+                    getRecentDetails(Mpage);
+                }
+
+            }
+        });
+
+       /* expListViewPayment = (ExpandableListView) view.findViewById(R.id.lvExpPayment);
         expListViewPayment.setChildDivider(getResources().getDrawable(R.color.white));
 
         // preparing list data
@@ -65,6 +101,9 @@ public class Fragment_PaymentRecent extends Fragment {
         // setting list adapter
         expListViewPayment.setAdapter(listAdapterPayment);
         // Listview Group click listener
+
+
+
         expListViewPayment.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
 
             @Override
@@ -88,15 +127,16 @@ public class Fragment_PaymentRecent extends Fragment {
 
                 return false;
             }
-        });
+        });*/
 
-        getRecentDetails();
+        getRecentDetails("1");
+
 
         return view;
 
     }
 
-    public void getRecentDetails(){
+    public void getRecentDetails(String mPage){
         final KProgressHUD progressDialog = KProgressHUD.create(getContext())
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setLabel("Please wait")
@@ -106,12 +146,13 @@ public class Fragment_PaymentRecent extends Fragment {
                 .show();
         //getting the tag from the edittext
 
+
         //our custom volley request
-        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "recent-payment-history", new Response.Listener<NetworkResponse>() {
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "recent-payment-history?page=" + mPage, new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
 
-                paymentModelArrayList.clear();
+
                 progressDialog.dismiss();
 
                 try {
@@ -124,10 +165,27 @@ public class Fragment_PaymentRecent extends Fragment {
 
                             JSONObject data = jsonObject.getJSONObject("data");
 
+                            last_size = data.getInt("last_page");
+
                             JSONArray jsonArray = data.getJSONArray("data");
 
+                            for (int i = 0; i < jsonArray.length(); i++){
+                                JSONObject jsonObject11 = jsonArray.getJSONObject(i);
 
-                            for (int i = 0 ; i<jsonArray.length() ; i++){
+                                MonthlyView monthlyView = new MonthlyView();
+                                monthlyView.setE_wallet_id(jsonObject11.getString("e_wallet_id"));
+                                monthlyView.setE_wallet_tran_code(jsonObject11.getString("e_wallet_tran_code"));
+                                monthlyView.setWallet_credit(jsonObject11.getString("wallet_credit"));
+                                monthlyView.setBalance(jsonObject11.getString("balance"));
+                                monthlyView.setTransaction_title(jsonObject11.getString("transaction_title"));
+                                monthlyView.setDatetime(jsonObject11.getString("datetime"));
+                                monthlyView.setTransaction_type(jsonObject11.getString("transaction_type"));
+
+                                paymentModelArrayList.add(monthlyView);
+                            }
+
+
+                           /* for (int i = 0 ; i<jsonArray.length() ; i++){
                                 JSONObject object = jsonArray.getJSONObject(i);
 
                                 PaymentRecent paymentRecent = new PaymentRecent();
@@ -148,9 +206,12 @@ public class Fragment_PaymentRecent extends Fragment {
                                 paymentRecent.setDetailPaymentModels(detailPaymentModels);
                                 paymentModelArrayList.add(paymentRecent);
 
-                            }
+                            }*/
 
-                            listAdapterPayment.notifyDataSetChanged();
+
+
+                            adapterMonthlyViewPayment.notifyDataSetChanged();
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();

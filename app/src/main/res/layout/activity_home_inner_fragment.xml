@@ -25,12 +25,12 @@
             android:layout_marginLeft="5dp"/>
 
         <TextView
+            android:id="@+id/availBucksHomeInner"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_toRightOf="@+id/as"
             android:layout_marginLeft="5dp"
             android:paddingHorizontal="12dp"
-            android:text="1,235"
             android:textSize="18dp"
             android:gravity="center"
             android:textColor="@color/white"

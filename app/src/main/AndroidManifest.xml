@@ -21,9 +21,9 @@
         android:networkSecurityConfig="@xml/network_config"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SnagPay">
+        android:theme="@style/Theme.SnagPay"
+        android:usesCleartextTraffic="true">
 
 
         <meta-data
@@ -49,7 +49,11 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.Activity_Webview_payment" />
+
+        <activity android:name=".Activity.Activity_GiftCardDetails"/>
+        <activity android:name=".Activity.Activity_VoucherDetails" />
+        <activity android:name=".Activity.Activity_BarcodeScanner" />
+        <activity android:name=".Activity.Activity_GiftFromOrder" />
         <activity android:name=".Activity.Activity_EditShippingAddress" />
         <activity android:name=".Activity.Activity_About_App" />
         <activity android:name=".Activity.Activity_Report_Infringement" />

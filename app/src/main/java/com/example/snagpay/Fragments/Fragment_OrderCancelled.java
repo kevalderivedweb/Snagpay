@@ -24,6 +24,7 @@ import com.example.snagpay.Activity.Activity_SelectCity;
 import com.example.snagpay.Adapter.AdapterOrderCurrent;
 import com.example.snagpay.Model.OrderModel;
 import com.example.snagpay.R;
+import com.example.snagpay.Utils.EndlessRecyclerViewScrollListener;
 import com.example.snagpay.Utils.UserSession;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
@@ -41,6 +42,9 @@ public class Fragment_OrderCancelled extends Fragment {
     private AdapterOrderCurrent adapterOrderCurrent;
     private ArrayList<OrderModel> orderModelArrayList = new ArrayList<>();
 
+    private int last_size;
+    private String Mpage = "1";
+    private LinearLayoutManager linearlayout;
 
     public Fragment_OrderCancelled() {
 
@@ -58,7 +62,8 @@ public class Fragment_OrderCancelled extends Fragment {
 
         resOrderCurrent = view.findViewById(R.id.resOrderCurrent);
 
-        resOrderCurrent.setLayoutManager(new LinearLayoutManager(getActivity()));
+        linearlayout = new LinearLayoutManager(getContext());
+        resOrderCurrent.setLayoutManager(linearlayout);
         adapterOrderCurrent = new AdapterOrderCurrent(getContext(), orderModelArrayList, new AdapterOrderCurrent.OnItemClickListener() {
             @Override
             public void onItemClickDetails(String orderId) {
@@ -69,11 +74,28 @@ public class Fragment_OrderCancelled extends Fragment {
         });
         resOrderCurrent.setAdapter(adapterOrderCurrent);
 
-        getCurrentOrder();
+        resOrderCurrent.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearlayout) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                Log.e("PageStatus",page + "  " + last_size);
+                if (page!=last_size){
+                    Mpage = String.valueOf(page+1);
+
+                    getCurrentOrder(Mpage);
+
+                }
+            }
+        });
+
+
+
+        getCurrentOrder("1");
 
         return view;
     }
-    public void getCurrentOrder(){
+
+
+    public void getCurrentOrder(String Mpage){
         final KProgressHUD progressDialog = KProgressHUD.create(getContext())
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setLabel("Please wait")
@@ -84,7 +106,7 @@ public class Fragment_OrderCancelled extends Fragment {
         //getting the tag from the edittext
 
         //our custom volley request
-        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "canceled-order-history", new Response.Listener<NetworkResponse>() {
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.GET, session.BASEURL + "canceled-order-history" + "?page=" + Mpage, new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
                 progressDialog.dismiss();
@@ -96,6 +118,7 @@ public class Fragment_OrderCancelled extends Fragment {
                     if (jsonObject.getString("ResponseCode").equals("200")){
 
                         JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                        last_size = jsonObject1.getInt("last_page");
 
                         JSONArray jsonArray = jsonObject1.getJSONArray("data");
 

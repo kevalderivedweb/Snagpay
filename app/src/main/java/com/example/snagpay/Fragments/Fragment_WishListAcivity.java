@@ -109,13 +109,9 @@ public class Fragment_WishListAcivity extends Fragment {
                     adapterWishlist.notifyDataSetChanged();
 
                 } else {
-                    
-                    Bundle bundle = new Bundle();
-                    bundle.putString("category_id", bean.getMain_category_id());
-                    bundle.putString("subCategoryId", bean.getCategory_id());
 
                     Intent intent = new Intent(getContext(), Activity_ProductDetails.class);
-                    intent.putExtras(bundle);
+                    intent.putExtra("dealId", bean.getDeal_id());
                     startActivity(intent);
 
                 }
