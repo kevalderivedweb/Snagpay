@@ -119,7 +119,6 @@ public class Fragment_WishListAcivity extends Fragment {
         });
 
         adapterWishlist.notifyDataSetChanged();
-
         resFragWishList.setAdapter(adapterWishlist);
 
        /* resFragWishList.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearlayout) {
@@ -185,6 +184,7 @@ public class Fragment_WishListAcivity extends Fragment {
 
                 for (int i = 0; i< categoryDetailsModelArrayList.size(); i++){
                     adapterWishlist.seleceAll(i);
+
                 }
             }
         });

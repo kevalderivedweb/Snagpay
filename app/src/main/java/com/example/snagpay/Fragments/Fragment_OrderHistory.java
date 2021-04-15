@@ -57,7 +57,6 @@ public class Fragment_OrderHistory extends Fragment {
                 tabTxtPurcahse1Order.setTextColor(Color.parseColor("#FFFFFFFF"));
                 tabTxtPurcahse2Order.setTextColor(Color.parseColor("#3e3e3e"));
                 tabTxtPurcahse3Order.setTextColor(Color.parseColor("#3e3e3e"));
-
                 tabTxtPurcahse1Order.setBackgroundResource(R.drawable.button_gray_order_history);
                 tabTxtPurcahse2Order.setBackgroundResource(R.drawable.btn_white_round_order);
                 tabTxtPurcahse3Order.setBackgroundResource(R.drawable.btn_white_round_order);
